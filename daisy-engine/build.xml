@@ -10,8 +10,7 @@
 <property name="daisymodelsourcesjar" value="lib/daisymodel-sources.jar" />
 
 <path id="java.classpath">
-  <!-- TODO 20120215 (jharty): tidy up the references to jsoup once we move back to trunk. -->
-  <fileset dir="../../trunk/libs/">
+  <fileset dir="./libs/">
     <include name="*.jar" /> 
   </fileset>
 </path>

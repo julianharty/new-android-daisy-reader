@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE smil PUBLIC "-//W3C//DTD SMIL 1.0//EN" "SMIL10.dtd">
+<smil>
+	<head>
+		<meta name="dc:format" content="Daisy 2.02"/>
+		<meta name="ncc:timeInThisSmil" content="00:04:37.117"/>
+		<meta name="ncc:totalElapsedTime" content="00:50:23.483"/>
+		<layout>
+			<region id="txt-view"/>
+		</layout>
+		<meta name="ncc:generator" content="EasePublisher 2.13 Build 163 # 044FS2212172434"/>
+        <meta name="title" content="May 3d."/>
+        <meta name="dc:title" content="A light Man"/>
+        <meta name="dc:identifier" content="Unknown"/>
+    </head>
+	<body>
+		<seq dur="277.117s">
+			<par endsync="last">
+				<text src="ncc.html#icth_0008" id="icth_0008"/>
+				<seq>
+					<audio src="09_May_3d_.mp3" clip-begin="npt=0.000s" clip-end="npt=1.698s" id="audio_0001"/>
+					<audio src="09_May_3d_.mp3" clip-begin="npt=1.698s" clip-end="npt=3.370s" id="audio_0002"/>
+					<audio src="09_May_3d_.mp3" clip-begin="npt=3.370s" clip-end="npt=8.960s" id="audio_0003"/>
+					<audio src="09_May_3d_.mp3" clip-begin="npt=8.960s" clip-end="npt=10.736s" id="audio_0004"/>
+					<audio src="09_May_3d_.mp3" clip-begin="npt=10.736s" clip-end="npt=14.550s" id="audio_0005"/>
+					<audio src="09_May_3d_.mp3" clip-begin="npt=14.550s" clip-end="npt=22.883s" id="audio_0006"/>
+					<audio src="09_May_3d_.mp3" clip-begin="npt=22.883s" clip-end="npt=25.522s" id="audio_0007"/>
+					<audio src="09_May_3d_.mp3" clip-begin="npt=25.522s" clip-end="npt=32.470s" id="audio_0008"/>
+					<audio src="09_May_3d_.mp3" clip-begin="npt=32.470s" clip-end="npt=42.162s" id="audio_0009"/>
+					<audio src="09_May_3d_.mp3" clip-begin="npt=42.162s" clip-end="npt=46.629s" id="audio_0010"/>
+					<audio src="09_May_3d_.mp3" clip-begin="npt=46.629s" clip-end="npt=47.412s" id="audio_0011"/>
+					<audio src="09_May_3d_.mp3" clip-begin="npt=47.412s" clip-end="npt=59.873s" id="audio_0012"/>
+					<audio src="09_May_3d_.mp3" clip-begin="npt=59.873s" clip-end="npt=65.149s" id="audio_0013"/>
+					<audio src="09_May_3d_.mp3" clip-begin="npt=65.149s" clip-end="npt=68.598s" id="audio_0014"/>
+					<audio src="09_May_3d_.mp3" clip-begin="npt=68.598s" clip-end="npt=73.247s" id="audio_0015"/>
+					<audio src="09_May_3d_.mp3" clip-begin="npt=73.247s" clip-end="npt=77.871s" id="audio_0016"/>
+					<audio src="09_May_3d_.mp3" clip-begin="npt=77.871s" clip-end="npt=81.763s" id="audio_0017"/>
+					<audio src="09_May_3d_.mp3" clip-begin="npt=81.763s" clip-end="npt=86.596s" id="audio_0018"/>
+					<audio src="09_May_3d_.mp3" clip-begin="npt=86.596s" clip-end="npt=109.270s" id="audio_0019"/>
+					<audio src="09_May_3d_.mp3" clip-begin="npt=109.270s" clip-end="npt=117.264s" id="audio_0020"/>
+					<audio src="09_May_3d_.mp3" clip-begin="npt=117.264s" clip-end="npt=120.581s" id="audio_0021"/>
+					<audio src="09_May_3d_.mp3" clip-begin="npt=120.581s" clip-end="npt=123.193s" id="audio_0022"/>
+				</seq>
+			</par>
+			<par endsync="last" id="poym_0001" system-required="pagenumber-on">
+				<text src="ncc.html#icth_001f" id="poym_0002"/>
+				<seq>
+					<audio src="09_May_3d_.mp3" clip-begin="npt=123.193s" clip-end="npt=123.846s" id="audio_0023"/>
+					<audio src="09_May_3d_.mp3" clip-begin="npt=123.846s" clip-end="npt=126.484s" id="audio_0024"/>
+				</seq>
+			</par>
+			<par endsync="last">
+				<text src="ncc.html#icth_0008" id="poym_0003"/>
+				<seq>
+					<audio src="09_May_3d_.mp3" clip-begin="npt=126.484s" clip-end="npt=134.030s" id="audio_0025"/>
+					<audio src="09_May_3d_.mp3" clip-begin="npt=134.030s" clip-end="npt=134.659s" id="audio_0026"/>
+					<audio src="09_May_3d_.mp3" clip-begin="npt=134.659s" clip-end="npt=138.865s" id="audio_0027"/>
+					<audio src="09_May_3d_.mp3" clip-begin="npt=138.865s" clip-end="npt=144.403s" id="audio_0028"/>
+					<audio src="09_May_3d_.mp3" clip-begin="npt=144.403s" clip-end="npt=151.482s" id="audio_0029"/>
+					<audio src="09_May_3d_.mp3" clip-begin="npt=151.482s" clip-end="npt=160.599s" id="audio_0030"/>
+					<audio src="09_May_3d_.mp3" clip-begin="npt=160.599s" clip-end="npt=164.543s" id="audio_0031"/>
+					<audio src="09_May_3d_.mp3" clip-begin="npt=164.543s" clip-end="npt=170.970s" id="audio_0032"/>
+					<audio src="09_May_3d_.mp3" clip-begin="npt=170.970s" clip-end="npt=176.612s" id="audio_0033"/>
+					<audio src="09_May_3d_.mp3" clip-begin="npt=176.612s" clip-end="npt=177.108s" id="audio_0034"/>
+					<audio src="09_May_3d_.mp3" clip-begin="npt=177.108s" clip-end="npt=181.105s" id="audio_0035"/>
+					<audio src="09_May_3d_.mp3" clip-begin="npt=181.105s" clip-end="npt=187.218s" id="audio_0036"/>
+					<audio src="09_May_3d_.mp3" clip-begin="npt=187.218s" clip-end="npt=190.065s" id="audio_0037"/>
+					<audio src="09_May_3d_.mp3" clip-begin="npt=190.065s" clip-end="npt=194.663s" id="audio_0038"/>
+					<audio src="09_May_3d_.mp3" clip-begin="npt=194.663s" clip-end="npt=197.771s" id="audio_0039"/>
+					<audio src="09_May_3d_.mp3" clip-begin="npt=197.771s" clip-end="npt=203.152s" id="audio_0040"/>
+					<audio src="09_May_3d_.mp3" clip-begin="npt=203.152s" clip-end="npt=205.425s" id="audio_0041"/>
+					<audio src="09_May_3d_.mp3" clip-begin="npt=205.425s" clip-end="npt=207.123s" id="audio_0042"/>
+					<audio src="09_May_3d_.mp3" clip-begin="npt=207.123s" clip-end="npt=209.552s" id="audio_0043"/>
+					<audio src="09_May_3d_.mp3" clip-begin="npt=209.552s" clip-end="npt=213.236s" id="audio_0044"/>
+					<audio src="09_May_3d_.mp3" clip-begin="npt=213.236s" clip-end="npt=226.663s" id="audio_0045"/>
+					<audio src="09_May_3d_.mp3" clip-begin="npt=226.663s" clip-end="npt=239.724s" id="audio_0046"/>
+					<audio src="09_May_3d_.mp3" clip-begin="npt=239.724s" clip-end="npt=246.228s" id="audio_0047"/>
+					<audio src="09_May_3d_.mp3" clip-begin="npt=246.228s" clip-end="npt=251.636s" id="audio_0048"/>
+					<audio src="09_May_3d_.mp3" clip-begin="npt=251.636s" clip-end="npt=253.856s" id="audio_0049"/>
+					<audio src="09_May_3d_.mp3" clip-begin="npt=253.856s" clip-end="npt=256.494s" id="audio_0050"/>
+					<audio src="09_May_3d_.mp3" clip-begin="npt=256.494s" clip-end="npt=263.730s" id="audio_0051"/>
+					<audio src="09_May_3d_.mp3" clip-begin="npt=263.730s" clip-end="npt=266.552s" id="audio_0052"/>
+					<audio src="09_May_3d_.mp3" clip-begin="npt=266.552s" clip-end="npt=274.374s" id="audio_0053"/>
+					<audio src="09_May_3d_.mp3" clip-begin="npt=274.374s" clip-end="npt=274.777s" id="audio_0054"/>
+				</seq>
+			</par>
+			<par endsync="last" id="poym_0006" system-required="pagenumber-on">
+				<text src="ncc.html#icth_0020" id="poym_0008"/>
+				<seq>
+					<audio src="09_May_3d_.mp3" clip-begin="npt=274.777s" clip-end="npt=275.079s" id="audio_0055"/>
+					<audio src="09_May_3d_.mp3" clip-begin="npt=275.079s" clip-end="npt=277.117s" id="audio_0056"/>
+				</seq>
+			</par>
+			<par endsync="last">
+				<text src="ncc.html#icth_0008" id="poym_0009"/>
+			</par>
+		</seq>
+	</body>
+</smil>

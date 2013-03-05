@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE smil PUBLIC "-//W3C//DTD SMIL 1.0//EN" "SMIL10.dtd">
+<smil>
+	<head>
+		<meta name="dc:format" content="Daisy 2.02"/>
+		<meta name="ncc:timeInThisSmil" content="00:04:46.319"/>
+		<meta name="ncc:totalElapsedTime" content="00:55:00.600"/>
+		<layout>
+			<region id="txt-view"/>
+		</layout>
+		<meta name="ncc:generator" content="EasePublisher 2.13 Build 163 # 044FS2212172434"/>
+        <meta name="title" content="8th."/>
+        <meta name="dc:title" content="A light Man"/>
+        <meta name="dc:identifier" content="Unknown"/>
+    </head>
+	<body>
+		<seq dur="286.319s">
+			<par endsync="last">
+				<text src="ncc.html#icth_0009" id="icth_0009"/>
+				<seq>
+					<audio src="10_8th_.mp3" clip-begin="npt=0.000s" clip-end="npt=1.810s" id="audio_0001"/>
+					<audio src="10_8th_.mp3" clip-begin="npt=1.810s" clip-end="npt=7.975s" id="audio_0002"/>
+					<audio src="10_8th_.mp3" clip-begin="npt=7.975s" clip-end="npt=12.390s" id="audio_0003"/>
+					<audio src="10_8th_.mp3" clip-begin="npt=12.390s" clip-end="npt=16.543s" id="audio_0004"/>
+					<audio src="10_8th_.mp3" clip-begin="npt=16.543s" clip-end="npt=17.745s" id="audio_0005"/>
+					<audio src="10_8th_.mp3" clip-begin="npt=17.745s" clip-end="npt=26.156s" id="audio_0006"/>
+					<audio src="10_8th_.mp3" clip-begin="npt=26.156s" clip-end="npt=44.834s" id="audio_0007"/>
+					<audio src="10_8th_.mp3" clip-begin="npt=44.834s" clip-end="npt=53.036s" id="audio_0008"/>
+					<audio src="10_8th_.mp3" clip-begin="npt=53.036s" clip-end="npt=58.627s" id="audio_0009"/>
+					<audio src="10_8th_.mp3" clip-begin="npt=58.627s" clip-end="npt=64.269s" id="audio_0010"/>
+					<audio src="10_8th_.mp3" clip-begin="npt=64.269s" clip-end="npt=65.210s" id="audio_0011"/>
+					<audio src="10_8th_.mp3" clip-begin="npt=65.210s" clip-end="npt=68.057s" id="audio_0012"/>
+					<audio src="10_8th_.mp3" clip-begin="npt=68.057s" clip-end="npt=81.040s" id="audio_0013"/>
+					<audio src="10_8th_.mp3" clip-begin="npt=81.040s" clip-end="npt=81.458s" id="audio_0014"/>
+					<audio src="10_8th_.mp3" clip-begin="npt=81.458s" clip-end="npt=83.965s" id="audio_0015"/>
+					<audio src="10_8th_.mp3" clip-begin="npt=83.965s" clip-end="npt=91.280s" id="audio_0016"/>
+					<audio src="10_8th_.mp3" clip-begin="npt=91.280s" clip-end="npt=94.362s" id="audio_0017"/>
+					<audio src="10_8th_.mp3" clip-begin="npt=94.362s" clip-end="npt=96.400s" id="audio_0018"/>
+					<audio src="10_8th_.mp3" clip-begin="npt=96.400s" clip-end="npt=105.177s" id="audio_0019"/>
+					<audio src="10_8th_.mp3" clip-begin="npt=105.177s" clip-end="npt=106.065s" id="audio_0020"/>
+					<audio src="10_8th_.mp3" clip-begin="npt=106.065s" clip-end="npt=118.865s" id="audio_0021"/>
+					<audio src="10_8th_.mp3" clip-begin="npt=118.865s" clip-end="npt=123.045s" id="audio_0022"/>
+					<audio src="10_8th_.mp3" clip-begin="npt=123.045s" clip-end="npt=126.832s" id="audio_0023"/>
+					<audio src="10_8th_.mp3" clip-begin="npt=126.832s" clip-end="npt=134.591s" id="audio_0024"/>
+					<audio src="10_8th_.mp3" clip-begin="npt=134.591s" clip-end="npt=138.692s" id="audio_0025"/>
+					<audio src="10_8th_.mp3" clip-begin="npt=138.692s" clip-end="npt=141.539s" id="audio_0026"/>
+					<audio src="10_8th_.mp3" clip-begin="npt=141.539s" clip-end="npt=146.137s" id="audio_0027"/>
+					<audio src="10_8th_.mp3" clip-begin="npt=146.137s" clip-end="npt=153.242s" id="audio_0028"/>
+					<audio src="10_8th_.mp3" clip-begin="npt=153.242s" clip-end="npt=160.374s" id="audio_0029"/>
+					<audio src="10_8th_.mp3" clip-begin="npt=160.374s" clip-end="npt=170.196s" id="audio_0030"/>
+					<audio src="10_8th_.mp3" clip-begin="npt=170.196s" clip-end="npt=173.435s" id="audio_0031"/>
+					<audio src="10_8th_.mp3" clip-begin="npt=173.435s" clip-end="npt=184.589s" id="audio_0032"/>
+					<audio src="10_8th_.mp3" clip-begin="npt=184.589s" clip-end="npt=194.725s" id="audio_0033"/>
+					<audio src="10_8th_.mp3" clip-begin="npt=194.725s" clip-end="npt=199.688s" id="audio_0034"/>
+					<audio src="10_8th_.mp3" clip-begin="npt=199.688s" clip-end="npt=201.804s" id="audio_0035"/>
+					<audio src="10_8th_.mp3" clip-begin="npt=201.804s" clip-end="npt=207.237s" id="audio_0036"/>
+				</seq>
+			</par>
+			<par endsync="last" id="tqtq_0001" system-required="pagenumber-on">
+				<text src="ncc.html#icth_0021" id="tqtq_0002"/>
+				<seq>
+					<audio src="10_8th_.mp3" clip-begin="npt=207.237s" clip-end="npt=207.942s" id="audio_0037"/>
+					<audio src="10_8th_.mp3" clip-begin="npt=207.942s" clip-end="npt=210.032s" id="audio_0038"/>
+				</seq>
+			</par>
+			<par endsync="last">
+				<text src="ncc.html#icth_0009" id="tqtq_0003"/>
+				<seq>
+					<audio src="10_8th_.mp3" clip-begin="npt=210.032s" clip-end="npt=218.592s" id="audio_0039"/>
+					<audio src="10_8th_.mp3" clip-begin="npt=218.592s" clip-end="npt=220.151s" id="audio_0040"/>
+					<audio src="10_8th_.mp3" clip-begin="npt=220.151s" clip-end="npt=222.841s" id="audio_0041"/>
+					<audio src="10_8th_.mp3" clip-begin="npt=222.841s" clip-end="npt=226.812s" id="audio_0042"/>
+					<audio src="10_8th_.mp3" clip-begin="npt=226.812s" clip-end="npt=231.409s" id="audio_0043"/>
+					<audio src="10_8th_.mp3" clip-begin="npt=231.409s" clip-end="npt=239.847s" id="audio_0044"/>
+					<audio src="10_8th_.mp3" clip-begin="npt=239.847s" clip-end="npt=252.621s" id="audio_0045"/>
+					<audio src="10_8th_.mp3" clip-begin="npt=252.621s" clip-end="npt=254.058s" id="audio_0046"/>
+					<audio src="10_8th_.mp3" clip-begin="npt=254.058s" clip-end="npt=260.327s" id="audio_0047"/>
+					<audio src="10_8th_.mp3" clip-begin="npt=260.327s" clip-end="npt=265.813s" id="audio_0048"/>
+					<audio src="10_8th_.mp3" clip-begin="npt=265.813s" clip-end="npt=281.173s" id="audio_0049"/>
+					<audio src="10_8th_.mp3" clip-begin="npt=281.173s" clip-end="npt=283.471s" id="audio_0050"/>
+					<audio src="10_8th_.mp3" clip-begin="npt=283.471s" clip-end="npt=284.464s" id="audio_0051"/>
+					<audio src="10_8th_.mp3" clip-begin="npt=284.464s" clip-end="npt=286.319s" id="audio_0052"/>
+				</seq>
+			</par>
+		</seq>
+	</body>
+</smil>

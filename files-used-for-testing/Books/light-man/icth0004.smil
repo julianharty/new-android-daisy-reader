@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE smil PUBLIC "-//W3C//DTD SMIL 1.0//EN" "SMIL10.dtd">
+<smil>
+	<head>
+		<meta name="dc:format" content="Daisy 2.02"/>
+		<meta name="ncc:timeInThisSmil" content="00:02:51.989"/>
+		<meta name="ncc:totalElapsedTime" content="00:04:11.448"/>
+		<layout>
+			<region id="txt-view"/>
+		</layout>
+		<meta name="ncc:generator" content="EasePublisher 2.13 Build 163 # 044FS2212172434"/>
+        <meta name="title" content="7th."/>
+        <meta name="dc:title" content="A light Man"/>
+        <meta name="dc:identifier" content="Unknown"/>
+    </head>
+	<body>
+		<seq dur="171.989s">
+			<par endsync="last">
+				<text src="ncc.html#icth_0003" id="icth_0003"/>
+				<seq>
+					<audio src="04_7th_.mp3" clip-begin="npt=0.000s" clip-end="npt=1.646s" id="audio_0001"/>
+					<audio src="04_7th_.mp3" clip-begin="npt=1.646s" clip-end="npt=3.553s" id="audio_0002"/>
+					<audio src="04_7th_.mp3" clip-begin="npt=3.553s" clip-end="npt=8.385s" id="audio_0003"/>
+					<audio src="04_7th_.mp3" clip-begin="npt=8.385s" clip-end="npt=14.498s" id="audio_0004"/>
+					<audio src="04_7th_.mp3" clip-begin="npt=14.498s" clip-end="npt=16.039s" id="audio_0005"/>
+					<audio src="04_7th_.mp3" clip-begin="npt=16.039s" clip-end="npt=31.713s" id="audio_0006"/>
+					<audio src="04_7th_.mp3" clip-begin="npt=31.713s" clip-end="npt=49.789s" id="audio_0007"/>
+					<audio src="04_7th_.mp3" clip-begin="npt=49.789s" clip-end="npt=57.365s" id="audio_0008"/>
+					<audio src="04_7th_.mp3" clip-begin="npt=57.365s" clip-end="npt=63.582s" id="audio_0009"/>
+					<audio src="04_7th_.mp3" clip-begin="npt=63.582s" clip-end="npt=67.500s" id="audio_0010"/>
+					<audio src="04_7th_.mp3" clip-begin="npt=67.500s" clip-end="npt=75.938s" id="audio_0011"/>
+					<audio src="04_7th_.mp3" clip-begin="npt=75.938s" clip-end="npt=82.991s" id="audio_0012"/>
+					<audio src="04_7th_.mp3" clip-begin="npt=82.991s" clip-end="npt=85.499s" id="audio_0013"/>
+					<audio src="04_7th_.mp3" clip-begin="npt=85.499s" clip-end="npt=88.790s" id="audio_0014"/>
+					<audio src="04_7th_.mp3" clip-begin="npt=88.790s" clip-end="npt=92.500s" id="audio_0015"/>
+					<audio src="04_7th_.mp3" clip-begin="npt=92.500s" clip-end="npt=93.989s" id="audio_0016"/>
+					<audio src="04_7th_.mp3" clip-begin="npt=93.989s" clip-end="npt=97.907s" id="audio_0017"/>
+					<audio src="04_7th_.mp3" clip-begin="npt=97.907s" clip-end="npt=98.769s" id="audio_0018"/>
+					<audio src="04_7th_.mp3" clip-begin="npt=98.769s" clip-end="npt=102.922s" id="audio_0019"/>
+					<audio src="04_7th_.mp3" clip-begin="npt=102.922s" clip-end="npt=108.904s" id="audio_0020"/>
+					<audio src="04_7th_.mp3" clip-begin="npt=108.904s" clip-end="npt=114.364s" id="audio_0021"/>
+					<audio src="04_7th_.mp3" clip-begin="npt=114.364s" clip-end="npt=116.428s" id="audio_0022"/>
+					<audio src="04_7th_.mp3" clip-begin="npt=116.428s" clip-end="npt=119.719s" id="audio_0023"/>
+					<audio src="04_7th_.mp3" clip-begin="npt=119.719s" clip-end="npt=127.869s" id="audio_0024"/>
+					<audio src="04_7th_.mp3" clip-begin="npt=127.869s" clip-end="npt=129.959s" id="audio_0025"/>
+					<audio src="04_7th_.mp3" clip-begin="npt=129.959s" clip-end="npt=135.184s" id="audio_0026"/>
+					<audio src="04_7th_.mp3" clip-begin="npt=135.184s" clip-end="npt=137.535s" id="audio_0027"/>
+					<audio src="04_7th_.mp3" clip-begin="npt=137.535s" clip-end="npt=144.013s" id="audio_0028"/>
+					<audio src="04_7th_.mp3" clip-begin="npt=144.013s" clip-end="npt=146.965s" id="audio_0029"/>
+					<audio src="04_7th_.mp3" clip-begin="npt=146.965s" clip-end="npt=148.663s" id="audio_0030"/>
+					<audio src="04_7th_.mp3" clip-begin="npt=148.663s" clip-end="npt=157.733s" id="audio_0031"/>
+				</seq>
+			</par>
+			<par endsync="last" id="xzde_000f" system-required="pagenumber-on">
+				<text src="ncc.html#icth_0013" id="xzde_0010"/>
+				<seq>
+					<audio src="04_7th_.mp3" clip-begin="npt=157.733s" clip-end="npt=158.386s" id="audio_0032"/>
+					<audio src="04_7th_.mp3" clip-begin="npt=158.386s" clip-end="npt=160.293s" id="audio_0033"/>
+				</seq>
+			</par>
+			<par endsync="last">
+				<text src="ncc.html#icth_0003" id="xzde_0011"/>
+				<seq>
+					<audio src="04_7th_.mp3" clip-begin="npt=160.293s" clip-end="npt=160.513s" id="audio_0034"/>
+					<audio src="04_7th_.mp3" clip-begin="npt=160.513s" clip-end="npt=160.930s" id="audio_0035"/>
+					<audio src="04_7th_.mp3" clip-begin="npt=160.930s" clip-end="npt=163.421s" id="audio_0036"/>
+					<audio src="04_7th_.mp3" clip-begin="npt=163.421s" clip-end="npt=171.989s" id="audio_0037"/>
+				</seq>
+			</par>
+		</seq>
+	</body>
+</smil>

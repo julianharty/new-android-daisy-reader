@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE smil PUBLIC "-//W3C//DTD SMIL 1.0//EN" "SMIL10.dtd">
+<smil>
+	<head>
+		<meta name="dc:format" content="Daisy 2.02"/>
+		<meta name="ncc:timeInThisSmil" content="00:01:04.392"/>
+		<meta name="ncc:totalElapsedTime" content="01:13:50.251"/>
+		<layout>
+			<region id="txt-view"/>
+		</layout>
+		<meta name="ncc:generator" content="EasePublisher 2.13 Build 163 # 044FS2212172434"/>
+        <meta name="title" content="22d."/>
+        <meta name="dc:title" content="A light Man"/>
+        <meta name="dc:identifier" content="Unknown"/>
+    </head>
+	<body>
+		<seq dur="64.392s">
+			<par endsync="last">
+				<text src="ncc.html#icth_000e" id="icth_000e"/>
+				<seq>
+					<audio src="15_22d_.mp3" clip-begin="npt=0.000s" clip-end="npt=3.396s" id="audio_0001"/>
+					<audio src="15_22d_.mp3" clip-begin="npt=3.396s" clip-end="npt=9.796s" id="audio_0002"/>
+					<audio src="15_22d_.mp3" clip-begin="npt=9.796s" clip-end="npt=15.386s" id="audio_0003"/>
+					<audio src="15_22d_.mp3" clip-begin="npt=15.386s" clip-end="npt=23.066s" id="audio_0004"/>
+					<audio src="15_22d_.mp3" clip-begin="npt=23.066s" clip-end="npt=25.496s" id="audio_0005"/>
+					<audio src="15_22d_.mp3" clip-begin="npt=25.496s" clip-end="npt=28.395s" id="audio_0006"/>
+					<audio src="15_22d_.mp3" clip-begin="npt=28.395s" clip-end="npt=31.138s" id="audio_0007"/>
+					<audio src="15_22d_.mp3" clip-begin="npt=31.138s" clip-end="npt=39.602s" id="audio_0008"/>
+					<audio src="15_22d_.mp3" clip-begin="npt=39.602s" clip-end="npt=41.169s" id="audio_0009"/>
+					<audio src="15_22d_.mp3" clip-begin="npt=41.169s" clip-end="npt=44.042s" id="audio_0010"/>
+					<audio src="15_22d_.mp3" clip-begin="npt=44.042s" clip-end="npt=45.531s" id="audio_0011"/>
+					<audio src="15_22d_.mp3" clip-begin="npt=45.531s" clip-end="npt=49.032s" id="audio_0012"/>
+					<audio src="15_22d_.mp3" clip-begin="npt=49.032s" clip-end="npt=50.782s" id="audio_0013"/>
+					<audio src="15_22d_.mp3" clip-begin="npt=50.782s" clip-end="npt=53.995s" id="audio_0014"/>
+					<audio src="15_22d_.mp3" clip-begin="npt=53.995s" clip-end="npt=56.137s" id="audio_0015"/>
+					<audio src="15_22d_.mp3" clip-begin="npt=56.137s" clip-end="npt=57.887s" id="audio_0016"/>
+					<audio src="15_22d_.mp3" clip-begin="npt=57.887s" clip-end="npt=60.891s" id="audio_0017"/>
+					<audio src="15_22d_.mp3" clip-begin="npt=60.891s" clip-end="npt=64.392s" id="audio_0018"/>
+				</seq>
+			</par>
+		</seq>
+	</body>
+</smil>

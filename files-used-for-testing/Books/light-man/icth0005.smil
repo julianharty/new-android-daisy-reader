@@ -1,0 +1,315 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE smil PUBLIC "-//W3C//DTD SMIL 1.0//EN" "SMIL10.dtd">
+<smil>
+	<head>
+		<meta name="dc:format" content="Daisy 2.02"/>
+		<meta name="ncc:timeInThisSmil" content="00:21:16.310"/>
+		<meta name="ncc:totalElapsedTime" content="00:07:03.437"/>
+		<layout>
+			<region id="txt-view"/>
+		</layout>
+		<meta name="ncc:generator" content="EasePublisher 2.13 Build 163 # 044FS2212172434"/>
+        <meta name="title" content="D the 14th."/>
+        <meta name="dc:title" content="A light Man"/>
+        <meta name="dc:identifier" content="Unknown"/>
+    </head>
+	<body>
+		<seq dur="1276.310s">
+			<par endsync="last">
+				<text src="ncc.html#icth_0004" id="icth_0004"/>
+				<seq>
+					<audio src="05_D_the_14th_.mp3" clip-begin="npt=0.000s" clip-end="npt=5.381s" id="audio_0001"/>
+					<audio src="05_D_the_14th_.mp3" clip-begin="npt=5.381s" clip-end="npt=9.927s" id="audio_0002"/>
+					<audio src="05_D_the_14th_.mp3" clip-begin="npt=9.927s" clip-end="npt=12.722s" id="audio_0003"/>
+					<audio src="05_D_the_14th_.mp3" clip-begin="npt=12.722s" clip-end="npt=22.178s" id="audio_0004"/>
+					<audio src="05_D_the_14th_.mp3" clip-begin="npt=22.178s" clip-end="npt=28.003s" id="audio_0005"/>
+					<audio src="05_D_the_14th_.mp3" clip-begin="npt=28.003s" clip-end="npt=34.038s" id="audio_0006"/>
+					<audio src="05_D_the_14th_.mp3" clip-begin="npt=34.038s" clip-end="npt=38.243s" id="audio_0007"/>
+					<audio src="05_D_the_14th_.mp3" clip-begin="npt=38.243s" clip-end="npt=44.539s" id="audio_0008"/>
+					<audio src="05_D_the_14th_.mp3" clip-begin="npt=44.539s" clip-end="npt=51.879s" id="audio_0009"/>
+					<audio src="05_D_the_14th_.mp3" clip-begin="npt=51.879s" clip-end="npt=57.783s" id="audio_0010"/>
+					<audio src="05_D_the_14th_.mp3" clip-begin="npt=57.783s" clip-end="npt=62.981s" id="audio_0011"/>
+					<audio src="05_D_the_14th_.mp3" clip-begin="npt=62.981s" clip-end="npt=71.001s" id="audio_0012"/>
+					<audio src="05_D_the_14th_.mp3" clip-begin="npt=71.001s" clip-end="npt=74.005s" id="audio_0013"/>
+					<audio src="05_D_the_14th_.mp3" clip-begin="npt=74.005s" clip-end="npt=76.539s" id="audio_0014"/>
+					<audio src="05_D_the_14th_.mp3" clip-begin="npt=76.539s" clip-end="npt=79.882s" id="audio_0015"/>
+					<audio src="05_D_the_14th_.mp3" clip-begin="npt=79.882s" clip-end="npt=84.114s" id="audio_0016"/>
+					<audio src="05_D_the_14th_.mp3" clip-begin="npt=84.114s" clip-end="npt=88.451s" id="audio_0017"/>
+					<audio src="05_D_the_14th_.mp3" clip-begin="npt=88.451s" clip-end="npt=93.388s" id="audio_0018"/>
+					<audio src="05_D_the_14th_.mp3" clip-begin="npt=93.388s" clip-end="npt=99.396s" id="audio_0019"/>
+					<audio src="05_D_the_14th_.mp3" clip-begin="npt=99.396s" clip-end="npt=107.886s" id="audio_0020"/>
+					<audio src="05_D_the_14th_.mp3" clip-begin="npt=107.886s" clip-end="npt=115.618s" id="audio_0021"/>
+					<audio src="05_D_the_14th_.mp3" clip-begin="npt=115.618s" clip-end="npt=127.216s" id="audio_0022"/>
+					<audio src="05_D_the_14th_.mp3" clip-begin="npt=127.216s" clip-end="npt=133.460s" id="audio_0023"/>
+					<audio src="05_D_the_14th_.mp3" clip-begin="npt=133.460s" clip-end="npt=140.199s" id="audio_0024"/>
+					<audio src="05_D_the_14th_.mp3" clip-begin="npt=140.199s" clip-end="npt=143.464s" id="audio_0025"/>
+					<audio src="05_D_the_14th_.mp3" clip-begin="npt=143.464s" clip-end="npt=145.868s" id="audio_0026"/>
+					<audio src="05_D_the_14th_.mp3" clip-begin="npt=145.868s" clip-end="npt=150.204s" id="audio_0027"/>
+					<audio src="05_D_the_14th_.mp3" clip-begin="npt=150.204s" clip-end="npt=155.768s" id="audio_0028"/>
+					<audio src="05_D_the_14th_.mp3" clip-begin="npt=155.768s" clip-end="npt=173.401s" id="audio_0029"/>
+					<audio src="05_D_the_14th_.mp3" clip-begin="npt=173.401s" clip-end="npt=180.480s" id="audio_0030"/>
+					<audio src="05_D_the_14th_.mp3" clip-begin="npt=180.480s" clip-end="npt=191.791s" id="audio_0031"/>
+					<audio src="05_D_the_14th_.mp3" clip-begin="npt=191.791s" clip-end="npt=192.810s" id="audio_0032"/>
+					<audio src="05_D_the_14th_.mp3" clip-begin="npt=192.810s" clip-end="npt=196.885s" id="audio_0033"/>
+					<audio src="05_D_the_14th_.mp3" clip-begin="npt=196.885s" clip-end="npt=201.691s" id="audio_0034"/>
+					<audio src="05_D_the_14th_.mp3" clip-begin="npt=201.691s" clip-end="npt=206.550s" id="audio_0035"/>
+					<audio src="05_D_the_14th_.mp3" clip-begin="npt=206.550s" clip-end="npt=211.905s" id="audio_0036"/>
+					<audio src="05_D_the_14th_.mp3" clip-begin="npt=211.905s" clip-end="npt=221.571s" id="audio_0037"/>
+				</seq>
+			</par>
+			<par endsync="last" id="lnrl_0003" system-required="pagenumber-on">
+				<text src="ncc.html#icth_0014" id="lnrl_0004"/>
+				<seq>
+					<audio src="05_D_the_14th_.mp3" clip-begin="npt=221.571s" clip-end="npt=223.664s" id="audio_0038"/>
+				</seq>
+			</par>
+			<par endsync="last">
+				<text src="ncc.html#icth_0004" id="lnrl_0005"/>
+				<seq>
+					<audio src="05_D_the_14th_.mp3" clip-begin="npt=223.664s" clip-end="npt=224.079s" id="audio_0039"/>
+					<audio src="05_D_the_14th_.mp3" clip-begin="npt=224.079s" clip-end="npt=226.378s" id="audio_0040"/>
+					<audio src="05_D_the_14th_.mp3" clip-begin="npt=226.378s" clip-end="npt=228.154s" id="audio_0041"/>
+					<audio src="05_D_the_14th_.mp3" clip-begin="npt=228.154s" clip-end="npt=229.487s" id="audio_0042"/>
+					<audio src="05_D_the_14th_.mp3" clip-begin="npt=229.487s" clip-end="npt=233.953s" id="audio_0043"/>
+					<audio src="05_D_the_14th_.mp3" clip-begin="npt=233.953s" clip-end="npt=246.309s" id="audio_0044"/>
+					<audio src="05_D_the_14th_.mp3" clip-begin="npt=246.309s" clip-end="npt=253.676s" id="audio_0045"/>
+					<audio src="05_D_the_14th_.mp3" clip-begin="npt=253.676s" clip-end="npt=257.020s" id="audio_0046"/>
+					<audio src="05_D_the_14th_.mp3" clip-begin="npt=257.020s" clip-end="npt=258.378s" id="audio_0047"/>
+					<audio src="05_D_the_14th_.mp3" clip-begin="npt=258.378s" clip-end="npt=264.778s" id="audio_0048"/>
+					<audio src="05_D_the_14th_.mp3" clip-begin="npt=264.778s" clip-end="npt=269.532s" id="audio_0049"/>
+					<audio src="05_D_the_14th_.mp3" clip-begin="npt=269.532s" clip-end="npt=273.451s" id="audio_0050"/>
+					<audio src="05_D_the_14th_.mp3" clip-begin="npt=273.451s" clip-end="npt=279.877s" id="audio_0051"/>
+					<audio src="05_D_the_14th_.mp3" clip-begin="npt=279.877s" clip-end="npt=289.882s" id="audio_0052"/>
+					<audio src="05_D_the_14th_.mp3" clip-begin="npt=289.882s" clip-end="npt=300.148s" id="audio_0053"/>
+					<audio src="05_D_the_14th_.mp3" clip-begin="npt=300.148s" clip-end="npt=313.183s" id="audio_0054"/>
+					<audio src="05_D_the_14th_.mp3" clip-begin="npt=313.183s" clip-end="npt=330.868s" id="audio_0055"/>
+					<audio src="05_D_the_14th_.mp3" clip-begin="npt=330.868s" clip-end="npt=340.820s" id="audio_0056"/>
+					<audio src="05_D_the_14th_.mp3" clip-begin="npt=340.820s" clip-end="npt=353.281s" id="audio_0057"/>
+					<audio src="05_D_the_14th_.mp3" clip-begin="npt=353.281s" clip-end="npt=360.334s" id="audio_0058"/>
+					<audio src="05_D_the_14th_.mp3" clip-begin="npt=360.334s" clip-end="npt=364.383s" id="audio_0059"/>
+					<audio src="05_D_the_14th_.mp3" clip-begin="npt=364.383s" clip-end="npt=367.152s" id="audio_0060"/>
+					<audio src="05_D_the_14th_.mp3" clip-begin="npt=367.152s" clip-end="npt=370.443s" id="audio_0061"/>
+					<audio src="05_D_the_14th_.mp3" clip-begin="npt=370.443s" clip-end="npt=372.768s" id="audio_0062"/>
+					<audio src="05_D_the_14th_.mp3" clip-begin="npt=372.768s" clip-end="npt=376.765s" id="audio_0063"/>
+					<audio src="05_D_the_14th_.mp3" clip-begin="npt=376.765s" clip-end="npt=382.303s" id="audio_0064"/>
+					<audio src="05_D_the_14th_.mp3" clip-begin="npt=382.303s" clip-end="npt=391.864s" id="audio_0065"/>
+					<audio src="05_D_the_14th_.mp3" clip-begin="npt=391.864s" clip-end="npt=393.692s" id="audio_0066"/>
+					<audio src="05_D_the_14th_.mp3" clip-begin="npt=393.692s" clip-end="npt=405.839s" id="audio_0067"/>
+					<audio src="05_D_the_14th_.mp3" clip-begin="npt=405.839s" clip-end="npt=407.198s" id="audio_0068"/>
+					<audio src="05_D_the_14th_.mp3" clip-begin="npt=407.198s" clip-end="npt=412.056s" id="audio_0069"/>
+					<audio src="05_D_the_14th_.mp3" clip-begin="npt=412.056s" clip-end="npt=413.101s" id="audio_0070"/>
+					<audio src="05_D_the_14th_.mp3" clip-begin="npt=413.101s" clip-end="npt=422.871s" id="audio_0071"/>
+					<audio src="05_D_the_14th_.mp3" clip-begin="npt=422.871s" clip-end="npt=434.548s" id="audio_0072"/>
+					<audio src="05_D_the_14th_.mp3" clip-begin="npt=434.548s" clip-end="npt=442.959s" id="audio_0073"/>
+					<audio src="05_D_the_14th_.mp3" clip-begin="npt=442.959s" clip-end="npt=444.318s" id="audio_0074"/>
+					<audio src="05_D_the_14th_.mp3" clip-begin="npt=444.318s" clip-end="npt=451.449s" id="audio_0075"/>
+					<audio src="05_D_the_14th_.mp3" clip-begin="npt=451.449s" clip-end="npt=459.338s" id="audio_0076"/>
+				</seq>
+			</par>
+			<par endsync="last" id="lnrl_0009" system-required="pagenumber-on">
+				<text src="ncc.html#icth_0015" id="lnrl_000a"/>
+				<seq>
+					<audio src="05_D_the_14th_.mp3" clip-begin="npt=459.338s" clip-end="npt=460.122s" id="audio_0077"/>
+					<audio src="05_D_the_14th_.mp3" clip-begin="npt=460.122s" clip-end="npt=461.898s" id="audio_0078"/>
+				</seq>
+			</par>
+			<par endsync="last">
+				<text src="ncc.html#icth_0004" id="lnrl_000b"/>
+				<seq>
+					<audio src="05_D_the_14th_.mp3" clip-begin="npt=461.898s" clip-end="npt=465.215s" id="audio_0079"/>
+					<audio src="05_D_the_14th_.mp3" clip-begin="npt=465.215s" clip-end="npt=470.518s" id="audio_0080"/>
+					<audio src="05_D_the_14th_.mp3" clip-begin="npt=470.518s" clip-end="npt=474.646s" id="audio_0081"/>
+					<audio src="05_D_the_14th_.mp3" clip-begin="npt=474.646s" clip-end="npt=480.419s" id="audio_0082"/>
+					<audio src="05_D_the_14th_.mp3" clip-begin="npt=480.419s" clip-end="npt=484.023s" id="audio_0083"/>
+					<audio src="05_D_the_14th_.mp3" clip-begin="npt=484.023s" clip-end="npt=487.576s" id="audio_0084"/>
+					<audio src="05_D_the_14th_.mp3" clip-begin="npt=487.576s" clip-end="npt=491.442s" id="audio_0085"/>
+					<audio src="05_D_the_14th_.mp3" clip-begin="npt=491.442s" clip-end="npt=501.578s" id="audio_0086"/>
+					<audio src="05_D_the_14th_.mp3" clip-begin="npt=501.578s" clip-end="npt=502.231s" id="audio_0087"/>
+					<audio src="05_D_the_14th_.mp3" clip-begin="npt=502.231s" clip-end="npt=509.206s" id="audio_0088"/>
+					<audio src="05_D_the_14th_.mp3" clip-begin="npt=509.206s" clip-end="npt=513.777s" id="audio_0089"/>
+					<audio src="05_D_the_14th_.mp3" clip-begin="npt=513.777s" clip-end="npt=516.023s" id="audio_0090"/>
+					<audio src="05_D_the_14th_.mp3" clip-begin="npt=516.023s" clip-end="npt=517.277s" id="audio_0091"/>
+					<audio src="05_D_the_14th_.mp3" clip-begin="npt=517.277s" clip-end="npt=521.797s" id="audio_0092"/>
+					<audio src="05_D_the_14th_.mp3" clip-begin="npt=521.797s" clip-end="npt=524.774s" id="audio_0093"/>
+					<audio src="05_D_the_14th_.mp3" clip-begin="npt=524.774s" clip-end="npt=533.108s" id="audio_0094"/>
+					<audio src="05_D_the_14th_.mp3" clip-begin="npt=533.108s" clip-end="npt=536.033s" id="audio_0095"/>
+					<audio src="05_D_the_14th_.mp3" clip-begin="npt=536.033s" clip-end="npt=540.448s" id="audio_0096"/>
+					<audio src="05_D_the_14th_.mp3" clip-begin="npt=540.448s" clip-end="npt=552.752s" id="audio_0097"/>
+					<audio src="05_D_the_14th_.mp3" clip-begin="npt=552.752s" clip-end="npt=557.741s" id="audio_0098"/>
+					<audio src="05_D_the_14th_.mp3" clip-begin="npt=557.741s" clip-end="npt=561.032s" id="audio_0099"/>
+					<audio src="05_D_the_14th_.mp3" clip-begin="npt=561.032s" clip-end="npt=562.234s" id="audio_0100"/>
+					<audio src="05_D_the_14th_.mp3" clip-begin="npt=562.234s" clip-end="npt=565.578s" id="audio_0101"/>
+					<audio src="05_D_the_14th_.mp3" clip-begin="npt=565.578s" clip-end="npt=568.843s" id="audio_0102"/>
+					<audio src="05_D_the_14th_.mp3" clip-begin="npt=568.843s" clip-end="npt=579.423s" id="audio_0103"/>
+					<audio src="05_D_the_14th_.mp3" clip-begin="npt=579.423s" clip-end="npt=583.916s" id="audio_0104"/>
+					<audio src="05_D_the_14th_.mp3" clip-begin="npt=583.916s" clip-end="npt=587.730s" id="audio_0105"/>
+					<audio src="05_D_the_14th_.mp3" clip-begin="npt=587.730s" clip-end="npt=591.204s" id="audio_0106"/>
+					<audio src="05_D_the_14th_.mp3" clip-begin="npt=591.204s" clip-end="npt=593.268s" id="audio_0107"/>
+					<audio src="05_D_the_14th_.mp3" clip-begin="npt=593.268s" clip-end="npt=595.201s" id="audio_0108"/>
+					<audio src="05_D_the_14th_.mp3" clip-begin="npt=595.201s" clip-end="npt=601.052s" id="audio_0109"/>
+					<audio src="05_D_the_14th_.mp3" clip-begin="npt=601.052s" clip-end="npt=604.918s" id="audio_0110"/>
+					<audio src="05_D_the_14th_.mp3" clip-begin="npt=604.918s" clip-end="npt=608.758s" id="audio_0111"/>
+					<audio src="05_D_the_14th_.mp3" clip-begin="npt=608.758s" clip-end="npt=612.520s" id="audio_0112"/>
+					<audio src="05_D_the_14th_.mp3" clip-begin="npt=612.520s" clip-end="npt=616.281s" id="audio_0113"/>
+					<audio src="05_D_the_14th_.mp3" clip-begin="npt=616.281s" clip-end="npt=619.521s" id="audio_0114"/>
+					<audio src="05_D_the_14th_.mp3" clip-begin="npt=619.521s" clip-end="npt=621.271s" id="audio_0115"/>
+					<audio src="05_D_the_14th_.mp3" clip-begin="npt=621.271s" clip-end="npt=624.797s" id="audio_0116"/>
+					<audio src="05_D_the_14th_.mp3" clip-begin="npt=624.797s" clip-end="npt=632.608s" id="audio_0117"/>
+					<audio src="05_D_the_14th_.mp3" clip-begin="npt=632.608s" clip-end="npt=635.952s" id="audio_0118"/>
+					<audio src="05_D_the_14th_.mp3" clip-begin="npt=635.952s" clip-end="npt=641.699s" id="audio_0119"/>
+					<audio src="05_D_the_14th_.mp3" clip-begin="npt=641.699s" clip-end="npt=642.404s" id="audio_0120"/>
+					<audio src="05_D_the_14th_.mp3" clip-begin="npt=642.404s" clip-end="npt=649.222s" id="audio_0121"/>
+				</seq>
+			</par>
+			<par endsync="last" id="lnrl_000e" system-required="pagenumber-on">
+				<text src="ncc.html#icth_0016" id="lnrl_000f"/>
+				<seq>
+					<audio src="05_D_the_14th_.mp3" clip-begin="npt=649.222s" clip-end="npt=650.058s" id="audio_0122"/>
+					<audio src="05_D_the_14th_.mp3" clip-begin="npt=650.058s" clip-end="npt=652.053s" id="audio_0123"/>
+				</seq>
+			</par>
+			<par endsync="last">
+				<text src="ncc.html#icth_0004" id="lnrl_0010"/>
+				<seq>
+					<audio src="05_D_the_14th_.mp3" clip-begin="npt=652.053s" clip-end="npt=652.383s" id="audio_0124"/>
+					<audio src="05_D_the_14th_.mp3" clip-begin="npt=652.383s" clip-end="npt=657.738s" id="audio_0125"/>
+					<audio src="05_D_the_14th_.mp3" clip-begin="npt=657.738s" clip-end="npt=664.191s" id="audio_0126"/>
+					<audio src="05_D_the_14th_.mp3" clip-begin="npt=664.191s" clip-end="npt=666.960s" id="audio_0127"/>
+					<audio src="05_D_the_14th_.mp3" clip-begin="npt=666.960s" clip-end="npt=670.669s" id="audio_0128"/>
+					<audio src="05_D_the_14th_.mp3" clip-begin="npt=670.669s" clip-end="npt=675.476s" id="audio_0129"/>
+					<audio src="05_D_the_14th_.mp3" clip-begin="npt=675.476s" clip-end="npt=677.069s" id="audio_0130"/>
+					<audio src="05_D_the_14th_.mp3" clip-begin="npt=677.069s" clip-end="npt=682.659s" id="audio_0131"/>
+					<audio src="05_D_the_14th_.mp3" clip-begin="npt=682.659s" clip-end="npt=684.383s" id="audio_0132"/>
+					<audio src="05_D_the_14th_.mp3" clip-begin="npt=684.383s" clip-end="npt=689.007s" id="audio_0133"/>
+					<audio src="05_D_the_14th_.mp3" clip-begin="npt=689.007s" clip-end="npt=699.038s" id="audio_0134"/>
+					<audio src="05_D_the_14th_.mp3" clip-begin="npt=699.038s" clip-end="npt=703.897s" id="audio_0135"/>
+					<audio src="05_D_the_14th_.mp3" clip-begin="npt=703.897s" clip-end="npt=710.506s" id="audio_0136"/>
+					<audio src="05_D_the_14th_.mp3" clip-begin="npt=710.506s" clip-end="npt=716.096s" id="audio_0137"/>
+					<audio src="05_D_the_14th_.mp3" clip-begin="npt=716.096s" clip-end="npt=723.933s" id="audio_0138"/>
+					<audio src="05_D_the_14th_.mp3" clip-begin="npt=723.933s" clip-end="npt=731.769s" id="audio_0139"/>
+					<audio src="05_D_the_14th_.mp3" clip-begin="npt=731.769s" clip-end="npt=732.631s" id="audio_0140"/>
+					<audio src="05_D_the_14th_.mp3" clip-begin="npt=732.631s" clip-end="npt=734.930s" id="audio_0141"/>
+					<audio src="05_D_the_14th_.mp3" clip-begin="npt=734.930s" clip-end="npt=740.024s" id="audio_0142"/>
+					<audio src="05_D_the_14th_.mp3" clip-begin="npt=740.024s" clip-end="npt=743.995s" id="audio_0143"/>
+					<audio src="05_D_the_14th_.mp3" clip-begin="npt=743.995s" clip-end="npt=747.025s" id="audio_0144"/>
+					<audio src="05_D_the_14th_.mp3" clip-begin="npt=747.025s" clip-end="npt=756.011s" id="audio_0145"/>
+					<audio src="05_D_the_14th_.mp3" clip-begin="npt=756.011s" clip-end="npt=760.112s" id="audio_0146"/>
+					<audio src="05_D_the_14th_.mp3" clip-begin="npt=760.112s" clip-end="npt=765.076s" id="audio_0147"/>
+					<audio src="05_D_the_14th_.mp3" clip-begin="npt=765.076s" clip-end="npt=769.386s" id="audio_0148"/>
+					<audio src="05_D_the_14th_.mp3" clip-begin="npt=769.386s" clip-end="npt=774.898s" id="audio_0149"/>
+					<audio src="05_D_the_14th_.mp3" clip-begin="npt=774.898s" clip-end="npt=781.245s" id="audio_0150"/>
+					<audio src="05_D_the_14th_.mp3" clip-begin="npt=781.245s" clip-end="npt=789.396s" id="audio_0151"/>
+					<audio src="05_D_the_14th_.mp3" clip-begin="npt=789.396s" clip-end="npt=797.232s" id="audio_0152"/>
+					<audio src="05_D_the_14th_.mp3" clip-begin="npt=797.232s" clip-end="npt=801.255s" id="audio_0153"/>
+					<audio src="05_D_the_14th_.mp3" clip-begin="npt=801.255s" clip-end="npt=807.969s" id="audio_0154"/>
+					<audio src="05_D_the_14th_.mp3" clip-begin="npt=807.969s" clip-end="npt=816.693s" id="audio_0155"/>
+					<audio src="05_D_the_14th_.mp3" clip-begin="npt=816.693s" clip-end="npt=830.199s" id="audio_0156"/>
+					<audio src="05_D_the_14th_.mp3" clip-begin="npt=830.199s" clip-end="npt=833.908s" id="audio_0157"/>
+					<audio src="05_D_the_14th_.mp3" clip-begin="npt=833.908s" clip-end="npt=839.002s" id="audio_0158"/>
+					<audio src="05_D_the_14th_.mp3" clip-begin="npt=839.002s" clip-end="npt=843.887s" id="audio_0159"/>
+					<audio src="05_D_the_14th_.mp3" clip-begin="npt=843.887s" clip-end="npt=849.895s" id="audio_0160"/>
+					<audio src="05_D_the_14th_.mp3" clip-begin="npt=849.895s" clip-end="npt=852.455s" id="audio_0161"/>
+					<audio src="05_D_the_14th_.mp3" clip-begin="npt=852.455s" clip-end="npt=858.516s" id="audio_0162"/>
+				</seq>
+			</par>
+			<par endsync="last" id="lnrl_0014" system-required="pagenumber-on">
+				<text src="ncc.html#icth_0017" id="lnrl_0015"/>
+				<seq>
+					<audio src="05_D_the_14th_.mp3" clip-begin="npt=858.516s" clip-end="npt=859.117s" id="audio_0163"/>
+					<audio src="05_D_the_14th_.mp3" clip-begin="npt=859.117s" clip-end="npt=860.821s" id="audio_0164"/>
+				</seq>
+			</par>
+			<par endsync="last">
+				<text src="ncc.html#icth_0004" id="lnrl_0016"/>
+				<seq>
+					<audio src="05_D_the_14th_.mp3" clip-begin="npt=860.821s" clip-end="npt=861.259s" id="audio_0165"/>
+					<audio src="05_D_the_14th_.mp3" clip-begin="npt=861.259s" clip-end="npt=863.454s" id="audio_0166"/>
+					<audio src="05_D_the_14th_.mp3" clip-begin="npt=863.454s" clip-end="npt=867.189s" id="audio_0167"/>
+					<audio src="05_D_the_14th_.mp3" clip-begin="npt=867.189s" clip-end="npt=872.649s" id="audio_0168"/>
+					<audio src="05_D_the_14th_.mp3" clip-begin="npt=872.649s" clip-end="npt=878.291s" id="audio_0169"/>
+					<audio src="05_D_the_14th_.mp3" clip-begin="npt=878.291s" clip-end="npt=885.109s" id="audio_0170"/>
+					<audio src="05_D_the_14th_.mp3" clip-begin="npt=885.109s" clip-end="npt=889.419s" id="audio_0171"/>
+					<audio src="05_D_the_14th_.mp3" clip-begin="npt=889.419s" clip-end="npt=893.573s" id="audio_0172"/>
+					<audio src="05_D_the_14th_.mp3" clip-begin="npt=893.573s" clip-end="npt=896.394s" id="audio_0173"/>
+					<audio src="05_D_the_14th_.mp3" clip-begin="npt=896.394s" clip-end="npt=900.756s" id="audio_0174"/>
+					<audio src="05_D_the_14th_.mp3" clip-begin="npt=900.756s" clip-end="npt=909.246s" id="audio_0175"/>
+					<audio src="05_D_the_14th_.mp3" clip-begin="npt=909.246s" clip-end="npt=920.035s" id="audio_0176"/>
+					<audio src="05_D_the_14th_.mp3" clip-begin="npt=920.035s" clip-end="npt=920.479s" id="audio_0177"/>
+					<audio src="05_D_the_14th_.mp3" clip-begin="npt=920.479s" clip-end="npt=924.345s" id="audio_0178"/>
+					<audio src="05_D_the_14th_.mp3" clip-begin="npt=924.345s" clip-end="npt=928.446s" id="audio_0179"/>
+					<audio src="05_D_the_14th_.mp3" clip-begin="npt=928.446s" clip-end="npt=933.174s" id="audio_0180"/>
+					<audio src="05_D_the_14th_.mp3" clip-begin="npt=933.174s" clip-end="npt=945.243s" id="audio_0181"/>
+					<audio src="05_D_the_14th_.mp3" clip-begin="npt=945.243s" clip-end="npt=952.244s" id="audio_0182"/>
+					<audio src="05_D_the_14th_.mp3" clip-begin="npt=952.244s" clip-end="npt=954.072s" id="audio_0183"/>
+					<audio src="05_D_the_14th_.mp3" clip-begin="npt=954.072s" clip-end="npt=956.894s" id="audio_0184"/>
+					<audio src="05_D_the_14th_.mp3" clip-begin="npt=956.894s" clip-end="npt=964.992s" id="audio_0185"/>
+					<audio src="05_D_the_14th_.mp3" clip-begin="npt=964.992s" clip-end="npt=971.836s" id="audio_0186"/>
+					<audio src="05_D_the_14th_.mp3" clip-begin="npt=971.836s" clip-end="npt=977.530s" id="audio_0187"/>
+					<audio src="05_D_the_14th_.mp3" clip-begin="npt=977.530s" clip-end="npt=1008.041s" id="audio_0188"/>
+					<audio src="05_D_the_14th_.mp3" clip-begin="npt=1008.041s" clip-end="npt=1009.034s" id="audio_0189"/>
+					<audio src="05_D_the_14th_.mp3" clip-begin="npt=1009.034s" clip-end="npt=1011.803s" id="audio_0190"/>
+					<audio src="05_D_the_14th_.mp3" clip-begin="npt=1011.803s" clip-end="npt=1023.114s" id="audio_0191"/>
+					<audio src="05_D_the_14th_.mp3" clip-begin="npt=1023.114s" clip-end="npt=1023.558s" id="audio_0192"/>
+					<audio src="05_D_the_14th_.mp3" clip-begin="npt=1023.558s" clip-end="npt=1045.788s" id="audio_0193"/>
+					<audio src="05_D_the_14th_.mp3" clip-begin="npt=1045.788s" clip-end="npt=1064.596s" id="audio_0194"/>
+					<audio src="05_D_the_14th_.mp3" clip-begin="npt=1064.596s" clip-end="npt=1070.265s" id="audio_0195"/>
+					<audio src="05_D_the_14th_.mp3" clip-begin="npt=1070.265s" clip-end="npt=1073.243s" id="audio_0196"/>
+					<audio src="05_D_the_14th_.mp3" clip-begin="npt=1073.243s" clip-end="npt=1075.281s" id="audio_0197"/>
+					<audio src="05_D_the_14th_.mp3" clip-begin="npt=1075.281s" clip-end="npt=1085.573s" id="audio_0198"/>
+				</seq>
+			</par>
+			<par endsync="last" id="lnrl_001a" system-required="pagenumber-on">
+				<text src="ncc.html#icth_0018" id="lnrl_001b"/>
+				<seq>
+					<audio src="05_D_the_14th_.mp3" clip-begin="npt=1085.573s" clip-end="npt=1086.226s" id="audio_0199"/>
+					<audio src="05_D_the_14th_.mp3" clip-begin="npt=1086.226s" clip-end="npt=1088.499s" id="audio_0200"/>
+				</seq>
+			</par>
+			<par endsync="last">
+				<text src="ncc.html#icth_0004" id="lnrl_001c"/>
+				<seq>
+					<audio src="05_D_the_14th_.mp3" clip-begin="npt=1088.499s" clip-end="npt=1088.977s" id="audio_0201"/>
+					<audio src="05_D_the_14th_.mp3" clip-begin="npt=1088.977s" clip-end="npt=1089.221s" id="audio_0202"/>
+					<audio src="05_D_the_14th_.mp3" clip-begin="npt=1089.221s" clip-end="npt=1091.284s" id="audio_0203"/>
+					<audio src="05_D_the_14th_.mp3" clip-begin="npt=1091.284s" clip-end="npt=1095.986s" id="audio_0204"/>
+					<audio src="05_D_the_14th_.mp3" clip-begin="npt=1095.986s" clip-end="npt=1098.207s" id="audio_0205"/>
+					<audio src="05_D_the_14th_.mp3" clip-begin="npt=1098.207s" clip-end="npt=1102.543s" id="audio_0206"/>
+					<audio src="05_D_the_14th_.mp3" clip-begin="npt=1102.543s" clip-end="npt=1106.644s" id="audio_0207"/>
+					<audio src="05_D_the_14th_.mp3" clip-begin="npt=1106.644s" clip-end="npt=1112.940s" id="audio_0208"/>
+					<audio src="05_D_the_14th_.mp3" clip-begin="npt=1112.940s" clip-end="npt=1117.015s" id="audio_0209"/>
+					<audio src="05_D_the_14th_.mp3" clip-begin="npt=1117.015s" clip-end="npt=1125.635s" id="audio_0210"/>
+					<audio src="05_D_the_14th_.mp3" clip-begin="npt=1125.635s" clip-end="npt=1126.785s" id="audio_0211"/>
+					<audio src="05_D_the_14th_.mp3" clip-begin="npt=1126.785s" clip-end="npt=1132.479s" id="audio_0212"/>
+					<audio src="05_D_the_14th_.mp3" clip-begin="npt=1132.479s" clip-end="npt=1133.446s" id="audio_0213"/>
+					<audio src="05_D_the_14th_.mp3" clip-begin="npt=1133.446s" clip-end="npt=1138.017s" id="audio_0214"/>
+					<audio src="05_D_the_14th_.mp3" clip-begin="npt=1138.017s" clip-end="npt=1143.346s" id="audio_0215"/>
+					<audio src="05_D_the_14th_.mp3" clip-begin="npt=1143.346s" clip-end="npt=1153.952s" id="audio_0216"/>
+					<audio src="05_D_the_14th_.mp3" clip-begin="npt=1153.952s" clip-end="npt=1155.519s" id="audio_0217"/>
+					<audio src="05_D_the_14th_.mp3" clip-begin="npt=1155.519s" clip-end="npt=1176.026s" id="audio_0218"/>
+					<audio src="05_D_the_14th_.mp3" clip-begin="npt=1176.026s" clip-end="npt=1178.063s" id="audio_0219"/>
+					<audio src="05_D_the_14th_.mp3" clip-begin="npt=1178.063s" clip-end="npt=1180.101s" id="audio_0220"/>
+					<audio src="05_D_the_14th_.mp3" clip-begin="npt=1180.101s" clip-end="npt=1187.049s" id="audio_0221"/>
+					<audio src="05_D_the_14th_.mp3" clip-begin="npt=1187.049s" clip-end="npt=1192.457s" id="audio_0222"/>
+					<audio src="05_D_the_14th_.mp3" clip-begin="npt=1192.457s" clip-end="npt=1198.857s" id="audio_0223"/>
+					<audio src="05_D_the_14th_.mp3" clip-begin="npt=1198.857s" clip-end="npt=1203.950s" id="audio_0224"/>
+					<audio src="05_D_the_14th_.mp3" clip-begin="npt=1203.950s" clip-end="npt=1207.529s" id="audio_0225"/>
+					<audio src="05_D_the_14th_.mp3" clip-begin="npt=1207.529s" clip-end="npt=1211.474s" id="audio_0226"/>
+					<audio src="05_D_the_14th_.mp3" clip-begin="npt=1211.474s" clip-end="npt=1215.340s" id="audio_0227"/>
+					<audio src="05_D_the_14th_.mp3" clip-begin="npt=1215.340s" clip-end="npt=1218.448s" id="audio_0228"/>
+					<audio src="05_D_the_14th_.mp3" clip-begin="npt=1218.448s" clip-end="npt=1219.807s" id="audio_0229"/>
+					<audio src="05_D_the_14th_.mp3" clip-begin="npt=1219.807s" clip-end="npt=1221.635s" id="audio_0230"/>
+					<audio src="05_D_the_14th_.mp3" clip-begin="npt=1221.635s" clip-end="npt=1226.442s" id="audio_0231"/>
+					<audio src="05_D_the_14th_.mp3" clip-begin="npt=1226.442s" clip-end="npt=1230.204s" id="audio_0232"/>
+					<audio src="05_D_the_14th_.mp3" clip-begin="npt=1230.204s" clip-end="npt=1234.749s" id="audio_0233"/>
+					<audio src="05_D_the_14th_.mp3" clip-begin="npt=1234.749s" clip-end="npt=1241.697s" id="audio_0234"/>
+					<audio src="05_D_the_14th_.mp3" clip-begin="npt=1241.697s" clip-end="npt=1249.691s" id="audio_0235"/>
+					<audio src="05_D_the_14th_.mp3" clip-begin="npt=1249.691s" clip-end="npt=1254.158s" id="audio_0236"/>
+					<audio src="05_D_the_14th_.mp3" clip-begin="npt=1254.158s" clip-end="npt=1259.487s" id="audio_0237"/>
+					<audio src="05_D_the_14th_.mp3" clip-begin="npt=1259.487s" clip-end="npt=1262.177s" id="audio_0238"/>
+					<audio src="05_D_the_14th_.mp3" clip-begin="npt=1262.177s" clip-end="npt=1271.947s" id="audio_0239"/>
+					<audio src="05_D_the_14th_.mp3" clip-begin="npt=1271.947s" clip-end="npt=1276.310s" id="audio_0240"/>
+				</seq>
+			</par>
+		</seq>
+	</body>
+</smil>

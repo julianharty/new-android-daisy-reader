@@ -1,0 +1,53 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<!DOCTYPE smil PUBLIC "-//W3C//DTD SMIL 1.0//EN" "http://www.w3.org/TR/REC-smil/SMIL10.dtd" >
+<smil>
+	<head>
+		<meta name="dc:identifier" content="Prashant190509" />
+		<meta name="title" content="Article 8. Imports and Exports of Works" />
+		<meta name="dc:title" content="WIPO Treaty for the Visually Impaired" />
+		<meta name="dc:format" content="Daisy 2.02" />
+		<meta name="ncc:generator" content="Daisy Pipeline" />
+		<meta name="ncc:totalElapsedTime" content="00:00:00" />
+		<meta name="ncc:timeInThisSmil" content="00:00:00" />
+		<layout>
+			<region id="txtView" />
+		</layout>
+	</head>
+	<body>
+		<seq dur="0.000s">
+			<par endsync="last" id="par_94">
+				<text src="WIPOTreatyForVisuallyImpaired.html#d2e427" id="txt_94" />
+			</par>
+			<par endsync="last" id="par_95">
+				<text src="WIPOTreatyForVisuallyImpaired.html#id_247" id="txt_95" />
+			</par>
+			<par endsync="last" id="par_96">
+				<text src="WIPOTreatyForVisuallyImpaired.html#id_252" id="txt_96" />
+			</par>
+			<par endsync="last" id="par_97">
+				<text src="WIPOTreatyForVisuallyImpaired.html#id_253" id="txt_97" />
+			</par>
+			<par endsync="last" id="par_98">
+				<text src="WIPOTreatyForVisuallyImpaired.html#id_254" id="txt_98" />
+			</par>
+			<par endsync="last" id="par_99">
+				<text src="WIPOTreatyForVisuallyImpaired.html#id_258" id="txt_99" />
+			</par>
+			<par endsync="last" id="par_100">
+				<text src="WIPOTreatyForVisuallyImpaired.html#id_259" id="txt_100" />
+			</par>
+			<par endsync="last" id="par_101">
+				<text src="WIPOTreatyForVisuallyImpaired.html#id_260" id="txt_101" />
+			</par>
+			<par endsync="last" id="par_102">
+				<text src="WIPOTreatyForVisuallyImpaired.html#id_263" id="txt_102" />
+			</par>
+			<par endsync="last" id="par_103">
+				<text src="WIPOTreatyForVisuallyImpaired.html#id_264" id="txt_103" />
+			</par>
+			<par endsync="last" id="par_104">
+				<text src="WIPOTreatyForVisuallyImpaired.html#id_265" id="txt_104" />
+			</par>
+		</seq>
+	</body>
+</smil>

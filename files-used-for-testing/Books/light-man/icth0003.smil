@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE smil PUBLIC "-//W3C//DTD SMIL 1.0//EN" "SMIL10.dtd">
+<smil>
+	<head>
+		<meta name="dc:format" content="Daisy 2.02"/>
+		<meta name="ncc:timeInThisSmil" content="00:03:39.918"/>
+		<meta name="ncc:totalElapsedTime" content="00:00:31.530"/>
+		<layout>
+			<region id="txt-view"/>
+		</layout>
+		<meta name="ncc:generator" content="EasePublisher 2.13 Build 163 # 044FS2212172434"/>
+        <meta name="title" content="April 4th 1857"/>
+        <meta name="dc:title" content="A light Man"/>
+        <meta name="dc:identifier" content="Unknown"/>
+    </head>
+	<body>
+		<seq dur="219.918s">
+			<par endsync="last">
+				<text src="ncc.html#icth_0002" id="icth_0002"/>
+				<seq>
+					<audio src="03_April_4th_1857.mp3" clip-begin="npt=0.000s" clip-end="npt=0.470s" id="audio_0001"/>
+					<audio src="03_April_4th_1857.mp3" clip-begin="npt=0.470s" clip-end="npt=3.918s" id="audio_0002"/>
+					<audio src="03_April_4th_1857.mp3" clip-begin="npt=3.918s" clip-end="npt=8.934s" id="audio_0003"/>
+					<audio src="03_April_4th_1857.mp3" clip-begin="npt=8.934s" clip-end="npt=12.278s" id="audio_0004"/>
+					<audio src="03_April_4th_1857.mp3" clip-begin="npt=12.278s" clip-end="npt=14.916s" id="audio_0005"/>
+					<audio src="03_April_4th_1857.mp3" clip-begin="npt=14.916s" clip-end="npt=20.010s" id="audio_0006"/>
+					<audio src="03_April_4th_1857.mp3" clip-begin="npt=20.010s" clip-end="npt=23.928s" id="audio_0007"/>
+					<audio src="03_April_4th_1857.mp3" clip-begin="npt=23.928s" clip-end="npt=24.869s" id="audio_0008"/>
+					<audio src="03_April_4th_1857.mp3" clip-begin="npt=24.869s" clip-end="npt=27.899s" id="audio_0009"/>
+					<audio src="03_April_4th_1857.mp3" clip-begin="npt=27.899s" clip-end="npt=29.231s" id="audio_0010"/>
+					<audio src="03_April_4th_1857.mp3" clip-begin="npt=29.231s" clip-end="npt=31.451s" id="audio_0011"/>
+					<audio src="03_April_4th_1857.mp3" clip-begin="npt=31.451s" clip-end="npt=40.281s" id="audio_0012"/>
+					<audio src="03_April_4th_1857.mp3" clip-begin="npt=40.281s" clip-end="npt=46.890s" id="audio_0013"/>
+					<audio src="03_April_4th_1857.mp3" clip-begin="npt=46.890s" clip-end="npt=53.995s" id="audio_0014"/>
+					<audio src="03_April_4th_1857.mp3" clip-begin="npt=53.995s" clip-end="npt=55.484s" id="audio_0015"/>
+					<audio src="03_April_4th_1857.mp3" clip-begin="npt=55.484s" clip-end="npt=58.201s" id="audio_0016"/>
+					<audio src="03_April_4th_1857.mp3" clip-begin="npt=58.201s" clip-end="npt=61.806s" id="audio_0017"/>
+					<audio src="03_April_4th_1857.mp3" clip-begin="npt=61.806s" clip-end="npt=65.985s" id="audio_0018"/>
+					<audio src="03_April_4th_1857.mp3" clip-begin="npt=65.985s" clip-end="npt=69.303s" id="audio_0019"/>
+					<audio src="03_April_4th_1857.mp3" clip-begin="npt=69.303s" clip-end="npt=81.371s" id="audio_0020"/>
+					<audio src="03_April_4th_1857.mp3" clip-begin="npt=81.371s" clip-end="npt=83.513s" id="audio_0021"/>
+					<audio src="03_April_4th_1857.mp3" clip-begin="npt=83.513s" clip-end="npt=85.917s" id="audio_0022"/>
+					<audio src="03_April_4th_1857.mp3" clip-begin="npt=85.917s" clip-end="npt=90.384s" id="audio_0023"/>
+					<audio src="03_April_4th_1857.mp3" clip-begin="npt=90.384s" clip-end="npt=98.612s" id="audio_0024"/>
+					<audio src="03_April_4th_1857.mp3" clip-begin="npt=98.612s" clip-end="npt=103.079s" id="audio_0025"/>
+					<audio src="03_April_4th_1857.mp3" clip-begin="npt=103.079s" clip-end="npt=114.704s" id="audio_0026"/>
+					<audio src="03_April_4th_1857.mp3" clip-begin="npt=114.704s" clip-end="npt=120.033s" id="audio_0027"/>
+					<audio src="03_April_4th_1857.mp3" clip-begin="npt=120.033s" clip-end="npt=122.044s" id="audio_0028"/>
+					<audio src="03_April_4th_1857.mp3" clip-begin="npt=122.044s" clip-end="npt=124.787s" id="audio_0029"/>
+					<audio src="03_April_4th_1857.mp3" clip-begin="npt=124.787s" clip-end="npt=133.721s" id="audio_0030"/>
+					<audio src="03_April_4th_1857.mp3" clip-begin="npt=133.721s" clip-end="npt=145.293s" id="audio_0031"/>
+					<audio src="03_April_4th_1857.mp3" clip-begin="npt=145.293s" clip-end="npt=148.611s" id="audio_0032"/>
+					<audio src="03_April_4th_1857.mp3" clip-begin="npt=148.611s" clip-end="npt=150.936s" id="audio_0033"/>
+					<audio src="03_April_4th_1857.mp3" clip-begin="npt=150.936s" clip-end="npt=158.093s" id="audio_0034"/>
+					<audio src="03_April_4th_1857.mp3" clip-begin="npt=158.093s" clip-end="npt=162.220s" id="audio_0035"/>
+					<audio src="03_April_4th_1857.mp3" clip-begin="npt=162.220s" clip-end="npt=165.982s" id="audio_0036"/>
+					<audio src="03_April_4th_1857.mp3" clip-begin="npt=165.982s" clip-end="npt=168.516s" id="audio_0037"/>
+					<audio src="03_April_4th_1857.mp3" clip-begin="npt=168.516s" clip-end="npt=170.674s" id="audio_0038"/>
+				</seq>
+			</par>
+			<par endsync="last" id="ypnx_0001" system-required="pagenumber-on">
+				<text src="ncc.html#icth_0012" id="ypnx_0002"/>
+				<seq>
+					<audio src="03_April_4th_1857.mp3" clip-begin="npt=170.674s" clip-end="npt=172.878s" id="audio_0039"/>
+				</seq>
+			</par>
+			<par endsync="last">
+				<text src="ncc.html#icth_0002" id="ypnx_0003"/>
+				<seq>
+					<audio src="03_April_4th_1857.mp3" clip-begin="npt=172.878s" clip-end="npt=175.256s" id="audio_0040"/>
+					<audio src="03_April_4th_1857.mp3" clip-begin="npt=175.256s" clip-end="npt=176.248s" id="audio_0041"/>
+					<audio src="03_April_4th_1857.mp3" clip-begin="npt=176.248s" clip-end="npt=178.599s" id="audio_0042"/>
+					<audio src="03_April_4th_1857.mp3" clip-begin="npt=178.599s" clip-end="npt=183.014s" id="audio_0043"/>
+					<audio src="03_April_4th_1857.mp3" clip-begin="npt=183.014s" clip-end="npt=184.921s" id="audio_0044"/>
+					<audio src="03_April_4th_1857.mp3" clip-begin="npt=184.921s" clip-end="npt=187.272s" id="audio_0045"/>
+					<audio src="03_April_4th_1857.mp3" clip-begin="npt=187.272s" clip-end="npt=188.865s" id="audio_0046"/>
+					<audio src="03_April_4th_1857.mp3" clip-begin="npt=188.865s" clip-end="npt=193.384s" id="audio_0047"/>
+					<audio src="03_April_4th_1857.mp3" clip-begin="npt=193.384s" clip-end="npt=196.650s" id="audio_0048"/>
+					<audio src="03_April_4th_1857.mp3" clip-begin="npt=196.650s" clip-end="npt=201.012s" id="audio_0049"/>
+					<audio src="03_April_4th_1857.mp3" clip-begin="npt=201.012s" clip-end="npt=205.113s" id="audio_0050"/>
+					<audio src="03_April_4th_1857.mp3" clip-begin="npt=205.113s" clip-end="npt=210.233s" id="audio_0051"/>
+					<audio src="03_April_4th_1857.mp3" clip-begin="npt=210.233s" clip-end="npt=216.372s" id="audio_0052"/>
+					<audio src="03_April_4th_1857.mp3" clip-begin="npt=216.372s" clip-end="npt=219.167s" id="audio_0053"/>
+					<audio src="03_April_4th_1857.mp3" clip-begin="npt=219.167s" clip-end="npt=219.918s" id="audio_0054"/>
+				</seq>
+			</par>
+		</seq>
+	</body>
+</smil>

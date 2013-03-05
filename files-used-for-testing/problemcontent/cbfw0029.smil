@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="windows-1252"?>
+<!DOCTYPE smil PUBLIC "-//W3C//DTD SMIL 1.0//EN" "http://www.w3.org/TR/REC-smil/SMIL10.dtd">
+<smil>
+	<head>
+		<meta name="dc:format" content="Daisy 2.02"/>
+		<meta name="title" content="Videregående trinn 1"/>
+		<meta name="dc:title" content="Gym Grunnbok (2006-utg.)"/>
+		<meta name="dc:identifier" content="978-82-7740-156-0"/>
+		<meta name="ncc:timeInThisSmil" content="00:01:04"/>
+		<meta name="ncc:generator" content="Skippability Tweaker 0.1.56"/>
+		<meta name="ncc:totalElapsedTime" content="00:49:21"/>
+		<layout>
+			<region id="txtView"/>
+		</layout>
+	</head>
+	<body>
+		<seq dur="64.204s">
+			<par endsync="last">
+				<text src="7015gym.html#cbfw_003d" id="cbfw_003d"/>
+				<seq>
+					<audio src="ksp_041.mp3" clip-begin="npt=0.0s" clip-end="npt=2.545s" id="qwrt_0001"/>
+					<audio src="ksp_041.mp3" clip-begin="npt=2.545s" clip-end="npt=2.591s" id="qwrt_0002"/>
+					<audio src="ksp_041.mp3" clip-begin="npt=2.591s" clip-end="npt=3.048s" id="qwrt_0003"/>
+					<audio src="ksp_041.mp3" clip-begin="npt=3.048s" clip-end="npt=15.190s" id="qwrt_0004"/>
+				</seq>
+			</par>
+			<par endsync="last" system-required="pagenumber-on">
+				<text src="7015gym.html#cbfw_003e" id="cbfw_003e"/>
+				<seq>
+					<audio src="ksp_041.mp3" clip-begin="npt=15.190s" clip-end="npt=17.190s" id="qwrt_0005"/>
+				</seq>
+			</par>
+			<par endsync="last">
+				<text src="7015gym.html#cbfw_003e" id="xcbf_001b"/>
+				<seq>
+					<audio src="ksp_041.mp3" clip-begin="npt=17.190s" clip-end="npt=31.368s" id="qwrt_0006"/>
+					<audio src="ksp_041.mp3" clip-begin="npt=31.368s" clip-end="npt=49.014s" id="qwrt_0007"/>
+					<audio src="ksp_041.mp3" clip-begin="npt=49.014s" clip-end="npt=64.204s" id="qwrt_0008"/>
+				</seq>
+			</par>
+		</seq>
+	</body>
+</smil>

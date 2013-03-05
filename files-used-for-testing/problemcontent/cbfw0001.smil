@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="windows-1252"?>
+<!DOCTYPE smil PUBLIC "-//W3C//DTD SMIL 1.0//EN" "http://www.w3.org/TR/REC-smil/SMIL10.dtd">
+<smil>
+	<head>
+		<meta name="dc:format" content="Daisy 2.02"/>
+		<meta name="title" content="Gym Grunnbok (2006-utg.)"/>
+		<meta name="dc:title" content="Gym Grunnbok (2006-utg.)"/>
+		<meta name="dc:identifier" content="978-82-7740-156-0"/>
+		<meta name="ncc:timeInThisSmil" content="00:00:58"/>
+		<meta name="ncc:generator" content="Skippability Tweaker 0.1.56"/>
+		<meta name="ncc:totalElapsedTime" content="00:00:00"/>
+		<layout>
+			<region id="txtView"/>
+		</layout>
+	</head>
+	<body>
+		<seq dur="58.397s">
+			<par endsync="last">
+				<text src="7015gym.html#cbfw_0001" id="cbfw_0001"/>
+				<seq>
+					<audio src="ksp_001.mp3" clip-begin="npt=0.0s" clip-end="npt=4.399s" id="qwrt_0001"/>
+				</seq>
+			</par>
+			<par endsync="last">
+				<text src="7015gym.html#xcbf_0001" id="xcbf_0001"/>
+				<seq>
+					<audio src="ksp_001.mp3" clip-begin="npt=4.399s" clip-end="npt=9.599s" id="qwrt_0002"/>
+				</seq>
+			</par>
+			<par endsync="last">
+				<text src="7015gym.html#xcbf_0002" id="xcbf_0002"/>
+				<seq>
+					<audio src="ksp_001.mp3" clip-begin="npt=9.599s" clip-end="npt=14.999s" id="qwrt_0003"/>
+				</seq>
+			</par>
+			<par endsync="last">
+				<text src="7015gym.html#xcbf_0003" id="xcbf_0003"/>
+				<seq>
+					<audio src="ksp_001.mp3" clip-begin="npt=14.999s" clip-end="npt=27.799s" id="qwrt_0004"/>
+				</seq>
+			</par>
+			<par endsync="last">
+				<text src="7015gym.html#xcbf_0004" id="xcbf_0004"/>
+				<seq>
+					<audio src="ksp_001.mp3" clip-begin="npt=27.799s" clip-end="npt=33.999s" id="qwrt_0005"/>
+				</seq>
+			</par>
+			<par endsync="last">
+				<text src="7015gym.html#xcbf_0005" id="xcbf_0005"/>
+				<seq>
+					<audio src="ksp_001.mp3" clip-begin="npt=33.999s" clip-end="npt=41.399s" id="qwrt_0006"/>
+				</seq>
+			</par>
+			<par endsync="last">
+				<text src="7015gym.html#xcbf_0006" id="xcbf_0006"/>
+				<seq>
+					<audio src="ksp_001.mp3" clip-begin="npt=41.399s" clip-end="npt=55.599s" id="qwrt_0007"/>
+				</seq>
+			</par>
+			<par endsync="last" system-required="pagenumber-on">
+				<text src="7015gym.html#cbfw_0002" id="cbfw_0002"/>
+				<seq>
+					<audio src="ksp_001.mp3" clip-begin="npt=55.599s" clip-end="npt=57.599s" id="qwrt_0008"/>
+				</seq>
+			</par>
+			<par endsync="last">
+				<text src="7015gym.html#cbfw_0002" id="xcbf_0007"/>
+				<seq>
+					<audio src="ksp_001.mp3" clip-begin="npt=57.599s" clip-end="npt=58.397s" id="qwrt_0009"/>
+				</seq>
+			</par>
+		</seq>
+	</body>
+</smil>

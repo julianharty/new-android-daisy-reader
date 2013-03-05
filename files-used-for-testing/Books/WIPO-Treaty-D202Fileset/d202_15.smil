@@ -1,0 +1,29 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<!DOCTYPE smil PUBLIC "-//W3C//DTD SMIL 1.0//EN" "http://www.w3.org/TR/REC-smil/SMIL10.dtd" >
+<smil>
+	<head>
+		<meta name="dc:identifier" content="Prashant190509" />
+		<meta name="title" content="Article 12. Orphaned Works." />
+		<meta name="dc:title" content="WIPO Treaty for the Visually Impaired" />
+		<meta name="dc:format" content="Daisy 2.02" />
+		<meta name="ncc:generator" content="Daisy Pipeline" />
+		<meta name="ncc:totalElapsedTime" content="00:00:00" />
+		<meta name="ncc:timeInThisSmil" content="00:00:00" />
+		<layout>
+			<region id="txtView" />
+		</layout>
+	</head>
+	<body>
+		<seq dur="0.000s">
+			<par endsync="last" id="par_119">
+				<text src="WIPOTreatyForVisuallyImpaired.html#d2e546" id="txt_119" />
+			</par>
+			<par endsync="last" id="par_120">
+				<text src="WIPOTreatyForVisuallyImpaired.html#id_317" id="txt_120" />
+			</par>
+			<par endsync="last" id="par_121">
+				<text src="WIPOTreatyForVisuallyImpaired.html#id_320" id="txt_121" />
+			</par>
+		</seq>
+	</body>
+</smil>

@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE smil PUBLIC "-//W3C//DTD SMIL 1.0//EN" "SMIL10.dtd">
+<smil>
+	<head>
+		<meta name="dc:format" content="Daisy 2.02"/>
+		<meta name="ncc:timeInThisSmil" content="00:00:25.130"/>
+		<meta name="ncc:totalElapsedTime" content="00:00:06.400"/>
+		<layout>
+			<region id="txt-view"/>
+		</layout>
+		<meta name="ncc:generator" content="EasePublisher 2.13 Build 163 # 044FS2212172434"/>
+        <meta name="title" content="Epigraph"/>
+        <meta name="dc:title" content="A light Man"/>
+        <meta name="dc:identifier" content="Unknown"/>
+    </head>
+	<body>
+		<seq dur="25.130s">
+			<par endsync="last">
+				<text src="ncc.html#icth_0001" id="icth_0001"/>
+				<seq>
+					<audio src="02_Epigraph.mp3" clip-begin="npt=0.000s" clip-end="npt=0.888s" id="audio_0001"/>
+					<audio src="02_Epigraph.mp3" clip-begin="npt=0.888s" clip-end="npt=2.612s" id="audio_0002"/>
+					<audio src="02_Epigraph.mp3" clip-begin="npt=2.612s" clip-end="npt=3.788s" id="audio_0003"/>
+					<audio src="02_Epigraph.mp3" clip-begin="npt=3.788s" clip-end="npt=6.243s" id="audio_0004"/>
+					<audio src="02_Epigraph.mp3" clip-begin="npt=6.243s" clip-end="npt=9.456s" id="audio_0005"/>
+					<audio src="02_Epigraph.mp3" clip-begin="npt=9.456s" clip-end="npt=12.722s" id="audio_0006"/>
+					<audio src="02_Epigraph.mp3" clip-begin="npt=12.722s" clip-end="npt=16.013s" id="audio_0007"/>
+					<audio src="02_Epigraph.mp3" clip-begin="npt=16.013s" clip-end="npt=17.371s" id="audio_0008"/>
+					<audio src="02_Epigraph.mp3" clip-begin="npt=17.371s" clip-end="npt=18.887s" id="audio_0009"/>
+					<audio src="02_Epigraph.mp3" clip-begin="npt=18.887s" clip-end="npt=23.980s" id="audio_0010"/>
+				</seq>
+			</par>
+			<par endsync="last" id="lzry_0001" system-required="pagenumber-on">
+				<text src="ncc.html#icth_0011" id="lzry_0002"/>
+				<seq>
+					<audio src="02_Epigraph.mp3" clip-begin="npt=23.980s" clip-end="npt=25.130s" id="audio_0011"/>
+				</seq>
+			</par>
+			<par endsync="last">
+				<text src="ncc.html#icth_0001" id="lzry_0003"/>
+			</par>
+		</seq>
+	</body>
+</smil>

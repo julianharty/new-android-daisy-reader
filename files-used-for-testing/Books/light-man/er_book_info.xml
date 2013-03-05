@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<book_info>
+    <smil_info>
+        <smil nr="1" Name="icth0001.smil" dur="6.400"/>
+        <smil nr="2" Name="icth0002.smil" dur="25.130"/>
+        <smil nr="3" Name="icth0003.smil" dur="219.918"/>
+        <smil nr="4" Name="icth0004.smil" dur="171.989"/>
+        <smil nr="5" Name="icth0005.smil" dur="1276.310"/>
+        <smil nr="6" Name="icth0006.smil" dur="409.019"/>
+        <smil nr="7" Name="icth0007.smil" dur="637.724"/>
+        <smil nr="8" Name="icth0008.smil" dur="276.993"/>
+        <smil nr="9" Name="icth0009.smil" dur="277.117"/>
+        <smil nr="10" Name="icth000a.smil" dur="286.319"/>
+        <smil nr="11" Name="icth000b.smil" dur="105.744"/>
+        <smil nr="12" Name="icth000c.smil" dur="98.663"/>
+        <smil nr="13" Name="icth000d.smil" dur="404.840"/>
+        <smil nr="14" Name="icth000e.smil" dur="234.085"/>
+        <smil nr="15" Name="icth000f.smil" dur="64.392"/>
+        <smil nr="16" Name="icth0010.smil" dur="690.767"/>
+        <smil nr="17" Name="icth0011.smil" dur="49.632"/>
+    </smil_info>
+</book_info>

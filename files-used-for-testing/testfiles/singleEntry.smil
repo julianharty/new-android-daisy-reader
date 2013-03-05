@@ -1,0 +1,8 @@
+
+<smil>
+  <body>
+    <seq dur="60s">
+      <audio src="60seconds.mp3" clip-begin="npt=0.000s" clip-end="npt=60.000s" id="audio_0001" />
+    </seq>
+  </body>
+</smil>

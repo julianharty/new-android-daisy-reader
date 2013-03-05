@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="windows-1252"?>
+<!DOCTYPE smil PUBLIC "-//W3C//DTD SMIL 1.0//EN" "http://www.w3.org/TR/REC-smil/SMIL10.dtd">
+<smil>
+	<head>
+		<meta name="dc:format" content="Daisy 2.02"/>
+		<meta name="title" content="Ryggsøylen - en dobbelt S"/>
+		<meta name="dc:title" content="Gym Grunnbok (2006-utg.)"/>
+		<meta name="dc:identifier" content="978-82-7740-156-0"/>
+		<meta name="ncc:timeInThisSmil" content="00:01:07"/>
+		<meta name="ncc:generator" content="Skippability Tweaker 0.1.56"/>
+		<meta name="ncc:totalElapsedTime" content="00:19:52"/>
+		<layout>
+			<region id="txtView"/>
+		</layout>
+	</head>
+	<body>
+		<seq dur="67.087s">
+			<par endsync="last">
+				<text src="7015gym.html#cbfw_0014" id="cbfw_0014"/>
+				<seq>
+					<audio src="ksp_011.mp3" clip-begin="npt=0.000s" clip-end="npt=3.265s" id="qwrt_0001"/>
+					<audio src="ksp_011.mp3" clip-begin="npt=3.265s" clip-end="npt=37.525s" id="qwrt_0002"/>
+					<audio src="ksp_011.mp3" clip-begin="npt=37.525s" clip-end="npt=49.761s" id="qwrt_0003"/>
+					<audio src="ksp_011.mp3" clip-begin="npt=49.761s" clip-end="npt=49.815s" id="qwrt_0004"/>
+					<audio src="ksp_011.mp3" clip-begin="npt=49.815s" clip-end="npt=50.272s" id="qwrt_0005"/>
+					<audio src="ksp_011.mp3" clip-begin="npt=50.272s" clip-end="npt=51.317s" id="qwrt_0006"/>
+					<audio src="ksp_011.mp3" clip-begin="npt=51.317s" clip-end="npt=51.357s" id="qwrt_0007"/>
+					<audio src="ksp_011.mp3" clip-begin="npt=51.357s" clip-end="npt=55.894s" id="qwrt_0008"/>
+					<audio src="ksp_011.mp3" clip-begin="npt=55.894s" clip-end="npt=59.407s" id="qwrt_0009"/>
+					<audio src="ksp_011.mp3" clip-begin="npt=59.407s" clip-end="npt=64.619s" id="qwrt_000a"/>
+					<audio src="ksp_011.mp3" clip-begin="npt=64.619s" clip-end="npt=67.087s" id="qwrt_000b"/>
+				</seq>
+			</par>
+		</seq>
+	</body>
+</smil>

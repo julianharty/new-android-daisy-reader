@@ -1,0 +1,62 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<!DOCTYPE smil PUBLIC "-//W3C//DTD SMIL 1.0//EN" "http://www.w3.org/TR/REC-smil/SMIL10.dtd" >
+<smil>
+	<head>
+		<meta name="dc:identifier" content="Prashant190509" />
+		<meta name="title" content="Article 3. Relations to Other Agreements" />
+		<meta name="dc:title" content="WIPO Treaty for the Visually Impaired" />
+		<meta name="dc:format" content="Daisy 2.02" />
+		<meta name="ncc:generator" content="Daisy Pipeline" />
+		<meta name="ncc:totalElapsedTime" content="00:00:00" />
+		<meta name="ncc:timeInThisSmil" content="00:00:00" />
+		<layout>
+			<region id="txtView" />
+		</layout>
+	</head>
+	<body>
+		<seq dur="0.000s">
+			<par endsync="last" id="par_51">
+				<text src="WIPOTreatyForVisuallyImpaired.html#d2e223" id="txt_51" />
+			</par>
+			<par endsync="last" id="par_52">
+				<text src="WIPOTreatyForVisuallyImpaired.html#id_121" id="txt_52" />
+			</par>
+			<par endsync="last" id="par_53">
+				<text src="WIPOTreatyForVisuallyImpaired.html#id_126" id="txt_53" />
+			</par>
+			<par endsync="last" id="par_54">
+				<text src="WIPOTreatyForVisuallyImpaired.html#id_130" id="txt_54" />
+			</par>
+			<par endsync="last" id="par_55">
+				<text src="WIPOTreatyForVisuallyImpaired.html#id_134" id="txt_55" />
+			</par>
+			<par endsync="last" id="par_56">
+				<text src="WIPOTreatyForVisuallyImpaired.html#id_135" id="txt_56" />
+			</par>
+			<par endsync="last" id="par_57">
+				<text src="WIPOTreatyForVisuallyImpaired.html#id_136" id="txt_57" />
+			</par>
+			<par endsync="last" id="par_58">
+				<text src="WIPOTreatyForVisuallyImpaired.html#id_140" id="txt_58" />
+			</par>
+			<par endsync="last" id="par_59">
+				<text src="WIPOTreatyForVisuallyImpaired.html#id_144" id="txt_59" />
+			</par>
+			<par endsync="last" id="par_60">
+				<text src="WIPOTreatyForVisuallyImpaired.html#id_148" id="txt_60" />
+			</par>
+			<par endsync="last" id="par_61">
+				<text src="WIPOTreatyForVisuallyImpaired.html#id_153" id="txt_61" />
+			</par>
+			<par endsync="last" id="par_62">
+				<text src="WIPOTreatyForVisuallyImpaired.html#id_154" id="txt_62" />
+			</par>
+			<par endsync="last" id="par_63">
+				<text src="WIPOTreatyForVisuallyImpaired.html#id_155" id="txt_63" />
+			</par>
+			<par endsync="last" id="par_64">
+				<text src="WIPOTreatyForVisuallyImpaired.html#id_158" id="txt_64" />
+			</par>
+		</seq>
+	</body>
+</smil>

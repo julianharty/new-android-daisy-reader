@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE smil PUBLIC "-//W3C//DTD SMIL 1.0//EN" "SMIL10.dtd">
+<smil>
+	<head>
+		<meta name="dc:format" content="Daisy 2.02"/>
+		<meta name="ncc:timeInThisSmil" content="00:04:36.993"/>
+		<meta name="ncc:totalElapsedTime" content="00:45:46.490"/>
+		<layout>
+			<region id="txt-view"/>
+		</layout>
+		<meta name="ncc:generator" content="EasePublisher 2.13 Build 163 # 044FS2212172434"/>
+        <meta name="title" content="26th."/>
+        <meta name="dc:title" content="A light Man"/>
+        <meta name="dc:identifier" content="Unknown"/>
+    </head>
+	<body>
+		<seq dur="276.993s">
+			<par endsync="last">
+				<text src="ncc.html#icth_0007" id="icth_0007"/>
+				<seq>
+					<audio src="08_26th_.mp3" clip-begin="npt=0.000s" clip-end="npt=3.683s" id="audio_0001"/>
+					<audio src="08_26th_.mp3" clip-begin="npt=3.683s" clip-end="npt=13.793s" id="audio_0002"/>
+					<audio src="08_26th_.mp3" clip-begin="npt=13.793s" clip-end="npt=19.670s" id="audio_0003"/>
+					<audio src="08_26th_.mp3" clip-begin="npt=19.670s" clip-end="npt=22.674s" id="audio_0004"/>
+					<audio src="08_26th_.mp3" clip-begin="npt=22.674s" clip-end="npt=36.911s" id="audio_0005"/>
+					<audio src="08_26th_.mp3" clip-begin="npt=36.911s" clip-end="npt=46.289s" id="audio_0006"/>
+					<audio src="08_26th_.mp3" clip-begin="npt=46.289s" clip-end="npt=61.989s" id="audio_0007"/>
+					<audio src="08_26th_.mp3" clip-begin="npt=61.989s" clip-end="npt=71.367s" id="audio_0008"/>
+					<audio src="08_26th_.mp3" clip-begin="npt=71.367s" clip-end="npt=78.550s" id="audio_0009"/>
+					<audio src="08_26th_.mp3" clip-begin="npt=78.550s" clip-end="npt=82.469s" id="audio_0010"/>
+					<audio src="08_26th_.mp3" clip-begin="npt=82.469s" clip-end="npt=87.745s" id="audio_0011"/>
+					<audio src="08_26th_.mp3" clip-begin="npt=87.745s" clip-end="npt=91.507s" id="audio_0012"/>
+					<audio src="08_26th_.mp3" clip-begin="npt=91.507s" clip-end="npt=95.216s" id="audio_0013"/>
+					<audio src="08_26th_.mp3" clip-begin="npt=95.216s" clip-end="npt=99.474s" id="audio_0014"/>
+					<audio src="08_26th_.mp3" clip-begin="npt=99.474s" clip-end="npt=102.766s" id="audio_0015"/>
+					<audio src="08_26th_.mp3" clip-begin="npt=102.766s" clip-end="npt=103.262s" id="audio_0016"/>
+					<audio src="08_26th_.mp3" clip-begin="npt=103.262s" clip-end="npt=105.091s" id="audio_0017"/>
+					<audio src="08_26th_.mp3" clip-begin="npt=105.091s" clip-end="npt=113.006s" id="audio_0018"/>
+					<audio src="08_26th_.mp3" clip-begin="npt=113.006s" clip-end="npt=117.264s" id="audio_0019"/>
+					<audio src="08_26th_.mp3" clip-begin="npt=117.264s" clip-end="npt=121.887s" id="audio_0020"/>
+					<audio src="08_26th_.mp3" clip-begin="npt=121.887s" clip-end="npt=124.891s" id="audio_0021"/>
+					<audio src="08_26th_.mp3" clip-begin="npt=124.891s" clip-end="npt=129.202s" id="audio_0022"/>
+					<audio src="08_26th_.mp3" clip-begin="npt=129.202s" clip-end="npt=130.247s" id="audio_0023"/>
+					<audio src="08_26th_.mp3" clip-begin="npt=130.247s" clip-end="npt=135.236s" id="audio_0024"/>
+					<audio src="08_26th_.mp3" clip-begin="npt=135.236s" clip-end="npt=138.240s" id="audio_0025"/>
+					<audio src="08_26th_.mp3" clip-begin="npt=138.240s" clip-end="npt=150.674s" id="audio_0026"/>
+					<audio src="08_26th_.mp3" clip-begin="npt=150.674s" clip-end="npt=154.279s" id="audio_0027"/>
+					<audio src="08_26th_.mp3" clip-begin="npt=154.279s" clip-end="npt=158.380s" id="audio_0028"/>
+					<audio src="08_26th_.mp3" clip-begin="npt=158.380s" clip-end="npt=166.374s" id="audio_0029"/>
+					<audio src="08_26th_.mp3" clip-begin="npt=166.374s" clip-end="npt=171.024s" id="audio_0030"/>
+					<audio src="08_26th_.mp3" clip-begin="npt=171.024s" clip-end="npt=178.181s" id="audio_0031"/>
+					<audio src="08_26th_.mp3" clip-begin="npt=178.181s" clip-end="npt=185.992s" id="audio_0032"/>
+					<audio src="08_26th_.mp3" clip-begin="npt=185.992s" clip-end="npt=202.553s" id="audio_0033"/>
+					<audio src="08_26th_.mp3" clip-begin="npt=202.553s" clip-end="npt=203.468s" id="audio_0034"/>
+					<audio src="08_26th_.mp3" clip-begin="npt=203.468s" clip-end="npt=204.539s" id="audio_0035"/>
+				</seq>
+			</par>
+			<par endsync="last" id="plna_0001" system-required="pagenumber-on">
+				<text src="ncc.html#icth_001e" id="plna_0002"/>
+				<seq>
+					<audio src="08_26th_.mp3" clip-begin="npt=204.539s" clip-end="npt=205.323s" id="audio_0036"/>
+					<audio src="08_26th_.mp3" clip-begin="npt=205.323s" clip-end="npt=207.334s" id="audio_0037"/>
+				</seq>
+			</par>
+			<par endsync="last">
+				<text src="ncc.html#icth_0007" id="plna_0003"/>
+				<seq>
+					<audio src="08_26th_.mp3" clip-begin="npt=207.334s" clip-end="npt=210.524s" id="audio_0038"/>
+					<audio src="08_26th_.mp3" clip-begin="npt=210.524s" clip-end="npt=211.530s" id="audio_0039"/>
+					<audio src="08_26th_.mp3" clip-begin="npt=211.530s" clip-end="npt=216.050s" id="audio_0040"/>
+					<audio src="08_26th_.mp3" clip-begin="npt=216.050s" clip-end="npt=224.905s" id="audio_0041"/>
+					<audio src="08_26th_.mp3" clip-begin="npt=224.905s" clip-end="npt=228.693s" id="audio_0042"/>
+					<audio src="08_26th_.mp3" clip-begin="npt=228.693s" clip-end="npt=231.175s" id="audio_0043"/>
+					<audio src="08_26th_.mp3" clip-begin="npt=231.175s" clip-end="npt=238.071s" id="audio_0044"/>
+					<audio src="08_26th_.mp3" clip-begin="npt=238.071s" clip-end="npt=240.579s" id="audio_0045"/>
+					<audio src="08_26th_.mp3" clip-begin="npt=240.579s" clip-end="npt=242.250s" id="audio_0046"/>
+					<audio src="08_26th_.mp3" clip-begin="npt=242.250s" clip-end="npt=243.400s" id="audio_0047"/>
+					<audio src="08_26th_.mp3" clip-begin="npt=243.400s" clip-end="npt=246.770s" id="audio_0048"/>
+					<audio src="08_26th_.mp3" clip-begin="npt=246.770s" clip-end="npt=249.330s" id="audio_0049"/>
+					<audio src="08_26th_.mp3" clip-begin="npt=249.330s" clip-end="npt=253.483s" id="audio_0050"/>
+					<audio src="08_26th_.mp3" clip-begin="npt=253.483s" clip-end="npt=257.114s" id="audio_0051"/>
+					<audio src="08_26th_.mp3" clip-begin="npt=257.114s" clip-end="npt=260.954s" id="audio_0052"/>
+					<audio src="08_26th_.mp3" clip-begin="npt=260.954s" clip-end="npt=271.899s" id="audio_0053"/>
+					<audio src="08_26th_.mp3" clip-begin="npt=271.899s" clip-end="npt=276.993s" id="audio_0054"/>
+				</seq>
+			</par>
+		</seq>
+	</body>
+</smil>

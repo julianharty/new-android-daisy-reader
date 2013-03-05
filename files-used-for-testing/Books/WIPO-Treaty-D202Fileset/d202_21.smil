@@ -1,0 +1,35 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<!DOCTYPE smil PUBLIC "-//W3C//DTD SMIL 1.0//EN" "http://www.w3.org/TR/REC-smil/SMIL10.dtd" >
+<smil>
+	<head>
+		<meta name="dc:identifier" content="Prashant190509" />
+		<meta name="title" content="Article 18. Optional Protocols" />
+		<meta name="dc:title" content="WIPO Treaty for the Visually Impaired" />
+		<meta name="dc:format" content="Daisy 2.02" />
+		<meta name="ncc:generator" content="Daisy Pipeline" />
+		<meta name="ncc:totalElapsedTime" content="00:00:00" />
+		<meta name="ncc:timeInThisSmil" content="00:00:00" />
+		<layout>
+			<region id="txtView" />
+		</layout>
+	</head>
+	<body>
+		<seq dur="0.000s">
+			<par endsync="last" id="par_152">
+				<text src="WIPOTreatyForVisuallyImpaired.html#d2e718" id="txt_152" />
+			</par>
+			<par endsync="last" id="par_153">
+				<text src="WIPOTreatyForVisuallyImpaired.html#id_418" id="txt_153" />
+			</par>
+			<par endsync="last" id="par_154">
+				<text src="WIPOTreatyForVisuallyImpaired.html#id_423" id="txt_154" />
+			</par>
+			<par endsync="last" id="par_155">
+				<text src="WIPOTreatyForVisuallyImpaired.html#id_427" id="txt_155" />
+			</par>
+			<par endsync="last" id="par_156">
+				<text src="WIPOTreatyForVisuallyImpaired.html#id_431" id="txt_156" />
+			</par>
+		</seq>
+	</body>
+</smil>

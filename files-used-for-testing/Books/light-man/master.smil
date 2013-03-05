@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE smil PUBLIC "-//W3C//DTD SMIL 1.0//EN" "SMIL10.dtd">
+<smil>
+    <head>
+        <meta name="ncc:generator" content="EasePublisher 2.13 Build 163 # 044FS2212172434"/>
+        <meta name="dc:format" content="Daisy 2.02"/>
+        <meta name="dc:title" content="A light Man"/>
+        <meta name="dc:identifier" content="Unknown"/>
+        <meta name="ncc:timeInThisSmil" content="01:27:15.042"/>
+        <layout>
+            <region id="txtView"/>
+        </layout>
+    </head>
+    <body>
+        <ref title="A light Man" src="icth0001.smil#icth0001" id="smil_0001"/>
+        <ref title="Epigraph" src="icth0002.smil#icth_0001" id="smil_0002"/>
+        <ref title="April 4th 1857" src="icth0003.smil#icth_0002" id="smil_0003"/>
+        <ref title="7th." src="icth0004.smil#icth_0003" id="smil_0004"/>
+        <ref title="D the 14th." src="icth0005.smil#icth_0004" id="smil_0005"/>
+        <ref title="19th." src="icth0006.smil#icth_0005" id="smil_0006"/>
+        <ref title="22d." src="icth0007.smil#icth_0006" id="smil_0007"/>
+        <ref title="26th." src="icth0008.smil#icth_0007" id="smil_0008"/>
+        <ref title="May 3d." src="icth0009.smil#icth_0008" id="smil_0009"/>
+        <ref title="8th." src="icth000a.smil#icth_0009" id="smil_0010"/>
+        <ref title="13th." src="icth000b.smil#icth_000a" id="smil_0011"/>
+        <ref title="18th." src="icth000c.smil#icth_000b" id="smil_0012"/>
+        <ref title="20th." src="icth000d.smil#icth_000c" id="smil_0013"/>
+        <ref title="21st." src="icth000e.smil#icth_000d" id="smil_0014"/>
+        <ref title="22d." src="icth000f.smil#icth_000e" id="smil_0015"/>
+        <ref title="23d." src="icth0010.smil#icth_000f" id="smil_0016"/>
+        <ref title="24th." src="icth0011.smil#icth_0010" id="smil_0017"/>
+    </body>
+</smil>

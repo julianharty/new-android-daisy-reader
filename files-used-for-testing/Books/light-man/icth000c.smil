@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE smil PUBLIC "-//W3C//DTD SMIL 1.0//EN" "SMIL10.dtd">
+<smil>
+	<head>
+		<meta name="dc:format" content="Daisy 2.02"/>
+		<meta name="ncc:timeInThisSmil" content="00:01:38.663"/>
+		<meta name="ncc:totalElapsedTime" content="01:01:32.663"/>
+		<layout>
+			<region id="txt-view"/>
+		</layout>
+		<meta name="ncc:generator" content="EasePublisher 2.13 Build 163 # 044FS2212172434"/>
+        <meta name="title" content="18th."/>
+        <meta name="dc:title" content="A light Man"/>
+        <meta name="dc:identifier" content="Unknown"/>
+    </head>
+	<body>
+		<seq dur="98.663s">
+			<par endsync="last">
+				<text src="ncc.html#icth_000b" id="icth_000b"/>
+				<seq>
+					<audio src="12_18th_.mp3" clip-begin="npt=0.000s" clip-end="npt=4.284s" id="audio_0001"/>
+					<audio src="12_18th_.mp3" clip-begin="npt=4.284s" clip-end="npt=29.884s" id="audio_0002"/>
+					<audio src="12_18th_.mp3" clip-begin="npt=29.884s" clip-end="npt=43.464s" id="audio_0003"/>
+				</seq>
+			</par>
+			<par endsync="last" id="njxk_0001" system-required="pagenumber-on">
+				<text src="ncc.html#icth_0022" id="njxk_0003"/>
+				<seq>
+					<audio src="12_18th_.mp3" clip-begin="npt=43.464s" clip-end="npt=44.169s" id="audio_0004"/>
+					<audio src="12_18th_.mp3" clip-begin="npt=44.169s" clip-end="npt=46.625s" id="audio_0005"/>
+				</seq>
+			</par>
+			<par endsync="last">
+				<text src="ncc.html#icth_000b" id="njxk_0004"/>
+				<seq>
+					<audio src="12_18th_.mp3" clip-begin="npt=46.625s" clip-end="npt=48.481s" id="audio_0006"/>
+					<audio src="12_18th_.mp3" clip-begin="npt=48.481s" clip-end="npt=59.009s" id="audio_0007"/>
+					<audio src="12_18th_.mp3" clip-begin="npt=59.009s" clip-end="npt=65.409s" id="audio_0008"/>
+					<audio src="12_18th_.mp3" clip-begin="npt=65.409s" clip-end="npt=71.339s" id="audio_0009"/>
+					<audio src="12_18th_.mp3" clip-begin="npt=71.339s" clip-end="npt=75.701s" id="audio_0010"/>
+					<audio src="12_18th_.mp3" clip-begin="npt=75.701s" clip-end="npt=81.552s" id="audio_0011"/>
+					<audio src="12_18th_.mp3" clip-begin="npt=81.552s" clip-end="npt=84.896s" id="audio_0012"/>
+					<audio src="12_18th_.mp3" clip-begin="npt=84.896s" clip-end="npt=95.110s" id="audio_0013"/>
+					<audio src="12_18th_.mp3" clip-begin="npt=95.110s" clip-end="npt=98.663s" id="audio_0014"/>
+				</seq>
+			</par>
+		</seq>
+	</body>
+</smil>

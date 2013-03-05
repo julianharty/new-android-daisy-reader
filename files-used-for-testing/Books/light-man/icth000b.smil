@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE smil PUBLIC "-//W3C//DTD SMIL 1.0//EN" "SMIL10.dtd">
+<smil>
+	<head>
+		<meta name="dc:format" content="Daisy 2.02"/>
+		<meta name="ncc:timeInThisSmil" content="00:01:45.744"/>
+		<meta name="ncc:totalElapsedTime" content="00:59:46.919"/>
+		<layout>
+			<region id="txt-view"/>
+		</layout>
+		<meta name="ncc:generator" content="EasePublisher 2.13 Build 163 # 044FS2212172434"/>
+        <meta name="title" content="13th."/>
+        <meta name="dc:title" content="A light Man"/>
+        <meta name="dc:identifier" content="Unknown"/>
+    </head>
+	<body>
+		<seq dur="105.744s">
+			<par endsync="last">
+				<text src="ncc.html#icth_000a" id="icth_000a"/>
+				<seq>
+					<audio src="11_13th_.mp3" clip-begin="npt=0.000s" clip-end="npt=4.284s" id="audio_0001"/>
+					<audio src="11_13th_.mp3" clip-begin="npt=4.284s" clip-end="npt=12.539s" id="audio_0002"/>
+					<audio src="11_13th_.mp3" clip-begin="npt=12.539s" clip-end="npt=24.372s" id="audio_0003"/>
+					<audio src="11_13th_.mp3" clip-begin="npt=24.372s" clip-end="npt=34.795s" id="audio_0004"/>
+					<audio src="11_13th_.mp3" clip-begin="npt=34.795s" clip-end="npt=38.478s" id="audio_0005"/>
+					<audio src="11_13th_.mp3" clip-begin="npt=38.478s" clip-end="npt=54.544s" id="audio_0006"/>
+					<audio src="11_13th_.mp3" clip-begin="npt=54.544s" clip-end="npt=57.574s" id="audio_0007"/>
+					<audio src="11_13th_.mp3" clip-begin="npt=57.574s" clip-end="npt=61.753s" id="audio_0008"/>
+					<audio src="11_13th_.mp3" clip-begin="npt=61.753s" clip-end="npt=67.213s" id="audio_0009"/>
+					<audio src="11_13th_.mp3" clip-begin="npt=67.213s" clip-end="npt=72.490s" id="audio_0010"/>
+					<audio src="11_13th_.mp3" clip-begin="npt=72.490s" clip-end="npt=79.047s" id="audio_0011"/>
+					<audio src="11_13th_.mp3" clip-begin="npt=79.047s" clip-end="npt=88.947s" id="audio_0012"/>
+					<audio src="11_13th_.mp3" clip-begin="npt=88.947s" clip-end="npt=92.682s" id="audio_0013"/>
+					<audio src="11_13th_.mp3" clip-begin="npt=92.682s" clip-end="npt=102.060s" id="audio_0014"/>
+					<audio src="11_13th_.mp3" clip-begin="npt=102.060s" clip-end="npt=105.744s" id="audio_0015"/>
+				</seq>
+			</par>
+		</seq>
+	</body>
+</smil>

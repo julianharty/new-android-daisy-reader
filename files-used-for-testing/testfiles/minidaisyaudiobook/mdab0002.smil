@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE smil PUBLIC "-//W3C//DTD SMIL 1.0//EN" "SMIL10.dtd">
+<smil>
+	<head>
+		<meta name="dc:format" content="Daisy 2.02"/>
+		<meta name="ncc:timeInThisSmil" content="00:00:26.200"/>
+		<meta name="ncc:totalElapsedTime" content="00:00:05.100"/>
+		<layout>
+			<region id="txt-view"/>
+		</layout>
+		<meta name="ncc:generator" content="Audacity for the Audio Recording"/>
+        <meta name="title" content="A mini daisy book for testing"/>
+        <meta name="dc:title" content="A mini DAISY book for testing"/>
+        <meta name="dc:identifier" content="Unknown"/>
+    </head>
+	<body>
+		<seq dur="26.200s">
+			<par endsync="last">
+				<text src="ncc.html#mdab0002" id="alphabet_0001"/>
+				<seq>
+					<audio src="TestAtoZ.mp3" clip-begin="npt=0.000s" clip-end="npt=26.2s" id="audio_0002"/>
+				</seq>
+			</par>
+		</seq>
+	</body>
+</smil>

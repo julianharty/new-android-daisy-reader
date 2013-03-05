@@ -1,0 +1,80 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<!DOCTYPE smil PUBLIC "-//W3C//DTD SMIL 1.0//EN" "http://www.w3.org/TR/REC-smil/SMIL10.dtd" >
+<smil>
+	<head>
+		<meta name="dc:identifier" content="Prashant190509" />
+		<meta name="title" content="Article 4. Limitations and Exceptions to Exclusive Rights under Copyright" />
+		<meta name="dc:title" content="WIPO Treaty for the Visually Impaired" />
+		<meta name="dc:format" content="Daisy 2.02" />
+		<meta name="ncc:generator" content="Daisy Pipeline" />
+		<meta name="ncc:totalElapsedTime" content="00:00:00" />
+		<meta name="ncc:timeInThisSmil" content="00:00:00" />
+		<layout>
+			<region id="txtView" />
+		</layout>
+	</head>
+	<body>
+		<seq dur="0.000s">
+			<par endsync="last" id="par_65">
+				<text src="WIPOTreatyForVisuallyImpaired.html#d2e289" id="txt_65" />
+			</par>
+			<par endsync="last" id="par_66">
+				<text src="WIPOTreatyForVisuallyImpaired.html#id_164" id="txt_66" />
+			</par>
+			<par endsync="last" id="par_67">
+				<text src="WIPOTreatyForVisuallyImpaired.html#id_165" id="txt_67" />
+			</par>
+			<par endsync="last" id="par_68">
+				<text src="WIPOTreatyForVisuallyImpaired.html#id_166" id="txt_68" />
+			</par>
+			<par endsync="last" id="par_69">
+				<text src="WIPOTreatyForVisuallyImpaired.html#id_171" id="txt_69" />
+			</par>
+			<par endsync="last" id="par_70">
+				<text src="WIPOTreatyForVisuallyImpaired.html#id_172" id="txt_70" />
+			</par>
+			<par endsync="last" id="par_71">
+				<text src="WIPOTreatyForVisuallyImpaired.html#id_173" id="txt_71" />
+			</par>
+			<par endsync="last" id="par_72">
+				<text src="WIPOTreatyForVisuallyImpaired.html#id_177" id="txt_72" />
+			</par>
+			<par endsync="last" id="par_73">
+				<text src="WIPOTreatyForVisuallyImpaired.html#id_181" id="txt_73" />
+			</par>
+			<par endsync="last" id="par_74">
+				<text src="WIPOTreatyForVisuallyImpaired.html#id_185" id="txt_74" />
+			</par>
+			<par endsync="last" id="par_75">
+				<text src="WIPOTreatyForVisuallyImpaired.html#id_188" id="txt_75" />
+			</par>
+			<par endsync="last" id="par_76">
+				<text src="WIPOTreatyForVisuallyImpaired.html#id_189" id="txt_76" />
+			</par>
+			<par endsync="last" id="par_77">
+				<text src="WIPOTreatyForVisuallyImpaired.html#id_190" id="txt_77" />
+			</par>
+			<par endsync="last" id="par_78">
+				<text src="WIPOTreatyForVisuallyImpaired.html#id_193" id="txt_78" />
+			</par>
+			<par endsync="last" id="par_79">
+				<text src="WIPOTreatyForVisuallyImpaired.html#id_198" id="txt_79" />
+			</par>
+			<par endsync="last" id="par_80">
+				<text src="WIPOTreatyForVisuallyImpaired.html#id_202" id="txt_80" />
+			</par>
+			<par endsync="last" id="par_81">
+				<text src="WIPOTreatyForVisuallyImpaired.html#id_206" id="txt_81" />
+			</par>
+			<par endsync="last" id="par_82">
+				<text src="WIPOTreatyForVisuallyImpaired.html#id_209" id="txt_82" />
+			</par>
+			<par endsync="last" id="par_83">
+				<text src="WIPOTreatyForVisuallyImpaired.html#id_214" id="txt_83" />
+			</par>
+			<par endsync="last" id="par_84">
+				<text src="WIPOTreatyForVisuallyImpaired.html#id_218" id="txt_84" />
+			</par>
+		</seq>
+	</body>
+</smil>

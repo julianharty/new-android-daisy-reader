@@ -28,6 +28,7 @@ To run the tests, in the daisy-engine folder, from a command-prompt / terminal r
 The first time the tests run they want to copy some test data to /sdcard/ If ant cannot create the folder e.g. owning to security restrictions, then use sudo to create the folder and grant permissions for other accounts to create sub-folders, etc.
 
 sudo mkdir /sdcard/
+
 sudo chmod a+wrx /sdcard/
 
 

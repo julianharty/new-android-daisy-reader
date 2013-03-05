@@ -19,3 +19,17 @@ You should be able to work with the code in an IDE or from the command line. The
 
 To build the daisy-engine, run ant in the root of the daisy-engine folder. The default build target will build the jar file. This can be then used in the apps project(s).
 
+Running the tests for daisy-engine
+----------------------------------
+We're close to getting all the tests to run cleanly using ant. At the moment one test is excluded until we discover why the callback doesn't seem to be called.
+
+To run the tests, in the daisy-engine folder, from a command-prompt / terminal run: ant test
+
+The first time the tests run they want to copy some test data to /sdcard/ If ant cannot create the folder e.g. owning to security restrictions, then use sudo to create the folder and grant permissions for other accounts to create sub-folders, etc.
+
+sudo mkdir /sdcard/
+sudo chmod a+wrx /sdcard/
+
+
+Julian Harty
+ 

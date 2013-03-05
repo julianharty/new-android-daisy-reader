@@ -63,7 +63,7 @@
     <batchtest todir="${test.data.dir}">
       <fileset dir="${test.classes.dir}">
         <include name="**/*Test*" />
-        <exclude name="**/MockAndroidAudioPlayerStateTest*" />
+        <exclude name="**/*$*.class" />
         <exclude name="**/NccSpecificationTest*" />
       </fileset>
     </batchtest>

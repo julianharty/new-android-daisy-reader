@@ -9,9 +9,10 @@
 <property name="daisymodeljar" value="lib/daisymodel.jar" />
 <property name="daisymodelsourcesjar" value="lib/daisymodel-sources.jar" />
 <property name="test.dir" location="test" />
-<property name="test.data.dir" location="test/data" />
+<property name="test.report.dir" location="test/data" />
 <property name="test.classes.dir" location="${test.dir}/classes" />
 <property name="test.suite" value="org.androiddaisyreader.AllTests" />
+<property name="test.daisy.files" value="/sdcard/files-used-for-testing/" />
 
 <path id="java.classpath">
   <fileset dir="./libs/">
@@ -33,8 +34,16 @@
 </path>
 
 <target name="init">
-  <mkdir dir="${build}"/>
-  <mkdir dir="${test.classes.dir}"/>
+  <mkdir dir="${build}" />
+</target>
+
+<target name="prepare-for-testing">
+  <mkdir dir="${test.classes.dir}" />
+  <mkdir dir="/sdcard/" />
+  <mkdir dir="${test.daisy.files}" />
+  <copy todir="${test.daisy.files}">
+    <fileset dir="../files-used-for-testing" />
+  </copy> 
 </target>
 
 <target name="compile" depends="init" description="compile the java source" >
@@ -56,15 +65,14 @@
   </javac>
 </target>
 
-<target name="test" depends="compile-the-tests" description="run the unit tests" >
+<target name="test" depends="prepare-for-testing, compile-the-tests" description="run the unit tests" >
   <junit printsummary="false" haltonfailure="true" >
     <classpath refid="test.compile.classpath"/>
     <formatter type="brief" usefile="false" />
-    <batchtest todir="${test.data.dir}">
+    <batchtest todir="${test.report.dir}">
       <fileset dir="${test.classes.dir}">
         <include name="**/*Test*" />
         <exclude name="**/*$*.class" />
-        <exclude name="**/NccSpecificationTest*" />
       </fileset>
     </batchtest>
   </junit >

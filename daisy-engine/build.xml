@@ -1,0 +1,50 @@
+<project name="DaisyBookModel" default="sources-jar" basedir=".">
+  <description>
+    Creates a jar containing the model for the book.
+  </description>
+
+<!-- set global properties for this build -->
+<property name="src" location="src" />
+<property name="build" location="classes" />
+<property name="daisymodeljar" value="lib/daisymodel.jar" />
+<property name="daisymodelsourcesjar" value="lib/daisymodel-sources.jar" />
+
+<path id="java.classpath">
+  <!-- TODO 20120215 (jharty): tidy up the references to jsoup once we move back to trunk. -->
+  <fileset dir="../../trunk/libs/">
+    <include name="*.jar" /> 
+  </fileset>
+</path>
+
+<target name="init">
+  <mkdir dir="${build}"/>
+</target>
+
+<target name="compile" depends="init" description="compile the java source" >
+  <javac
+      srcdir="${src}" destdir="${build}"
+      target="1.5" source="1.5"
+      debug="on" debuglevel="lines,vars,source"
+  >
+    <classpath refid="java.classpath"/>
+  </javac>
+</target>
+
+<target name="jar" depends="compile" description="create the jar file" >
+   <mkdir dir="lib" />
+   <jar jarfile="${daisymodeljar}" basedir="${build}" />
+</target>
+
+<target name="sources-jar" depends="jar" description="create jar of source code" >
+  <jar jarfile="${daisymodelsourcesjar}" >
+    <fileset dir="${src}" includes="**/*.java" />
+  </jar>
+</target>
+
+<target name="clean" description="clean up temporary files." >
+  <delete dir="${build}" />
+  <delete file="${daisymodelsourcesjar}" />
+  <delete file="${daisymodeljar}" />
+</target>
+
+</project>

@@ -62,7 +62,9 @@
     <formatter type="brief" usefile="false" />
     <batchtest todir="${test.data.dir}">
       <fileset dir="${test.classes.dir}">
-        <include name="**/E*Test*" />
+        <include name="**/*Test*" />
+        <exclude name="**/MockAndroidAudioPlayerStateTest*" />
+        <exclude name="**/NccSpecificationTest*" />
       </fileset>
     </batchtest>
   </junit >

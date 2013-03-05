@@ -48,9 +48,10 @@
 </target>
 
 <target name="compile-the-tests" depends="compile" >
-  <javac destdir="${test.classes.dir}"
-    debug="true"
-    srcdir="test" >
+  <javac srcdir="test" destdir="${test.classes.dir}"
+    debug="on" debuglevel="lines,vars,source"
+    target="1.5" source="1.5"
+     >
   <classpath refid="test.compile.classpath" />
   </javac>
 </target>

@@ -8,6 +8,10 @@
 <property name="build" location="classes" />
 <property name="daisymodeljar" value="lib/daisymodel.jar" />
 <property name="daisymodelsourcesjar" value="lib/daisymodel-sources.jar" />
+<property name="test.dir" location="test" />
+<property name="test.data.dir" location="test/data" />
+<property name="test.classes.dir" location="${test.dir}/classes" />
+<property name="test.suite" value="org.androiddaisyreader.AllTests" />
 
 <path id="java.classpath">
   <fileset dir="./libs/">
@@ -15,8 +19,22 @@
   </fileset>
 </path>
 
+<path id="junit.jars">
+  <fileset dir="./test/lib/">
+    <include name="junit*.jar" />
+  </fileset>
+</path>
+
+<path id="test.compile.classpath">
+  <path refid="java.classpath" />
+  <path refid="junit.jars" />
+  <pathelement location="${build}" /> 
+  <pathelement location="${test.classes.dir}" /> 
+</path>
+
 <target name="init">
   <mkdir dir="${build}"/>
+  <mkdir dir="${test.classes.dir}"/>
 </target>
 
 <target name="compile" depends="init" description="compile the java source" >
@@ -27,6 +45,26 @@
   >
     <classpath refid="java.classpath"/>
   </javac>
+</target>
+
+<target name="compile-the-tests" depends="compile" >
+  <javac destdir="${test.classes.dir}"
+    debug="true"
+    srcdir="test" >
+  <classpath refid="test.compile.classpath" />
+  </javac>
+</target>
+
+<target name="test" depends="compile-the-tests" description="run the unit tests" >
+  <junit printsummary="false" haltonfailure="true" >
+    <classpath refid="test.compile.classpath"/>
+    <formatter type="brief" usefile="false" />
+    <batchtest todir="${test.data.dir}">
+      <fileset dir="${test.classes.dir}">
+        <include name="**/E*Test*" />
+      </fileset>
+    </batchtest>
+  </junit >
 </target>
 
 <target name="jar" depends="compile" description="create the jar file" >

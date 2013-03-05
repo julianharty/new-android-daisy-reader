@@ -17,3 +17,5 @@ Working with the code
 =====================
 You should be able to work with the code in an IDE or from the command line. The project includes ant build scripts. As the Android platform is revised frequently please also check the android development documentation for the android platform if you encounter problems with the builds. 'android update project' may help to address some of the build issues for the apps.
 
+To build the daisy-engine, run ant in the root of the daisy-engine folder. The default build target will build the jar file. This can be then used in the apps project(s).
+

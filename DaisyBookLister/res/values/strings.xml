@@ -12,6 +12,9 @@
     <string name="sdcard_mounted">The SD Card appears to be in use (mounted); can you unmount it, then try again?</string>
     <string name="sdcard_title">SD card</string>
     <string name="close_instructions">Close Instructions</string>
-    <string name="up_1_level">Up 1 level...</string>
+    <string name="title_activity_daisy_reader_library">Ebook Reader Library</string>
+    <string name="title_activity_daisy_ebook_reader">Ebook Reader Mode Choose</string>
+    <string name="title_activity_daisy_ebook_reader_simple_mode">Ebook Reader Simple Mode</string>
+    <string name="title_activity_daisy_reader_table_of_contents">Ebooks Reader Table Of Contents</string>
 
 </resources>

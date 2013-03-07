@@ -67,10 +67,6 @@ public class AndroidAudioPlayer implements AudioPlayer, OnCompletionListener {
 
 	public void play() {
 		// TODO 20120514 (jharty): Do I want a play() method in addition to
-		// playFileSegment?
-//		String a = String.valueOf(listIntBegin.size());
-//		String b = String.valueOf(listIntEnd.size());
-//		String c = String.valueOf(listStringText.size());
 		String requestedFilename = audioSegment.getAudioFilename();
 		String filenameToPlay;
 		boolean doesContentNeedUnzipping = tempFileCreator
@@ -105,7 +101,7 @@ public class AndroidAudioPlayer implements AudioPlayer, OnCompletionListener {
 		// TODO 20120514 (jharty): This starts from the start of the clip. Add
 		// code to start later in the clip e.g. from a bookmark setting.
 		player.seekTo(audioSegment.getClipBegin());
-//		player.start();
+		player.start();
 		
 		// Seems we can delete the temporary file now.
 		if (doesContentNeedUnzipping) {

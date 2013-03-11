@@ -15,7 +15,7 @@
             android:layout_height="wrap_content"
             android:layout_alignParentTop="true"
             android:layout_centerHorizontal="true"
-            android:text="Simple Mode"
+            android:text="@string/simpleMode"
             android:textAppearance="?android:attr/textAppearanceLarge" />
 
     </RelativeLayout>
@@ -30,7 +30,7 @@
             android:layout_height="wrap_content"
             android:layout_alignParentTop="true"
             android:layout_centerHorizontal="true"
-            android:text="Visual Mode"
+            android:text="@string/visualMode"
             android:textAppearance="?android:attr/textAppearanceLarge" />
 
     </RelativeLayout>

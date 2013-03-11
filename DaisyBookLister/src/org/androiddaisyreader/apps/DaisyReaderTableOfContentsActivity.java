@@ -29,7 +29,7 @@ public class DaisyReaderTableOfContentsActivity extends Activity implements Text
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_daisy_reader_table_of_contents);
 		listContent = (ListView) this.findViewById(R.id.listContent);
-		listResult = getIntent().getStringArrayListExtra("listContent");
+		listResult = getIntent().getStringArrayListExtra(DaisyReaderConstants.LIST_CONTENTS);
 		tts = new TextToSpeech(this, this);
 		ArrayAdapter<String> adapter = new ArrayAdapter<String>(
 				getApplicationContext(), R.layout.listrow, R.id.rowTextView,
@@ -41,7 +41,6 @@ public class DaisyReaderTableOfContentsActivity extends Activity implements Text
 	
 	@Override
 	protected void onDestroy() {
-		// TODO Auto-generated method stub
 		tts.shutdown();
 		tts.stop();
 		super.onDestroy();
@@ -49,7 +48,6 @@ public class DaisyReaderTableOfContentsActivity extends Activity implements Text
 	
 	@Override
 	protected void onResume() {
-		// TODO Auto-generated method stub
 		super.onResume();
 	}
 	
@@ -79,9 +77,7 @@ public class DaisyReaderTableOfContentsActivity extends Activity implements Text
 		Intent i = new Intent(this, DaisyEbookReaderSimpleModeActivity.class);
         i.putExtra(DaisyReaderConstants.POSITION_SECTION, position);
         
-        /**
-         * Make sure path of daisy book is correct.
-         */
+        // Make sure path of daisy book is correct.
         i.putExtra(DaisyReaderConstants.DAISY_PATH, getIntent().getStringExtra(DaisyReaderConstants.DAISY_PATH));
         this.startActivity(i);
 	}
@@ -96,7 +92,5 @@ public class DaisyReaderTableOfContentsActivity extends Activity implements Text
 
 	@Override
 	public void onInit(int arg0) {
-		// TODO Auto-generated method stub
-		
 	}
 }

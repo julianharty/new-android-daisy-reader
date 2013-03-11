@@ -20,7 +20,6 @@ import org.androiddaisyreader.model.HeaderInfo;
 import org.androiddaisyreader.model.RecentBooks;
 import org.androiddaisyreader.sqllite.SqlLiteHelper;
 import org.androiddaisyreader.utils.DaisyReaderConstants;
-import org.androiddaisyreader.utils.DaisyReaderMessageConstants;
 import org.androiddaisyreader.utils.DaisyReaderUtils;
 
 import android.annotation.SuppressLint;
@@ -67,8 +66,8 @@ public class DaisyReaderLibraryActivity extends Activity implements
 		setContentView(R.layout.activity_daisy_reader_library);
 		tts = new TextToSpeech(this, this);
 		sqlLite = new SqlLiteHelper(getApplicationContext());
-		addProduct(DaisyReaderConstants.RECENT_BOOKS, null);
-		addProduct(DaisyReaderConstants.SCAN_BOOKS, null);
+		addProduct(getString(R.string.recentBooks), null);
+		addProduct(getString(R.string.scanBooks), null);
 		// get all recent books from sql lite
 		LoadRecentBooks();
 		// get reference to the ExpandableListView
@@ -85,9 +84,7 @@ public class DaisyReaderLibraryActivity extends Activity implements
 
 	}
 
-	/**
-	 * Make sure TTS installed on your device.
-	 */
+	// Make sure TTS installed on your device.
 	@Override
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 		if (requestCode == DaisyReaderConstants.MY_DATA_CHECK_CODE) {
@@ -129,10 +126,10 @@ public class DaisyReaderLibraryActivity extends Activity implements
 			}
 			isLoadScanBook = false;
 		} else {
-			tts.speak(DaisyReaderMessageConstants.SD_CARD_NOT_PRESENT,
+			tts.speak(getString(R.string.sdCardNotPresent),
 					TextToSpeech.QUEUE_FLUSH, null);
 			Toast.makeText(getBaseContext(),
-					DaisyReaderMessageConstants.SD_CARD_NOT_PRESENT,
+					getString(R.string.sdCardNotPresent),
 					Toast.LENGTH_SHORT).show();
 		}
 
@@ -145,7 +142,7 @@ public class DaisyReaderLibraryActivity extends Activity implements
 			HeaderInfo headerInfo = bookList.get(groupPosition);
 			if (isLoadScanBook) {
 				if (headerInfo.getName()
-						.equals(DaisyReaderConstants.SCAN_BOOKS)) {
+						.equals(getString(R.string.scanBooks))) {
 					// get all books form sd card
 					groupPos = groupPosition;
 					loadScanBooks();
@@ -169,9 +166,7 @@ public class DaisyReaderLibraryActivity extends Activity implements
 		}
 
 	};
-	/**
-	 * Text to speech name of item.
-	 */
+	// Text to speech name of item.
 	private OnItemLongClickListener listItemLongClick = new OnItemLongClickListener() {
 		public boolean onItemLongClick(AdapterView<?> arg0, View v,
 				int position, long id) {
@@ -183,10 +178,10 @@ public class DaisyReaderLibraryActivity extends Activity implements
 						.getPackedPositionChild(id);
 				String item = "";
 				if (headerInfo.getName().equals(
-						DaisyReaderConstants.RECENT_BOOKS)) {
+						getString(R.string.recentBooks))) {
 					item = filesResultRecent.get(childPosition);
 				} else if (headerInfo.getName().equals(
-						DaisyReaderConstants.SCAN_BOOKS)) {
+						getString(R.string.scanBooks))) {
 					item = filesResult.get(childPosition);
 				}
 				File daisyPath = new File(currentDirectory, item);
@@ -250,17 +245,12 @@ public class DaisyReaderLibraryActivity extends Activity implements
 			}
 		}
 		for (int j = 0; j < filesResultRecent.size(); j++) {
-			addProduct(DaisyReaderConstants.RECENT_BOOKS,
+			addProduct(getString(R.string.recentBooks),
 					filesResultRecent.get(j));
 		}
 	}
 
-	/**
-	 * Add a recent book to database.
-	 * 
-	 * @param name
-	 * @param path
-	 */
+	// Add a recent book to database.
 	private void addRecentBookToSqlLite(String name, String path) {
 		List<RecentBooks> recentBooks = sqlLite.getAllRecentBooks();
 		if (!sqlLite.isExists(name)) {
@@ -283,7 +273,7 @@ public class DaisyReaderLibraryActivity extends Activity implements
 
 	private void pushToDaisyEbookReaderIntent(String path) {
 		Intent i = new Intent(this, DaisyEbookReaderActivity.class);
-		i.putExtra("daisyPath", path);
+		i.putExtra(DaisyReaderConstants.DAISY_PATH, path);
 		this.startActivity(i);
 	}
 
@@ -293,11 +283,7 @@ public class DaisyReaderLibraryActivity extends Activity implements
 		return true;
 	}
 
-	/**
-	 * 
-	 * Show dialog when data loading.
-	 * 
-	 */
+	// Show dialog when data loading.
 	class loadingData extends AsyncTask<Void, Void, ArrayList<String>> {
 
 		@Override
@@ -328,7 +314,7 @@ public class DaisyReaderLibraryActivity extends Activity implements
 		@Override
 		protected void onPostExecute(ArrayList<String> result) {
 			for (int i = 0; i < result.size(); i++) {
-				addProduct(DaisyReaderConstants.SCAN_BOOKS, result.get(i));
+				addProduct(getString(R.string.scanBooks), result.get(i));
 				myList.collapseGroup(groupPos);
 				myList.expandGroup(groupPos);
 			}
@@ -339,7 +325,7 @@ public class DaisyReaderLibraryActivity extends Activity implements
 		protected void onPreExecute() {
 			mProgressDialog = new ProgressDialog(
 					DaisyReaderLibraryActivity.this);
-			mProgressDialog.setMessage(DaisyReaderMessageConstants.WAITING);
+			mProgressDialog.setMessage(getString(R.string.waiting));
 			mProgressDialog.show();
 			super.onPreExecute();
 		}

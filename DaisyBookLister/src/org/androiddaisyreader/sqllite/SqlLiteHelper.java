@@ -21,12 +21,10 @@ public class SqlLiteHelper extends SQLiteOpenHelper {
 	
 	public SqlLiteHelper(Context context) {
 		super(context, DATABASE_NAME, null, DaisyReaderConstants.NUMBER_OF_RECENT_BOOKS);
-		// TODO Auto-generated constructor stub
 	}
 
 	@Override
 	public void onCreate(SQLiteDatabase db) {
-		// TODO Auto-generated method stub
 		String sqlCreateTable = "create table "+ TABLE_NAME + "("
                 + NAME_KEY + " text primary key,"+ PATH_KEY +" text,"
                 + SORT_KEY + " integer " + ")";
@@ -42,10 +40,7 @@ public class SqlLiteHelper extends SQLiteOpenHelper {
         onCreate(db);
 	}
 	
-	/**
-	 * Add a record to RecentBooks table
-	 * @param recentBooks
-	 */
+	// Add a record to RecentBooks table
     public void addRecentBook(RecentBooks recentBooks){
         SQLiteDatabase mdb = getWritableDatabase();
         ContentValues mValue = new ContentValues();
@@ -58,10 +53,7 @@ public class SqlLiteHelper extends SQLiteOpenHelper {
         mdb.close();
     }
     
-    /**
-     * Delete a record of RecentBooks table
-     * @param recentBooks
-     */
+    // Delete a record of RecentBooks table
     public void deleteRecentBook(RecentBooks recentBooks){
         SQLiteDatabase mdb = getWritableDatabase();
 
@@ -70,10 +62,7 @@ public class SqlLiteHelper extends SQLiteOpenHelper {
         mdb.close();
     }
     
-    /**
-     * Update a record of RecentBooks table
-     * @param recentBooks
-     */
+    // Update a record of RecentBooks table
     public void updateRecentBook(RecentBooks recentBooks){
         SQLiteDatabase mdb = getWritableDatabase();
 
@@ -85,11 +74,7 @@ public class SqlLiteHelper extends SQLiteOpenHelper {
         mdb.close();
     }
     
-    /**
-     * Get info a recent book
-     * @param id
-     * @return RecentBooks
-     */
+    // Get info a recent book
     public RecentBooks getInfoRecentBook(String name){
         SQLiteDatabase mdb = getReadableDatabase();
 
@@ -111,10 +96,7 @@ public class SqlLiteHelper extends SQLiteOpenHelper {
         return mRecentBooks;
     }
     
-    /**
-     * Get all recent books from sql lite
-     * @return Array<RecentBooks>
-     */
+    //Get all recent books from sql lite
     public ArrayList<RecentBooks> getAllRecentBooks(){
         SQLiteDatabase mdb = getReadableDatabase();
         String sql = "select * from " + TABLE_NAME + " order by " + SORT_KEY + " ASC";
@@ -137,11 +119,7 @@ public class SqlLiteHelper extends SQLiteOpenHelper {
         return arrRecentBooks;
     }
     
-    /**
-     * Check exists.
-     * @param name
-     * @return true if exists, else return false.
-     */
+    // Check exists.
     public boolean isExists(String name)
     {
     	SQLiteDatabase mdb = getReadableDatabase();

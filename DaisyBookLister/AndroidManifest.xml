@@ -13,16 +13,8 @@
 
     <application
         android:icon="@drawable/icon"
-        android:label="@string/app_name" >
-        <activity
-            android:name="org.androiddaisyreader.apps.DaisyBookListerActivity"
-            android:label="@string/app_name" 
-            android:screenOrientation="portrait">
-        </activity>
-        <activity
-            android:name="org.androiddaisyreader.apps.DaisyBookBrowserFileActivity"
-            android:label="@string/title_activity_daisy_book_browser_file" >
-        </activity>
+        android:label="@string/app_name"
+		android:theme="@style/CustomTheme">
         <activity
             android:name="org.androiddaisyreader.apps.DaisyReaderLibraryActivity"
             android:label="@string/title_activity_daisy_reader_library"

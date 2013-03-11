@@ -5,9 +5,6 @@
  */
 
 package org.androiddaisyreader.apps;
-
-import java.io.File;
-import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
 
@@ -17,7 +14,6 @@ import org.androiddaisyreader.model.Audio;
 import org.androiddaisyreader.model.BookContext;
 import org.androiddaisyreader.model.Daisy202Book;
 import org.androiddaisyreader.model.Daisy202Section;
-import org.androiddaisyreader.model.FileSystemContext;
 import org.androiddaisyreader.model.Navigable;
 import org.androiddaisyreader.model.Navigator;
 import org.androiddaisyreader.model.NccSpecification;
@@ -25,7 +21,7 @@ import org.androiddaisyreader.model.Part;
 import org.androiddaisyreader.model.Section;
 import org.androiddaisyreader.player.AndroidAudioPlayer;
 import org.androiddaisyreader.utils.DaisyReaderConstants;
-import org.androiddaisyreader.utils.DaisyReaderMessageConstants;
+import org.androiddaisyreader.utils.DaisyReaderUtils;
 
 import com.google.marvin.widget.GestureOverlay;
 import com.google.marvin.widget.GestureOverlay.Gesture;
@@ -91,7 +87,7 @@ public class DaisyEbookReaderSimpleModeActivity extends Activity implements
 			}
 
 		} catch (Exception e) {
-			showDialogError(DaisyReaderMessageConstants.NO_PATH_FOUND);
+			showDialogError(getString(R.string.noPathFound));
 		}
 
 	}
@@ -127,30 +123,28 @@ public class DaisyEbookReaderSimpleModeActivity extends Activity implements
 		}
 	};
 
-	/**
-	 * Push to activity table of content when user press and hold.
-	 */
+	// Push to activity table of content when user press and hold.
 	private void pushToTableOfContentsIntent() {
 		if (player.isPlaying()) {
 			player.pause();
 		}
 		Intent i = new Intent(this, DaisyReaderTableOfContentsActivity.class);
-		i.putStringArrayListExtra("listContent", getContents());
-		i.putExtra(DaisyReaderConstants.DAISY_PATH,
-				getIntent().getStringExtra(DaisyReaderConstants.DAISY_PATH));
+		String path = getIntent().getStringExtra(DaisyReaderConstants.DAISY_PATH);
+		ArrayList<String> listContents = DaisyReaderUtils.getContents(path);
+		i.putStringArrayListExtra(DaisyReaderConstants.LIST_CONTENTS, listContents);
+		i.putExtra(DaisyReaderConstants.DAISY_PATH, path);
 		this.startActivity(i);
 	}
 
-	/**
-	 * open book from path
-	 */
+	// open book from path
 	private void openBook() {
 		InputStream contents;
 		try {
 			String path = getIntent().getStringExtra(
 					DaisyReaderConstants.DAISY_PATH);
-			bookContext = openBook(path);
-			contents = bookContext.getResource("ncc.html");
+			bookContext = DaisyReaderUtils.openBook(path);
+			String[] sp = path.split("/");
+			contents = bookContext.getResource(sp[sp.length - 1]);
 
 			androidAudioPlayer = new AndroidAudioPlayer(bookContext);
 			androidAudioPlayer.addCallbackListener(audioCallbackListener);
@@ -169,15 +163,6 @@ public class DaisyEbookReaderSimpleModeActivity extends Activity implements
 		}
 	}
 
-	private static BookContext openBook(String filename) throws IOException {
-		BookContext bookContext;
-
-		File directory = new File(filename);
-		bookContext = new FileSystemContext(directory.getParent());
-		directory = null;
-		return bookContext;
-	}
-
 	/**
 	 * Listens to Navigation Events.
 	 * 
@@ -185,8 +170,6 @@ public class DaisyEbookReaderSimpleModeActivity extends Activity implements
 	 */
 	private class NavigationListener {
 		public void onNext(Section section) {
-			// sectionTitle.setText(section.getTitle());
-
 			Daisy202Section currentSection = new Daisy202Section.Builder()
 					.setHref(section.getHref()).setContext(bookContext).build();
 
@@ -202,19 +185,17 @@ public class DaisyEbookReaderSimpleModeActivity extends Activity implements
 					listIntEnd.add(audioSegment.getClipEnd());
 				}
 			}
-			// player = androidAudioPlayer.getCurrentPlayer();
-			// player.start();
 		}
 
 		public void atEndOfBook() {
 			Toast.makeText(getBaseContext(),
-					DaisyReaderMessageConstants.AT_END + book.getTitle(),
+					getString(R.string.atEnd) + book.getTitle(),
 					Toast.LENGTH_SHORT).show();
 		}
 
 		public void atBeginOfBook() {
 			Toast.makeText(getBaseContext(),
-					DaisyReaderMessageConstants.AT_BEGIN + book.getTitle(),
+					getString(R.string.atBegin) + book.getTitle(),
 					Toast.LENGTH_SHORT).show();
 		}
 	}
@@ -233,9 +214,7 @@ public class DaisyEbookReaderSimpleModeActivity extends Activity implements
 			this.navigationListener = navigationListener;
 		}
 
-		/**
-		 * Go to next section
-		 */
+		//Go to next section
 		public void next() {
 			if (navigator.hasNext()) {
 				if (isFirstNext) {
@@ -261,15 +240,11 @@ public class DaisyEbookReaderSimpleModeActivity extends Activity implements
 			}
 		}
 
-		/**
-		 * Go to previous section
-		 */
+		// Go to previous section
 		public void previous() {
 			if (navigator.hasPrevious()) {
 				if (isFirstPrevious) {
-					/**
-					 * Make sure the section is playing no repeat.
-					 */
+					// Make sure the section is playing no repeat.
 					navigator.previous();
 					isFirstPrevious = false;
 					isFirstNext = true;
@@ -307,9 +282,7 @@ public class DaisyEbookReaderSimpleModeActivity extends Activity implements
 			long timeTaken = System.currentTimeMillis() - startTime;
 			int i;
 			Log.i("GESTURE", "onGestureTimeTaken" + timeTaken);
-			/**
-			 * If user press and hold will go to table of contents.
-			 */
+			// If user press and hold will go to table of contents.
 			if (timeTaken > 1000) {
 				pushToTableOfContentsIntent();
 			} else {
@@ -320,10 +293,10 @@ public class DaisyEbookReaderSimpleModeActivity extends Activity implements
 					break;
 				case Gesture.DOWN:
 					Log.i("GESTURE", "Action: DOWN");
-					tts.speak(DaisyReaderMessageConstants.NEXT_SECTION,
+					tts.speak(getString(R.string.nextSection),
 							TextToSpeech.QUEUE_FLUSH, null);
 					Toast.makeText(getBaseContext(),
-							DaisyReaderMessageConstants.NEXT_SECTION,
+							getString(R.string.nextSection),
 							Toast.LENGTH_SHORT).show();
 					i = player.getCurrentPosition();
 					if (isFirstNext && isFirstPrevious) {
@@ -334,10 +307,10 @@ public class DaisyEbookReaderSimpleModeActivity extends Activity implements
 					break;
 				case Gesture.UP:
 					Log.i("GESTURE", "Action: UP");
-					tts.speak(DaisyReaderMessageConstants.PREVIOUS_SECTION,
+					tts.speak(getString(R.string.previousSection),
 							TextToSpeech.QUEUE_FLUSH, null);
 					Toast.makeText(getBaseContext(),
-							DaisyReaderMessageConstants.PREVIOUS_SECTION,
+							getString(R.string.previousSection),
 							Toast.LENGTH_SHORT).show();
 					i = player.getCurrentPosition();
 					if (isFirstNext && isFirstPrevious) {
@@ -348,19 +321,19 @@ public class DaisyEbookReaderSimpleModeActivity extends Activity implements
 					break;
 				case Gesture.LEFT:
 					Log.i("GESTURE", "Action: LEFT");
-					tts.speak(DaisyReaderMessageConstants.PREVIOUS_SENTENCE,
+					tts.speak(getString(R.string.previousSentence),
 							TextToSpeech.QUEUE_FLUSH, null);
 					Toast.makeText(getBaseContext(),
-							DaisyReaderMessageConstants.PREVIOUS_SENTENCE,
+							getString(R.string.previousSentence),
 							Toast.LENGTH_SHORT).show();
 					previousSentence();
 					break;
 				case Gesture.RIGHT:
 					Log.i("GESTURE", "Action: RIGHT");
-					tts.speak(DaisyReaderMessageConstants.NEXT_SENTENCE,
+					tts.speak(getString(R.string.nextSentence),
 							TextToSpeech.QUEUE_FLUSH, null);
 					Toast.makeText(getBaseContext(),
-							DaisyReaderMessageConstants.NEXT_SENTENCE,
+							getString(R.string.nextSentence),
 							Toast.LENGTH_SHORT).show();
 					nextSentence();
 					break;
@@ -375,32 +348,28 @@ public class DaisyEbookReaderSimpleModeActivity extends Activity implements
 		}
 	};
 
-	/**
-	 * Toggles the Media Player between Play and Pause states.
-	 */
+	// Toggles the Media Player between Play and Pause states.
 	public void togglePlay() {
 		if (player.isPlaying()) {
-			tts.speak(DaisyReaderMessageConstants.PAUSE,
+			tts.speak(getString(R.string.pause),
 					TextToSpeech.QUEUE_FLUSH, null);
-			Toast.makeText(getBaseContext(), DaisyReaderMessageConstants.PAUSE,
+			Toast.makeText(getBaseContext(), getString(R.string.pause),
 					Toast.LENGTH_SHORT).show();
 			player.pause();
 		} else {
-			tts.speak(DaisyReaderMessageConstants.PLAY,
+			tts.speak(getString(R.string.play),
 					TextToSpeech.QUEUE_FLUSH, null);
-			Toast.makeText(getBaseContext(), DaisyReaderMessageConstants.PLAY,
+			Toast.makeText(getBaseContext(), getString(R.string.play),
 					Toast.LENGTH_SHORT).show();
 			try {
 				player.start();
 			} catch (Exception e) {
-				showDialogError(DaisyReaderMessageConstants.WRONG_FORMAT);
+				showDialogError(getString(R.string.wrongFormat));
 			}
 		}
 	}
 
-	/**
-	 * Go to next sentence by seek to time of clip end nearest position.
-	 */
+	// Go to next sentence by seek to time of clip end nearest position.
 	private void nextSentence() {
 		int currentTime = player.getCurrentPosition();
 		if (currentTime == 0) {
@@ -418,10 +387,8 @@ public class DaisyEbookReaderSimpleModeActivity extends Activity implements
 			}
 		}
 	}
-
-	/**
-	 * Go to previous sentence by seek to time of clip end before two units.
-	 */
+	
+	//Go to previous sentence by seek to time of clip end before two units.
 	private void previousSentence() {
 		int currentTime = player.getCurrentPosition();
 		if (currentTime == 0) {
@@ -438,23 +405,6 @@ public class DaisyEbookReaderSimpleModeActivity extends Activity implements
 				}
 			}
 		}
-	}
-
-	/**
-	 * Get all contents.
-	 * 
-	 * @return ArrayList<String>
-	 */
-	private ArrayList<String> getContents() {
-		ArrayList<String> listResult = new ArrayList<String>();
-		for (int i = 0; i < sections.length; i++) {
-			Section section = (Section) sections[i];
-			int numOfChapter = i + 1;
-			listResult.add(String.format("%s %s: %s",
-					DaisyReaderConstants.CHAPTER, numOfChapter,
-					section.getTitle()));
-		}
-		return listResult;
 	}
 
 	@Override

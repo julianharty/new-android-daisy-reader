@@ -7,6 +7,15 @@ package org.androiddaisyreader.utils;
  * really justify being a class. So, expect things to change :)
  */
 import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.ArrayList;
+
+import org.androiddaisyreader.model.BookContext;
+import org.androiddaisyreader.model.Daisy202Book;
+import org.androiddaisyreader.model.FileSystemContext;
+import org.androiddaisyreader.model.NccSpecification;
+import org.androiddaisyreader.model.Section;
 
 public final class DaisyReaderUtils {
 	public static final String LAST_BOOK = "last_book_open";
@@ -43,8 +52,8 @@ public final class DaisyReaderUtils {
         return false;
     }
     
-    /**
-     * returns the NccFileName for a given book's root folder.
+    /*
+     * return the NccFileName for a given book's root folder.
      * @param currentDirectory
      * @return the filename as a string if it exists, else null.
      */
@@ -58,5 +67,52 @@ public final class DaisyReaderUtils {
     	}
 
 		return null;
+	}
+    
+	// get book context from filename.
+	public static BookContext openBook(String filename) throws IOException {
+		BookContext bookContext;
+
+		File directory = new File(filename);
+		bookContext = new FileSystemContext(directory.getParent());
+		directory = null;
+		return bookContext;
+	}
+	
+	public static ArrayList<String> getContents(String path)
+	{
+		String chapter = "Chapter";
+		Daisy202Book book = getDaisy202Book(path);
+		Object[] sections = null;
+		if(book !=null)
+			sections = book.getChildren().toArray();
+		ArrayList<String> listResult = new ArrayList<String>();
+		for (int i = 0; i < sections.length; i++) {
+			Section section = (Section) sections[i];
+			int numOfChapter = i + 1;
+			listResult.add(String.format("%s %s: %s",
+					chapter, numOfChapter,
+					section.getTitle()));
+		}
+		return listResult;
+	}
+	
+	/**
+	 * open book from path
+	 */
+	private static Daisy202Book getDaisy202Book(String path) {
+		InputStream contents;
+		Daisy202Book book = null;
+		try {
+			BookContext bookContext;
+			bookContext = DaisyReaderUtils.openBook(path);
+			contents = bookContext.getResource("ncc.html");
+			book = NccSpecification.readFromStream(contents);
+		} catch (Exception e) {
+			// TODO 20120515 (jharty): Add test for SDCARD being available
+			// so we can tell the user...
+			e.printStackTrace();
+		}
+		return book;
 	}
 }

@@ -5,8 +5,8 @@
     android:versionName="1.0" >
 
     <uses-sdk
-        android:minSdkVersion="4"
-        android:targetSdkVersion="15" />
+        android:minSdkVersion="7"
+        android:targetSdkVersion="16" />
 
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" >
     </uses-permission>
@@ -16,16 +16,36 @@
         android:label="@string/app_name" >
         <activity
             android:name="org.androiddaisyreader.apps.DaisyBookListerActivity"
-            android:label="@string/app_name" >
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
+            android:label="@string/app_name" 
+            android:screenOrientation="portrait">
         </activity>
         <activity
             android:name="org.androiddaisyreader.apps.DaisyBookBrowserFileActivity"
             android:label="@string/title_activity_daisy_book_browser_file" >
+        </activity>
+        <activity
+            android:name="org.androiddaisyreader.apps.DaisyReaderLibraryActivity"
+            android:label="@string/title_activity_daisy_reader_library"
+            android:screenOrientation="portrait">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name="org.androiddaisyreader.apps.DaisyEbookReaderActivity"
+            android:label="@string/title_activity_daisy_ebook_reader" 
+            android:screenOrientation="portrait">
+        </activity>
+        <activity
+            android:name="org.androiddaisyreader.apps.DaisyEbookReaderSimpleModeActivity"
+            android:label="@string/title_activity_daisy_ebook_reader_simple_mode" 
+            android:screenOrientation="portrait">
+        </activity>
+        <activity
+            android:name="org.androiddaisyreader.apps.DaisyReaderTableOfContentsActivity"
+            android:label="@string/title_activity_daisy_reader_table_of_contents" 
+            android:screenOrientation="portrait">
         </activity>
     </application>
 

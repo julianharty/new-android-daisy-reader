@@ -8,6 +8,7 @@ package org.androiddaisyreader.apps;
 
 import java.io.File;
 import java.io.FilenameFilter;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -65,6 +66,14 @@ public class DaisyReaderLibraryActivity extends Activity implements
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_daisy_reader_library);
 		tts = new TextToSpeech(this, this);
+		try {
+			Intent checkTTSIntent = new Intent();
+			checkTTSIntent.setAction(TextToSpeech.Engine.ACTION_CHECK_TTS_DATA);
+			startActivityForResult(checkTTSIntent,
+					DaisyReaderConstants.MY_DATA_CHECK_CODE);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 		sqlLite = new SqlLiteHelper(getApplicationContext());
 		addProduct(getString(R.string.recentBooks), null);
 		addProduct(getString(R.string.scanBooks), null);
@@ -81,7 +90,6 @@ public class DaisyReaderLibraryActivity extends Activity implements
 		myList.setOnChildClickListener(myListItemClicked);
 		myList.setOnItemLongClickListener(listItemLongClick);
 		myList.setOnGroupExpandListener(onGroupExpandListener);
-
 	}
 
 	// Make sure TTS installed on your device.
@@ -129,8 +137,8 @@ public class DaisyReaderLibraryActivity extends Activity implements
 			tts.speak(getString(R.string.sdCardNotPresent),
 					TextToSpeech.QUEUE_FLUSH, null);
 			Toast.makeText(getBaseContext(),
-					getString(R.string.sdCardNotPresent),
-					Toast.LENGTH_SHORT).show();
+					getString(R.string.sdCardNotPresent), Toast.LENGTH_SHORT)
+					.show();
 		}
 
 	}
@@ -141,8 +149,7 @@ public class DaisyReaderLibraryActivity extends Activity implements
 		public void onGroupExpand(int groupPosition) {
 			HeaderInfo headerInfo = bookList.get(groupPosition);
 			if (isLoadScanBook) {
-				if (headerInfo.getName()
-						.equals(getString(R.string.scanBooks))) {
+				if (headerInfo.getName().equals(getString(R.string.scanBooks))) {
 					// get all books form sd card
 					groupPos = groupPosition;
 					loadScanBooks();
@@ -177,8 +184,8 @@ public class DaisyReaderLibraryActivity extends Activity implements
 				int childPosition = ExpandableListView
 						.getPackedPositionChild(id);
 				String item = "";
-				if (headerInfo.getName().equals(
-						getString(R.string.recentBooks))) {
+				if (headerInfo.getName()
+						.equals(getString(R.string.recentBooks))) {
 					item = filesResultRecent.get(childPosition);
 				} else if (headerInfo.getName().equals(
 						getString(R.string.scanBooks))) {

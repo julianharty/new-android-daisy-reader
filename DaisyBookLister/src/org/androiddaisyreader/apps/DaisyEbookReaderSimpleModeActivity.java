@@ -218,9 +218,7 @@ public class DaisyEbookReaderSimpleModeActivity extends Activity implements
 		public void next() {
 			if (navigator.hasNext()) {
 				if (isFirstNext) {
-					/**
-					 * Make sure no repeat section is playing.
-					 */
+					// Make sure no repeat section is playing.
 					navigator.next();
 					isFirstPrevious = true;
 					isFirstNext = false;

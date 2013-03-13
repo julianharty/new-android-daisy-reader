@@ -97,16 +97,15 @@ public final class DaisyReaderUtils {
 		return listResult;
 	}
 	
-	/**
-	 * open book from path
-	 */
+	// open book from path
 	private static Daisy202Book getDaisy202Book(String path) {
 		InputStream contents;
 		Daisy202Book book = null;
 		try {
 			BookContext bookContext;
 			bookContext = DaisyReaderUtils.openBook(path);
-			contents = bookContext.getResource("ncc.html");
+			String[] sp = path.split("/");
+			contents = bookContext.getResource(sp[sp.length - 1]);
 			book = NccSpecification.readFromStream(contents);
 		} catch (Exception e) {
 			// TODO 20120515 (jharty): Add test for SDCARD being available

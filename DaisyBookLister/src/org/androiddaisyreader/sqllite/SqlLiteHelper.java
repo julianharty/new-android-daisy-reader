@@ -40,7 +40,10 @@ public class SqlLiteHelper extends SQLiteOpenHelper {
         onCreate(db);
 	}
 	
-	// Add a record to RecentBooks table
+	/**
+	 * Add a record to RecentBooks table
+	 * @param recentBooks
+	 */
     public void addRecentBook(RecentBooks recentBooks){
         SQLiteDatabase mdb = getWritableDatabase();
         ContentValues mValue = new ContentValues();
@@ -53,7 +56,10 @@ public class SqlLiteHelper extends SQLiteOpenHelper {
         mdb.close();
     }
     
-    // Delete a record of RecentBooks table
+    /**
+     * Delete a record of RecentBooks table
+     * @param recentBooks
+     */
     public void deleteRecentBook(RecentBooks recentBooks){
         SQLiteDatabase mdb = getWritableDatabase();
 
@@ -62,7 +68,10 @@ public class SqlLiteHelper extends SQLiteOpenHelper {
         mdb.close();
     }
     
-    // Update a record of RecentBooks table
+    /**
+     * Update a record of RecentBooks table
+     * @param recentBooks
+     */
     public void updateRecentBook(RecentBooks recentBooks){
         SQLiteDatabase mdb = getWritableDatabase();
 
@@ -74,7 +83,11 @@ public class SqlLiteHelper extends SQLiteOpenHelper {
         mdb.close();
     }
     
-    // Get info a recent book
+    /**
+     * Get info a recent book
+     * @param name
+     * @return
+     */
     public RecentBooks getInfoRecentBook(String name){
         SQLiteDatabase mdb = getReadableDatabase();
 
@@ -96,7 +109,10 @@ public class SqlLiteHelper extends SQLiteOpenHelper {
         return mRecentBooks;
     }
     
-    //Get all recent books from sql lite
+    /**
+     * Get all recent books from sql lite
+     * @return
+     */
     public ArrayList<RecentBooks> getAllRecentBooks(){
         SQLiteDatabase mdb = getReadableDatabase();
         String sql = "select * from " + TABLE_NAME + " order by " + SORT_KEY + " ASC";
@@ -119,7 +135,11 @@ public class SqlLiteHelper extends SQLiteOpenHelper {
         return arrRecentBooks;
     }
     
-    // Check exists.
+    /**
+     * Check exists.
+     * @param name
+     * @return
+     */
     public boolean isExists(String name)
     {
     	SQLiteDatabase mdb = getReadableDatabase();

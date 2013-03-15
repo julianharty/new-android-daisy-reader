@@ -91,7 +91,9 @@ public class DaisyReaderLibraryActivity extends Activity implements
 		myList.setOnGroupExpandListener(onGroupExpandListener);
 	}
 
-	// Make sure TTS installed on your device.
+	/**
+	 * Make sure TTS installed on your device.
+	 */
 	@Override
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 		if (requestCode == DaisyReaderConstants.MY_DATA_CHECK_CODE) {
@@ -131,7 +133,9 @@ public class DaisyReaderLibraryActivity extends Activity implements
 		super.onPause();
 	}
 	
-	// load some initial data into out list
+	/**
+	 * Load some initial data into out list
+	 */
 	private void loadScanBooks() {
 		Boolean isSDPresent = Environment.getExternalStorageState().equals(
 				Environment.MEDIA_MOUNTED);
@@ -169,7 +173,6 @@ public class DaisyReaderLibraryActivity extends Activity implements
 		}
 	};
 
-	// our child listener
 	private OnChildClickListener myListItemClicked = new OnChildClickListener() {
 
 		public boolean onChildClick(ExpandableListView parent, View v,
@@ -184,7 +187,10 @@ public class DaisyReaderLibraryActivity extends Activity implements
 		}
 
 	};
-	// Text to speech name of item.
+	
+	/**
+	 * Text to speech name of item.
+	 */
 	private OnItemLongClickListener listItemLongClick = new OnItemLongClickListener() {
 		public boolean onItemLongClick(AdapterView<?> arg0, View v,
 				int position, long id) {
@@ -213,7 +219,12 @@ public class DaisyReaderLibraryActivity extends Activity implements
 		};
 	};
 
-	// here we add my book into recent books or scan books
+	/**
+	 * Here we add my book into recent books or scan books
+	 * @param dept
+	 * @param book
+	 * @return
+	 */
 	private int addProduct(String dept, String book) {
 		int groupPosition = 0;
 
@@ -268,7 +279,11 @@ public class DaisyReaderLibraryActivity extends Activity implements
 		}
 	}
 
-	// Add a recent book to database.
+	/**
+	 * Add a recent book to database.
+	 * @param name
+	 * @param path
+	 */
 	private void addRecentBookToSqlLite(String name, String path) {
 		List<RecentBooks> recentBooks = sqlLite.getAllRecentBooks();
 		if (!sqlLite.isExists(name)) {
@@ -301,7 +316,11 @@ public class DaisyReaderLibraryActivity extends Activity implements
 		return true;
 	}
 
-	// Show dialog when data loading.
+	/**
+	 * Show dialog when data loading.
+	 * @author nguyen.le
+	 *
+	 */
 	class loadingData extends AsyncTask<Void, Void, ArrayList<String>> {
 
 		@Override

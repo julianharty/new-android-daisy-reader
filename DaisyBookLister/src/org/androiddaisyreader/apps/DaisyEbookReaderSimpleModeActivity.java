@@ -125,7 +125,9 @@ public class DaisyEbookReaderSimpleModeActivity extends Activity implements
 		}
 	};
 
-	// Push to activity table of content when user press and hold.
+	/**
+	 * Push to activity table of content when user press and hold.
+	 */
 	private void pushToTableOfContentsIntent() {
 		if (player.isPlaying()) {
 			player.pause();
@@ -138,7 +140,9 @@ public class DaisyEbookReaderSimpleModeActivity extends Activity implements
 		this.startActivity(i);
 	}
 
-	// open book from path
+	/**
+	 * open book from path
+	 */
 	private void openBook() {
 		InputStream contents;
 		try {
@@ -240,7 +244,9 @@ public class DaisyEbookReaderSimpleModeActivity extends Activity implements
 			}
 		}
 
-		// Go to previous section
+		/**
+		 * Go to previous section
+		 */
 		public void previous() {
 			if (navigator.hasPrevious()) {
 				if (isFirstPrevious) {
@@ -348,7 +354,9 @@ public class DaisyEbookReaderSimpleModeActivity extends Activity implements
 		}
 	};
 
-	// Toggles the Media Player between Play and Pause states.
+	/**
+	 * Toggles the Media Player between Play and Pause states.
+	 */
 	public void togglePlay() {
 		if (player.isPlaying()) {
 			tts.speak(getString(R.string.pause),
@@ -369,7 +377,9 @@ public class DaisyEbookReaderSimpleModeActivity extends Activity implements
 		}
 	}
 
-	// Go to next sentence by seek to time of clip end nearest position.
+	/**
+	 * Go to next sentence by seek to time of clip end nearest position.
+	 */
 	private void nextSentence() {
 		int currentTime = player.getCurrentPosition();
 		if (currentTime == 0) {
@@ -388,7 +398,9 @@ public class DaisyEbookReaderSimpleModeActivity extends Activity implements
 		}
 	}
 	
-	//Go to previous sentence by seek to time of clip end before two units.
+	/**
+	 * Go to previous sentence by seek to time of clip end before two units.
+	 */
 	private void previousSentence() {
 		int currentTime = player.getCurrentPosition();
 		if (currentTime == 0) {

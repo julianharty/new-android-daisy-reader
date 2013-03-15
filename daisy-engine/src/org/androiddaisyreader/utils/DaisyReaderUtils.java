@@ -52,7 +52,7 @@ public final class DaisyReaderUtils {
         return false;
     }
     
-    /*
+    /**
      * return the NccFileName for a given book's root folder.
      * @param currentDirectory
      * @return the filename as a string if it exists, else null.
@@ -69,7 +69,12 @@ public final class DaisyReaderUtils {
 		return null;
 	}
     
-	// get book context from filename.
+    /**
+     * get book context from filename.
+     * @param filename
+     * @return book context
+     * @throws IOException
+     */
 	public static BookContext openBook(String filename) throws IOException {
 		BookContext bookContext;
 
@@ -79,6 +84,11 @@ public final class DaisyReaderUtils {
 		return bookContext;
 	}
 	
+	/**
+	 * get contents of book from path.
+	 * @param path
+	 * @return ArrayList<String>
+	 */
 	public static ArrayList<String> getContents(String path)
 	{
 		String chapter = "Chapter";
@@ -97,7 +107,11 @@ public final class DaisyReaderUtils {
 		return listResult;
 	}
 	
-	// open book from path
+	/**
+	 * open book from path
+	 * @param path
+	 * @return Daisy202Book
+	 */
 	private static Daisy202Book getDaisy202Book(String path) {
 		InputStream contents;
 		Daisy202Book book = null;

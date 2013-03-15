@@ -68,7 +68,9 @@ public class DaisyEbookReaderActivity extends Activity {
 		this.startActivity(i);
 	}
 
-	// Push to activity table of content when user press and hold.
+	/**
+	 * Push to activity table of content when user press and hold.
+	 */
 	private void pushToTableOfContentsIntent() {
 		Intent i = new Intent(this, DaisyReaderTableOfContentsActivity.class);
 		String path = getIntent().getStringExtra(DaisyReaderConstants.DAISY_PATH);

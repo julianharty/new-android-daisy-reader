@@ -10,14 +10,13 @@
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
         android:layout_alignParentTop="true"
-        android:text="Table of Contents"
+        android:text="@string/tableOfContents"
         android:textAppearance="?android:attr/textAppearanceLarge" />
     
     <ListView
         android:id="@+id/listContent"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:layout_above="@+id/button1"
         android:longClickable="true"
         android:layout_alignParentLeft="true"
         android:layout_below="@+id/textView2" >

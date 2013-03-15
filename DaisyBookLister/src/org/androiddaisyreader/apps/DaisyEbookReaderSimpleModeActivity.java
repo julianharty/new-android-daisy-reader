@@ -110,8 +110,10 @@ public class DaisyEbookReaderSimpleModeActivity extends Activity implements
 		if (player != null && player.isPlaying()) {
 			player.stop();
 		}
-		tts.stop();
-		tts.shutdown();
+		if (tts != null) {
+            tts.stop();
+            tts.shutdown();
+        }
 		super.onDestroy();
 	}
 

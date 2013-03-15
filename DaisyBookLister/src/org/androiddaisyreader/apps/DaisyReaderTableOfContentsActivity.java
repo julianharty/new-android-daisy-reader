@@ -40,8 +40,10 @@ public class DaisyReaderTableOfContentsActivity extends Activity implements Text
 	
 	@Override
 	protected void onDestroy() {
-		tts.shutdown();
-		tts.stop();
+		if (tts != null) {
+            tts.stop();
+            tts.shutdown();
+        }
 		super.onDestroy();
 	}
 	

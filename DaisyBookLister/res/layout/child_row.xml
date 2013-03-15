@@ -8,7 +8,7 @@
             android:layout_height="wrap_content"
             android:layout_alignParentLeft="true"
             android:layout_alignParentTop="true"
-            android:paddingLeft="35sp"
+            android:paddingLeft="35dp"
             android:textAppearance="?android:attr/textAppearanceMedium" />
  
         <TextView

@@ -25,4 +25,5 @@
     <string name="recentBooks">Recent Books</string>
     <string name="simpleMode">Simple mode</string>
 	<string name="visualMode">Visual mode</string>
+	<string name="tableOfContents">Table of Contents</string>
 </resources>

@@ -64,7 +64,6 @@ public class DaisyReaderLibraryActivity extends Activity implements
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_daisy_reader_library);
-		tts = new TextToSpeech(this, this);
 		try {
 			Intent checkTTSIntent = new Intent();
 			checkTTSIntent.setAction(TextToSpeech.Engine.ACTION_CHECK_TTS_DATA);
@@ -73,6 +72,7 @@ public class DaisyReaderLibraryActivity extends Activity implements
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+		tts = new TextToSpeech(this, this);
 		sqlLite = new SqlLiteHelper(getApplicationContext());
 		addProduct(getString(R.string.recentBooks), null);
 		addProduct(getString(R.string.scanBooks), null);
@@ -111,15 +111,26 @@ public class DaisyReaderLibraryActivity extends Activity implements
 	@Override
 	public void onInit(int arg0) {
 	}
-
+	
 	@Override
 	protected void onDestroy() {
-		tts.stop();
-		tts.shutdown();
+		if (tts != null) {
+            tts.stop();
+            tts.shutdown();
+        }
 		finish();
 		super.onDestroy();
 	}
-
+	
+	@Override
+	protected void onPause() {
+		if (tts != null) {
+            tts.stop();
+            tts.shutdown();
+        }
+		super.onPause();
+	}
+	
 	// load some initial data into out list
 	private void loadScanBooks() {
 		Boolean isSDPresent = Environment.getExternalStorageState().equals(

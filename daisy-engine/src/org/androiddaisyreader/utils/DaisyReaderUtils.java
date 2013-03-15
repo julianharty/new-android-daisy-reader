@@ -20,7 +20,7 @@ import org.androiddaisyreader.model.Section;
 public final class DaisyReaderUtils {
 	public static final String LAST_BOOK = "last_book_open";
 	public static final String PREFS_FILE = "DaisyReaderPreferences";
-	public static final String DEFAULT_ROOT_FOLDER = "/sdcard/";
+	public static final String DEFAULT_ROOT_FOLDER = DaisyReaderConstants.SDCARD;
 	public static final String OPT_ROOT_FOLDER = "rootfolder";
 	
 	// Don't allow anyone to create this utility class.

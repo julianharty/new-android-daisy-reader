@@ -1,7 +1,6 @@
 package org.androiddaisyreader.apps;
 
 import java.util.ArrayList;
-import java.util.Locale;
 
 import org.androiddaisyreader.utils.DaisyReaderConstants;
 
@@ -55,8 +54,6 @@ public class DaisyReaderTableOfContentsActivity extends Activity implements Text
 		@Override
 		public void onItemClick(AdapterView<?> arg0, View v, int position,
 				long id) {
-			tts.setLanguage(Locale.JAPANESE);
-			tts.isLanguageAvailable(Locale.JAPAN);
 			Toast.makeText(getBaseContext(), listResult.get(position).toString(),
 					Toast.LENGTH_SHORT).show();
 			tts.speak(listResult.get(position).toString(), TextToSpeech.QUEUE_FLUSH, null);

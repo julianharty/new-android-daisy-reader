@@ -8,7 +8,6 @@ package org.androiddaisyreader.apps;
 
 import java.io.File;
 import java.io.FilenameFilter;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -126,6 +125,7 @@ public class DaisyReaderLibraryActivity extends Activity implements
 		Boolean isSDPresent = Environment.getExternalStorageState().equals(
 				Environment.MEDIA_MOUNTED);
 		if (isSDPresent) {
+			// fix bug "HONEYCOMB cannot be resolved or is not a field". Please change library android to version 3.0 or higher.
 			if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
 				new loadingData()
 						.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);

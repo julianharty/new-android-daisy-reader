@@ -5,6 +5,7 @@
  */
 
 package org.androiddaisyreader.apps;
+
 import java.io.InputStream;
 import java.util.ArrayList;
 
@@ -20,6 +21,7 @@ import org.androiddaisyreader.model.NccSpecification;
 import org.androiddaisyreader.model.Part;
 import org.androiddaisyreader.model.Section;
 import org.androiddaisyreader.player.AndroidAudioPlayer;
+import org.androiddaisyreader.player.IntentController;
 import org.androiddaisyreader.utils.DaisyReaderConstants;
 import org.androiddaisyreader.utils.DaisyReaderUtils;
 
@@ -30,18 +32,19 @@ import com.google.marvin.widget.GestureOverlay.GestureListener;
 import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.os.Debug;
+import android.preference.PreferenceManager;
+import android.provider.Settings.SettingNotFoundException;
+import android.provider.Settings.System;
 import android.app.Activity;
-import android.app.Dialog;
-import android.content.Intent;
+import android.content.ContentResolver;
+import android.content.SharedPreferences;
 import android.speech.tts.TextToSpeech;
 import android.util.Log;
-import android.view.Menu;
 import android.view.View;
-import android.view.View.OnClickListener;
 import android.view.Window;
-import android.widget.Button;
+import android.view.View.OnClickListener;
+import android.view.WindowManager.LayoutParams;
 import android.widget.RelativeLayout;
-import android.widget.TextView;
 import android.widget.Toast;
 
 public class DaisyEbookReaderSimpleModeActivity extends Activity implements
@@ -61,11 +64,19 @@ public class DaisyEbookReaderSimpleModeActivity extends Activity implements
 	private MediaPlayer player;
 	private ArrayList<Integer> listIntEnd;
 	private Object[] sections;
+	private IntentController intentController;
+	private SharedPreferences preferences;
+	private Window window;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_daisy_ebook_reader_simple_mode);
+		preferences = PreferenceManager
+				.getDefaultSharedPreferences(getApplicationContext());
+		window = getWindow();
+		intentController = new IntentController(
+				DaisyEbookReaderSimpleModeActivity.this);
 		if (BENCHMARK_ACTIVITY) {
 			Debug.startMethodTracing();
 		}
@@ -87,7 +98,7 @@ public class DaisyEbookReaderSimpleModeActivity extends Activity implements
 			}
 
 		} catch (Exception e) {
-			showDialogError(getString(R.string.noPathFound));
+			intentController.pushToDialogError(getString(R.string.noPathFound));
 		}
 
 	}
@@ -98,25 +109,35 @@ public class DaisyEbookReaderSimpleModeActivity extends Activity implements
 	}
 
 	@Override
-	public boolean onCreateOptionsMenu(Menu menu) {
-		// Inflate the menu; this adds items to the action bar if it is present.
-		getMenuInflater().inflate(
-				R.menu.activity_daisy_ebook_reader_simple_mode, menu);
-		return true;
-	}
-
-	@Override
 	protected void onDestroy() {
 		if (player != null && player.isPlaying()) {
 			player.stop();
 		}
 		if (tts != null) {
-            tts.stop();
-            tts.shutdown();
-        }
+			tts.stop();
+			tts.shutdown();
+		}
 		super.onDestroy();
 	}
-
+	
+	@Override
+	protected void onResume() {
+		ContentResolver cResolver = getContentResolver();
+		int valueScreen = 0;
+		//get value of brightness from preference. Otherwise, get current brightness from system.
+		try {
+			valueScreen = preferences.getInt(DaisyReaderConstants.BRIGHTNESS,
+					System.getInt(cResolver, System.SCREEN_BRIGHTNESS));
+		} catch (SettingNotFoundException e) {
+			e.printStackTrace();
+		}
+		LayoutParams layoutpars = window.getAttributes();
+		layoutpars.screenBrightness = valueScreen / (float) 255;
+		// apply attribute changes to this window
+		window.setAttributes(layoutpars);
+		super.onResume();
+	}
+	
 	private AudioCallbackListener audioCallbackListener = new AudioCallbackListener() {
 
 		public void endOfAudio() {
@@ -124,21 +145,6 @@ public class DaisyEbookReaderSimpleModeActivity extends Activity implements
 			controller.next();
 		}
 	};
-
-	/**
-	 * Push to activity table of content when user press and hold.
-	 */
-	private void pushToTableOfContentsIntent() {
-		if (player.isPlaying()) {
-			player.pause();
-		}
-		Intent i = new Intent(this, DaisyReaderTableOfContentsActivity.class);
-		String path = getIntent().getStringExtra(DaisyReaderConstants.DAISY_PATH);
-		ArrayList<String> listContents = DaisyReaderUtils.getContents(path);
-		i.putStringArrayListExtra(DaisyReaderConstants.LIST_CONTENTS, listContents);
-		i.putExtra(DaisyReaderConstants.DAISY_PATH, path);
-		this.startActivity(i);
-	}
 
 	/**
 	 * open book from path
@@ -220,7 +226,7 @@ public class DaisyEbookReaderSimpleModeActivity extends Activity implements
 			this.navigationListener = navigationListener;
 		}
 
-		//Go to next section
+		// Go to next section
 		public void next() {
 			if (navigator.hasNext()) {
 				if (isFirstNext) {
@@ -279,18 +285,24 @@ public class DaisyEbookReaderSimpleModeActivity extends Activity implements
 
 		@Override
 		public void onGestureStart(int g) {
-			startTime = System.currentTimeMillis();
+			startTime = java.lang.System.currentTimeMillis();
 			Log.i("GESTURE", "onGestureStart" + startTime);
 		}
 
 		@Override
 		public void onGestureFinish(int g) {
-			long timeTaken = System.currentTimeMillis() - startTime;
+			long timeTaken = java.lang.System.currentTimeMillis() - startTime;
 			int i;
 			Log.i("GESTURE", "onGestureTimeTaken" + timeTaken);
 			// If user press and hold will go to table of contents.
 			if (timeTaken > 1000) {
-				pushToTableOfContentsIntent();
+				if (player.isPlaying()) {
+					player.pause();
+				}
+				String path = getIntent().getStringExtra(
+						DaisyReaderConstants.DAISY_PATH);
+				intentController.pushToTableOfContentsIntent(path,
+						getString(R.string.simpleMode));
 			} else {
 				switch (g) {
 				case Gesture.CENTER:
@@ -302,8 +314,8 @@ public class DaisyEbookReaderSimpleModeActivity extends Activity implements
 					tts.speak(getString(R.string.nextSection),
 							TextToSpeech.QUEUE_FLUSH, null);
 					Toast.makeText(getBaseContext(),
-							getString(R.string.nextSection),
-							Toast.LENGTH_SHORT).show();
+							getString(R.string.nextSection), Toast.LENGTH_SHORT)
+							.show();
 					i = player.getCurrentPosition();
 					if (isFirstNext && isFirstPrevious) {
 						controller.next();
@@ -359,20 +371,19 @@ public class DaisyEbookReaderSimpleModeActivity extends Activity implements
 	 */
 	public void togglePlay() {
 		if (player.isPlaying()) {
-			tts.speak(getString(R.string.pause),
-					TextToSpeech.QUEUE_FLUSH, null);
+			tts.speak(getString(R.string.pause), TextToSpeech.QUEUE_FLUSH, null);
 			Toast.makeText(getBaseContext(), getString(R.string.pause),
 					Toast.LENGTH_SHORT).show();
 			player.pause();
 		} else {
-			tts.speak(getString(R.string.play),
-					TextToSpeech.QUEUE_FLUSH, null);
+			tts.speak(getString(R.string.play), TextToSpeech.QUEUE_FLUSH, null);
 			Toast.makeText(getBaseContext(), getString(R.string.play),
 					Toast.LENGTH_SHORT).show();
 			try {
 				player.start();
 			} catch (Exception e) {
-				showDialogError(getString(R.string.wrongFormat));
+				intentController
+						.pushToDialogError(getString(R.string.wrongFormat));
 			}
 		}
 	}
@@ -397,7 +408,7 @@ public class DaisyEbookReaderSimpleModeActivity extends Activity implements
 			}
 		}
 	}
-	
+
 	/**
 	 * Go to previous sentence by seek to time of clip end before two units.
 	 */
@@ -421,26 +432,6 @@ public class DaisyEbookReaderSimpleModeActivity extends Activity implements
 
 	@Override
 	public void onInit(int arg0) {
-	}
-
-	public void showDialogError(String message) {
-		final Dialog dialog = new Dialog(this);
-		dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
-		dialog.setContentView(R.layout.dialog);
-		// set the custom dialog components - text, image and button
-		TextView text = (TextView) dialog.findViewById(R.id.text);
-		text.setText(message);
-
-		Button dialogButton = (Button) dialog.findViewById(R.id.dialogButtonOK);
-		// if button is clicked, close the custom dialog
-		dialogButton.setOnClickListener(new OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				dialog.dismiss();
-				onBackPressed();
-			}
-		});
-		dialog.show();
 	}
 
 }

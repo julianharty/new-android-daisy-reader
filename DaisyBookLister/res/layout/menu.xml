@@ -1,25 +1,26 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
+
     <!-- Single menu item
          Set id, icon and Title for each menu item
     -->
     <item android:id="@+id/menu_table"
-          android:icon="@drawable/icon"
+          android:icon="@drawable/table_of_contents"
           android:title="Table of contents" />
  
     <item android:id="@+id/menu_simple"
-          android:icon="@drawable/icon"
+          android:icon="@drawable/simple_mode"
           android:title="Simple Mode" />
  
     <item android:id="@+id/menu_search"
-          android:icon="@drawable/icon"
+          android:icon="@drawable/search"
           android:title="Search" />
  
     <item android:id="@+id/menu_bookmarks"
-          android:icon="@drawable/icon"
+          android:icon="@drawable/bookmark"
           android:title="Bookmarks" />
  
     <item android:id="@+id/menu_settings"
-          android:icon="@drawable/icon"
-          android:title="Settings" />  
+          android:icon="@drawable/settings"
+          android:title="Settings" />
 </menu>

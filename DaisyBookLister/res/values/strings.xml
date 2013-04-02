@@ -8,6 +8,9 @@
     <string name="title_activity_daisy_ebook_reader">Ebook Reader Mode Choose</string>
     <string name="title_activity_daisy_ebook_reader_simple_mode">Ebook Reader Simple Mode</string>
     <string name="title_activity_daisy_reader_table_of_contents">Ebooks Reader Table Of Contents</string>
+    <string name="title_activity_daisy_ebook_reader_visual_mode">Ebook Reader Visual Mode</string>
+    <string name="title_activity_daisy_reader_setting">Ebook Reader Setting</string>
+    <string name="title_activity_daisy_reader_bookmark">Ebook Reader Bookmark</string>
     <string name="waiting">Waiting &#x2026;</string>
     <string name="nextSection">Next section</string>
     <string name="previousSection">Previous section</string>
@@ -23,7 +26,24 @@
     <string name="wrongFormat">Wrong format</string>
     <string name="scanBooks">Scan Books</string>
     <string name="recentBooks">Recent Books</string>
-    <string name="simpleMode">Simple mode</string>
-	<string name="visualMode">Visual mode</string>
+    <string name="simpleMode">SIMPLE mode</string>
+    <string name="descSimpleMode">This mode is designed specifically for blind, low vision, and print disabled user.</string>
+	<string name="visualMode">VISUAL mode</string>
+    <string name="descVisualMode">In the graphical mode, all menus are vocalized and include large, graphical elements.</string>
 	<string name="tableOfContents">Table of Contents</string>
+    <string name="bookmarks">Bookmarks</string>
+    <string name="hello_world">Hello world!</string>
+    <string name="settings">Settings</string>
+    <string name="fontSize">Font Size: </string>
+    <string name="brightness">Brightness</string>
+    <string name="empty_bookmark">Empty</string>
+    <string name="save_bookmark">Save</string>
+    <string name="load_bookmark">Load</string>
+    <string name="cancel_bookmark">Cancel</string>
+    <string name="message_bookmark">Choosing options</string>
+    <string name="test_fontsize">ABCDEF</string>
+    <string name="color_picker_viewer">Color Viewer(Click to select 16Color)</string>
+	<string name="change_text_color">Change text color</string>
+	<string name="change_background_color">Change background color</string>
+    
 </resources>

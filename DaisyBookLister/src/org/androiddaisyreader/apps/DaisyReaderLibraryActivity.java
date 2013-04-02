@@ -18,7 +18,7 @@ import org.androiddaisyreader.adapter.LibraryListAdapter;
 import org.androiddaisyreader.model.DetailInfo;
 import org.androiddaisyreader.model.HeaderInfo;
 import org.androiddaisyreader.model.RecentBooks;
-import org.androiddaisyreader.sqllite.SqlLiteHelper;
+import org.androiddaisyreader.sqllite.SqlLiteRecentBookHelper;
 import org.androiddaisyreader.utils.DaisyReaderConstants;
 import org.androiddaisyreader.utils.DaisyReaderUtils;
 
@@ -26,14 +26,20 @@ import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.Dialog;
 import android.app.ProgressDialog;
+import android.content.ContentResolver;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
+import android.preference.PreferenceManager;
+import android.provider.Settings.SettingNotFoundException;
+import android.provider.Settings.System;
 import android.speech.tts.TextToSpeech;
-import android.view.Menu;
 import android.view.View;
+import android.view.Window;
+import android.view.WindowManager.LayoutParams;
 import android.widget.AdapterView;
 import android.widget.Toast;
 import android.widget.AdapterView.OnItemLongClickListener;
@@ -55,15 +61,20 @@ public class DaisyReaderLibraryActivity extends Activity implements
 	private ArrayList<HeaderInfo> bookList = new ArrayList<HeaderInfo>();
 	private LibraryListAdapter listAdapter;
 	private ExpandableListView myList;
-	private SqlLiteHelper sqlLite;
+	private SqlLiteRecentBookHelper sqlLite;
 	private int NumberOfRecentBooks = DaisyReaderConstants.NUMBER_OF_RECENT_BOOKS;
 	private boolean isLoadScanBook = true;
 	private int groupPos = 0;
+	private SharedPreferences preferences;
+	private Window window;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_daisy_reader_library);
+		preferences = PreferenceManager
+				.getDefaultSharedPreferences(getApplicationContext());
+		window = getWindow();
 		try {
 			Intent checkTTSIntent = new Intent();
 			checkTTSIntent.setAction(TextToSpeech.Engine.ACTION_CHECK_TTS_DATA);
@@ -73,11 +84,11 @@ public class DaisyReaderLibraryActivity extends Activity implements
 			e.printStackTrace();
 		}
 		tts = new TextToSpeech(this, this);
-		sqlLite = new SqlLiteHelper(getApplicationContext());
+		sqlLite = new SqlLiteRecentBookHelper(getApplicationContext());
 		addProduct(getString(R.string.recentBooks), null);
 		addProduct(getString(R.string.scanBooks), null);
 		// get all recent books from sql lite
-		LoadRecentBooks();
+		loadRecentBooks();
 		// get reference to the ExpandableListView
 		myList = (ExpandableListView) findViewById(R.id.myList);
 		// create the adapter by passing your ArrayList data
@@ -113,26 +124,44 @@ public class DaisyReaderLibraryActivity extends Activity implements
 	@Override
 	public void onInit(int arg0) {
 	}
-	
+
 	@Override
 	protected void onDestroy() {
 		if (tts != null) {
-            tts.stop();
-            tts.shutdown();
-        }
+			tts.stop();
+			tts.shutdown();
+		}
 		finish();
 		super.onDestroy();
 	}
-	
+
 	@Override
 	protected void onPause() {
 		if (tts != null) {
-            tts.stop();
-            tts.shutdown();
-        }
+			tts.stop();
+			tts.shutdown();
+		}
 		super.onPause();
 	}
-	
+
+	@Override
+	protected void onResume() {
+		ContentResolver cResolver = getContentResolver();
+		int valueScreen = 0;
+		//get value of brightness from preference. Otherwise, get current brightness from system.
+		try {
+			valueScreen = preferences.getInt(DaisyReaderConstants.BRIGHTNESS,
+					System.getInt(cResolver, System.SCREEN_BRIGHTNESS));
+		} catch (SettingNotFoundException e) {
+			e.printStackTrace();
+		}
+		LayoutParams layoutpars = window.getAttributes();
+		layoutpars.screenBrightness = valueScreen / (float) 255;
+		// apply attribute changes to this window
+		window.setAttributes(layoutpars);
+		super.onResume();
+	}
+
 	/**
 	 * Load some initial data into out list
 	 */
@@ -140,12 +169,13 @@ public class DaisyReaderLibraryActivity extends Activity implements
 		Boolean isSDPresent = Environment.getExternalStorageState().equals(
 				Environment.MEDIA_MOUNTED);
 		if (isSDPresent) {
-			// fix bug "HONEYCOMB cannot be resolved or is not a field". Please change library android to version 3.0 or higher.
+			// fix bug "HONEYCOMB cannot be resolved or is not a field". Please
+			// change library android to version 3.0 or higher.
 			if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
-				new loadingData()
+				new LoadingData()
 						.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
 			} else {
-				new loadingData().execute();
+				new LoadingData().execute();
 			}
 			isLoadScanBook = false;
 		} else {
@@ -187,7 +217,7 @@ public class DaisyReaderLibraryActivity extends Activity implements
 		}
 
 	};
-	
+
 	/**
 	 * Text to speech name of item.
 	 */
@@ -221,6 +251,7 @@ public class DaisyReaderLibraryActivity extends Activity implements
 
 	/**
 	 * Here we add my book into recent books or scan books
+	 * 
 	 * @param dept
 	 * @param book
 	 * @return
@@ -259,18 +290,27 @@ public class DaisyReaderLibraryActivity extends Activity implements
 		return groupPosition;
 	}
 
-	private void LoadRecentBooks() {
+	private void loadRecentBooks() {
 		filesResultRecent = new ArrayList<String>();
 		List<RecentBooks> recentBooks = sqlLite.getAllRecentBooks();
 		if (recentBooks.size() >= NumberOfRecentBooks) {
 			for (int i = 0; i < NumberOfRecentBooks; i++) {
 				RecentBooks re = recentBooks.get(i);
-				filesResultRecent.add(re.getName());
+				File f = new File(re.getPath());
+				if (f.exists())
+					filesResultRecent.add(re.getName());
+			}
+			for (int i = NumberOfRecentBooks; i < recentBooks.size(); i++) {
+				RecentBooks re = recentBooks.get(i);
+				sqlLite.deleteRecentBook(re);
+
 			}
 		} else {
 			for (int i = 0; i < recentBooks.size(); i++) {
 				RecentBooks re = recentBooks.get(i);
-				filesResultRecent.add(re.getName());
+				File f = new File(re.getPath());
+				if (f.exists())
+					filesResultRecent.add(re.getName());
 			}
 		}
 		for (int j = 0; j < filesResultRecent.size(); j++) {
@@ -281,6 +321,7 @@ public class DaisyReaderLibraryActivity extends Activity implements
 
 	/**
 	 * Add a recent book to database.
+	 * 
 	 * @param name
 	 * @param path
 	 */
@@ -310,18 +351,13 @@ public class DaisyReaderLibraryActivity extends Activity implements
 		this.startActivity(i);
 	}
 
-	@Override
-	public boolean onCreateOptionsMenu(Menu menu) {
-		getMenuInflater().inflate(R.menu.activity_daisy_reader_library, menu);
-		return true;
-	}
-
 	/**
 	 * Show dialog when data loading.
+	 * 
 	 * @author nguyen.le
-	 *
+	 * 
 	 */
-	class loadingData extends AsyncTask<Void, Void, ArrayList<String>> {
+	class LoadingData extends AsyncTask<Void, Void, ArrayList<String>> {
 
 		@Override
 		protected ArrayList<String> doInBackground(Void... params) {

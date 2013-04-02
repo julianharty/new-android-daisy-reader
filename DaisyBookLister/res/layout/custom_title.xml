@@ -1,22 +1,30 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="horizontal"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
     android:layout_height="35dp"
     android:gravity="center_vertical"
-    android:paddingLeft="5dp">
- 	
+    android:orientation="horizontal"
+    android:paddingLeft="5dp" >
+
     <ImageView
         android:id="@+id/imgTableOfContents"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:src="@drawable/icon" 
-        android:contentDescription="@string/tableOfContents"/>
+        android:contentDescription="@string/tableOfContents"
+        android:src="@drawable/table_of_contents" 
+        android:paddingRight="10dp"/>
 
     <TextView
         android:id="@+id/bookTitle"
-        android:layout_width="wrap_content"
+        android:layout_width="234dp"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceMedium" />
+
+    <ImageView
+        android:id="@+id/imgBookmark"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:contentDescription="@string/bookmarks"
+        android:src="@drawable/bookmark" />
+
 </LinearLayout>

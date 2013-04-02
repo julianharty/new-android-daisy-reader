@@ -52,7 +52,7 @@ public final class DaisyReaderUtils {
         return false;
     }
     
-    /**
+    /*
      * return the NccFileName for a given book's root folder.
      * @param currentDirectory
      * @return the filename as a string if it exists, else null.

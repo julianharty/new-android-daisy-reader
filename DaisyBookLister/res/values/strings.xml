@@ -46,4 +46,12 @@
 	<string name="change_text_color">Change text color</string>
 	<string name="change_background_color">Change background color</string>
     
+<string name="change_highlight_color">Change highlight color</string>
+	<string name="change_number_recent_books">Change number recent books</string>
+	<string name="change_number_bookmarks">Change number bookmarks</string>
+	<string name="night_mode">Night Mode</string>
+	<string name="search_text">Search Text</string>
+	<string name="toggle_turn_on">Turn On</string>
+    <string name="toggle_turn_off">Turn Off</string>
+    
 </resources>

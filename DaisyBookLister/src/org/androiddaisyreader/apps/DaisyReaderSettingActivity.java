@@ -10,17 +10,20 @@ import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.ContentResolver;
 import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.EditText;
 import android.widget.GridView;
 import android.widget.SeekBar;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.SeekBar.OnSeekBarChangeListener;
 import android.widget.TextView;
+import android.widget.ToggleButton;
 import android.provider.Settings.System;
 import android.view.View.OnClickListener;
 import android.view.WindowManager.LayoutParams;
@@ -36,7 +39,6 @@ public class DaisyReaderSettingActivity extends Activity {
 	private SharedPreferences.Editor editor;
 	private TextView tv;
 	private int fontsize;
-	private TextView tvTextColor;
 	// some basic colors
 	private int COLOR_TABLE[] = { 0xffffffff, 0xffc0c0c0, 0xff808080,
 			0xff000000, 0xffffc0c0, 0xffff6060, 0xffff0000, 0xff800000,
@@ -49,7 +51,20 @@ public class DaisyReaderSettingActivity extends Activity {
 			0xff0000ff, 0xff000080, 0xffe0c0ff, 0xffb060ff, 0xff8000ff,
 			0xff400080, 0xffffc0ff, 0xffff60ff, 0xffff00ff, 0xff800080,
 			0xffffc0e0, 0xffff60b0, 0xffff0080, 0xff800040 };
+	private TextView tvTextColor;
 	private int currentTextColor;
+	private TextView tvBackgroundColor;
+	private int currentBackgroundColor;
+	private TextView tvHighlightColor;
+	private int currentHighlightColor;
+	private Boolean changeText;
+	private Boolean changeBackground;
+	private Boolean changeHighlight;
+	private EditText edtNumberOfRecentBooks;
+	private int currentNumberOfRecentBooks;
+	private EditText edtNumberOfBookmarks;
+	private int currentNumberOfBookmarks;
+	private ToggleButton toogleNightMode;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -85,16 +100,95 @@ public class DaisyReaderSettingActivity extends Activity {
 
 		tvTextColor = (TextView) findViewById(R.id.tvTextColor);
 
-		// get the current text color
+		// setting text color
 		currentTextColor = preferences.getInt(DaisyReaderConstants.TEXT_COLOR,
 				tvTextColor.getCurrentTextColor());
 		tvTextColor.setBackgroundColor(currentTextColor);
 		tvTextColor.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
+				changeHighlight = false;
+				changeBackground = false;
+				changeText = true;
 				showDialog(0);
 			}
 		});
+
+		// setting background color
+		tvBackgroundColor = (TextView) findViewById(R.id.tvBackgroundColor);
+		currentBackgroundColor = preferences.getInt(
+				DaisyReaderConstants.BACKGROUND_COLOR, Color.BLACK);
+		tvBackgroundColor.setBackgroundColor(currentBackgroundColor);
+		tvBackgroundColor.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				changeBackground = true;
+				changeText = false;
+				changeHighlight = false;
+				showDialog(0);
+			}
+		});
+
+		// setting current highlight color
+		tvHighlightColor = (TextView) findViewById(R.id.tvHighlightColor);
+		currentHighlightColor = preferences.getInt(
+				DaisyReaderConstants.HIGHLIGHT_COLOR, Color.YELLOW);
+		tvHighlightColor.setBackgroundColor(currentHighlightColor);
+		tvHighlightColor.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				changeBackground = false;
+				changeText = false;
+				changeHighlight = true;
+				showDialog(0);
+			}
+		});
+
+		// setting current number of rencent books
+		edtNumberOfRecentBooks = (EditText) findViewById(R.id.edtNumberOfRecentBooks);
+		currentNumberOfRecentBooks = preferences.getInt(
+				DaisyReaderConstants.NUMBER_OF_RECENT_BOOKS, 3);
+		edtNumberOfRecentBooks.setText(String
+				.valueOf(currentNumberOfRecentBooks));
+		
+		// setting current number of bookmarks
+		edtNumberOfBookmarks= (EditText) findViewById(R.id.edtNumberOfBookmarks);
+		currentNumberOfBookmarks = preferences.getInt(
+				DaisyReaderConstants.NUMBER_OF_BOOKMARKS, 3);
+		edtNumberOfBookmarks.setText(String
+				.valueOf(currentNumberOfBookmarks));
+		
+		// setting night mode
+		toogleNightMode = (ToggleButton)findViewById(R.id.toggleNightMode);
+		toogleNightMode.setOnClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				if(toogleNightMode.isChecked())
+				{
+					editor.putBoolean(DaisyReaderConstants.NIGHT_MODE,
+							true);
+					editor.commit();
+				}
+				
+			}
+		});
+	}
+	
+	@Override
+	public void onBackPressed() {
+		if (edtNumberOfRecentBooks.getText() != null) {
+			editor.putInt(DaisyReaderConstants.NUMBER_OF_RECENT_BOOKS, Integer
+					.valueOf(edtNumberOfRecentBooks.getText().toString()));
+			editor.commit();
+		}
+		
+		if (edtNumberOfBookmarks.getText() != null) {
+			editor.putInt(DaisyReaderConstants.NUMBER_OF_BOOKMARKS, Integer
+					.valueOf(edtNumberOfBookmarks.getText().toString()));
+			editor.commit();
+		}
+		super.onBackPressed();
 	}
 
 	/**
@@ -128,8 +222,25 @@ public class DaisyReaderSettingActivity extends Activity {
 				public void onItemClick(AdapterView<?> arg0, View arg1,
 						int arg2, long arg3) {
 					currentTextColor = COLOR_TABLE[arg2];
-					tvTextColor.setBackgroundColor(currentTextColor);
-					editor.putInt(DaisyReaderConstants.TEXT_COLOR, currentTextColor);
+					currentBackgroundColor = COLOR_TABLE[arg2];
+					currentHighlightColor = COLOR_TABLE[arg2];
+					if (changeText) {
+						tvTextColor.setBackgroundColor(currentTextColor);
+						editor.putInt(DaisyReaderConstants.TEXT_COLOR,
+								currentTextColor);
+					}
+					if (changeBackground) {
+						tvBackgroundColor
+								.setBackgroundColor(currentBackgroundColor);
+						editor.putInt(DaisyReaderConstants.BACKGROUND_COLOR,
+								currentBackgroundColor);
+					}
+					if (changeHighlight) {
+						tvHighlightColor
+								.setBackgroundColor(currentHighlightColor);
+						editor.putInt(DaisyReaderConstants.HIGHLIGHT_COLOR,
+								currentHighlightColor);
+					}
 					editor.commit();
 					dismissDialog(0);
 				}

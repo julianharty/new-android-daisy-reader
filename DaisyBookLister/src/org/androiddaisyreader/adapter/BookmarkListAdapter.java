@@ -65,6 +65,7 @@ public class BookmarkListAdapter extends ArrayAdapter<Bookmark> {
 			@Override
 			public void onClick(View v) {
 				bookmark = listBookmark.get(position);
+				bookmark.setSort(position);
 				if (position != mSelectedPosition && mSelectedRB != null) {
 					mSelectedRB.setChecked(false);
 				}
@@ -93,6 +94,7 @@ public class BookmarkListAdapter extends ArrayAdapter<Bookmark> {
 		Button buttonLoad = (Button) dialog.findViewById(R.id.buttonLoad);
 		buttonLoad.setText(context.getString(R.string.load_bookmark));
 		buttonLoad.setOnClickListener(buttonLoadClick);
+		
 		if (bookmark.getTextShow().equals(
 				context.getString(R.string.empty_bookmark))) {
 			onlySave = true;
@@ -109,6 +111,7 @@ public class BookmarkListAdapter extends ArrayAdapter<Bookmark> {
 	OnClickListener buttonSaveClick = new OnClickListener() {
 		@Override
 		public void onClick(View v) {
+			tmp.setSort(bookmark.getSort());
 			// delete old bookmark
 			sql.deleteBookmark(bookmark.getId());
 			// add new bookmark

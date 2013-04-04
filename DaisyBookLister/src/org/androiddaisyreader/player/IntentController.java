@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import org.androiddaisyreader.apps.DaisyEbookReaderSimpleModeActivity;
 import org.androiddaisyreader.apps.DaisyReaderBookmarkActivity;
+import org.androiddaisyreader.apps.DaisyReaderLibraryActivity;
 import org.androiddaisyreader.apps.DaisyReaderSettingActivity;
 import org.androiddaisyreader.apps.DaisyReaderTableOfContentsActivity;
 import org.androiddaisyreader.apps.R;
@@ -61,8 +62,6 @@ public class IntentController {
 					String.valueOf(bookmark.getTime()));
 			i.putExtra(DaisyReaderConstants.SECTION,
 					String.valueOf(bookmark.getSection()));
-			i.putExtra(DaisyReaderConstants.POSITION,
-					String.valueOf(bookmark.getPosition()));
 		}
 		context.startActivity(i);
 	}
@@ -92,5 +91,11 @@ public class IntentController {
 			}
 		});
 		dialog.show();
+	}
+	
+	public void pushToLibraryIntent()
+	{
+		Intent i = new Intent(context, DaisyReaderLibraryActivity.class);
+		context.startActivity(i);
 	}
 }

@@ -4,6 +4,10 @@
     <!-- Single menu item
          Set id, icon and Title for each menu item
     -->
+    <item android:id="@+id/menu_library"
+          android:icon="@drawable/library"
+          android:title="Library" />
+    
     <item android:id="@+id/menu_table"
           android:icon="@drawable/table_of_contents"
           android:title="Table of contents" />

@@ -20,7 +20,7 @@ public class SqlLiteBookmarkHelper extends SQLiteOpenHelper {
 	private static final String TEXT_KEY = "_text";
 	private static final String TIME_KEY = "_time";
 	private static final String SECTION_KEY = "_section";
-	private static final String POSITION_KEY = "_position";
+	private static final String SORT_KEY = "_sort";
 
 	public SqlLiteBookmarkHelper(Context context) {
 		super(context, DATABASE_NAME, null, 1);
@@ -31,7 +31,7 @@ public class SqlLiteBookmarkHelper extends SQLiteOpenHelper {
 		String sqlCreateTable = "create table " + TABLE_NAME + "(" + ID_KEY
 				+ " text primary key," + BOOK_KEY + " text," + TEXT_KEY
 				+ " text," + TIME_KEY + " integer," + SECTION_KEY + " integer,"
-				+ POSITION_KEY + " integer " + ")";
+				+ SORT_KEY + " integer " + ")";
 		db.execSQL(sqlCreateTable);
 	}
 
@@ -50,7 +50,7 @@ public class SqlLiteBookmarkHelper extends SQLiteOpenHelper {
 		mValue.put(TEXT_KEY, bookmark.getText());
 		mValue.put(TIME_KEY, bookmark.getTime());
 		mValue.put(SECTION_KEY, bookmark.getSection());
-		mValue.put(POSITION_KEY, bookmark.getPosition());
+		mValue.put(SORT_KEY, bookmark.getSort());
 		mValue.put(ID_KEY, UUID.randomUUID().toString());
 
 		mdb.insert(TABLE_NAME, null, mValue);
@@ -72,7 +72,7 @@ public class SqlLiteBookmarkHelper extends SQLiteOpenHelper {
 		mValue.put(TEXT_KEY, bookmark.getText());
 		mValue.put(TIME_KEY, bookmark.getTime());
 		mValue.put(SECTION_KEY, bookmark.getSection());
-		mValue.put(POSITION_KEY, bookmark.getPosition());
+		mValue.put(SORT_KEY, bookmark.getSort());
 		mdb.update(TABLE_NAME, mValue, ID_KEY + "=?",
 				new String[] { bookmark.getId() });
 		mdb.close();
@@ -82,7 +82,7 @@ public class SqlLiteBookmarkHelper extends SQLiteOpenHelper {
 		SQLiteDatabase mdb = getReadableDatabase();
 
 		Cursor mCursor = mdb.query(TABLE_NAME, new String[] { BOOK_KEY,
-				TEXT_KEY, TIME_KEY, SECTION_KEY, POSITION_KEY, ID_KEY }, ID_KEY + "=?",
+				TEXT_KEY, TIME_KEY, SECTION_KEY, SORT_KEY, ID_KEY }, ID_KEY + "=?",
 				new String[] { id }, null, null, null);
 
 		// Check data null or empty
@@ -101,8 +101,8 @@ public class SqlLiteBookmarkHelper extends SQLiteOpenHelper {
 	public ArrayList<Bookmark> getAllBookmark(String book) {
 		SQLiteDatabase mdb = getReadableDatabase();
 		Cursor mCursor = mdb.query(TABLE_NAME, new String[] { BOOK_KEY,
-				TEXT_KEY, TIME_KEY, SECTION_KEY, POSITION_KEY, ID_KEY }, BOOK_KEY + "=?",
-				new String[] { book }, null, null, null);
+				TEXT_KEY, TIME_KEY, SECTION_KEY, SORT_KEY, ID_KEY }, BOOK_KEY + "=?",
+				new String[] { book }, null, null, SORT_KEY);
 		ArrayList<Bookmark> arrBookmark = new ArrayList<Bookmark>();
 
 		if (mCursor.moveToFirst()) {

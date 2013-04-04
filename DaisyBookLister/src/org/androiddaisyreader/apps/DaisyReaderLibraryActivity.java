@@ -62,7 +62,7 @@ public class DaisyReaderLibraryActivity extends Activity implements
 	private LibraryListAdapter listAdapter;
 	private ExpandableListView myList;
 	private SqlLiteRecentBookHelper sqlLite;
-	private int NumberOfRecentBooks = DaisyReaderConstants.NUMBER_OF_RECENT_BOOKS;
+	private int numberOfRecentBooks;
 	private boolean isLoadScanBook = true;
 	private int groupPos = 0;
 	private SharedPreferences preferences;
@@ -74,6 +74,8 @@ public class DaisyReaderLibraryActivity extends Activity implements
 		setContentView(R.layout.activity_daisy_reader_library);
 		preferences = PreferenceManager
 				.getDefaultSharedPreferences(getApplicationContext());
+		numberOfRecentBooks = preferences.getInt(
+				DaisyReaderConstants.NUMBER_OF_RECENT_BOOKS, 3);
 		window = getWindow();
 		try {
 			Intent checkTTSIntent = new Intent();
@@ -148,7 +150,8 @@ public class DaisyReaderLibraryActivity extends Activity implements
 	protected void onResume() {
 		ContentResolver cResolver = getContentResolver();
 		int valueScreen = 0;
-		//get value of brightness from preference. Otherwise, get current brightness from system.
+		// get value of brightness from preference. Otherwise, get current
+		// brightness from system.
 		try {
 			valueScreen = preferences.getInt(DaisyReaderConstants.BRIGHTNESS,
 					System.getInt(cResolver, System.SCREEN_BRIGHTNESS));
@@ -293,14 +296,14 @@ public class DaisyReaderLibraryActivity extends Activity implements
 	private void loadRecentBooks() {
 		filesResultRecent = new ArrayList<String>();
 		List<RecentBooks> recentBooks = sqlLite.getAllRecentBooks();
-		if (recentBooks.size() >= NumberOfRecentBooks) {
-			for (int i = 0; i < NumberOfRecentBooks; i++) {
+		if (recentBooks.size() >= numberOfRecentBooks) {
+			for (int i = 0; i < numberOfRecentBooks; i++) {
 				RecentBooks re = recentBooks.get(i);
 				File f = new File(re.getPath());
 				if (f.exists())
 					filesResultRecent.add(re.getName());
 			}
-			for (int i = NumberOfRecentBooks; i < recentBooks.size(); i++) {
+			for (int i = numberOfRecentBooks; i < recentBooks.size(); i++) {
 				RecentBooks re = recentBooks.get(i);
 				sqlLite.deleteRecentBook(re);
 
@@ -326,21 +329,23 @@ public class DaisyReaderLibraryActivity extends Activity implements
 	 * @param path
 	 */
 	private void addRecentBookToSqlLite(String name, String path) {
-		List<RecentBooks> recentBooks = sqlLite.getAllRecentBooks();
-		if (!sqlLite.isExists(name)) {
-			if (recentBooks.size() == NumberOfRecentBooks) {
+		if (numberOfRecentBooks > 0) {
+			List<RecentBooks> recentBooks = sqlLite.getAllRecentBooks();
+			if (!sqlLite.isExists(name)) {
+				if (recentBooks.size() == numberOfRecentBooks) {
 
-				sqlLite.deleteRecentBook(recentBooks
-						.get(NumberOfRecentBooks - 1));
-				for (int i = 0; i < NumberOfRecentBooks - 1; i++) {
-					RecentBooks recentBook = recentBooks.get(i);
-					recentBook.setSort(recentBook.getSort() + 1);
-					sqlLite.updateRecentBook(recentBook);
+					sqlLite.deleteRecentBook(recentBooks
+							.get(numberOfRecentBooks - 1));
+					for (int i = 0; i < numberOfRecentBooks - 1; i++) {
+						RecentBooks recentBook = recentBooks.get(i);
+						recentBook.setSort(recentBook.getSort() + 1);
+						sqlLite.updateRecentBook(recentBook);
+					}
+					sqlLite.addRecentBook(new RecentBooks(name, path, 1));
+				} else {
+					sqlLite.addRecentBook(new RecentBooks(name, path,
+							recentBooks.size() + 1));
 				}
-				sqlLite.addRecentBook(new RecentBooks(name, path, 1));
-			} else {
-				sqlLite.addRecentBook(new RecentBooks(name, path, recentBooks
-						.size() + 1));
 			}
 		}
 	}

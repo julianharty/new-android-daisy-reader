@@ -19,7 +19,6 @@ import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.ContentResolver;
 import android.content.SharedPreferences;
-import android.view.Menu;
 import android.view.Window;
 import android.view.WindowManager.LayoutParams;
 import android.widget.ListView;
@@ -39,6 +38,7 @@ public class DaisyReaderBookmarkActivity extends Activity {
 	private String path;
 	private SharedPreferences preferences;
 	private Window window;
+	private int numberOfBookmarks;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -47,6 +47,8 @@ public class DaisyReaderBookmarkActivity extends Activity {
 		preferences = PreferenceManager
 				.getDefaultSharedPreferences(getApplicationContext());
 		window = getWindow();
+		numberOfBookmarks = preferences.getInt(
+				DaisyReaderConstants.NUMBER_OF_BOOKMARKS, 3);
 		listBookmark = (ListView) this.findViewById(R.id.listBookmark);
 		bookTitle = getIntent().getStringExtra(DaisyReaderConstants.BOOK);
 		sentence = getIntent().getStringExtra(DaisyReaderConstants.SENTENCE);
@@ -68,27 +70,28 @@ public class DaisyReaderBookmarkActivity extends Activity {
 		loadData();
 	}
 
-	@Override
-	public boolean onCreateOptionsMenu(Menu menu) {
-		// Inflate the menu; this adds items to the action bar if it is present.
-		getMenuInflater().inflate(R.menu.activity_daisy_reader_bookmark, menu);
-		return true;
-	}
-
 	class LoadingData extends AsyncTask<Void, Void, ArrayList<Bookmark>> {
 
 		@Override
 		protected ArrayList<Bookmark> doInBackground(Void... params) {
 			ArrayList<Bookmark> result = new ArrayList<Bookmark>();
-			for (int i = 0; i < listItems.size(); i++) {
-				Bookmark bookmark = listItems.get(i);
-				bookmark.setTextShow(bookmark.getText());
-				result.add(bookmark);
-			}
-			for (int i = 0; i < 10 - listItems.size(); i++) {
-				Bookmark bookmark = new Bookmark();
-				bookmark.setTextShow(getString(R.string.empty_bookmark));
-				result.add(bookmark);
+			if (numberOfBookmarks < listItems.size()) {
+				for (int i = 0; i < numberOfBookmarks; i++) {
+					Bookmark bookmark = listItems.get(i);
+					bookmark.setTextShow(bookmark.getText());
+					result.add(bookmark);
+				}
+			} else {
+				for (int i = 0; i < listItems.size(); i++) {
+					Bookmark bookmark = listItems.get(i);
+					bookmark.setTextShow(bookmark.getText());
+					result.add(bookmark);
+				}
+				for (int i = 0; i < numberOfBookmarks - listItems.size(); i++) {
+					Bookmark bookmark = new Bookmark();
+					bookmark.setTextShow(getString(R.string.empty_bookmark));
+					result.add(bookmark);
+				}
 			}
 			return result;
 		}
@@ -118,11 +121,13 @@ public class DaisyReaderBookmarkActivity extends Activity {
 			new LoadingData().execute();
 		}
 	}
+
 	@Override
 	protected void onResume() {
 		ContentResolver cResolver = getContentResolver();
 		int valueScreen = 0;
-		//get value of brightness from preference. Otherwise, get current brightness from system.
+		// get value of brightness from preference. Otherwise, get current
+		// brightness from system.
 		try {
 			valueScreen = preferences.getInt(DaisyReaderConstants.BRIGHTNESS,
 					System.getInt(cResolver, System.SCREEN_BRIGHTNESS));

@@ -164,7 +164,13 @@ public class DaisyReaderLibraryActivity extends Activity implements
 		window.setAttributes(layoutpars);
 		super.onResume();
 	}
-
+	
+	@Override
+	public void onBackPressed() {
+		finish();
+		super.onBackPressed();
+	}
+	
 	/**
 	 * Load some initial data into out list
 	 */

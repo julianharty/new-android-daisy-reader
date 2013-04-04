@@ -344,23 +344,26 @@ public class DaisyEbookReaderVisualModeActivity extends Activity implements
 			@Override
 			public void onClick(View v) {
 				String ett = searchText.getText().toString();
-				String tvt = contents.getText().toString();
-				int ofe = tvt.indexOf(ett, 0);
-				Spannable WordtoSpan = new SpannableString(contents.getText());
-				for (int ofs = 0; ofs < tvt.length() && ofe != -1; ofs = ofe + 1) {
+				if (ett.trim().length() > 0) {
+					String tvt = contents.getText().toString();
+					int ofe = tvt.indexOf(ett, 0);
+					Spannable WordtoSpan = new SpannableString(contents
+							.getText());
+					for (int ofs = 0; ofs < tvt.length() && ofe != -1; ofs = ofe + 1) {
 
-					ofe = tvt.indexOf(ett, ofs);
-					if (ofe == -1)
-						break;
-					else {
+						ofe = tvt.indexOf(ett, ofs);
+						if (ofe == -1)
+							break;
+						else {
 
-						WordtoSpan.setSpan(new BackgroundColorSpan(
-								highlightColor), ofe, ofe + ett.length(),
-								Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-						contents.setText(WordtoSpan,
-								TextView.BufferType.SPANNABLE);
+							WordtoSpan.setSpan(new BackgroundColorSpan(
+									highlightColor), ofe, ofe + ett.length(),
+									Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+							contents.setText(WordtoSpan,
+									TextView.BufferType.SPANNABLE);
+						}
+
 					}
-
 				}
 				dialog.dismiss();
 			}
@@ -403,8 +406,7 @@ public class DaisyEbookReaderVisualModeActivity extends Activity implements
 			scrollView.setBackgroundColor(Color.BLACK);
 			highlightColor = 0xff408000;
 			SharedPreferences.Editor editor = preferences.edit();
-			editor.putBoolean(DaisyReaderConstants.NIGHT_MODE,
-					true);
+			editor.putBoolean(DaisyReaderConstants.NIGHT_MODE, true);
 			editor.commit();
 		} else {
 			// apply text color

@@ -6,7 +6,7 @@ public class Bookmark {
 	private int time;
 	private int section;
 	private String id;
-	private int position;
+	private int sort;
 	private String textShow;
 
 	public String getBook() {
@@ -49,12 +49,12 @@ public class Bookmark {
 		this.id = id;
 	}
 	
-	public int getPosition() {
-		return position;
+	public int getSort() {
+		return sort;
 	}
 
-	public void setPosition(int position) {
-		this.position = position;
+	public void setSort(int sort) {
+		this.sort = sort;
 	}
 	
 	public String getTextShow() {
@@ -65,12 +65,12 @@ public class Bookmark {
 		this.textShow = textShow;
 	}
 
-	public Bookmark(String book, String text, int time, int section, int position, String id) {
+	public Bookmark(String book, String text, int time, int section, int sort, String id) {
 		this.book = book;
 		this.text = text;
 		this.time = time;
 		this.section = section;
-		this.position = position;
+		this.sort = sort;
 		this.id = id;
 	}
 	

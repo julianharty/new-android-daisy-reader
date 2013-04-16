@@ -18,63 +18,64 @@ import org.androiddaisyreader.model.NccSpecification;
 import org.androiddaisyreader.model.Section;
 
 public final class DaisyReaderUtils {
-	public static final String LAST_BOOK = "last_book_open";
-	public static final String PREFS_FILE = "DaisyReaderPreferences";
-	public static final String DEFAULT_ROOT_FOLDER = DaisyReaderConstants.SDCARD;
-	public static final String OPT_ROOT_FOLDER = "rootfolder";
-	
 	// Don't allow anyone to create this utility class.
-	private DaisyReaderUtils() {};
-	
+	private DaisyReaderUtils() {
+	};
+
 	/**
 	 * Tests if the directory contains the essential root file for a Daisy book
 	 * 
 	 * Currently it's limited to checking for Daisy 2.02 books.
-	 * @param folder for the directory to check
+	 * 
+	 * @param folder
+	 *            for the directory to check
 	 * @return true if the directory is deemed to contain a Daisy Book, else
-	 * false.
+	 *         false.
 	 */
-    public static boolean folderContainsDaisy2_02Book(File folder) {
-        if (!folder.isDirectory()) {
-            return false;
-        }
+	public static boolean folderContainsDaisy2_02Book(File folder) {
+		boolean result = false;
+		if (!folder.isDirectory()) {
+			result = false;
+		}
 
-        if (new File(folder, "ncc.html").exists()) {
-        	return true;
-        }
-        
-        // Minor hack to cope with the potential of ALL CAPS filename, as per
-        // http://www.daisy.org/z3986/specifications/daisy_202.html#ncc
-        if (new File(folder, "NCC.HTML").exists()) {
-            return true;
-        }
-        
-        return false;
-    }
-    
-    /*
-     * return the NccFileName for a given book's root folder.
-     * @param currentDirectory
-     * @return the filename as a string if it exists, else null.
-     */
-    public static String getNccFileName(File currentDirectory) {
-    	if (new File(currentDirectory, "ncc.html").exists()) {
-    		return "ncc.html";
-    	}
+		if (new File(folder, "ncc.html").exists()) {
+			result = true;
+		}
 
-    	if (new File(currentDirectory, "NCC.HTML").exists()) {
-    		return "NCC.HTML";
-    	}
+		// Minor hack to cope with the potential of ALL CAPS filename, as per
+		// http://www.daisy.org/z3986/specifications/daisy_202.html#ncc
+		if (new File(folder, "NCC.HTML").exists()) {
+			result = true;
+		}
+		return result;
+	}
+
+	/*
+	 * return the NccFileName for a given book's root folder.
+	 * 
+	 * @param currentDirectory
+	 * 
+	 * @return the filename as a string if it exists, else null.
+	 */
+	public static String getNccFileName(File currentDirectory) {
+		if (new File(currentDirectory, "ncc.html").exists()) {
+			return "ncc.html";
+		}
+
+		if (new File(currentDirectory, "NCC.HTML").exists()) {
+			return "NCC.HTML";
+		}
 
 		return null;
 	}
-    
-    /**
-     * get book context from filename.
-     * @param filename
-     * @return book context
-     * @throws IOException
-     */
+
+	/**
+	 * get book context from filename.
+	 * 
+	 * @param filename
+	 * @return book context
+	 * @throws IOException
+	 */
 	public static BookContext openBook(String filename) throws IOException {
 		BookContext bookContext;
 
@@ -83,32 +84,32 @@ public final class DaisyReaderUtils {
 		directory = null;
 		return bookContext;
 	}
-	
+
 	/**
 	 * get contents of book from path.
+	 * 
 	 * @param path
 	 * @return ArrayList<String>
 	 */
-	public static ArrayList<String> getContents(String path)
-	{
+	public static ArrayList<String> getContents(String path) {
 		String chapter = "Chapter";
 		Daisy202Book book = getDaisy202Book(path);
 		Object[] sections = null;
-		if(book !=null)
+		if (book != null)
 			sections = book.getChildren().toArray();
 		ArrayList<String> listResult = new ArrayList<String>();
 		for (int i = 0; i < sections.length; i++) {
 			Section section = (Section) sections[i];
 			int numOfChapter = i + 1;
-			listResult.add(String.format("%s %s: %s",
-					chapter, numOfChapter,
+			listResult.add(String.format("%s %s: %s", chapter, numOfChapter,
 					section.getTitle()));
 		}
 		return listResult;
 	}
-	
+
 	/**
 	 * open book from path
+	 * 
 	 * @param path
 	 * @return Daisy202Book
 	 */

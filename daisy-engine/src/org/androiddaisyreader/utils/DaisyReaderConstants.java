@@ -7,8 +7,6 @@
 package org.androiddaisyreader.utils;
 
 public class DaisyReaderConstants {
-	public static String SDCARD="/sdcard/";
-	public static String RESOURCE_GESTURES="/sdcard/gestures";
 	public static int MY_DATA_CHECK_CODE = 1234;
 	public static String NUMBER_OF_RECENT_BOOKS = "numberOfRecentBooks";
 	public static String NUMBER_OF_BOOKMARKS = "numberOfBookmarks";

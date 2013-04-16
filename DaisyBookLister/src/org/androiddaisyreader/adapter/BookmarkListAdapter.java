@@ -144,7 +144,7 @@ public class BookmarkListAdapter extends ArrayAdapter<Bookmark> {
 	private void pushToDaisyEbookReaderVisualModeIntent(String path,
 			int section, int time) {
 		Intent i = new Intent(context, DaisyEbookReaderVisualModeActivity.class);
-		i.putExtra(DaisyReaderConstants.POSITION_SECTION, section);
+		i.putExtra(DaisyReaderConstants.POSITION_SECTION, String.valueOf(section));
 		i.putExtra(DaisyReaderConstants.DAISY_PATH, path);
 		i.putExtra(DaisyReaderConstants.TIME, time);
 		context.startActivity(i);

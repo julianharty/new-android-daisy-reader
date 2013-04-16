@@ -1,3 +1,9 @@
+/**
+ * This activity is bookmark which control all things about save bookmarks and load bookmarks.
+ * @author LogiGear
+ * @date 2013.03.05
+ */
+
 package org.androiddaisyreader.apps;
 
 import java.util.ArrayList;
@@ -22,51 +28,58 @@ import android.content.SharedPreferences;
 import android.view.Window;
 import android.view.WindowManager.LayoutParams;
 import android.widget.ListView;
+import android.widget.TextView;
 
 @SuppressLint("NewApi")
 public class DaisyReaderBookmarkActivity extends Activity {
-	private BookmarkListAdapter adapter;
+	private BookmarkListAdapter mAdapter;
 	private ProgressDialog mProgressDialog;
-	private ListView listBookmark;
-	private String bookTitle;
-	private String sentence;
-	private String section;
-	private String time;
-	private SqlLiteBookmarkHelper sql;
-	private ArrayList<Bookmark> listItems;
-	private Bookmark bookmark;
-	private String path;
-	private SharedPreferences preferences;
-	private Window window;
-	private int numberOfBookmarks;
+	private ListView mListBookmark;
+	private String mBookTitle;
+	private String mSentence;
+	private String mSection;
+	private String mTime;
+	private SqlLiteBookmarkHelper mSql;
+	private ArrayList<Bookmark> mListItems;
+	private Bookmark mBookmark;
+	private String mPath;
+	private SharedPreferences mPreferences;
+	private Window mWindow;
+	private int mNumberOfBookmarks;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		requestWindowFeature(Window.FEATURE_CUSTOM_TITLE);
 		setContentView(R.layout.activity_daisy_reader_bookmark);
-		preferences = PreferenceManager
+		mPreferences = PreferenceManager
 				.getDefaultSharedPreferences(getApplicationContext());
-		window = getWindow();
-		numberOfBookmarks = preferences.getInt(
-				DaisyReaderConstants.NUMBER_OF_BOOKMARKS, 3);
-		listBookmark = (ListView) this.findViewById(R.id.listBookmark);
-		bookTitle = getIntent().getStringExtra(DaisyReaderConstants.BOOK);
-		sentence = getIntent().getStringExtra(DaisyReaderConstants.SENTENCE);
-		section = getIntent().getStringExtra(DaisyReaderConstants.SECTION);
-		time = getIntent().getStringExtra(DaisyReaderConstants.TIME);
-		path = getIntent().getStringExtra(DaisyReaderConstants.DAISY_PATH);
+		mWindow = getWindow();
+		mWindow.setFeatureInt(Window.FEATURE_CUSTOM_TITLE, R.layout.custom_title);
+		mNumberOfBookmarks = mPreferences.getInt(
+				DaisyReaderConstants.NUMBER_OF_BOOKMARKS, 3);		
+		mListBookmark = (ListView) this.findViewById(R.id.listBookmark);
+		mBookTitle = getIntent().getStringExtra(DaisyReaderConstants.BOOK);
+		mSentence = getIntent().getStringExtra(DaisyReaderConstants.SENTENCE);
+		mSection = getIntent().getStringExtra(DaisyReaderConstants.SECTION);
+		mTime = getIntent().getStringExtra(DaisyReaderConstants.TIME);
+		mPath = getIntent().getStringExtra(DaisyReaderConstants.DAISY_PATH);
+		TextView tvBookTitle = (TextView) this.findViewById(R.id.bookTitle);
+		String[] title = mPath.split("/");
+		mBookTitle = title[title.length - 2];
+		tvBookTitle.setText(mBookTitle);
 		// create a bookmark
-		bookmark = new Bookmark();
-		if (sentence != null) {
-			bookmark.setBook(bookTitle);
-			bookmark.setText(sentence);
-			bookmark.setTime(Integer.valueOf(time));
-			bookmark.setSection(Integer.valueOf(section));
-			bookmark.setId(UUID.randomUUID().toString());
+		mBookmark = new Bookmark();
+		if (mSentence != null) {
+			mBookmark.setBook(mBookTitle);
+			mBookmark.setText(mSentence);
+			mBookmark.setTime(Integer.valueOf(mTime));
+			mBookmark.setSection(Integer.valueOf(mSection));
+			mBookmark.setId(UUID.randomUUID().toString());
 		}
-		sql = new SqlLiteBookmarkHelper(getApplicationContext());
-		listItems = new ArrayList<Bookmark>();
-		listItems = sql.getAllBookmark(bookTitle);
+		mSql = new SqlLiteBookmarkHelper(getApplicationContext());
+		mListItems = new ArrayList<Bookmark>();
+		mListItems = mSql.getAllBookmark(mBookTitle);
 		loadData();
 	}
 
@@ -75,19 +88,19 @@ public class DaisyReaderBookmarkActivity extends Activity {
 		@Override
 		protected ArrayList<Bookmark> doInBackground(Void... params) {
 			ArrayList<Bookmark> result = new ArrayList<Bookmark>();
-			if (numberOfBookmarks < listItems.size()) {
-				for (int i = 0; i < numberOfBookmarks; i++) {
-					Bookmark bookmark = listItems.get(i);
+			if (mNumberOfBookmarks < mListItems.size()) {
+				for (int i = 0; i < mNumberOfBookmarks; i++) {
+					Bookmark bookmark = mListItems.get(i);
 					bookmark.setTextShow(bookmark.getText());
 					result.add(bookmark);
 				}
 			} else {
-				for (int i = 0; i < listItems.size(); i++) {
-					Bookmark bookmark = listItems.get(i);
+				for (int i = 0; i < mListItems.size(); i++) {
+					Bookmark bookmark = mListItems.get(i);
 					bookmark.setTextShow(bookmark.getText());
 					result.add(bookmark);
 				}
-				for (int i = 0; i < numberOfBookmarks - listItems.size(); i++) {
+				for (int i = 0; i < mNumberOfBookmarks - mListItems.size(); i++) {
 					Bookmark bookmark = new Bookmark();
 					bookmark.setTextShow(getString(R.string.empty_bookmark));
 					result.add(bookmark);
@@ -98,9 +111,9 @@ public class DaisyReaderBookmarkActivity extends Activity {
 
 		@Override
 		protected void onPostExecute(ArrayList<Bookmark> result) {
-			adapter = new BookmarkListAdapter(DaisyReaderBookmarkActivity.this,
-					result, bookmark, path);
-			listBookmark.setAdapter(adapter);
+			mAdapter = new BookmarkListAdapter(DaisyReaderBookmarkActivity.this,
+					result, mBookmark, mPath);
+			mListBookmark.setAdapter(mAdapter);
 			mProgressDialog.dismiss();
 		}
 
@@ -129,15 +142,15 @@ public class DaisyReaderBookmarkActivity extends Activity {
 		// get value of brightness from preference. Otherwise, get current
 		// brightness from system.
 		try {
-			valueScreen = preferences.getInt(DaisyReaderConstants.BRIGHTNESS,
+			valueScreen = mPreferences.getInt(DaisyReaderConstants.BRIGHTNESS,
 					System.getInt(cResolver, System.SCREEN_BRIGHTNESS));
 		} catch (SettingNotFoundException e) {
 			e.printStackTrace();
 		}
-		LayoutParams layoutpars = window.getAttributes();
+		LayoutParams layoutpars = mWindow.getAttributes();
 		layoutpars.screenBrightness = valueScreen / (float) 255;
 		// apply attribute changes to this window
-		window.setAttributes(layoutpars);
+		mWindow.setAttributes(layoutpars);
 		super.onResume();
 	}
 

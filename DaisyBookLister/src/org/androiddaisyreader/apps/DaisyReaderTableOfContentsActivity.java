@@ -1,3 +1,8 @@
+/**
+ * This activity is table of contents. It will so structure of book.
+ * @author LogiGear
+ * @date 2013.03.05
+ */
 package org.androiddaisyreader.apps;
 
 import java.util.ArrayList;
@@ -19,44 +24,43 @@ import android.view.WindowManager.LayoutParams;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
-import android.widget.Toast;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.AdapterView.OnItemLongClickListener;
 
 public class DaisyReaderTableOfContentsActivity extends Activity implements
 		TextToSpeech.OnInitListener {
 
-	private TextToSpeech tts;
-	private ArrayList<String> listResult;
-	private ListView listContent;
-	private String targetActivity;
-	private SharedPreferences preferences;
-	private Window window;
+	private TextToSpeech mTts;
+	private ArrayList<String> mListResult;
+	private ListView mListContent;
+	private String mTargetActivity;
+	private SharedPreferences mPreferences;
+	private Window mWindow;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_daisy_reader_table_of_contents);
-		preferences = PreferenceManager
+		mPreferences = PreferenceManager
 				.getDefaultSharedPreferences(getApplicationContext());
-		window = getWindow();
-		listContent = (ListView) this.findViewById(R.id.listContent);
-		listResult = getIntent().getStringArrayListExtra(
+		mWindow = getWindow();
+		mListContent = (ListView) this.findViewById(R.id.listContent);
+		mListResult = getIntent().getStringArrayListExtra(
 				DaisyReaderConstants.LIST_CONTENTS);
-		tts = new TextToSpeech(this, this);
+		mTts = new TextToSpeech(this, this);
 		ArrayAdapter<String> adapter = new ArrayAdapter<String>(
 				getApplicationContext(), R.layout.listrow, R.id.rowTextView,
-				listResult);
-		listContent.setAdapter(adapter);
-		listContent.setOnItemClickListener(itemContentsClick);
-		listContent.setOnItemLongClickListener(itemContentsLongClick);
+				mListResult);
+		mListContent.setAdapter(adapter);
+		mListContent.setOnItemClickListener(itemContentsClick);
+		mListContent.setOnItemLongClickListener(itemContentsLongClick);
 	}
 
 	@Override
 	protected void onDestroy() {
-		if (tts != null) {
-			tts.stop();
-			tts.shutdown();
+		if (mTts != null) {
+			mTts.stop();
+			mTts.shutdown();
 		}
 		super.onDestroy();
 	}
@@ -68,15 +72,15 @@ public class DaisyReaderTableOfContentsActivity extends Activity implements
 		// get value of brightness from preference. Otherwise, get current
 		// brightness from system.
 		try {
-			valueScreen = preferences.getInt(DaisyReaderConstants.BRIGHTNESS,
+			valueScreen = mPreferences.getInt(DaisyReaderConstants.BRIGHTNESS,
 					System.getInt(cResolver, System.SCREEN_BRIGHTNESS));
 		} catch (SettingNotFoundException e) {
 			e.printStackTrace();
 		}
-		LayoutParams layoutpars = window.getAttributes();
+		LayoutParams layoutpars = mWindow.getAttributes();
 		layoutpars.screenBrightness = valueScreen / (float) 255;
 		// apply attribute changes to this window
-		window.setAttributes(layoutpars);
+		mWindow.setAttributes(layoutpars);
 		super.onResume();
 	}
 
@@ -84,10 +88,7 @@ public class DaisyReaderTableOfContentsActivity extends Activity implements
 		@Override
 		public void onItemClick(AdapterView<?> arg0, View v, int position,
 				long id) {
-			Toast.makeText(getBaseContext(),
-					listResult.get(position).toString(), Toast.LENGTH_SHORT)
-					.show();
-			tts.speak(listResult.get(position).toString(),
+			mTts.speak(mListResult.get(position).toString(),
 					TextToSpeech.QUEUE_FLUSH, null);
 		}
 
@@ -96,21 +97,21 @@ public class DaisyReaderTableOfContentsActivity extends Activity implements
 	private OnItemLongClickListener itemContentsLongClick = new OnItemLongClickListener() {
 		public boolean onItemLongClick(AdapterView<?> arg0, View v,
 				int position, long id) {
-			pushToDaisyEbookReaderModeIntent(position);
+			pushToDaisyEbookReaderModeIntent(position + 1);
 			return false;
 		};
 	};
 
 	private void pushToDaisyEbookReaderModeIntent(int position) {
 		Intent i = null;
-		targetActivity = getIntent().getStringExtra(
+		mTargetActivity = getIntent().getStringExtra(
 				DaisyReaderConstants.TARGET_ACTIVITY);
-		if (targetActivity.equals(getString(R.string.simpleMode))) {
+		if (mTargetActivity.equals(getString(R.string.simpleMode))) {
 			i = new Intent(this, DaisyEbookReaderSimpleModeActivity.class);
-		} else if (targetActivity.equals(getString(R.string.visualMode))) {
+		} else if (mTargetActivity.equals(getString(R.string.visualMode))) {
 			i = new Intent(this, DaisyEbookReaderVisualModeActivity.class);
 		}
-		i.putExtra(DaisyReaderConstants.POSITION_SECTION, position);
+		i.putExtra(DaisyReaderConstants.POSITION_SECTION, String.valueOf(position));
 		// Make sure path of daisy book is correct.
 		i.putExtra(DaisyReaderConstants.DAISY_PATH,
 				getIntent().getStringExtra(DaisyReaderConstants.DAISY_PATH));

@@ -21,11 +21,14 @@
     <string name="sdCardNotPresent">No external SD card found</string>
     <string name="atBegin">At the beginning of </string>
     <string name="atEnd">At the end of </string>
+    <string name="space"> </string>
     <string name="Error">Error</string>
     <string name="noPathFound">No path found</string>
     <string name="wrongFormat">Wrong format</string>
     <string name="scanBooks">Scan Books</string>
     <string name="recentBooks">Recent Books</string>
+    <string name="collapse">Collapse</string>
+    <string name="expand">Expand</string>
     <string name="simpleMode">SIMPLE mode</string>
     <string name="descSimpleMode">This mode is designed specifically for blind, low vision, and print disabled user.</string>
 	<string name="visualMode">VISUAL mode</string>

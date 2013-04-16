@@ -45,7 +45,6 @@ import android.view.Window;
 import android.view.View.OnClickListener;
 import android.view.WindowManager.LayoutParams;
 import android.widget.RelativeLayout;
-import android.widget.Toast;
 
 public class DaisyEbookReaderSimpleModeActivity extends Activity implements
 		OnClickListener, TextToSpeech.OnInitListener {
@@ -497,9 +496,6 @@ public class DaisyEbookReaderSimpleModeActivity extends Activity implements
 					// If user choose pause and play. 400 is time delay when you
 					// told on your phone.
 					mHandler.postDelayed(this, mTimePause + 400);
-					Toast.makeText(getApplicationContext(),
-							String.valueOf(mTimePause), Toast.LENGTH_SHORT)
-							.show();
 				} else {
 					mHandler.postDelayed(this, mListEnd.get(mPositionSentence)
 							- mListBegin.get(mPositionSentence));

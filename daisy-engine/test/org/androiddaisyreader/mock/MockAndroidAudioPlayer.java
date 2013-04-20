@@ -1,8 +1,7 @@
 package org.androiddaisyreader.mock;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.logging.*;
+import java.util.logging.Logger;
+
 import org.androiddaisyreader.AudioCallbackListener;
 import org.androiddaisyreader.AudioPlayer;
 import org.androiddaisyreader.model.Audio;

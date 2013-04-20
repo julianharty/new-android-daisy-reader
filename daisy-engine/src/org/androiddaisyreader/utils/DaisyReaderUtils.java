@@ -53,6 +53,26 @@ public final class DaisyReaderUtils {
     }
     
     /**
+     * Does the uri represent a DAISY 2.02 book?
+     * @param uri textual identifier e.g. a filename or path
+     * @return true if the uri represents a DAISY 2.02 book, else false.
+     */
+    public static boolean isDaisy2_02Book(String uri) {
+    	try {
+    		ArrayList<String> temp = getContents(uri);
+    		if (temp != null) {
+    			temp = null;
+    			return true;
+    		}
+    	} catch (NullPointerException npe) {
+    		// TODO 20130318 (jharty) For now we will simply skip the error
+    		// and assume it's not a DAISY book.
+    		// e.g. .android_secure isn't a DAISY book
+    	}
+    	return false;
+    }
+    
+    /**
      * return the NccFileName for a given book's root folder.
      * @param currentDirectory
      * @return the filename as a string if it exists, else null.
@@ -79,7 +99,13 @@ public final class DaisyReaderUtils {
 		BookContext bookContext;
 
 		File directory = new File(filename);
-		bookContext = new FileSystemContext(directory.getParent());
+		boolean isDirectory = directory.isDirectory();
+		if (isDirectory) {
+			bookContext = new FileSystemContext(filename);
+		} else {
+			// TODO 20130329 (jharty): think through why I used getParent previously.
+			bookContext = new FileSystemContext(directory.getParent());
+		}
 		directory = null;
 		return bookContext;
 	}
@@ -91,12 +117,21 @@ public final class DaisyReaderUtils {
 	 */
 	public static ArrayList<String> getContents(String path)
 	{
+		// Guard code to protect the private methods from needing to check for invalid inputs.
+		if (path == null) {
+			return null;  // TODO 20130326 (jharty) consider better error reporting.
+		}
+		
 		String chapter = "Chapter";
 		Daisy202Book book = getDaisy202Book(path);
 		Object[] sections = null;
-		if(book !=null)
-			sections = book.getChildren().toArray();
+		if(book == null) {
+			// Short circuit the processing, and avoid a NPE bug
+			return null;
+		}
+		
 		ArrayList<String> listResult = new ArrayList<String>();
+		sections = book.getChildren().toArray();
 		for (int i = 0; i < sections.length; i++) {
 			Section section = (Section) sections[i];
 			int numOfChapter = i + 1;
@@ -115,6 +150,7 @@ public final class DaisyReaderUtils {
 	private static Daisy202Book getDaisy202Book(String path) {
 		InputStream contents;
 		Daisy202Book book = null;
+		
 		try {
 			BookContext bookContext;
 			bookContext = DaisyReaderUtils.openBook(path);
@@ -125,6 +161,7 @@ public final class DaisyReaderUtils {
 			// TODO 20120515 (jharty): Add test for SDCARD being available
 			// so we can tell the user...
 			e.printStackTrace();
+			return null;
 		}
 		return book;
 	}

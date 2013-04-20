@@ -16,10 +16,13 @@ public class FileSystemContext implements BookContext {
 	
 	public FileSystemContext(String directoryName) {
 		directory = new File(directoryName);
-		if (!directory.isDirectory()) {
+		boolean isDirectory = directory.isDirectory();
+		directory = null;
+		if (isDirectory) {
+			this.directoryName = directoryName;
+		} else {
 			throw new IllegalStateException("A valid directory is required");
 		}
-		this.directoryName = directoryName;
 	}
 
 	public InputStream getResource(String uri) throws FileNotFoundException {

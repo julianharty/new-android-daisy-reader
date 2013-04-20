@@ -1,14 +1,7 @@
 package org.androiddaisyreader.testapps;
 
-import static org.androiddaisyreader.model.XmlUtilities.obtainEncodingStringFromInputStream;
-
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.IOException;
-import java.io.InputStream;
-
-import javax.xml.parsers.ParserConfigurationException;
-import javax.xml.parsers.SAXParserFactory;
 
 import org.androiddaisyreader.AudioPlayer;
 import org.androiddaisyreader.controller.AudioPlayerController;
@@ -18,10 +11,6 @@ import org.androiddaisyreader.model.BookContext;
 import org.androiddaisyreader.model.Daisy202Section;
 import org.androiddaisyreader.model.FileSystemContext;
 import org.androiddaisyreader.model.Part;
-import org.androiddaisyreader.model.Daisy202Section.Builder;
-import org.xml.sax.InputSource;
-import org.xml.sax.SAXException;
-import org.xml.sax.XMLReader;
 
 public class ProcessExternalSmilFile {
 

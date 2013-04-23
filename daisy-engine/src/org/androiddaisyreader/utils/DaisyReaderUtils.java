@@ -10,6 +10,7 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
+import java.util.List;
 
 import org.androiddaisyreader.model.BookContext;
 import org.androiddaisyreader.model.Daisy202Book;
@@ -128,5 +129,26 @@ public final class DaisyReaderUtils {
 			e.printStackTrace();
 		}
 		return book;
+	}
+	static ArrayList<String> result;
+	public static ArrayList<String> getDaisyBook(File path, boolean isLoop) {
+		if(!isLoop)
+		{
+			result = new ArrayList<String>();
+		}
+		if (DaisyReaderUtils.folderContainsDaisy2_02Book(path)) {
+			result.add(path.getAbsolutePath());
+		}
+		else if (path.listFiles() != null) {
+			File[] files = path.listFiles();
+			for (File file : files) {
+				if (DaisyReaderUtils.folderContainsDaisy2_02Book(file)) {
+					result.add(file.getAbsolutePath());
+				} else if (file.isDirectory()) {
+					getDaisyBook(file, true);
+				}
+			}
+		}
+		return result;
 	}
 }

@@ -539,7 +539,7 @@ public class DaisyEbookReaderVisualModeActivity extends Activity implements
 		}
 	}
 
-	private int mTest = 0;
+	private int mNumberPre = 0;
 
 	private void highlightText() {
 		mStartOfSentence = 0;
@@ -587,12 +587,12 @@ public class DaisyEbookReaderVisualModeActivity extends Activity implements
 								mTime = -1;
 							}
 
-							if (mNumberOfChar - mTest > mNumberOfCharOnScreen
+							if (mNumberOfChar - mNumberPre > mNumberOfCharOnScreen
 									* mNumberOfScroll) {
 								try {
 									Preconditions.checkNotNull(mContents
 											.getLayout());
-									mTest = mNumberOfChar
+									mNumberPre = mNumberOfChar
 											- mNumberOfCharOnScreen
 											* mNumberOfScroll;
 									int line = mContents.getLayout()

@@ -122,6 +122,16 @@ public class IntentController {
 	}
 	
 	/**
+	 * push to activity simple mode
+	 * @param path
+	 */
+	public void pushToDaisyEbookReaderSimpleModeIntent(String path) {
+		Intent i = new Intent(context, DaisyEbookReaderSimpleModeActivity.class);
+		i.putExtra(DaisyReaderConstants.DAISY_PATH, path);
+		context.startActivity(i);
+	}
+	
+	/**
 	 * push to activity visual mode
 	 * @param path
 	 */

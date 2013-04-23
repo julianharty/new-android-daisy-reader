@@ -6,6 +6,8 @@
 
 package org.androiddaisyreader.apps;
 
+import com.google.common.base.Preconditions;
+
 import java.io.InputStream;
 
 import org.androiddaisyreader.model.BookContext;
@@ -54,7 +56,8 @@ public class DaisyEbookReaderActivity extends Activity implements
 		mPreferences = PreferenceManager
 				.getDefaultSharedPreferences(getApplicationContext());
 		mWindow = getWindow();
-		mWindow.setFeatureInt(Window.FEATURE_CUSTOM_TITLE, R.layout.custom_title);
+		mWindow.setFeatureInt(Window.FEATURE_CUSTOM_TITLE,
+				R.layout.custom_title);
 		mIntentController = new IntentController(this);
 		mTts = new TextToSpeech(this, this);
 		TextView tvBookTitle = (TextView) this.findViewById(R.id.bookTitle);
@@ -83,8 +86,8 @@ public class DaisyEbookReaderActivity extends Activity implements
 
 		@Override
 		public void onClick(View v) {
-			mTts.speak(getString(R.string.simpleMode), TextToSpeech.QUEUE_FLUSH,
-					null);
+			mTts.speak(getString(R.string.simpleMode),
+					TextToSpeech.QUEUE_FLUSH, null);
 		}
 	};
 
@@ -92,7 +95,7 @@ public class DaisyEbookReaderActivity extends Activity implements
 
 		@Override
 		public boolean onLongClick(View v) {
-			mIntentController.pushToDaisyEbookReaderSimpleModeIntent(mPath, 0, 0);
+			mIntentController.pushToDaisyEbookReaderSimpleModeIntent(mPath);
 			return false;
 		}
 	};
@@ -101,8 +104,8 @@ public class DaisyEbookReaderActivity extends Activity implements
 
 		@Override
 		public void onClick(View v) {
-			mTts.speak(getString(R.string.visualMode), TextToSpeech.QUEUE_FLUSH,
-					null);
+			mTts.speak(getString(R.string.visualMode),
+					TextToSpeech.QUEUE_FLUSH, null);
 		}
 	};
 
@@ -126,11 +129,11 @@ public class DaisyEbookReaderActivity extends Activity implements
 				contents = mBookContext.getResource(sp[sp.length - 1]);
 				mBook = NccSpecification.readFromStream(contents);
 				mNavigator = new Navigator(mBook);
-				mIntentController.pushToTableOfContentsIntent(mPath, mNavigator,
-						getString(R.string.visualMode));
+				mIntentController.pushToTableOfContentsIntent(mPath,
+						mNavigator, getString(R.string.visualMode));
 			} catch (Exception e) {
-				mIntentController
-						.pushToDialogError(getString(R.string.noPathFound), true);
+				mIntentController.pushToDialogError(
+						getString(R.string.error_noPathFound), true);
 			}
 		}
 	};
@@ -142,21 +145,24 @@ public class DaisyEbookReaderActivity extends Activity implements
 			try {
 				Bookmark bookmark = new Bookmark();
 				bookmark.setBook(mBookTitle);
-				mIntentController
-						.pushToDaisyReaderBookmarkIntent(bookmark, mPath);
+				mIntentController.pushToDaisyReaderBookmarkIntent(bookmark,
+						mPath);
 
 			} catch (Exception e) {
-				mIntentController
-						.pushToDialogError(getString(R.string.noPathFound), true);
+				mIntentController.pushToDialogError(
+						getString(R.string.error_noPathFound), true);
 			}
 		}
 	};
 
 	@Override
 	protected void onDestroy() {
-		if (mTts != null) {
+		try {
+			Preconditions.checkNotNull(mTts);
 			mTts.stop();
 			mTts.shutdown();
+		} catch (NullPointerException e) {
+			e.printStackTrace();
 		}
 		super.onDestroy();
 	}

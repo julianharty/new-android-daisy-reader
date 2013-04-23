@@ -113,7 +113,7 @@ public class SqlLiteRecentBookHelper extends SQLiteOpenHelper {
      */
     public ArrayList<RecentBooks> getAllRecentBooks(){
         SQLiteDatabase mdb = getReadableDatabase();
-        String sql = "select * from " + TABLE_NAME + " order by " + SORT_KEY + " ASC";
+        String sql = "SELECT * FROM " + TABLE_NAME + " ORDER BY " + SORT_KEY + " DESC";
         Cursor mCursor = mdb.rawQuery(sql, null);
         ArrayList<RecentBooks> arrRecentBooks = new ArrayList<RecentBooks>();
 

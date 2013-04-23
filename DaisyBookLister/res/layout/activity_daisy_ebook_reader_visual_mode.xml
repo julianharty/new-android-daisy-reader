@@ -1,26 +1,27 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/layoutVisualMode"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
-    android:orientation="vertical" 
-    android:id ="@+id/layoutVisualMode">
+    android:orientation="vertical" >
 
     <ScrollView
         android:id="@+id/scrollView"
         android:layout_width="fill_parent"
         android:layout_height="0dp"
-        android:layout_weight="1.04" >
+        android:layout_weight="1.04"
+        android:scrollbars="none" >
 
         <TextView
             android:id="@+id/contents"
             android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:text="" />
+            android:layout_height="wrap_content" />
     </ScrollView>
 
     <RelativeLayout
+        android:id="@+id/test"
         android:layout_width="fill_parent"
-        android:layout_height="wrap_content" >
+        android:layout_height="50dp" >
 
         <ImageButton
             android:id="@+id/btnNextSection"
@@ -66,7 +67,6 @@
             android:layout_toRightOf="@+id/btnPreviousSection"
             android:contentDescription="@string/previousSentence"
             android:src="@drawable/media_previous_sentence" />
-
     </RelativeLayout>
 
 </LinearLayout>

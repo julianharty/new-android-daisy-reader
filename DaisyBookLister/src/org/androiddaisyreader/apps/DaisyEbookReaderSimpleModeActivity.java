@@ -5,6 +5,7 @@
  */
 
 package org.androiddaisyreader.apps;
+
 import java.io.InputStream;
 import java.util.ArrayList;
 
@@ -20,6 +21,7 @@ import org.androiddaisyreader.model.NccSpecification;
 import org.androiddaisyreader.model.Part;
 import org.androiddaisyreader.model.Section;
 import org.androiddaisyreader.player.AndroidAudioPlayer;
+import org.androiddaisyreader.player.IntentController;
 import org.androiddaisyreader.utils.DaisyReaderConstants;
 import org.androiddaisyreader.utils.DaisyReaderUtils;
 
@@ -29,116 +31,136 @@ import com.google.marvin.widget.GestureOverlay.GestureListener;
 
 import android.media.MediaPlayer;
 import android.os.Bundle;
-import android.os.Debug;
+import android.os.Handler;
+import android.preference.PreferenceManager;
+import android.provider.Settings.SettingNotFoundException;
+import android.provider.Settings.System;
 import android.app.Activity;
-import android.app.Dialog;
-import android.content.Intent;
+import android.content.ContentResolver;
+import android.content.SharedPreferences;
 import android.speech.tts.TextToSpeech;
 import android.util.Log;
-import android.view.Menu;
 import android.view.View;
-import android.view.View.OnClickListener;
 import android.view.Window;
-import android.widget.Button;
+import android.view.View.OnClickListener;
+import android.view.WindowManager.LayoutParams;
 import android.widget.RelativeLayout;
-import android.widget.TextView;
-import android.widget.Toast;
 
 public class DaisyEbookReaderSimpleModeActivity extends Activity implements
 		OnClickListener, TextToSpeech.OnInitListener {
-	public static boolean isFirstNext = false;
-	public static boolean isFirstPrevious = true;
-	private static boolean BENCHMARK_ACTIVITY = false;
-	private TextToSpeech tts;
-	private BookContext bookContext;
-	private Daisy202Book book;
-	private Navigator navigator;
-	private NavigationListener navigationListener = new NavigationListener();
-	private Controller controller = new Controller(navigationListener);
-	private AudioPlayerController audioPlayer;
-	private AndroidAudioPlayer androidAudioPlayer;
-	private GestureOverlay gestureOverlay;
-	private MediaPlayer player;
-	private ArrayList<Integer> listIntEnd;
-	private Object[] sections;
+	private boolean mIsFirstNext = false;
+	private boolean mIsFirstPrevious = false;
+	private TextToSpeech mTts;
+	private BookContext mBookContext;
+	private Daisy202Book mBook;
+	private Navigator mNavigator;
+	private Navigator mNavigatorOfTableContents;
+	private NavigationListener mNavigationListener;
+	private Controller mController;
+	private AudioPlayerController mAudioPlayer;
+	private AndroidAudioPlayer mAndroidAudioPlayer;
+	private GestureOverlay mGestureOverlay;
+	private MediaPlayer mPlayer;
+	private ArrayList<Integer> mListEnd;
+	private ArrayList<Integer> mListBegin;
+	private IntentController mIntentController;
+	private SharedPreferences mPreferences;
+	private Window mWindow;
+	private String mTime;
+	private int mPositionSentence = 0;
+	private boolean mIsRunable = true;
+	private Runnable mRunnalbe;
+	private Handler mHandler;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_daisy_ebook_reader_simple_mode);
-		if (BENCHMARK_ACTIVITY) {
-			Debug.startMethodTracing();
-		}
-		tts = new TextToSpeech(this, this);
+		mPreferences = PreferenceManager
+				.getDefaultSharedPreferences(getApplicationContext());
+		mWindow = getWindow();
+		mIntentController = new IntentController(
+				DaisyEbookReaderSimpleModeActivity.this);
+		mTts = new TextToSpeech(this, this);
+		mNavigationListener = new NavigationListener();
+		mController = new Controller(mNavigationListener);
 		RelativeLayout relativeLayout = (RelativeLayout) findViewById(R.id.daisyReaderSimpleModeLayout);
-		gestureOverlay = new GestureOverlay(this, gestureListener);
-		relativeLayout.addView(gestureOverlay);
+		mGestureOverlay = new GestureOverlay(this, gestureListener);
+		relativeLayout.addView(mGestureOverlay);
 		setContentView(relativeLayout);
+		mHandler = new Handler();
 		openBook();
 		try {
-			sections = book.getChildren().toArray();
-			int i = getIntent().getIntExtra(
-					DaisyReaderConstants.POSITION_SECTION, -1);
-
-			if (i != -1) {
-				navigationListener.onNext((Section) sections[i]);
-				isFirstNext = true;
-				isFirstPrevious = true;
+			String i = getIntent().getStringExtra(
+					DaisyReaderConstants.POSITION_SECTION);
+			mTime = getIntent().getStringExtra(DaisyReaderConstants.TIME);
+			if (i != null) {
+				mIsFirstNext = true;
+				mIsFirstPrevious = true;
+				Navigable n = null;
+				int countLoop = Integer.valueOf(i);
+				for (int j = 0; j < countLoop; j++) {
+					n = mNavigator.next();
+				}
+				if (n instanceof Section) {
+					mNavigationListener.onNext((Section) n);
+				}
+			} else {
+				togglePlay();
 			}
 
 		} catch (Exception e) {
-			showDialogError(getString(R.string.noPathFound));
+			mIntentController.pushToDialogError(
+					getString(R.string.noPathFound), true);
 		}
-
 	}
 
 	@Override
 	public void onBackPressed() {
+		mHandler.removeCallbacks(mRunnalbe);
 		super.onBackPressed();
 	}
 
 	@Override
-	public boolean onCreateOptionsMenu(Menu menu) {
-		// Inflate the menu; this adds items to the action bar if it is present.
-		getMenuInflater().inflate(
-				R.menu.activity_daisy_ebook_reader_simple_mode, menu);
-		return true;
+	protected void onDestroy() {
+		if (mPlayer != null && mPlayer.isPlaying()) {
+			mPlayer.stop();
+		}
+		if (mTts != null) {
+			mTts.stop();
+			mTts.shutdown();
+		}
+		mHandler.removeCallbacks(mRunnalbe);
+		super.onDestroy();
 	}
 
 	@Override
-	protected void onDestroy() {
-		if (player != null && player.isPlaying()) {
-			player.stop();
+	protected void onResume() {
+		ContentResolver cResolver = getContentResolver();
+		int valueScreen = 0;
+		// get value of brightness from preference. Otherwise, get current
+		// brightness from system.
+		try {
+			valueScreen = mPreferences.getInt(DaisyReaderConstants.BRIGHTNESS,
+					System.getInt(cResolver, System.SCREEN_BRIGHTNESS));
+		} catch (SettingNotFoundException e) {
+			e.printStackTrace();
 		}
-		if (tts != null) {
-            tts.stop();
-            tts.shutdown();
-        }
-		super.onDestroy();
+		LayoutParams layoutpars = mWindow.getAttributes();
+		layoutpars.screenBrightness = valueScreen / (float) 255;
+		// apply attribute changes to this window
+		mWindow.setAttributes(layoutpars);
+		mNavigatorOfTableContents = new Navigator(mBook);
+		super.onResume();
 	}
 
 	private AudioCallbackListener audioCallbackListener = new AudioCallbackListener() {
 
 		public void endOfAudio() {
 			Log.i("DAISYBOOKLISTENERACTIVITY", "Audio is over...");
-			controller.next();
+			mController.next();
 		}
 	};
-
-	/**
-	 * Push to activity table of content when user press and hold.
-	 */
-	private void pushToTableOfContentsIntent() {
-		if (player.isPlaying()) {
-			player.pause();
-		}
-		Intent i = new Intent(this, DaisyReaderTableOfContentsActivity.class);
-		String path = getIntent().getStringExtra(DaisyReaderConstants.DAISY_PATH);
-		ArrayList<String> listContents = DaisyReaderUtils.getContents(path);
-		i.putStringArrayListExtra(DaisyReaderConstants.LIST_CONTENTS, listContents);
-		i.putExtra(DaisyReaderConstants.DAISY_PATH, path);
-		this.startActivity(i);
-	}
 
 	/**
 	 * open book from path
@@ -148,19 +170,18 @@ public class DaisyEbookReaderSimpleModeActivity extends Activity implements
 		try {
 			String path = getIntent().getStringExtra(
 					DaisyReaderConstants.DAISY_PATH);
-			bookContext = DaisyReaderUtils.openBook(path);
+			mBookContext = DaisyReaderUtils.openBook(path);
 			String[] sp = path.split("/");
-			contents = bookContext.getResource(sp[sp.length - 1]);
+			contents = mBookContext.getResource(sp[sp.length - 1]);
 
-			androidAudioPlayer = new AndroidAudioPlayer(bookContext);
-			androidAudioPlayer.addCallbackListener(audioCallbackListener);
-			audioPlayer = new AudioPlayerController(androidAudioPlayer);
-			player = androidAudioPlayer.getCurrentPlayer();
+			mAndroidAudioPlayer = new AndroidAudioPlayer(mBookContext);
+			mAndroidAudioPlayer.addCallbackListener(audioCallbackListener);
+			mAudioPlayer = new AudioPlayerController(mAndroidAudioPlayer);
+			mPlayer = mAndroidAudioPlayer.getCurrentPlayer();
 
-			book = NccSpecification.readFromStream(contents);
-			Toast.makeText(getBaseContext(), book.getTitle(),
-					Toast.LENGTH_SHORT).show();
-			navigator = new Navigator(book);
+			mBook = NccSpecification.readFromStream(contents);
+			mNavigator = new Navigator(mBook);
+			mNavigatorOfTableContents = new Navigator(mBook);
 
 		} catch (Exception e) {
 			// TODO 20120515 (jharty): Add test for SDCARD being available
@@ -177,32 +198,39 @@ public class DaisyEbookReaderSimpleModeActivity extends Activity implements
 	private class NavigationListener {
 		public void onNext(Section section) {
 			Daisy202Section currentSection = new Daisy202Section.Builder()
-					.setHref(section.getHref()).setContext(bookContext).build();
+					.setHref(section.getHref()).setContext(mBookContext)
+					.build();
 
 			StringBuilder audioListings = new StringBuilder();
-			listIntEnd = new ArrayList<Integer>();
+			mListEnd = new ArrayList<Integer>();
+			mListBegin = new ArrayList<Integer>();
 			for (Part part : currentSection.getParts()) {
 				for (int i = 0; i < part.getAudioElements().size(); i++) {
 					Audio audioSegment = part.getAudioElements().get(i);
-					audioPlayer.playFileSegment(audioSegment);
+					mAudioPlayer.playFileSegment(audioSegment);
 					audioListings.append(audioSegment.getAudioFilename() + ", "
 							+ audioSegment.getClipBegin() + ":"
 							+ audioSegment.getClipEnd() + "\n");
-					listIntEnd.add(audioSegment.getClipEnd());
+					mListBegin.add(audioSegment.getClipEnd());
+					mListEnd.add(audioSegment.getClipEnd());
 				}
 			}
+			// seek to time when user change from visual mode
+			if (mTime != null) {
+				mPlayer.seekTo(Integer.valueOf(mTime));
+				mTime = null;
+			}
+			getCurrentPositionSentence();
 		}
 
 		public void atEndOfBook() {
-			Toast.makeText(getBaseContext(),
-					getString(R.string.atEnd) + book.getTitle(),
-					Toast.LENGTH_SHORT).show();
+			mTts.speak(getString(R.string.atEnd) + mBook.getTitle(),
+					TextToSpeech.QUEUE_FLUSH, null);
 		}
 
 		public void atBeginOfBook() {
-			Toast.makeText(getBaseContext(),
-					getString(R.string.atBegin) + book.getTitle(),
-					Toast.LENGTH_SHORT).show();
+			mTts.speak(getString(R.string.atBegin) + mBook.getTitle(),
+					TextToSpeech.QUEUE_FLUSH, null);
 		}
 	}
 
@@ -220,23 +248,21 @@ public class DaisyEbookReaderSimpleModeActivity extends Activity implements
 			this.navigationListener = navigationListener;
 		}
 
-		//Go to next section
+		// Go to next section
 		public void next() {
-			if (navigator.hasNext()) {
-				if (isFirstNext) {
+			if (mNavigator.hasNext()) {
+				if (mIsFirstNext) {
 					// Make sure no repeat section is playing.
-					navigator.next();
-					isFirstPrevious = true;
-					isFirstNext = false;
+					mNavigator.next();
+					mIsFirstPrevious = true;
+					mIsFirstNext = false;
 				}
-				n = navigator.next();
+				n = mNavigator.next();
 				if (n instanceof Section) {
+					mHandler.removeCallbacks(mRunnalbe);
+					mIsRunable = true;
+					mPositionSentence = 0;
 					navigationListener.onNext((Section) n);
-				}
-				if (n instanceof Part) {
-					String msg = "Part, id: " + ((Part) n).id;
-					Toast.makeText(getApplicationContext(), msg,
-							Toast.LENGTH_SHORT).show();
 				}
 
 			} else {
@@ -248,21 +274,19 @@ public class DaisyEbookReaderSimpleModeActivity extends Activity implements
 		 * Go to previous section
 		 */
 		public void previous() {
-			if (navigator.hasPrevious()) {
-				if (isFirstPrevious) {
+			if (mNavigator.hasPrevious()) {
+				if (mIsFirstPrevious) {
 					// Make sure the section is playing no repeat.
-					navigator.previous();
-					isFirstPrevious = false;
-					isFirstNext = true;
+					mNavigator.previous();
+					mIsFirstPrevious = false;
+					mIsFirstNext = true;
 				}
-				n = navigator.previous();
+				n = mNavigator.previous();
 				if (n instanceof Section) {
+					mHandler.removeCallbacks(mRunnalbe);
+					mIsRunable = true;
+					mPositionSentence = 0;
 					navigationListener.onNext((Section) n);
-				}
-				if (n instanceof Part) {
-					String msg = "Part, id: " + ((Part) n).id;
-					Toast.makeText(getApplicationContext(), msg,
-							Toast.LENGTH_SHORT).show();
 				}
 			} else {
 				navigationListener.atBeginOfBook();
@@ -279,18 +303,24 @@ public class DaisyEbookReaderSimpleModeActivity extends Activity implements
 
 		@Override
 		public void onGestureStart(int g) {
-			startTime = System.currentTimeMillis();
+			startTime = java.lang.System.currentTimeMillis();
 			Log.i("GESTURE", "onGestureStart" + startTime);
 		}
 
 		@Override
 		public void onGestureFinish(int g) {
-			long timeTaken = System.currentTimeMillis() - startTime;
-			int i;
+			long timeTaken = java.lang.System.currentTimeMillis() - startTime;
 			Log.i("GESTURE", "onGestureTimeTaken" + timeTaken);
 			// If user press and hold will go to table of contents.
 			if (timeTaken > 1000) {
-				pushToTableOfContentsIntent();
+				if (mPlayer.isPlaying()) {
+					mPlayer.pause();
+				}
+				String path = getIntent().getStringExtra(
+						DaisyReaderConstants.DAISY_PATH);
+				mIntentController.pushToTableOfContentsIntent(path,
+						mNavigatorOfTableContents,
+						getString(R.string.simpleMode));
 			} else {
 				switch (g) {
 				case Gesture.CENTER:
@@ -299,49 +329,42 @@ public class DaisyEbookReaderSimpleModeActivity extends Activity implements
 					break;
 				case Gesture.DOWN:
 					Log.i("GESTURE", "Action: DOWN");
-					tts.speak(getString(R.string.nextSection),
-							TextToSpeech.QUEUE_FLUSH, null);
-					Toast.makeText(getBaseContext(),
-							getString(R.string.nextSection),
-							Toast.LENGTH_SHORT).show();
-					i = player.getCurrentPosition();
-					if (isFirstNext && isFirstPrevious) {
-						controller.next();
-						player.seekTo(i);
+					if (mNavigator.hasNext()) {
+						mTts.speak(getString(R.string.nextSection),
+								TextToSpeech.QUEUE_FLUSH, null);
 					}
-					controller.next();
+					nextSection();
 					break;
 				case Gesture.UP:
 					Log.i("GESTURE", "Action: UP");
-					tts.speak(getString(R.string.previousSection),
-							TextToSpeech.QUEUE_FLUSH, null);
-					Toast.makeText(getBaseContext(),
-							getString(R.string.previousSection),
-							Toast.LENGTH_SHORT).show();
-					i = player.getCurrentPosition();
-					if (isFirstNext && isFirstPrevious) {
-						controller.previous();
-						player.seekTo(i);
+
+					if (mNavigator.hasPrevious()) {
+						mTts.speak(getString(R.string.previousSection),
+								TextToSpeech.QUEUE_FLUSH, null);
 					}
-					controller.previous();
+					previousSection();
 					break;
 				case Gesture.LEFT:
 					Log.i("GESTURE", "Action: LEFT");
-					tts.speak(getString(R.string.previousSentence),
-							TextToSpeech.QUEUE_FLUSH, null);
-					Toast.makeText(getBaseContext(),
-							getString(R.string.previousSentence),
-							Toast.LENGTH_SHORT).show();
 					previousSentence();
+					if (mPositionSentence > 0) {
+						mPositionSentence -= 1;
+						mHandler.removeCallbacks(mRunnalbe);
+						mIsRunable = true;
+						getCurrentPositionSentence();
+					}
 					break;
 				case Gesture.RIGHT:
 					Log.i("GESTURE", "Action: RIGHT");
-					tts.speak(getString(R.string.nextSentence),
-							TextToSpeech.QUEUE_FLUSH, null);
-					Toast.makeText(getBaseContext(),
-							getString(R.string.nextSentence),
-							Toast.LENGTH_SHORT).show();
 					nextSentence();
+					if (mPositionSentence < mListBegin.size() - 1) {
+						mPositionSentence += 1;
+						mHandler.removeCallbacks(mRunnalbe);
+						mIsRunable = true;
+						getCurrentPositionSentence();
+						mHandler.postDelayed(mRunnalbe, 1000);
+
+					}
 					break;
 				default:
 					break;
@@ -355,92 +378,135 @@ public class DaisyEbookReaderSimpleModeActivity extends Activity implements
 	};
 
 	/**
-	 * Toggles the Media Player between Play and Pause states.
-	 */
-	public void togglePlay() {
-		if (player.isPlaying()) {
-			tts.speak(getString(R.string.pause),
-					TextToSpeech.QUEUE_FLUSH, null);
-			Toast.makeText(getBaseContext(), getString(R.string.pause),
-					Toast.LENGTH_SHORT).show();
-			player.pause();
-		} else {
-			tts.speak(getString(R.string.play),
-					TextToSpeech.QUEUE_FLUSH, null);
-			Toast.makeText(getBaseContext(), getString(R.string.play),
-					Toast.LENGTH_SHORT).show();
-			try {
-				player.start();
-			} catch (Exception e) {
-				showDialogError(getString(R.string.wrongFormat));
-			}
-		}
-	}
-
-	/**
 	 * Go to next sentence by seek to time of clip end nearest position.
 	 */
 	private void nextSentence() {
-		int currentTime = player.getCurrentPosition();
-		if (currentTime == 0) {
-			navigationListener.atEndOfBook();
+		int currentTime = mPlayer.getCurrentPosition();
+		if (currentTime == 0 && !mNavigator.hasNext()) {
+			mNavigationListener.atEndOfBook();
+		} else if (mPositionSentence < mListBegin.size() - 1) {
+			mTts.speak(getString(R.string.nextSentence),
+					TextToSpeech.QUEUE_FLUSH, null);
+			mPlayer.seekTo(mListBegin.get(mPositionSentence + 1));
 		} else {
-			for (int i = 0; i < listIntEnd.size(); i++) {
-				if (currentTime < listIntEnd.get(i)) {
-					if (i == listIntEnd.size() - 2) {
-						navigationListener.atEndOfBook();
-					} else {
-						player.seekTo(listIntEnd.get(i));
-						break;
-					}
-				}
-			}
+			nextSection();
+			mPositionSentence -= 1;
 		}
 	}
-	
+
+	private void nextSection() {
+		boolean isPlaying = mPlayer.isPlaying();
+		mController.next();
+		if (!isPlaying) {
+			setMediaPause();
+		}
+	}
+
 	/**
 	 * Go to previous sentence by seek to time of clip end before two units.
 	 */
 	private void previousSentence() {
-		int currentTime = player.getCurrentPosition();
-		if (currentTime == 0) {
-			navigationListener.atEndOfBook();
+		if (!mNavigator.hasPrevious() && mPositionSentence == 0) {
+			mNavigationListener.atBeginOfBook();
+		} else if (!mNavigator.hasNext()
+				&& mPositionSentence == mListBegin.size() - 1) {
+			// It is code to resolve previous sentence when the end
+			// of the book.
+			Navigable n = mNavigator.previous();
+			n = mNavigator.next();
+			mNavigationListener.onNext((Section) n);
+			mTts.speak(getString(R.string.previousSentence),
+					TextToSpeech.QUEUE_FLUSH, null);
+			mPlayer.seekTo(mListEnd.get(mPositionSentence - 1));
+		} else if (mPositionSentence > 0) {
+			mTts.speak(getString(R.string.previousSentence),
+					TextToSpeech.QUEUE_FLUSH, null);
+			mPlayer.seekTo(mListBegin.get(mPositionSentence - 1));
 		} else {
-			for (int i = 0; i < listIntEnd.size(); i++) {
-				if (currentTime < listIntEnd.get(i)) {
-					if (i < 2) {
-						navigationListener.atBeginOfBook();
-					} else {
-						player.seekTo(listIntEnd.get(i - 2));
-						break;
-					}
-				}
+			mIsFirstPrevious = true;
+			mController.previous();
+			if (mListEnd.size() > 1) {
+				mPlayer.seekTo(mListEnd.get(mListEnd.size() - 2));
 			}
 		}
 	}
 
-	@Override
-	public void onInit(int arg0) {
+	private void previousSection() {
+		boolean isPlaying = mPlayer.isPlaying();
+		mController.previous();
+		if (!isPlaying) {
+			setMediaPause();
+		}
 	}
 
-	public void showDialogError(String message) {
-		final Dialog dialog = new Dialog(this);
-		dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
-		dialog.setContentView(R.layout.dialog);
-		// set the custom dialog components - text, image and button
-		TextView text = (TextView) dialog.findViewById(R.id.text);
-		text.setText(message);
+	private void setMediaPause() {
+		mHandler.removeCallbacks(mRunnalbe);
+		mTts.speak(getString(R.string.pause), TextToSpeech.QUEUE_FLUSH, null);
+		mPlayer.pause();
+		mIsRunable = false;
+	}
 
-		Button dialogButton = (Button) dialog.findViewById(R.id.dialogButtonOK);
-		// if button is clicked, close the custom dialog
-		dialogButton.setOnClickListener(new OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				dialog.dismiss();
-				onBackPressed();
+	long mTimePause = 0;
+
+	private void setMediaPlay() {
+		mPlayer.start();
+		mIsRunable = true;
+		if (mPlayer.getCurrentPosition() != 0 && mListEnd != null) {
+			// if you pause while audio playing. You need to know time pause to
+			// high light text more correctly.
+			mTimePause = mListEnd.get(mPositionSentence)
+					- mPlayer.getCurrentPosition();
+		}
+		mHandler.post(mRunnalbe);
+		mTts.speak(getString(R.string.play), TextToSpeech.QUEUE_FLUSH, null);
+	}
+
+	/**
+	 * Toggles the Media Player between Play and Pause states.
+	 */
+	private void togglePlay() {
+		if (mPlayer.isPlaying()) {
+			setMediaPause();
+		} else {
+			try {
+				setMediaPlay();
+			} catch (Exception e) {
+				mIntentController.pushToDialogError(
+						getString(R.string.wrongFormat), true);
 			}
-		});
-		dialog.show();
+		}
+	}
+
+	private void getCurrentPositionSentence() {
+		mRunnalbe = new Runnable() {
+
+			@Override
+			public void run() {
+				if (mIsRunable) {
+					for (int i = mPositionSentence; i < mListBegin.size(); i++) {
+						if (mListBegin.get(i) < mPlayer.getCurrentPosition() + 500
+								&& mPlayer.getCurrentPosition() < mListEnd
+										.get(i)) {
+							mPositionSentence = i;
+							break;
+						}
+					}
+				}
+				if (mTimePause != 0) {
+					// If user choose pause and play. 400 is time delay when you
+					// told on your phone.
+					mHandler.postDelayed(this, mTimePause + 400);
+				} else {
+					mHandler.postDelayed(this, mListEnd.get(mPositionSentence)
+							- mListBegin.get(mPositionSentence));
+				}
+			}
+		};
+		mHandler.post(mRunnalbe);
+	}
+
+	@Override
+	public void onInit(int arg0) {
 	}
 
 }

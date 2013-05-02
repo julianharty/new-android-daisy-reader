@@ -4,7 +4,9 @@
     android:layout_height="match_parent"
     android:orientation="vertical" >
 
-     <ExpandableListView android:id="@+id/myList"
-  android:layout_width="match_parent" android:layout_height="fill_parent"/>
+    <ExpandableListView
+        android:id="@+id/myList"
+        android:layout_width="match_parent"
+        android:layout_height="fill_parent"/>
 
 </LinearLayout>

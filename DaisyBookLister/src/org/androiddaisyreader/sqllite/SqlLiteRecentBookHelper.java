@@ -1,9 +1,7 @@
 package org.androiddaisyreader.sqllite;
 
 import java.util.ArrayList;
-
 import org.androiddaisyreader.model.RecentBooks;
-import org.androiddaisyreader.utils.DaisyReaderConstants;
 
 import android.content.ContentValues;
 import android.content.Context;
@@ -11,16 +9,16 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
-public class SqlLiteHelper extends SQLiteOpenHelper {
+public class SqlLiteRecentBookHelper extends SQLiteOpenHelper {
 
-	private static final String DATABASE_NAME = "daisyReaderDB";
+	private static final String DATABASE_NAME = "RecentBooksDB";
 	private static final String TABLE_NAME = "RecentBooks";
 	private static final String NAME_KEY = "_name";
 	private static final String PATH_KEY = "_path";
 	private static final String SORT_KEY = "_sort";
 	
-	public SqlLiteHelper(Context context) {
-		super(context, DATABASE_NAME, null, DaisyReaderConstants.NUMBER_OF_RECENT_BOOKS);
+	public SqlLiteRecentBookHelper(Context context) {
+		super(context, DATABASE_NAME, null, 1);
 	}
 
 	@Override
@@ -150,5 +148,4 @@ public class SqlLiteHelper extends SQLiteOpenHelper {
         
         return mCursor.moveToFirst();
     }
-    
 }

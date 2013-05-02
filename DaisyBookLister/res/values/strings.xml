@@ -21,19 +21,20 @@
     <string name="sdCardNotPresent">No external SD card found</string>
     <string name="atBegin">At the beginning of </string>
     <string name="atEnd">At the end of </string>
-    <string name="space"> </string>
+    <string name="space">\u0020</string>
     <string name="Error">Error</string>
-    <string name="noPathFound">No path found</string>
-    <string name="wrongFormat">Wrong format</string>
+    <string name="error_noPathFound">No path found</string>
+    <string name="error_wrongFormat">Wrong format</string>
+    <string name="error_null">null</string>
     <string name="scanBooks">Scan Books</string>
     <string name="recentBooks">Recent Books</string>
     <string name="collapse">Collapse</string>
     <string name="expand">Expand</string>
     <string name="simpleMode">SIMPLE mode</string>
     <string name="descSimpleMode">This mode is designed specifically for blind, low vision, and print disabled user.</string>
-	<string name="visualMode">VISUAL mode</string>
+    <string name="visualMode">VISUAL mode</string>
     <string name="descVisualMode">In the graphical mode, all menus are vocalized and include large, graphical elements.</string>
-	<string name="tableOfContents">Table of Contents</string>
+    <string name="tableOfContents">Table of Contents</string>
     <string name="bookmarks">Bookmarks</string>
     <string name="hello_world">Hello world!</string>
     <string name="settings">Settings</string>
@@ -46,15 +47,14 @@
     <string name="message_bookmark">Choosing options</string>
     <string name="test_fontsize">ABCDEF</string>
     <string name="color_picker_viewer">Color Viewer(Click to select 16Color)</string>
-	<string name="change_text_color">Change text color</string>
-	<string name="change_background_color">Change background color</string>
-    
-<string name="change_highlight_color">Change highlight color</string>
-	<string name="change_number_recent_books">Change number recent books</string>
-	<string name="change_number_bookmarks">Change number bookmarks</string>
-	<string name="night_mode">Night Mode</string>
-	<string name="search_text">Search Text</string>
-	<string name="toggle_turn_on">Turn On</string>
+    <string name="change_text_color">Change text color</string>
+    <string name="change_background_color">Change background color</string>
+    <string name="change_highlight_color">Change highlight color</string>
+    <string name="change_number_recent_books">Change number recent books</string>
+    <string name="change_number_bookmarks">Change number bookmarks</string>
+    <string name="night_mode">Night Mode</string>
+    <string name="search_text">Search Text</string>
+    <string name="toggle_turn_on">Turn On</string>
     <string name="toggle_turn_off">Turn Off</string>
-    
+
 </resources>

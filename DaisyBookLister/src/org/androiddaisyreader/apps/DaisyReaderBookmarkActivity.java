@@ -14,6 +14,8 @@ import org.androiddaisyreader.model.Bookmark;
 import org.androiddaisyreader.sqllite.SqlLiteBookmarkHelper;
 import org.androiddaisyreader.utils.DaisyReaderConstants;
 
+import com.google.common.base.Preconditions;
+
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
@@ -55,9 +57,11 @@ public class DaisyReaderBookmarkActivity extends Activity {
 		mPreferences = PreferenceManager
 				.getDefaultSharedPreferences(getApplicationContext());
 		mWindow = getWindow();
-		mWindow.setFeatureInt(Window.FEATURE_CUSTOM_TITLE, R.layout.custom_title);
+		mWindow.setFeatureInt(Window.FEATURE_CUSTOM_TITLE,
+				R.layout.custom_title);
 		mNumberOfBookmarks = mPreferences.getInt(
-				DaisyReaderConstants.NUMBER_OF_BOOKMARKS, 3);		
+				DaisyReaderConstants.NUMBER_OF_BOOKMARKS,
+				DaisyReaderConstants.NUMBER_OF_BOOKMARK_DEFAULT);
 		mListBookmark = (ListView) this.findViewById(R.id.listBookmark);
 		mBookTitle = getIntent().getStringExtra(DaisyReaderConstants.BOOK);
 		mSentence = getIntent().getStringExtra(DaisyReaderConstants.SENTENCE);
@@ -70,12 +74,15 @@ public class DaisyReaderBookmarkActivity extends Activity {
 		tvBookTitle.setText(mBookTitle);
 		// create a bookmark
 		mBookmark = new Bookmark();
-		if (mSentence != null) {
+		try {
+			Preconditions.checkNotNull(mSentence);
 			mBookmark.setBook(mBookTitle);
 			mBookmark.setText(mSentence);
 			mBookmark.setTime(Integer.valueOf(mTime));
 			mBookmark.setSection(Integer.valueOf(mSection));
 			mBookmark.setId(UUID.randomUUID().toString());
+		} catch (NullPointerException e) {
+			e.printStackTrace();
 		}
 		mSql = new SqlLiteBookmarkHelper(getApplicationContext());
 		mListItems = new ArrayList<Bookmark>();
@@ -111,8 +118,8 @@ public class DaisyReaderBookmarkActivity extends Activity {
 
 		@Override
 		protected void onPostExecute(ArrayList<Bookmark> result) {
-			mAdapter = new BookmarkListAdapter(DaisyReaderBookmarkActivity.this,
-					result, mBookmark, mPath);
+			mAdapter = new BookmarkListAdapter(
+					DaisyReaderBookmarkActivity.this, result, mBookmark, mPath);
 			mListBookmark.setAdapter(mAdapter);
 			mProgressDialog.dismiss();
 		}

@@ -15,18 +15,17 @@ import android.widget.TextView;
 
 public class LibraryListAdapter extends BaseExpandableListAdapter {
 
-	private Context context;
-	private ArrayList<HeaderInfo> deptList;
+	private Context mContext;
+	private ArrayList<HeaderInfo> mHeaderList;
 
 	public LibraryListAdapter(Context context, ArrayList<HeaderInfo> deptList) {
-		this.context = context;
-		this.deptList = deptList;
+		this.mContext = context;
+		this.mHeaderList = deptList;
 	}
 
 	@Override
 	public Object getChild(int groupPosition, int childPosition) {
-		ArrayList<DetailInfo> bookList = deptList.get(groupPosition)
-				.getBookList();
+		ArrayList<DetailInfo> bookList = mHeaderList.get(groupPosition).getBookList();
 		return bookList.get(childPosition);
 	}
 
@@ -36,13 +35,12 @@ public class LibraryListAdapter extends BaseExpandableListAdapter {
 	}
 
 	@Override
-	public View getChildView(int groupPosition, int childPosition,
-			boolean isLastChild, View view, ViewGroup parent) {
+	public View getChildView(int groupPosition, int childPosition, boolean isLastChild, View view,
+			ViewGroup parent) {
 
-		DetailInfo detailInfo = (DetailInfo) getChild(groupPosition,
-				childPosition);
+		DetailInfo detailInfo = (DetailInfo) getChild(groupPosition, childPosition);
 		if (view == null) {
-			LayoutInflater infalInflater = (LayoutInflater) context
+			LayoutInflater infalInflater = (LayoutInflater) mContext
 					.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 			view = infalInflater.inflate(R.layout.child_row, null);
 		}
@@ -51,6 +49,8 @@ public class LibraryListAdapter extends BaseExpandableListAdapter {
 		sequence.setText(detailInfo.getSequence().trim() + ") ");
 		TextView childItem = (TextView) view.findViewById(R.id.childItem);
 		childItem.setText(detailInfo.getName().trim());
+		
+		view.setTag(childPosition);
 
 		return view;
 	}
@@ -58,20 +58,19 @@ public class LibraryListAdapter extends BaseExpandableListAdapter {
 	@Override
 	public int getChildrenCount(int groupPosition) {
 
-		ArrayList<DetailInfo> bookList = deptList.get(groupPosition)
-				.getBookList();
+		ArrayList<DetailInfo> bookList = mHeaderList.get(groupPosition).getBookList();
 		return bookList.size();
 
 	}
 
 	@Override
 	public Object getGroup(int groupPosition) {
-		return deptList.get(groupPosition);
+		return mHeaderList.get(groupPosition);
 	}
 
 	@Override
 	public int getGroupCount() {
-		return deptList.size();
+		return mHeaderList.size();
 	}
 
 	@Override
@@ -80,12 +79,11 @@ public class LibraryListAdapter extends BaseExpandableListAdapter {
 	}
 
 	@Override
-	public View getGroupView(int groupPosition, boolean isLastChild, View view,
-			ViewGroup parent) {
+	public View getGroupView(int groupPosition, boolean isLastChild, View view, ViewGroup parent) {
 
 		HeaderInfo headerInfo = (HeaderInfo) getGroup(groupPosition);
 		if (view == null) {
-			LayoutInflater inf = (LayoutInflater) context
+			LayoutInflater inf = (LayoutInflater) mContext
 					.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 			view = inf.inflate(R.layout.group_heading, null);
 		}

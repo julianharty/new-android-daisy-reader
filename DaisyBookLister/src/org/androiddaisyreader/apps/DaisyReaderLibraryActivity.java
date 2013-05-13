@@ -1,29 +1,4 @@
-/**
- * This is library activity which have contains recent books, scan books, etc.
- * @author LogiGear
- * @date 2013.03.05
- */
-
 package org.androiddaisyreader.apps;
-
-import com.google.common.base.Preconditions;
-
-import java.io.File;
-import java.io.FilenameFilter;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.LinkedHashMap;
-import java.util.List;
-
-import org.androiddaisyreader.adapter.LibraryListAdapter;
-import org.androiddaisyreader.model.DetailInfo;
-import org.androiddaisyreader.model.HeaderInfo;
-import org.androiddaisyreader.model.RecentBooks;
-import org.androiddaisyreader.player.IntentController;
-import org.androiddaisyreader.sqllite.SqlLiteRecentBookHelper;
-import org.androiddaisyreader.utils.DaisyReaderConstants;
-import org.androiddaisyreader.utils.DaisyReaderUtils;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
@@ -40,6 +15,7 @@ import android.preference.PreferenceManager;
 import android.provider.Settings.SettingNotFoundException;
 import android.provider.Settings.System;
 import android.speech.tts.TextToSpeech;
+import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager.LayoutParams;
@@ -50,13 +26,34 @@ import android.widget.ExpandableListView;
 import android.widget.ExpandableListView.OnChildClickListener;
 import android.widget.ExpandableListView.OnGroupExpandListener;
 
-@SuppressLint("NewApi")
-public class DaisyReaderLibraryActivity extends Activity implements
-		TextToSpeech.OnInitListener {
+import org.androiddaisyreader.adapter.LibraryListAdapter;
+import org.androiddaisyreader.model.DetailInfo;
+import org.androiddaisyreader.model.HeaderInfo;
+import org.androiddaisyreader.model.RecentBooks;
+import org.androiddaisyreader.player.IntentController;
+import org.androiddaisyreader.sqllite.SqlLiteRecentBookHelper;
+import org.androiddaisyreader.utils.DaisyReaderConstants;
+import org.androiddaisyreader.utils.DaisyReaderUtils;
+import com.google.common.base.Preconditions;
 
+import java.io.File;
+import java.util.ArrayList;
+import java.util.LinkedHashMap;
+import java.util.List;
+
+/**
+ * This is library activity which have contains recent books, scan books, etc.
+ * 
+ * @author LogiGear
+ * @date 2013.03.05
+ */
+
+@SuppressLint("NewApi")
+public class DaisyReaderLibraryActivity extends Activity implements TextToSpeech.OnInitListener {
+
+	private String TAG = "EbookReaderLibrary";
 	private TextToSpeech mTts;
 	private ProgressDialog mProgressDialog;
-	private List<String> mListFiles;
 	private ArrayList<String> mFilesResultRecent;
 	private ArrayList<ArrayList<String>> mFilesResultScan;
 	private ArrayList<DetailInfo> mBookListDetail;
@@ -67,52 +64,44 @@ public class DaisyReaderLibraryActivity extends Activity implements
 	private ExpandableListView mExpandableListView;
 	private SqlLiteRecentBookHelper mSqlLite;
 	private int mNumberOfRecentBooks;
-	private int mGroupPositionRecentBooks = 0;
-	private int mGroupPositionScanBooks = 1;
 	private int mGroupPositionExpand;
 	private SharedPreferences mPreferences;
-	private Window mWindow;
+	private String mSlash = "/";
+	private String location = mCurrentDirectory.getAbsolutePath()
+			+ DaisyReaderConstants.TEMP_FOLDER;
 	private IntentController mIntentController;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_daisy_reader_library);
-		mIntentController = new IntentController(this);
-		mPreferences = PreferenceManager
-				.getDefaultSharedPreferences(getApplicationContext());
-		mNumberOfRecentBooks = mPreferences.getInt(
-				DaisyReaderConstants.NUMBER_OF_RECENT_BOOKS,
+
+		mPreferences = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+		mNumberOfRecentBooks = mPreferences.getInt(DaisyReaderConstants.NUMBER_OF_RECENT_BOOKS,
 				DaisyReaderConstants.NUMBER_OF_RECENTBOOK_DEFAULT);
-		mWindow = getWindow();
 		try {
 			Intent checkTTSIntent = new Intent();
 			checkTTSIntent.setAction(TextToSpeech.Engine.ACTION_CHECK_TTS_DATA);
-			startActivityForResult(checkTTSIntent,
-					DaisyReaderConstants.MY_DATA_CHECK_CODE);
+			startActivityForResult(checkTTSIntent, DaisyReaderConstants.MY_DATA_CHECK_CODE);
 		} catch (Exception e) {
-			e.printStackTrace();
+			Log.i(TAG, "can not get intent");
 		}
+		mIntentController = new IntentController(this);
 		mTts = new TextToSpeech(this, this);
 		mSqlLite = new SqlLiteRecentBookHelper(getApplicationContext());
 		mFilesResultScan = new ArrayList<ArrayList<String>>();
 		mHashMapHeaderInfo = new LinkedHashMap<String, HeaderInfo>();
 		mBookListHeader = new ArrayList<HeaderInfo>();
 		// create the adapter by passing your ArrayList data
-		mListAdapter = new LibraryListAdapter(DaisyReaderLibraryActivity.this,
-				mBookListHeader);
+		mListAdapter = new LibraryListAdapter(DaisyReaderLibraryActivity.this, mBookListHeader);
 		addBookToExpandableList(getString(R.string.recentBooks), null);
 		addBookToExpandableList(getString(R.string.scanBooks), null);
-		// get all recent books from sqlite
-		loadRecentBooks();
-		// get all scan books
-		loadScanBooks();
 		// get reference to the ExpandableListView
 		mExpandableListView = (ExpandableListView) findViewById(R.id.myList);
 		// attach the adapter to the list
 		mExpandableListView.setAdapter(mListAdapter);
 		// listener for child row click
-		mExpandableListView.setOnChildClickListener(myListItemClicked);
+		mExpandableListView.setOnChildClickListener(listItemClick);
 		mExpandableListView.setOnItemLongClickListener(listItemLongClick);
 		mExpandableListView.setOnGroupExpandListener(onGroupExpandListener);
 		mExpandableListView.setOnGroupCollapseListener(onCollapseListener);
@@ -127,8 +116,7 @@ public class DaisyReaderLibraryActivity extends Activity implements
 			if (!(resultCode == TextToSpeech.Engine.CHECK_VOICE_DATA_PASS)) {
 				// missing data, install it
 				Intent installIntent = new Intent();
-				installIntent
-						.setAction(TextToSpeech.Engine.ACTION_INSTALL_TTS_DATA);
+				installIntent.setAction(TextToSpeech.Engine.ACTION_INSTALL_TTS_DATA);
 				startActivity(installIntent);
 			}
 		}
@@ -136,6 +124,9 @@ public class DaisyReaderLibraryActivity extends Activity implements
 
 	@Override
 	public void onInit(int arg0) {
+		// TODO Must import because this activity implements
+		// TextToSpeech.OnInitListener
+
 	}
 
 	@Override
@@ -145,17 +136,18 @@ public class DaisyReaderLibraryActivity extends Activity implements
 			mTts.stop();
 			mTts.shutdown();
 		} catch (NullPointerException e) {
-			e.printStackTrace();
+			Log.i(TAG, "tts is null");
 		}
 		SharedPreferences.Editor editor = mPreferences.edit();
 		editor.putBoolean(DaisyReaderConstants.NIGHT_MODE, false);
 		editor.commit();
+		deleteTmpFolderUnzip(new File(location));
 		super.onDestroy();
 	}
 
 	@Override
 	protected void onResume() {
-
+		Window window = getWindow();
 		ContentResolver cResolver = getContentResolver();
 		int valueScreen = 0;
 		// get value of brightness from preference. Otherwise, get current
@@ -164,20 +156,47 @@ public class DaisyReaderLibraryActivity extends Activity implements
 			valueScreen = mPreferences.getInt(DaisyReaderConstants.BRIGHTNESS,
 					System.getInt(cResolver, System.SCREEN_BRIGHTNESS));
 		} catch (SettingNotFoundException e) {
-			e.printStackTrace();
+			Log.i(TAG, "can not get value of screen");
 		}
-		LayoutParams layoutpars = mWindow.getAttributes();
+		LayoutParams layoutpars = window.getAttributes();
 		layoutpars.screenBrightness = valueScreen / (float) 255;
 		// apply attribute changes to this window
-		mWindow.setAttributes(layoutpars);
+		window.setAttributes(layoutpars);
+		mTts.speak(getString(R.string.title_activity_daisy_reader_library), TextToSpeech.QUEUE_ADD,
+				null);
 		super.onResume();
-
 	}
 
 	@Override
 	public void onBackPressed() {
 		finish();
 		super.onBackPressed();
+	}
+
+	// delete temp folder use for unzip when the application finish.
+	private void deleteTmpFolderUnzip(File file) {
+		if (file.isDirectory()) {
+			// directory is empty, then delete it
+			if (file.list().length == 0) {
+				file.delete();
+			} else {
+				// list all the directory contents
+				String files[] = file.list();
+				for (String temp : files) {
+					// construct the file structure
+					File fileDelete = new File(file, temp);
+					// recursive delete
+					deleteTmpFolderUnzip(fileDelete);
+				}
+				// check the directory again, if empty then delete it
+				if (file.list().length == 0) {
+					file.delete();
+				}
+			}
+		} else {
+			// if file, then delete it
+			file.delete();
+		}
 	}
 
 	/**
@@ -190,39 +209,37 @@ public class DaisyReaderLibraryActivity extends Activity implements
 			// fix bug "HONEYCOMB cannot be resolved or is not a field". Please
 			// change library android to version 3.0 or higher.
 			if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
-				new LoadingData()
-						.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
+				new LoadingData().executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
 			} else {
 				new LoadingData().execute();
 			}
 		} else {
-			mTts.speak(getString(R.string.sdCardNotPresent),
-					TextToSpeech.QUEUE_FLUSH, null);
-			mIntentController.pushToDialogError(
-					getString(R.string.sdCardNotPresent), false);
+			IntentController mIntentController = new IntentController(this);
+			mTts.speak(getString(R.string.sdCardNotPresent), TextToSpeech.QUEUE_FLUSH, null);
+			mIntentController.pushToDialogError(getString(R.string.sdCardNotPresent), false);
 		}
 
 	}
 
 	private OnGroupExpandListener onGroupExpandListener = new OnGroupExpandListener() {
+		int groupPositionRecentBooks = 0;
+		int groupPositionScanBooks = 1;
 
 		@Override
 		public void onGroupExpand(int groupPosition) {
 			HeaderInfo headerInfo = mBookListHeader.get(groupPosition);
 			String header = getString(R.string.scanBooks);
 			if (headerInfo.getName().equals(header)) {
-				mTts.speak(getString(R.string.expand) + header,
-						TextToSpeech.QUEUE_FLUSH, null);
-				mGroupPositionExpand = mGroupPositionScanBooks;
-				mExpandableListView.collapseGroup(mGroupPositionRecentBooks);
+				mTts.speak(getString(R.string.expand) + header, TextToSpeech.QUEUE_FLUSH, null);
+				mGroupPositionExpand = groupPositionScanBooks;
+				mExpandableListView.collapseGroup(groupPositionRecentBooks);
 				// get all books form sd card
 				loadScanBooks();
 			} else {
 				header = getString(R.string.recentBooks);
-				mTts.speak(getString(R.string.expand) + header,
-						TextToSpeech.QUEUE_FLUSH, null);
-				mGroupPositionExpand = mGroupPositionRecentBooks;
-				mExpandableListView.collapseGroup(mGroupPositionScanBooks);
+				mTts.speak(getString(R.string.expand) + header, TextToSpeech.QUEUE_FLUSH, null);
+				mGroupPositionExpand = groupPositionRecentBooks;
+				mExpandableListView.collapseGroup(groupPositionScanBooks);
 				removeBooksFromExpandableList(header);
 				// get all recent books from sqlite
 				loadRecentBooks();
@@ -236,20 +253,19 @@ public class DaisyReaderLibraryActivity extends Activity implements
 		public void onGroupCollapse(int groupPosition) {
 			HeaderInfo headerInfo = mBookListHeader.get(groupPosition);
 			try {
-				Preconditions
-						.checkArgument(mGroupPositionExpand == groupPosition);
+				Preconditions.checkArgument(mGroupPositionExpand == groupPosition);
 				mTts.speak(getString(R.string.collapse) + headerInfo.getName(),
 						TextToSpeech.QUEUE_FLUSH, null);
 			} catch (IllegalArgumentException e) {
-				e.printStackTrace();
+				Log.i(TAG, "can not check argument");
 			}
 		}
 	};
 
-	private OnChildClickListener myListItemClicked = new OnChildClickListener() {
+	private OnChildClickListener listItemClick = new OnChildClickListener() {
 
-		public boolean onChildClick(ExpandableListView parent, View v,
-				int groupPosition, int childPosition, long id) {
+		public boolean onChildClick(ExpandableListView parent, View v, int groupPosition,
+				int childPosition, long id) {
 			// get the group header
 			HeaderInfo headerInfo = mBookListHeader.get(groupPosition);
 			// get the child info
@@ -265,42 +281,75 @@ public class DaisyReaderLibraryActivity extends Activity implements
 	 * Text to speech name of item.
 	 */
 	private OnItemLongClickListener listItemLongClick = new OnItemLongClickListener() {
-		public boolean onItemLongClick(AdapterView<?> arg0, View v,
-				int position, long id) {
+		public boolean onItemLongClick(AdapterView<?> arg0, View v, int position, long id) {
 			try {
 				Preconditions
-						.checkArgument(ExpandableListView
-								.getPackedPositionType(id) == ExpandableListView.PACKED_POSITION_TYPE_CHILD);
-				int parentPosition = ExpandableListView
-						.getPackedPositionGroup(id);
+						.checkArgument(ExpandableListView.getPackedPositionType(id) == ExpandableListView.PACKED_POSITION_TYPE_CHILD);
+				int parentPosition = ExpandableListView.getPackedPositionGroup(id);
 				HeaderInfo headerInfo = mBookListHeader.get(parentPosition);
-				int childPosition = ExpandableListView
-						.getPackedPositionChild(id);
-				String item = null;
-				String path = null;
-				if (headerInfo.getName()
-						.equals(getString(R.string.recentBooks))) {
-					item = mFilesResultRecent.get(childPosition);
-					RecentBooks recentBook = mSqlLite.getInfoRecentBook(item);
-					path = recentBook.getPath();
-				} else if (headerInfo.getName().equals(
-						getString(R.string.scanBooks))) {
-					item = mFilesResultScan.get(childPosition).get(0);
-					File daisyPath = new File(mFilesResultScan.get(
-							childPosition).get(1));
-					path = daisyPath.getAbsolutePath() + "/"
-							+ DaisyReaderUtils.getNccFileName(daisyPath);
-					addRecentBookToSqlLite(item, path);
-
+				int childPosition = ExpandableListView.getPackedPositionChild(id);
+				if (headerInfo.getName().equals(getString(R.string.recentBooks))) {
+					itemRecentBookClick(mFilesResultRecent.get(childPosition));
+				} else if (headerInfo.getName().equals(getString(R.string.scanBooks))) {
+					File daisyPath = new File(mFilesResultScan.get(childPosition).get(1));
+					itemScanBookClick(mFilesResultScan.get(childPosition).get(0), daisyPath);
 				}
-				pushToDaisyEbookReaderIntent(path);
 				return true;
 			} catch (IllegalArgumentException e) {
-				e.printStackTrace();
+				Log.i(TAG, "can not check argument");
 				return false;
 			}
 		};
 	};
+
+	private void itemRecentBookClick(String item) {
+		String path = null;
+		RecentBooks recentBook = mSqlLite.getInfoRecentBook(item);
+		path = recentBook.getPath();
+		if (path.endsWith(".zip")) {
+			File daisyPath = new File(path);
+			unzip(daisyPath);
+		} else {
+			mIntentController.pushToDaisyEbookReaderIntent(path);
+		}
+	}
+
+	private void itemScanBookClick(String item, File daisyPath) {
+		String path = null;
+		String slash = "/";
+		if (daisyPath.getAbsolutePath().endsWith(".zip")) {
+			long sizeFreeOnSdCard = mCurrentDirectory.getUsableSpace();
+			long sizeOfZipFile = daisyPath.length();
+			// If space free of sd card > size of zip file
+			if (sizeFreeOnSdCard > sizeOfZipFile) {
+				// unzip
+				addRecentBookToSqlLite(item, daisyPath.getAbsolutePath());
+				unzip(daisyPath);
+			} else {
+				// do not unzip because the space of sd card does not enough.
+				mTts.speak(getString(R.string.error_not_enough_space), TextToSpeech.QUEUE_FLUSH,
+						null);
+				mIntentController.pushToDialogError(getString(R.string.error_not_enough_space),
+						false);
+			}
+		} else {
+			path = daisyPath.getAbsolutePath() + slash + DaisyReaderUtils.getNccFileName(daisyPath);
+			addRecentBookToSqlLite(item, path);
+			mIntentController.pushToDaisyEbookReaderIntent(path);
+		}
+	}
+
+	private void unzip(File daisyPath) {
+		// fix bug "HONEYCOMB cannot be resolved or is not a field". Please
+		// change library android to version 3.0 or higher.
+		mTts.speak(getString(R.string.unzipping), TextToSpeech.QUEUE_FLUSH, null);
+		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
+			new Unzip().executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, new File[] { daisyPath });
+		} else {
+			new Unzip().execute(new File[] { daisyPath });
+		}
+
+	}
 
 	/**
 	 * Here we add my book into recent books or scan books
@@ -335,7 +384,7 @@ public class DaisyReaderLibraryActivity extends Activity implements
 			detailInfo.setName(book);
 			mBookListDetail.add(detailInfo);
 		} catch (NullPointerException e) {
-			e.printStackTrace();
+			Log.i(TAG, "book is null");
 		}
 		headerInfo.setBookList(mBookListDetail);
 		mListAdapter.notifyDataSetChanged();
@@ -375,8 +424,7 @@ public class DaisyReaderLibraryActivity extends Activity implements
 			}
 		}
 		for (int j = 0; j < mFilesResultRecent.size(); j++) {
-			addBookToExpandableList(getString(R.string.recentBooks),
-					mFilesResultRecent.get(j));
+			addBookToExpandableList(getString(R.string.recentBooks), mFilesResultRecent.get(j));
 		}
 	}
 
@@ -397,17 +445,10 @@ public class DaisyReaderLibraryActivity extends Activity implements
 			if (mSqlLite.isExists(name)) {
 				mSqlLite.deleteRecentBook(mSqlLite.getInfoRecentBook(name));
 			}
-			mSqlLite.addRecentBook(new RecentBooks(name, path,
-					lastestIdRecentBooks + 1));
+			mSqlLite.addRecentBook(new RecentBooks(name, path, lastestIdRecentBooks + 1));
 		} catch (IllegalArgumentException e) {
-			e.printStackTrace();
+			Log.i(TAG, "can not check argument");
 		}
-	}
-
-	private void pushToDaisyEbookReaderIntent(String path) {
-		Intent i = new Intent(this, DaisyEbookReaderActivity.class);
-		i.putExtra(DaisyReaderConstants.DAISY_PATH, path);
-		this.startActivity(i);
 	}
 
 	/**
@@ -417,29 +458,19 @@ public class DaisyReaderLibraryActivity extends Activity implements
 	 * 
 	 */
 	class LoadingData extends AsyncTask<Void, Void, ArrayList<String>> {
+		List<String> listFiles;
 
 		@Override
 		protected ArrayList<String> doInBackground(Void... params) {
-			FilenameFilter dirFilter = new FilenameFilter() {
-				public boolean accept(File dir, String name) {
-					return new File(dir, name).isDirectory();
-				}
-			};
 			int count = 0;
 			ArrayList<String> filesResult = new ArrayList<String>();
-			String[] listOfFiles = mCurrentDirectory.list(dirFilter);
+			File[] files = mCurrentDirectory.listFiles();
 			try {
-				Preconditions.checkNotNull(listOfFiles);
-				mListFiles = new ArrayList<String>(Arrays.asList(listOfFiles));
-				Collections.sort(mListFiles, String.CASE_INSENSITIVE_ORDER);
-
-				for (int i = 0; i < mListFiles.size(); i++) {
-					File daisyPath = new File(mCurrentDirectory,
-							mListFiles.get(i));
-					ArrayList<String> listResult = DaisyReaderUtils
-							.getDaisyBook(daisyPath, false);
+				Preconditions.checkNotNull(files);
+				for (int i = 0; i < files.length; i++) {
+					ArrayList<String> listResult = DaisyReaderUtils.getDaisyBook(files[i], false);
 					for (String result : listResult) {
-						String[] title = result.split("/");
+						String[] title = result.split(mSlash);
 						String item = title[title.length - 1];
 						mFilesResultScan.add(new ArrayList<String>());
 						filesResult.add(item);
@@ -449,8 +480,7 @@ public class DaisyReaderLibraryActivity extends Activity implements
 					}
 				}
 			} catch (NullPointerException e) {
-				mListFiles = new ArrayList<String>();
-				e.printStackTrace();
+				Log.i(TAG, "list of files is null");
 			}
 			return filesResult;
 		}
@@ -460,16 +490,49 @@ public class DaisyReaderLibraryActivity extends Activity implements
 			String header = getString(R.string.scanBooks);
 			removeBooksFromExpandableList(header);
 			for (int i = 0; i < result.size(); i++) {
-				addBookToExpandableList(getString(R.string.scanBooks),
-						result.get(i));
+				addBookToExpandableList(getString(R.string.scanBooks), result.get(i));
 			}
 			mProgressDialog.dismiss();
 		}
 
 		@Override
 		protected void onPreExecute() {
-			mProgressDialog = new ProgressDialog(
-					DaisyReaderLibraryActivity.this);
+			mProgressDialog = new ProgressDialog(DaisyReaderLibraryActivity.this);
+			mProgressDialog.setMessage(getString(R.string.waiting));
+			mProgressDialog.show();
+			super.onPreExecute();
+		}
+	}
+
+	/**
+	 * Show dialog when unzip.
+	 * 
+	 * @author nguyen.le
+	 * 
+	 */
+	class Unzip extends AsyncTask<File, Void, String> {
+
+		@Override
+		protected String doInBackground(File... params) {
+			String path;
+			File daisyPath = params[0];
+			// return name of folder after unzip file
+			String nameOfFolder = DaisyReaderUtils.unzip(daisyPath.getAbsolutePath(), location);
+			// using temp path of unzip file
+			path = daisyPath.getParent() + DaisyReaderConstants.TEMP_FOLDER + nameOfFolder;
+			path = path + mSlash + DaisyReaderUtils.getNccFileName(new File(path));
+			return path;
+		}
+
+		@Override
+		protected void onPostExecute(String result) {
+			mIntentController.pushToDaisyEbookReaderIntent(result);
+			mProgressDialog.dismiss();
+		}
+
+		@Override
+		protected void onPreExecute() {
+			mProgressDialog = new ProgressDialog(DaisyReaderLibraryActivity.this);
 			mProgressDialog.setMessage(getString(R.string.waiting));
 			mProgressDialog.show();
 			super.onPreExecute();

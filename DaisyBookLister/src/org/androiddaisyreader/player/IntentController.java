@@ -8,6 +8,7 @@ package org.androiddaisyreader.player;
 
 import java.util.ArrayList;
 
+import org.androiddaisyreader.apps.DaisyEbookReaderActivity;
 import org.androiddaisyreader.apps.DaisyEbookReaderSimpleModeActivity;
 import org.androiddaisyreader.apps.DaisyEbookReaderVisualModeActivity;
 import org.androiddaisyreader.apps.DaisyReaderBookmarkActivity;
@@ -32,29 +33,29 @@ import android.widget.Button;
 import android.widget.TextView;
 
 public class IntentController {
-	private Context context;
+	private Context mContext;
 
 	public IntentController(Context context) {
-		this.context = context;
+		this.mContext = context;
 	}
-	
+
 	/**
 	 * push to activity setting
 	 */
 	public void pushToDaisyReaderSettingIntent() {
-		Intent i = new Intent(context, DaisyReaderSettingActivity.class);
-		context.startActivity(i);
+		Intent i = new Intent(mContext, DaisyReaderSettingActivity.class);
+		mContext.startActivity(i);
 	}
-	
+
 	/**
 	 * push to activity table of contents
+	 * 
 	 * @param path
 	 * @param navigator
 	 * @param targetActivity
 	 */
-	public void pushToTableOfContentsIntent(String path, Navigator navigator,
-			String targetActivity) {
-		Intent i = new Intent(context, DaisyReaderTableOfContentsActivity.class);
+	public void pushToTableOfContentsIntent(String path, Navigator navigator, String targetActivity) {
+		Intent i = new Intent(mContext, DaisyReaderTableOfContentsActivity.class);
 		ArrayList<String> listContents = new ArrayList<String>();
 		String chapter;
 		int numOfChapter = 0;
@@ -65,23 +66,21 @@ public class IntentController {
 				Section section = (Section) n;
 				if (section.getLevel() == 1) {
 					numOfSection = 0;
-					chapter = "Chapter";
+					chapter = mContext.getString(R.string.chapter);
 					numOfChapter++;
-					listContents.add(String.format("%s %s: %s", chapter,
-							numOfChapter, section.getTitle()));
+					listContents.add(String.format("%s %s: %s", chapter, numOfChapter,
+							section.getTitle()));
 				} else {
-					chapter = "Section";
 					numOfSection++;
-					listContents.add(String.format("\t %s %s: %s", chapter,
-							numOfSection, section.getTitle()));
+					listContents
+							.add(String.format("\t \t %s: %s", numOfSection, section.getTitle()));
 				}
 			}
 		}
-		i.putStringArrayListExtra(DaisyReaderConstants.LIST_CONTENTS,
-				listContents);
+		i.putStringArrayListExtra(DaisyReaderConstants.LIST_CONTENTS, listContents);
 		i.putExtra(DaisyReaderConstants.DAISY_PATH, path);
 		i.putExtra(DaisyReaderConstants.TARGET_ACTIVITY, targetActivity);
-		context.startActivity(i);
+		mContext.startActivity(i);
 	}
 
 	/**
@@ -92,62 +91,62 @@ public class IntentController {
 	 */
 
 	public void pushToDaisyReaderBookmarkIntent(Bookmark bookmark, String path) {
-		Intent i = new Intent(context, DaisyReaderBookmarkActivity.class);
-		i.putExtra(DaisyReaderConstants.BOOK, bookmark.getBook());
+		Intent i = new Intent(mContext, DaisyReaderBookmarkActivity.class);
+		i.putExtra(DaisyReaderConstants.BOOK, bookmark.getPath());
 		i.putExtra(DaisyReaderConstants.DAISY_PATH, path);
 		if (bookmark.getText() != null) {
 			i.putExtra(DaisyReaderConstants.SENTENCE, bookmark.getText());
-			i.putExtra(DaisyReaderConstants.TIME,
-					String.valueOf(bookmark.getTime()));
-			i.putExtra(DaisyReaderConstants.SECTION,
-					String.valueOf(bookmark.getSection()));
+			i.putExtra(DaisyReaderConstants.TIME, String.valueOf(bookmark.getTime()));
+			i.putExtra(DaisyReaderConstants.SECTION, String.valueOf(bookmark.getSection()));
 		}
-		context.startActivity(i);
+		mContext.startActivity(i);
 	}
-	
+
 	/**
 	 * push to activity simple mode
+	 * 
 	 * @param path
 	 * @param section
 	 * @param currentTime
 	 */
-	public void pushToDaisyEbookReaderSimpleModeIntent(String path,
-			int section, int currentTime) {
-		Intent i = new Intent(context, DaisyEbookReaderSimpleModeActivity.class);
+	public void pushToDaisyEbookReaderSimpleModeIntent(String path, int section, int currentTime) {
+		Intent i = new Intent(mContext, DaisyEbookReaderSimpleModeActivity.class);
 		i.putExtra(DaisyReaderConstants.DAISY_PATH, path);
 		i.putExtra(DaisyReaderConstants.TIME, String.valueOf(currentTime));
-		i.putExtra(DaisyReaderConstants.POSITION_SECTION,
-				String.valueOf(section));
-		context.startActivity(i);
+		i.putExtra(DaisyReaderConstants.POSITION_SECTION, String.valueOf(section));
+		mContext.startActivity(i);
 	}
-	
+
 	/**
 	 * push to activity simple mode
+	 * 
 	 * @param path
 	 */
 	public void pushToDaisyEbookReaderSimpleModeIntent(String path) {
-		Intent i = new Intent(context, DaisyEbookReaderSimpleModeActivity.class);
+		Intent i = new Intent(mContext, DaisyEbookReaderSimpleModeActivity.class);
 		i.putExtra(DaisyReaderConstants.DAISY_PATH, path);
-		context.startActivity(i);
+		mContext.startActivity(i);
 	}
-	
+
 	/**
 	 * push to activity visual mode
+	 * 
 	 * @param path
 	 */
 	public void pushToDaisyEbookReaderVisualModeIntent(String path) {
-		Intent i = new Intent(context, DaisyEbookReaderVisualModeActivity.class);
+		Intent i = new Intent(mContext, DaisyEbookReaderVisualModeActivity.class);
 		i.putExtra(DaisyReaderConstants.DAISY_PATH, path);
-		context.startActivity(i);
+		mContext.startActivity(i);
 	}
-	
+
 	/**
 	 * handle show/hide dialog error
+	 * 
 	 * @param message
 	 * @param isBack
 	 */
 	public void pushToDialogError(String message, final boolean isBack) {
-		final Dialog dialog = new Dialog(context);
+		final Dialog dialog = new Dialog(mContext);
 		dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
 		dialog.setContentView(R.layout.dialog_error);
 		// set the custom dialog components - text, image and button
@@ -161,19 +160,25 @@ public class IntentController {
 			public void onClick(View v) {
 				dialog.dismiss();
 				if (isBack) {
-					Activity a = (Activity) context;
+					Activity a = (Activity) mContext;
 					a.onBackPressed();
 				}
 			}
 		});
 		dialog.show();
 	}
-	
+
 	/**
 	 * push to activity library
 	 */
 	public void pushToLibraryIntent() {
-		Intent i = new Intent(context, DaisyReaderLibraryActivity.class);
-		context.startActivity(i);
+		Intent i = new Intent(mContext, DaisyReaderLibraryActivity.class);
+		mContext.startActivity(i);
+	}
+
+	public void pushToDaisyEbookReaderIntent(String path) {
+		Intent i = new Intent(mContext, DaisyEbookReaderActivity.class);
+		i.putExtra(DaisyReaderConstants.DAISY_PATH, path);
+		mContext.startActivity(i);
 	}
 }

@@ -18,7 +18,6 @@ import java.util.zip.ZipFile;
  */
 public class ZippedBookContext implements BookContext {
 	ZipFile zipContents;
-	private ZipEntry entry;
 	
 	protected ZippedBookContext() {
 		// Do nothing.
@@ -40,7 +39,7 @@ public class ZippedBookContext implements BookContext {
 			// assuming that each filename in the zip file is unique. These
 			// assumptions may bite us in the end with some books.
 			// TODO 20120218 (jharty): Consider ways to make the algorithm more robust.
-			if (entry.getName().contains(uri)) {
+			if (entry.getName().contains(uri.toLowerCase())) {
 				return zipContents.getInputStream(entry);
 			}
 		}

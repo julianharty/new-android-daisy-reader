@@ -1,8 +1,5 @@
 package org.androiddaisyreader;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import org.androiddaisyreader.model.Audio;
 import org.androiddaisyreader.model.AudioPlayerState;
 

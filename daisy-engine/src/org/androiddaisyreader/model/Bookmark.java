@@ -1,7 +1,7 @@
 package org.androiddaisyreader.model;
 
 public class Bookmark {
-	private String book;
+	private String path;
 	private String text;
 	private int time;
 	private int section;
@@ -9,12 +9,12 @@ public class Bookmark {
 	private int sort;
 	private String textShow;
 
-	public String getBook() {
-		return book;
+	public String getPath() {
+		return path;
 	}
 
-	public void setBook(String book) {
-		this.book = book;
+	public void setPath(String path) {
+		this.path = path;
 	}
 
 	public String getText() {
@@ -65,8 +65,8 @@ public class Bookmark {
 		this.textShow = textShow;
 	}
 
-	public Bookmark(String book, String text, int time, int section, int sort, String id) {
-		this.book = book;
+	public Bookmark(String path, String text, int time, int section, int sort, String id) {
+		this.path = path;
 		this.text = text;
 		this.time = time;
 		this.section = section;

@@ -3,8 +3,6 @@
  */
 package org.androiddaisyreader.controller;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.logging.Logger;
 
 import org.androiddaisyreader.AudioPlayer;

@@ -1,23 +1,4 @@
-/**
- * This activity contains two mode "simple mode" and "visual mode".
- * @author LogiGear
- * @date 2013.03.05
- */
-
 package org.androiddaisyreader.apps;
-
-import com.google.common.base.Preconditions;
-
-import java.io.InputStream;
-
-import org.androiddaisyreader.model.BookContext;
-import org.androiddaisyreader.model.Bookmark;
-import org.androiddaisyreader.model.Daisy202Book;
-import org.androiddaisyreader.model.Navigator;
-import org.androiddaisyreader.model.NccSpecification;
-import org.androiddaisyreader.player.IntentController;
-import org.androiddaisyreader.utils.DaisyReaderConstants;
-import org.androiddaisyreader.utils.DaisyReaderUtils;
 
 import android.os.Bundle;
 import android.preference.PreferenceManager;
@@ -26,7 +7,9 @@ import android.provider.Settings.System;
 import android.speech.tts.TextToSpeech;
 import android.app.Activity;
 import android.content.ContentResolver;
+import android.content.Intent;
 import android.content.SharedPreferences;
+import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.View.OnLongClickListener;
@@ -36,58 +19,78 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-public class DaisyEbookReaderActivity extends Activity implements
-		TextToSpeech.OnInitListener {
+import com.google.common.base.Preconditions;
+
+import org.androiddaisyreader.model.Bookmark;
+import org.androiddaisyreader.model.Daisy202Book;
+import org.androiddaisyreader.model.Navigator;
+import org.androiddaisyreader.player.IntentController;
+import org.androiddaisyreader.utils.DaisyReaderConstants;
+import org.androiddaisyreader.utils.DaisyReaderUtils;
+
+/**
+ * This activity contains two mode "simple mode" and "visual mode".
+ * 
+ * @author LogiGear
+ * @date 2013.03.05
+ */
+
+public class DaisyEbookReaderActivity extends Activity implements TextToSpeech.OnInitListener {
+	private String TAG = "DaisyEbookReader";
 	private IntentController mIntentController;
-	private String mBookTitle;
 	private String mPath;
 	private SharedPreferences mPreferences;
 	private Window mWindow;
 	private TextToSpeech mTts;
-	private BookContext mBookContext;
 	private Daisy202Book mBook;
-	private Navigator mNavigator;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		requestWindowFeature(Window.FEATURE_CUSTOM_TITLE);
 		setContentView(R.layout.activity_daisy_ebook_reader);
-		mPreferences = PreferenceManager
-				.getDefaultSharedPreferences(getApplicationContext());
+		mPreferences = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
 		mWindow = getWindow();
-		mWindow.setFeatureInt(Window.FEATURE_CUSTOM_TITLE,
-				R.layout.custom_title);
+		mWindow.setFeatureInt(Window.FEATURE_CUSTOM_TITLE, R.layout.custom_title);
 		mIntentController = new IntentController(this);
-		mTts = new TextToSpeech(this, this);
-		TextView tvBookTitle = (TextView) this.findViewById(R.id.bookTitle);
-		mPath = getIntent().getStringExtra(DaisyReaderConstants.DAISY_PATH);
-		String[] title = mPath.split("/");
-		mBookTitle = title[title.length - 2].toString();
-		tvBookTitle.setText(mBookTitle);
-		RelativeLayout simpleMode = (RelativeLayout) this
-				.findViewById(R.id.simpleMode);
+		startTts();
+		setBookTitle();
+		RelativeLayout simpleMode = (RelativeLayout) this.findViewById(R.id.simpleMode);
 		simpleMode.setOnClickListener(simpleModeClick);
 		simpleMode.setOnLongClickListener(simpleModeLongClick);
-		RelativeLayout visualMode = (RelativeLayout) this
-				.findViewById(R.id.visualMode);
+		RelativeLayout visualMode = (RelativeLayout) this.findViewById(R.id.visualMode);
 		visualMode.setOnClickListener(visualModeClick);
 		visualMode.setOnLongClickListener(visualModeLongClick);
-		ImageView imgTableOfContents = (ImageView) this
-				.findViewById(R.id.imgTableOfContents);
+		ImageView imgTableOfContents = (ImageView) this.findViewById(R.id.imgTableOfContents);
 		imgTableOfContents.setOnClickListener(imgTableOfContentsClick);
-
-		ImageView imgBookmarks = (ImageView) this
-				.findViewById(R.id.imgBookmark);
+		ImageView imgBookmarks = (ImageView) this.findViewById(R.id.imgBookmark);
 		imgBookmarks.setOnClickListener(imgBookmarkClick);
 	}
 
-	private OnClickListener simpleModeClick = new OnClickListener() {
+	private void startTts() {
+		mTts = new TextToSpeech(this, this);
+		Intent checkIntent = new Intent();
+		checkIntent.setAction(TextToSpeech.Engine.ACTION_CHECK_TTS_DATA);
+		startActivityForResult(checkIntent, RESULT_OK);
+	}
 
+	private void setBookTitle() {
+		TextView tvBookTitle = (TextView) this.findViewById(R.id.bookTitle);
+		mPath = getIntent().getStringExtra(DaisyReaderConstants.DAISY_PATH);
+		try {
+			mBook = DaisyReaderUtils.getDaisy202Book(mPath);
+			Preconditions.checkNotNull(mBook);
+			tvBookTitle.setText(mBook.getTitle());
+		} catch (NullPointerException e) {
+			mIntentController.pushToDialogError(getString(R.string.error_wrongFormat), true);
+		}
+
+	}
+
+	private OnClickListener simpleModeClick = new OnClickListener() {
 		@Override
 		public void onClick(View v) {
-			mTts.speak(getString(R.string.simpleMode),
-					TextToSpeech.QUEUE_FLUSH, null);
+			mTts.speak(getString(R.string.simpleMode), TextToSpeech.QUEUE_FLUSH, null);
 		}
 	};
 
@@ -104,8 +107,7 @@ public class DaisyEbookReaderActivity extends Activity implements
 
 		@Override
 		public void onClick(View v) {
-			mTts.speak(getString(R.string.visualMode),
-					TextToSpeech.QUEUE_FLUSH, null);
+			mTts.speak(getString(R.string.visualMode), TextToSpeech.QUEUE_FLUSH, null);
 		}
 	};
 
@@ -119,21 +121,16 @@ public class DaisyEbookReaderActivity extends Activity implements
 	};
 
 	private OnClickListener imgTableOfContentsClick = new OnClickListener() {
+		Navigator navigator;
 
 		@Override
 		public void onClick(View v) {
 			try {
-				InputStream contents;
-				mBookContext = DaisyReaderUtils.openBook(mPath);
-				String[] sp = mPath.split("/");
-				contents = mBookContext.getResource(sp[sp.length - 1]);
-				mBook = NccSpecification.readFromStream(contents);
-				mNavigator = new Navigator(mBook);
-				mIntentController.pushToTableOfContentsIntent(mPath,
-						mNavigator, getString(R.string.visualMode));
+				navigator = new Navigator(mBook);
+				mIntentController.pushToTableOfContentsIntent(mPath, navigator,
+						getString(R.string.visualMode));
 			} catch (Exception e) {
-				mIntentController.pushToDialogError(
-						getString(R.string.error_noPathFound), true);
+				mIntentController.pushToDialogError(getString(R.string.error_noPathFound), true);
 			}
 		}
 	};
@@ -144,16 +141,20 @@ public class DaisyEbookReaderActivity extends Activity implements
 		public void onClick(View v) {
 			try {
 				Bookmark bookmark = new Bookmark();
-				bookmark.setBook(mBookTitle);
-				mIntentController.pushToDaisyReaderBookmarkIntent(bookmark,
-						mPath);
+				bookmark.setPath(mPath);
+				mIntentController.pushToDaisyReaderBookmarkIntent(bookmark, mPath);
 
 			} catch (Exception e) {
-				mIntentController.pushToDialogError(
-						getString(R.string.error_noPathFound), true);
+				mIntentController.pushToDialogError(getString(R.string.error_noPathFound), true);
 			}
 		}
 	};
+
+	@Override
+	public void onBackPressed() {
+		finish();
+		super.onBackPressed();
+	}
 
 	@Override
 	protected void onDestroy() {
@@ -162,31 +163,36 @@ public class DaisyEbookReaderActivity extends Activity implements
 			mTts.stop();
 			mTts.shutdown();
 		} catch (NullPointerException e) {
-			e.printStackTrace();
+			Log.i(TAG, "tts is null");
 		}
 		super.onDestroy();
 	}
 
 	@Override
 	protected void onResume() {
+		mTts.speak(getString(R.string.title_activity_daisy_ebook_reader), TextToSpeech.QUEUE_FLUSH,
+				null);
 		ContentResolver cResolver = getContentResolver();
 		int valueScreen = 0;
+		float valueConvert = 255;
 		// get value of brightness from preference. Otherwise, get current
 		// brightness from system.
 		try {
 			valueScreen = mPreferences.getInt(DaisyReaderConstants.BRIGHTNESS,
 					System.getInt(cResolver, System.SCREEN_BRIGHTNESS));
 		} catch (SettingNotFoundException e) {
-			e.printStackTrace();
+			Log.i(TAG, "can not get value screnn");
 		}
 		LayoutParams layoutpars = mWindow.getAttributes();
-		layoutpars.screenBrightness = valueScreen / (float) 255;
+		layoutpars.screenBrightness = valueScreen / valueConvert;
 		// apply attribute changes to this window
 		mWindow.setAttributes(layoutpars);
 		super.onResume();
 	}
 
 	@Override
-	public void onInit(int status) {
+	public void onInit(int arg0) {
+		// TODO Must import because this activity implements
+		// TextToSpeech.OnInitListener
 	}
 }

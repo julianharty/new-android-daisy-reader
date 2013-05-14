@@ -23,102 +23,99 @@ import android.widget.RadioButton;
 import android.widget.TextView;
 
 public class BookmarkListAdapter extends ArrayAdapter<Bookmark> {
-	private Context context;
-	private ArrayList<Bookmark> listBookmark;
-	private LayoutInflater vi;
-	private RadioButton rbt;
-	private View v;
-	private Bookmark bookmark;
-	private Bookmark tmp;
+	private Context mContext;
+	private ArrayList<Bookmark> mListBookmark;
+	private LayoutInflater mVi;
+	private RadioButton mRbt;
+	private View mV;
+	private Bookmark mBookmark;
+	private Bookmark mBookmarkTmp;
 	private int mSelectedPosition = -1;;
 	private RadioButton mSelectedRB;
-	private SqlLiteBookmarkHelper sql;
-	private Dialog dialog;
-	private boolean onlyLoad = false;
-	private boolean onlySave = false;
-	private String path;
+	private SqlLiteBookmarkHelper mSql;
+	private Dialog mDialog;
+	private boolean mOnlyLoad = false;
+	private boolean mOnlySave = false;
+	private String mPath;
 
-	public BookmarkListAdapter(Context context,
-			ArrayList<Bookmark> listBookmark, Bookmark bookmark, String path) {
+	public BookmarkListAdapter(Context context, ArrayList<Bookmark> listBookmark,
+			Bookmark bookmark, String path) {
 		super(context, 0, listBookmark);
-		this.context = context;
-		this.listBookmark = listBookmark;
-		this.tmp = bookmark;
-		this.path = path;
-		sql = new SqlLiteBookmarkHelper(getContext());
-		vi = (LayoutInflater) context
-				.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+		this.mContext = context;
+		this.mListBookmark = listBookmark;
+		this.mBookmarkTmp = bookmark;
+		this.mPath = path;
+		mSql = new SqlLiteBookmarkHelper(getContext());
+		mVi = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 		if (bookmark.getId() == null) {
-			onlyLoad = true;
+			mOnlyLoad = true;
 		}
 	}
 
 	@Override
 	public View getView(final int position, View convertView, ViewGroup parent) {
-		v = convertView;
-		v = vi.inflate(R.layout.item_bookmark, null);
-		bookmark = listBookmark.get(position);
-		rbt = (RadioButton) v.findViewById(R.id.itemBookmark);
-		rbt.setText(bookmark.getTextShow());
+		mV = convertView;
+		mV = mVi.inflate(R.layout.item_bookmark, null);
+		mBookmark = mListBookmark.get(position);
+		mRbt = (RadioButton) mV.findViewById(R.id.itemBookmark);
+		mRbt.setText(mBookmark.getTextShow());
 
-		rbt.setOnClickListener(new View.OnClickListener() {
+		mRbt.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				bookmark = listBookmark.get(position);
-				bookmark.setSort(position);
+				mBookmark = mListBookmark.get(position);
+				mBookmark.setSort(position);
 				if (position != mSelectedPosition && mSelectedRB != null) {
 					mSelectedRB.setChecked(false);
 				}
 				mSelectedPosition = position;
 				mSelectedRB = (RadioButton) v;
-				pushToDialogOptions(context
-						.getString(R.string.message_bookmark));
+				pushToDialogOptions(mContext.getString(R.string.message_bookmark));
 			}
 		});
-		return v;
+		return mV;
 	}
 
 	public void pushToDialogOptions(String message) {
-		dialog = new Dialog(context);
-		dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
-		dialog.setContentView(R.layout.dialog_options);
+		mDialog = new Dialog(mContext);
+		mDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+		mDialog.setContentView(R.layout.dialog_options);
 		// set the custom dialog components - text, image and button
-		TextView text = (TextView) dialog.findViewById(R.id.text);
+		TextView text = (TextView) mDialog.findViewById(R.id.text);
 		text.setText(message);
 
-		Button buttonSave = (Button) dialog.findViewById(R.id.buttonSave);
-		buttonSave.setText(context.getString(R.string.save_bookmark));
+		Button buttonSave = (Button) mDialog.findViewById(R.id.buttonSave);
+		buttonSave.setText(mContext.getString(R.string.save_bookmark));
 		buttonSave.setOnClickListener(buttonSaveClick);
-		buttonSave.setEnabled(!onlyLoad);
+		buttonSave.setEnabled(!mOnlyLoad);
 
-		Button buttonLoad = (Button) dialog.findViewById(R.id.buttonLoad);
-		buttonLoad.setText(context.getString(R.string.load_bookmark));
+		Button buttonLoad = (Button) mDialog.findViewById(R.id.buttonLoad);
+		buttonLoad.setText(mContext.getString(R.string.load_bookmark));
 		buttonLoad.setOnClickListener(buttonLoadClick);
-		
-		if (bookmark.getTextShow().equals(
-				context.getString(R.string.empty_bookmark))) {
-			onlySave = true;
-		}
-		buttonLoad.setEnabled(!onlySave);
-		onlySave = false;
 
-		Button buttonCancel = (Button) dialog.findViewById(R.id.buttonCancel);
-		buttonCancel.setText(context.getString(R.string.cancel_bookmark));
+		if (mBookmark.getTextShow().equals(mContext.getString(R.string.empty_bookmark))) {
+			mOnlySave = true;
+		}
+		buttonLoad.setEnabled(!mOnlySave);
+		mOnlySave = false;
+
+		Button buttonCancel = (Button) mDialog.findViewById(R.id.buttonCancel);
+		buttonCancel.setText(mContext.getString(R.string.cancel_bookmark));
 		buttonCancel.setOnClickListener(buttonCancelClick);
-		dialog.show();
+		mDialog.show();
 	}
 
 	OnClickListener buttonSaveClick = new OnClickListener() {
 		@Override
 		public void onClick(View v) {
-			tmp.setSort(bookmark.getSort());
+			mBookmarkTmp.setSort(mBookmark.getSort());
 			// delete old bookmark
-			sql.deleteBookmark(bookmark.getId());
+			mSql.deleteBookmark(mBookmark.getId());
 			// add new bookmark
-			tmp.setTextShow(tmp.getText());
-			sql.addBookmark(tmp);
-			dialog.dismiss();
-			Activity a = (Activity) context;
+			mBookmarkTmp.setTextShow(mBookmarkTmp.getText());
+			mSql.addBookmark(mBookmarkTmp);
+			mDialog.dismiss();
+			Activity a = (Activity) mContext;
 			a.onBackPressed();
 		}
 	};
@@ -127,7 +124,7 @@ public class BookmarkListAdapter extends ArrayAdapter<Bookmark> {
 
 		@Override
 		public void onClick(View v) {
-			dialog.dismiss();
+			mDialog.dismiss();
 		}
 	};
 
@@ -135,18 +132,17 @@ public class BookmarkListAdapter extends ArrayAdapter<Bookmark> {
 
 		@Override
 		public void onClick(View v) {
-			pushToDaisyEbookReaderVisualModeIntent(path, bookmark.getSection(),
-					bookmark.getTime());
-			dialog.dismiss();
+			pushToDaisyEbookReaderVisualModeIntent(mPath, mBookmark.getSection(),
+					mBookmark.getTime());
+			mDialog.dismiss();
 		}
 	};
 
-	private void pushToDaisyEbookReaderVisualModeIntent(String path,
-			int section, int time) {
-		Intent i = new Intent(context, DaisyEbookReaderVisualModeActivity.class);
+	private void pushToDaisyEbookReaderVisualModeIntent(String path, int section, int time) {
+		Intent i = new Intent(mContext, DaisyEbookReaderVisualModeActivity.class);
 		i.putExtra(DaisyReaderConstants.POSITION_SECTION, String.valueOf(section));
 		i.putExtra(DaisyReaderConstants.DAISY_PATH, path);
 		i.putExtra(DaisyReaderConstants.TIME, time);
-		context.startActivity(i);
+		mContext.startActivity(i);
 	}
 }

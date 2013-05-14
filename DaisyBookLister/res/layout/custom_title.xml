@@ -9,25 +9,32 @@
         android:id="@+id/imgTableOfContents"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
         android:contentDescription="@string/tableOfContents"
-        android:src="@drawable/table_of_contents" 
         android:paddingRight="10dp"
-        android:layout_alignParentLeft="true"/>
+        android:src="@drawable/table_of_contents" />
 
     <TextView
         android:id="@+id/bookTitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceMedium" 
-        android:layout_toRightOf="@+id/imgTableOfContents"/>
+        android:layout_toRightOf="@+id/imgTableOfContents"
+        android:ellipsize="marquee"
+        android:focusable="true"
+        android:focusableInTouchMode="true"
+        android:freezesText="true"
+        android:marqueeRepeatLimit="marquee_forever"
+        android:scrollHorizontally="true"
+        android:singleLine="true"
+        android:textAppearance="?android:attr/textAppearanceMedium" />
 
     <ImageView
         android:id="@+id/imgBookmark"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:contentDescription="@string/bookmarks"
-        android:src="@drawable/bookmark" 
         android:layout_alignParentRight="true"
-        android:paddingLeft="10dp"/>
+        android:contentDescription="@string/bookmarks"
+        android:paddingLeft="10dp"
+        android:src="@drawable/bookmark" />
 
 </RelativeLayout>

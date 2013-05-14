@@ -26,10 +26,9 @@ public class DaisyReaderConstants {
 	public static String BACKGROUND_COLOR = "backgroundColor";
 	public static String HIGHLIGHT_COLOR = "highlightColor";
 	public static String NIGHT_MODE = "nightMode";
-	public static String FILE_NAME_NOT_CAPS = "ncc.html";
-	public static String FILE_NAME_CAPS = "NCC.HTML";
+	public static String FILE_NCC_NAME_NOT_CAPS = "ncc.html";
+	public static String FILE_NCC_NAME_CAPS = "NCC.HTML";
 	public static int FONTSIZE_DEFAULT = 20;
 	public static int NUMBER_OF_BOOKMARK_DEFAULT = 10;
 	public static int NUMBER_OF_RECENTBOOK_DEFAULT = 10;
-	public static String TEMP_FOLDER = "/tmpDaisyBookUnzip/";
 }

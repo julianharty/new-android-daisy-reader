@@ -7,15 +7,12 @@ package org.androiddaisyreader.utils;
  * really justify being a class. So, expect things to change :)
  */
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Enumeration;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipFile;
-import java.util.zip.ZipInputStream;
 
 import org.androiddaisyreader.model.BookContext;
 import org.androiddaisyreader.model.Daisy202Book;
@@ -46,13 +43,13 @@ public final class DaisyReaderUtils {
 			result = false;
 		}
 
-		if (new File(folder, DaisyReaderConstants.FILE_NAME_NOT_CAPS).exists()) {
+		if (new File(folder, DaisyReaderConstants.FILE_NCC_NAME_NOT_CAPS).exists()) {
 			result = true;
 		}
 
 		// Minor hack to cope with the potential of ALL CAPS filename, as per
 		// http://www.daisy.org/z3986/specifications/daisy_202.html#ncc
-		if (new File(folder, DaisyReaderConstants.FILE_NAME_CAPS).exists()) {
+		if (new File(folder, DaisyReaderConstants.FILE_NCC_NAME_CAPS).exists()) {
 			result = true;
 		}
 
@@ -61,27 +58,29 @@ public final class DaisyReaderUtils {
 		}
 		return result;
 	}
-	
-    /**
-     * Does the uri represent a DAISY 2.02 book?
-     * @param uri textual identifier e.g. a filename or path
-     * @return true if the uri represents a DAISY 2.02 book, else false.
-     */
-    public static boolean isDaisy2_02Book(String uri) {
-    	try {
-    		ArrayList<String> temp = getContents(uri);
-    		if (temp != null) {
-    			temp = null;
-    			return true;
+
+	/**
+	 * Does the uri represent a DAISY 2.02 book?
+	 * 
+	 * @param uri
+	 *            textual identifier e.g. a filename or path
+	 * @return true if the uri represents a DAISY 2.02 book, else false.
+	 */
+	public static boolean isDaisy2_02Book(String uri) {
+		try {
+			ArrayList<String> temp = getContents(uri);
+			if (temp != null) {
+				temp = null;
+				return true;
+			}
+		} catch (NullPointerException npe) {
+			// TODO 20130318 (jharty) For now we will simply skip the error
+			// and assume it's not a DAISY book.
+			// e.g. .android_secure isn't a DAISY book
 		}
-    	} catch (NullPointerException npe) {
-    		// TODO 20130318 (jharty) For now we will simply skip the error
-    		// and assume it's not a DAISY book.
-    		// e.g. .android_secure isn't a DAISY book
-    	}
-    	return false;
+		return false;
 	}
-	
+
 	private static boolean zipFileContainsDaisy2_02Book(String filename) {
 		ZipEntry entry;
 		try {
@@ -89,8 +88,8 @@ public final class DaisyReaderUtils {
 			Enumeration<? extends ZipEntry> e = zipContents.entries();
 			while (e.hasMoreElements()) {
 				entry = (ZipEntry) e.nextElement();
-				if (entry.getName().contains(DaisyReaderConstants.FILE_NAME_NOT_CAPS)
-						|| entry.getName().contains(DaisyReaderConstants.FILE_NAME_CAPS)) {
+				if (entry.getName().contains(DaisyReaderConstants.FILE_NCC_NAME_NOT_CAPS)
+						|| entry.getName().contains(DaisyReaderConstants.FILE_NCC_NAME_CAPS)) {
 					return true;
 				}
 			}
@@ -108,12 +107,12 @@ public final class DaisyReaderUtils {
 	 * @return the filename as a string if it exists, else null.
 	 */
 	public static String getNccFileName(File currentDirectory) {
-		if (new File(currentDirectory, DaisyReaderConstants.FILE_NAME_NOT_CAPS).exists()) {
-			return DaisyReaderConstants.FILE_NAME_NOT_CAPS;
+		if (new File(currentDirectory, DaisyReaderConstants.FILE_NCC_NAME_NOT_CAPS).exists()) {
+			return DaisyReaderConstants.FILE_NCC_NAME_NOT_CAPS;
 		}
 
-		if (new File(currentDirectory, DaisyReaderConstants.FILE_NAME_CAPS).exists()) {
-			return DaisyReaderConstants.FILE_NAME_CAPS;
+		if (new File(currentDirectory, DaisyReaderConstants.FILE_NCC_NAME_CAPS).exists()) {
+			return DaisyReaderConstants.FILE_NCC_NAME_CAPS;
 		}
 
 		return null;
@@ -169,10 +168,8 @@ public final class DaisyReaderUtils {
 		InputStream contents;
 		Daisy202Book book = null;
 		try {
-			BookContext bookContext;
-			bookContext = DaisyReaderUtils.openBook(path);
-			String[] sp = path.split("/");
-			contents = bookContext.getResource(sp[sp.length - 1]);
+			BookContext bookContext = DaisyReaderUtils.openBook(path);
+			contents = bookContext.getResource(DaisyReaderConstants.FILE_NCC_NAME_NOT_CAPS);
 			book = NccSpecification.readFromStream(contents);
 		} catch (Exception e) {
 			// TODO 20120515 (jharty): Add test for SDCARD being available
@@ -201,61 +198,5 @@ public final class DaisyReaderUtils {
 			}
 		}
 		return sResult;
-	}
-
-	public static String unzip(String zipFile, String location) {
-		String nameOfFolder = "";
-		byte[] buffer = new byte[1024];
-
-		try {
-
-			// create output directory is not exists
-			File folder = new File(location);
-			if (!folder.exists()) {
-				folder.mkdir();
-			}
-
-			// get the zip file content
-			ZipInputStream zis = new ZipInputStream(new FileInputStream(zipFile));
-			// get the zipped file list entry
-			ZipEntry ze = zis.getNextEntry();
-
-			while (ze != null) {
-
-				String fileName = ze.getName();
-				File newFile = new File(location + File.separator + fileName);
-
-				System.out.println("file unzip : " + newFile.getAbsoluteFile());
-				// create all non exists folders
-				// else you will hit FileNotFoundException for compressed folder
-				File f = new File(newFile.getParent());
-				if (nameOfFolder == "") {
-					nameOfFolder = f.getName();
-				}
-
-				if (!f.exists()) {
-					f.mkdir();
-				}
-
-				if (newFile.getName().contains(".")) {
-
-					FileOutputStream fos = new FileOutputStream(newFile);
-
-					int len;
-					while ((len = zis.read(buffer)) > 0) {
-						fos.write(buffer, 0, len);
-					}
-					fos.close();
-				}
-				ze = zis.getNextEntry();
-			}
-
-			zis.closeEntry();
-			zis.close();
-		} catch (Exception e) {
-			System.out.println("Can not Unzip");
-		}
-		return nameOfFolder;
-
 	}
 }

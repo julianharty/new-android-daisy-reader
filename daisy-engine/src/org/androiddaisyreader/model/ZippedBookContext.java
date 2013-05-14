@@ -38,8 +38,9 @@ public class ZippedBookContext implements BookContext {
 			// Note: we're blindly stripping off any folder prefix and
 			// assuming that each filename in the zip file is unique. These
 			// assumptions may bite us in the end with some books.
-			// TODO 20120218 (jharty): Consider ways to make the algorithm more robust.
-			if (entry.getName().contains(uri.toLowerCase())) {
+			// TODO 20120218 (jharty): Consider ways to make the algorithm more
+			// robust.
+			if (entry.getName().contains(uri)) {
 				return zipContents.getInputStream(entry);
 			}
 		}

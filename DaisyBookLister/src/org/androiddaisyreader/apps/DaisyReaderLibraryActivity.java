@@ -2,7 +2,6 @@ package org.androiddaisyreader.apps;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
-import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.ContentResolver;
 import android.content.Intent;
@@ -58,7 +57,7 @@ public class DaisyReaderLibraryActivity extends Activity implements TextToSpeech
 	private ArrayList<ArrayList<String>> mFilesResultScan;
 	private ArrayList<DetailInfo> mBookListDetail;
 	private ArrayList<HeaderInfo> mBookListHeader;
-	private File mCurrentDirectory = Environment.getExternalStorageDirectory();;
+	private File mCurrentDirectory = Environment.getExternalStorageDirectory();
 	private LinkedHashMap<String, HeaderInfo> mHashMapHeaderInfo;
 	private LibraryListAdapter mListAdapter;
 	private ExpandableListView mExpandableListView;
@@ -66,9 +65,6 @@ public class DaisyReaderLibraryActivity extends Activity implements TextToSpeech
 	private int mNumberOfRecentBooks;
 	private int mGroupPositionExpand;
 	private SharedPreferences mPreferences;
-	private String mSlash = "/";
-	private String location = mCurrentDirectory.getAbsolutePath()
-			+ DaisyReaderConstants.TEMP_FOLDER;
 	private IntentController mIntentController;
 
 	@Override
@@ -86,8 +82,8 @@ public class DaisyReaderLibraryActivity extends Activity implements TextToSpeech
 		} catch (Exception e) {
 			Log.i(TAG, "can not get intent");
 		}
-		mIntentController = new IntentController(this);
 		mTts = new TextToSpeech(this, this);
+		mIntentController = new IntentController(this);
 		mSqlLite = new SqlLiteRecentBookHelper(getApplicationContext());
 		mFilesResultScan = new ArrayList<ArrayList<String>>();
 		mHashMapHeaderInfo = new LinkedHashMap<String, HeaderInfo>();
@@ -141,7 +137,6 @@ public class DaisyReaderLibraryActivity extends Activity implements TextToSpeech
 		SharedPreferences.Editor editor = mPreferences.edit();
 		editor.putBoolean(DaisyReaderConstants.NIGHT_MODE, false);
 		editor.commit();
-		deleteTmpFolderUnzip(new File(location));
 		super.onDestroy();
 	}
 
@@ -162,8 +157,8 @@ public class DaisyReaderLibraryActivity extends Activity implements TextToSpeech
 		layoutpars.screenBrightness = valueScreen / (float) 255;
 		// apply attribute changes to this window
 		window.setAttributes(layoutpars);
-		mTts.speak(getString(R.string.title_activity_daisy_reader_library), TextToSpeech.QUEUE_ADD,
-				null);
+		mTts.speak(getString(R.string.title_activity_daisy_reader_library),
+				TextToSpeech.QUEUE_FLUSH, null);
 		super.onResume();
 	}
 
@@ -171,32 +166,6 @@ public class DaisyReaderLibraryActivity extends Activity implements TextToSpeech
 	public void onBackPressed() {
 		finish();
 		super.onBackPressed();
-	}
-
-	// delete temp folder use for unzip when the application finish.
-	private void deleteTmpFolderUnzip(File file) {
-		if (file.isDirectory()) {
-			// directory is empty, then delete it
-			if (file.list().length == 0) {
-				file.delete();
-			} else {
-				// list all the directory contents
-				String files[] = file.list();
-				for (String temp : files) {
-					// construct the file structure
-					File fileDelete = new File(file, temp);
-					// recursive delete
-					deleteTmpFolderUnzip(fileDelete);
-				}
-				// check the directory again, if empty then delete it
-				if (file.list().length == 0) {
-					file.delete();
-				}
-			}
-		} else {
-			// if file, then delete it
-			file.delete();
-		}
 	}
 
 	/**
@@ -306,49 +275,16 @@ public class DaisyReaderLibraryActivity extends Activity implements TextToSpeech
 		String path = null;
 		RecentBooks recentBook = mSqlLite.getInfoRecentBook(item);
 		path = recentBook.getPath();
-		if (path.endsWith(".zip")) {
-			File daisyPath = new File(path);
-			unzip(daisyPath);
-		} else {
-			mIntentController.pushToDaisyEbookReaderIntent(path);
-		}
+		mIntentController.pushToDaisyEbookReaderIntent(path);
 	}
 
 	private void itemScanBookClick(String item, File daisyPath) {
-		String path = null;
-		String slash = "/";
-		if (daisyPath.getAbsolutePath().endsWith(".zip")) {
-			long sizeFreeOnSdCard = mCurrentDirectory.getUsableSpace();
-			long sizeOfZipFile = daisyPath.length();
-			// If space free of sd card > size of zip file
-			if (sizeFreeOnSdCard > sizeOfZipFile) {
-				// unzip
-				addRecentBookToSqlLite(item, daisyPath.getAbsolutePath());
-				unzip(daisyPath);
-			} else {
-				// do not unzip because the space of sd card does not enough.
-				mTts.speak(getString(R.string.error_not_enough_space), TextToSpeech.QUEUE_FLUSH,
-						null);
-				mIntentController.pushToDialogError(getString(R.string.error_not_enough_space),
-						false);
-			}
-		} else {
-			path = daisyPath.getAbsolutePath() + slash + DaisyReaderUtils.getNccFileName(daisyPath);
-			addRecentBookToSqlLite(item, path);
-			mIntentController.pushToDaisyEbookReaderIntent(path);
+		String path = daisyPath.getAbsolutePath();
+		if (!daisyPath.getAbsolutePath().endsWith(".zip")) {
+			path = path + File.separator + DaisyReaderUtils.getNccFileName(daisyPath);
 		}
-	}
-
-	private void unzip(File daisyPath) {
-		// fix bug "HONEYCOMB cannot be resolved or is not a field". Please
-		// change library android to version 3.0 or higher.
-		mTts.speak(getString(R.string.unzipping), TextToSpeech.QUEUE_FLUSH, null);
-		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
-			new Unzip().executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, new File[] { daisyPath });
-		} else {
-			new Unzip().execute(new File[] { daisyPath });
-		}
-
+		addRecentBookToSqlLite(item, path);
+		mIntentController.pushToDaisyEbookReaderIntent(path);
 	}
 
 	/**
@@ -470,7 +406,7 @@ public class DaisyReaderLibraryActivity extends Activity implements TextToSpeech
 				for (int i = 0; i < files.length; i++) {
 					ArrayList<String> listResult = DaisyReaderUtils.getDaisyBook(files[i], false);
 					for (String result : listResult) {
-						String[] title = result.split(mSlash);
+						String[] title = result.split(File.separator);
 						String item = title[title.length - 1];
 						mFilesResultScan.add(new ArrayList<String>());
 						filesResult.add(item);
@@ -502,45 +438,5 @@ public class DaisyReaderLibraryActivity extends Activity implements TextToSpeech
 			mProgressDialog.show();
 			super.onPreExecute();
 		}
-	}
-
-	/**
-	 * Show dialog when unzip.
-	 * 
-	 * @author nguyen.le
-	 * 
-	 */
-	class Unzip extends AsyncTask<File, Void, String> {
-
-		@Override
-		protected String doInBackground(File... params) {
-			String path;
-			File daisyPath = params[0];
-			// return name of folder after unzip file
-			String nameOfFolder = DaisyReaderUtils.unzip(daisyPath.getAbsolutePath(), location);
-			// using temp path of unzip file
-			path = daisyPath.getParent() + DaisyReaderConstants.TEMP_FOLDER + nameOfFolder;
-			path = path + mSlash + DaisyReaderUtils.getNccFileName(new File(path));
-			return path;
-		}
-
-		@Override
-		protected void onPostExecute(String result) {
-			mIntentController.pushToDaisyEbookReaderIntent(result);
-			mProgressDialog.dismiss();
-		}
-
-		@Override
-		protected void onPreExecute() {
-			mProgressDialog = new ProgressDialog(DaisyReaderLibraryActivity.this);
-			mProgressDialog.setMessage(getString(R.string.waiting));
-			mProgressDialog.show();
-			super.onPreExecute();
-		}
-	}
-
-	@Override
-	protected Dialog onCreateDialog(int id, Bundle args) {
-		return mProgressDialog;
 	}
 }

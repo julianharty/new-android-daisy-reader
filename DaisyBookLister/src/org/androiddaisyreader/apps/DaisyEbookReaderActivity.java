@@ -88,7 +88,6 @@ public class DaisyEbookReaderActivity extends Activity implements TextToSpeech.O
 	}
 
 	private OnClickListener simpleModeClick = new OnClickListener() {
-
 		@Override
 		public void onClick(View v) {
 			mTts.speak(getString(R.string.simpleMode), TextToSpeech.QUEUE_FLUSH, null);
@@ -150,6 +149,12 @@ public class DaisyEbookReaderActivity extends Activity implements TextToSpeech.O
 			}
 		}
 	};
+
+	@Override
+	public void onBackPressed() {
+		finish();
+		super.onBackPressed();
+	}
 
 	@Override
 	protected void onDestroy() {

@@ -181,6 +181,12 @@ public class DaisyReaderBookmarkActivity extends Activity implements TextToSpeec
 	}
 
 	@Override
+	public void onBackPressed() {
+		finish();
+		super.onBackPressed();
+	}
+	
+	@Override
 	protected void onDestroy() {
 		try {
 			Preconditions.checkNotNull(mTts);

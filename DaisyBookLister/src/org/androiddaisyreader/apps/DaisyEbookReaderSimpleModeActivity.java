@@ -202,9 +202,7 @@ public class DaisyEbookReaderSimpleModeActivity extends Activity implements OnCl
 		try {
 			String path = getIntent().getStringExtra(DaisyReaderConstants.DAISY_PATH);
 			mBookContext = DaisyReaderUtils.openBook(path);
-			String slash = "/";
-			String[] sp = path.split(slash);
-			contents = mBookContext.getResource(sp[sp.length - 1]);
+			contents = mBookContext.getResource(DaisyReaderConstants.FILE_NCC_NAME_NOT_CAPS);
 			mAndroidAudioPlayer = new AndroidAudioPlayer(mBookContext);
 			mAndroidAudioPlayer.addCallbackListener(audioCallbackListener);
 			mAudioPlayer = new AudioPlayerController(mAndroidAudioPlayer);

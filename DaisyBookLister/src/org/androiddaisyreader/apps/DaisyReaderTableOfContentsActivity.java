@@ -82,6 +82,12 @@ public class DaisyReaderTableOfContentsActivity extends Activity implements
 	}
 
 	@Override
+	public void onBackPressed() {
+		finish();
+		super.onBackPressed();
+	}
+
+	@Override
 	protected void onDestroy() {
 		try {
 			Preconditions.checkNotNull(mTts);

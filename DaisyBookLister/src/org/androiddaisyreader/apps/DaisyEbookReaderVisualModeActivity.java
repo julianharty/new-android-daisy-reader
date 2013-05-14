@@ -51,8 +51,10 @@ import org.androiddaisyreader.utils.DaisyReaderUtils;
 
 import com.google.common.base.Preconditions;
 
+import java.io.File;
 import java.io.InputStream;
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * This activity is visual mode which play audio and show full text.
@@ -116,7 +118,6 @@ public class DaisyEbookReaderVisualModeActivity extends Activity implements
 		mIntentController = new IntentController(this);
 		startTts();
 		setEventForTopButtons();
-
 		mPath = getIntent().getStringExtra(DaisyReaderConstants.DAISY_PATH);
 		openBook();
 		TextView tvBookTitle = (TextView) this.findViewById(R.id.bookTitle);
@@ -243,7 +244,9 @@ public class DaisyEbookReaderVisualModeActivity extends Activity implements
 
 	@Override
 	public void onBackPressed() {
-		mHandler.removeCallbacks(mRunnalbe);
+		if (mPlayer.isPlaying()) {
+			setMediaPause();
+		}
 		finish();
 		super.onBackPressed();
 	}
@@ -432,9 +435,7 @@ public class DaisyEbookReaderVisualModeActivity extends Activity implements
 		InputStream contents;
 		try {
 			mBookContext = DaisyReaderUtils.openBook(mPath);
-			String slash = "/";
-			String[] sp = mPath.split(slash);
-			contents = mBookContext.getResource(sp[sp.length - 1]);
+			contents = mBookContext.getResource(DaisyReaderConstants.FILE_NCC_NAME_NOT_CAPS);
 			mAndroidAudioPlayer = new AndroidAudioPlayer(mBookContext);
 			mAndroidAudioPlayer.addCallbackListener(audioCallbackListener);
 			mAudioPlayer = new AudioPlayerController(mAndroidAudioPlayer);
@@ -491,17 +492,19 @@ public class DaisyEbookReaderVisualModeActivity extends Activity implements
 		private void getSnippetsOfCurrentSection(Daisy202Section currentSection) {
 			StringBuilder snippetText = new StringBuilder();
 			for (Part part : currentSection.getParts()) {
-				for (int i = 0; i < part.getSnippets().size(); i++) {
+				int sizeOfPart = part.getSnippets().size();
+				for (int i = 0; i < sizeOfPart; i++) {
 					if (i > 0) {
 						snippetText.append(getString(R.string.space));
 					}
-					snippetText.append(part.getSnippets().get(i).getText());
-					mListStringText.add(part.getSnippets().get(i).getText());
+					String text = part.getSnippets().get(i).getText();
+					snippetText.append(text);
+					mListStringText.add(text);
 				}
 				snippetText.append(getString(R.string.space));
-				mListTimeBegin.add(part.getAudioElements().get(0).getClipBegin());
-				mListTimeEnd.add(part.getAudioElements().get(part.getAudioElements().size() - 1)
-						.getClipEnd());
+				List<Audio> audioElements = part.getAudioElements();
+				mListTimeBegin.add(audioElements.get(0).getClipBegin());
+				mListTimeEnd.add(audioElements.get(audioElements.size() - 1).getClipEnd());
 			}
 			mContents.setText(snippetText.toString(), TextView.BufferType.SPANNABLE);
 		}
@@ -575,34 +578,41 @@ public class DaisyEbookReaderVisualModeActivity extends Activity implements
 	}
 
 	private void autoHighlight() {
-		mFullTextOfBook = mContents.getText().toString();
-		int sizeOfStringText = mListStringText.size();
-		for (int i = mPositionSentence; i < sizeOfStringText; i++) {
-			if (mListTimeBegin.get(i) <= mPlayer.getCurrentPosition() + mTimeForProcess
-					&& mPlayer.getCurrentPosition() < mListTimeEnd.get(i)) {
-				mStartOfSentence = mFullTextOfBook
-						.indexOf(mListStringText.get(i), mStartOfSentence);
-				try {
-					Preconditions.checkArgument(mStartOfSentence > -1);
-					mNumberOfChar = mStartOfSentence + mListStringText.get(i).length();
-					// set color is transparent for all text before.
-					if (i > 0) {
-						mWordtoSpan.setSpan(new BackgroundColorSpan(Color.TRANSPARENT), 0,
-								mStartOfSentence, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-					}
-					// set color is transparent for all text after.
-					mWordtoSpan.setSpan(new BackgroundColorSpan(Color.TRANSPARENT), mNumberOfChar,
-							mContents.getText().length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-					mWordtoSpan.setSpan(new BackgroundColorSpan(mHighlightColor), mStartOfSentence,
-							mNumberOfChar, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+		try {
+			mFullTextOfBook = mContents.getText().toString();
+			int sizeOfStringText = mListStringText.size();
+			for (int i = mPositionSentence; i < sizeOfStringText; i++) {
+				if (mListTimeBegin.get(i) <= mPlayer.getCurrentPosition() + mTimeForProcess
+						&& mPlayer.getCurrentPosition() < mListTimeEnd.get(i)) {
+					try {
+						mStartOfSentence = mFullTextOfBook.indexOf(mListStringText.get(i),
+								mStartOfSentence);
+						Preconditions.checkArgument(mStartOfSentence > -1);
+						mNumberOfChar = mStartOfSentence + mListStringText.get(i).length();
+						// set color is transparent for all text before.
+						if (i > 0) {
+							mWordtoSpan.setSpan(new BackgroundColorSpan(Color.TRANSPARENT), 0,
+									mStartOfSentence, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+						}
+						// set color is transparent for all text after.
+						mWordtoSpan.setSpan(new BackgroundColorSpan(Color.TRANSPARENT),
+								mNumberOfChar, mContents.getText().length(),
+								Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+						mWordtoSpan
+								.setSpan(new BackgroundColorSpan(mHighlightColor),
+										mStartOfSentence, mNumberOfChar,
+										Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
 
-					mContents.setText(mWordtoSpan);
-					mPositionSentence = i;
-					break;
-				} catch (IllegalArgumentException e) {
-					Log.i(TAG, "Not found start of sentence");
+						mContents.setText(mWordtoSpan);
+						mPositionSentence = i;
+						break;
+					} catch (IllegalArgumentException e) {
+						Log.i(TAG, "Not found start of sentence or text is not correct");
+					}
 				}
 			}
+		} catch (Exception e) {
+			Log.i(TAG, "autoHighlight had mistakes");
 		}
 	}
 
@@ -759,9 +769,6 @@ public class DaisyEbookReaderVisualModeActivity extends Activity implements
 				mHandler.removeCallbacks(mRunnalbe);
 				mIsRunable = true;
 				autoHighlightAndScroll();
-				// when user choose next sentence. The application will updated
-				// time to post delayed.
-				mHandler.postDelayed(mRunnalbe, 1000);
 			} catch (IllegalArgumentException e) {
 				Log.i(TAG, "position sentence is not equal 0");
 			}
@@ -830,6 +837,7 @@ public class DaisyEbookReaderVisualModeActivity extends Activity implements
 	 */
 	private void previousSentence() {
 		int lengthOfSpace = 2;
+		boolean isPlaying = mPlayer.isPlaying();
 		// this case for user press previous sentence at the begin of book.
 		if (!mNavigator.hasPrevious() && mPositionSentence == 0) {
 			mNavigationListener.atBeginOfBook();
@@ -853,8 +861,6 @@ public class DaisyEbookReaderVisualModeActivity extends Activity implements
 		}
 		// this case for user press previous sentence at the begin of section.
 		else {
-
-			boolean isPlaying = mPlayer.isPlaying();
 			mController.previous();
 			mPositionSentence = mListTimeBegin.size() - 1;
 			if (mListTimeEnd.size() > 1) {
@@ -864,10 +870,10 @@ public class DaisyEbookReaderVisualModeActivity extends Activity implements
 						- mListStringText.get(mListTimeBegin.size() - 1).length() - lengthOfSpace;
 				mPlayer.seekTo(mListTimeEnd.get(mListTimeEnd.size() - 2));
 			}
-			// keep current state media player.
-			if (!isPlaying) {
-				setMediaPause();
-			}
+		}
+		// keep current state media player.
+		if (!isPlaying) {
+			setMediaPause();
 		}
 	}
 

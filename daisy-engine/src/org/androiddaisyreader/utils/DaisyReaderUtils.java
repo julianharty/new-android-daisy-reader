@@ -127,26 +127,23 @@ public final class DaisyReaderUtils {
 	 */
 	public static BookContext openBook(String filename) throws IOException {
 		BookContext bookContext;
-<<<<<<< HEAD
-
 		File directory = new File(filename);
 		boolean isDirectory = directory.isDirectory();
 		if (isDirectory) {
 			bookContext = new FileSystemContext(filename);
 		} else {
-			// TODO 20130329 (jharty): think through why I used getParent previously.
+			// TODO 20130329 (jharty): think through why I used getParent
+			// previously.
 			bookContext = new FileSystemContext(directory.getParent());
 		}
 		directory = null;
-=======
 		if (filename.endsWith(".zip")) {
 			bookContext = new ZippedBookContext(filename);
 		} else {
-			File directory = new File(filename);
+			directory = new File(filename);
 			bookContext = new FileSystemContext(directory.getParent());
 			directory = null;
 		}
->>>>>>> 054cd067ab590d7b270e06c359d1b900a63e034b
 		return bookContext;
 	}
 
@@ -156,21 +153,22 @@ public final class DaisyReaderUtils {
 	 * @param path
 	 * @return ArrayList<String>
 	 */
-	public static ArrayList<String> getContents(String path)
-	{
-		// Guard code to protect the private methods from needing to check for invalid inputs.
+	public static ArrayList<String> getContents(String path) {
+		// Guard code to protect the private methods from needing to check for
+		// invalid inputs.
 		if (path == null) {
-			return null;  // TODO 20130326 (jharty) consider better error reporting.
+			return null; // TODO 20130326 (jharty) consider better error
+							// reporting.
 		}
-		
+
 		String chapter = "Chapter";
 		Daisy202Book book = getDaisy202Book(path);
 		Object[] sections = null;
-		if(book == null) {
+		if (book == null) {
 			// Short circuit the processing, and avoid a NPE bug
 			return null;
 		}
-		
+
 		ArrayList<String> listResult = new ArrayList<String>();
 		sections = book.getChildren().toArray();
 		for (int i = 0; i < sections.length; i++) {
@@ -190,7 +188,7 @@ public final class DaisyReaderUtils {
 	public static Daisy202Book getDaisy202Book(String path) {
 		InputStream contents;
 		Daisy202Book book = null;
-		
+
 		try {
 			BookContext bookContext = DaisyReaderUtils.openBook(path);
 			contents = bookContext.getResource(DaisyReaderConstants.FILE_NCC_NAME_NOT_CAPS);

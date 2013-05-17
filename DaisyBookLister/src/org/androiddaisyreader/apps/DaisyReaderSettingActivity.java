@@ -109,14 +109,14 @@ public class DaisyReaderSettingActivity extends Activity implements TextToSpeech
 		// setting night mode
 		settingNightmode();
 	}
-	
+
 	private void startTts() {
 		mTts = new TextToSpeech(this, this);
 		Intent checkIntent = new Intent();
 		checkIntent.setAction(TextToSpeech.Engine.ACTION_CHECK_TTS_DATA);
 		startActivityForResult(checkIntent, RESULT_OK);
 	}
-	
+
 	private void settingBrightness() {
 		SeekBar brightBar = (SeekBar) findViewById(R.id.barBrightness);
 		brightBar.setMax(255);
@@ -227,8 +227,8 @@ public class DaisyReaderSettingActivity extends Activity implements TextToSpeech
 
 	@Override
 	public void onBackPressed() {
-		finish();
 		super.onBackPressed();
+		finish();
 	}
 
 	@Override

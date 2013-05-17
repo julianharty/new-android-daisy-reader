@@ -152,8 +152,8 @@ public class DaisyEbookReaderActivity extends Activity implements TextToSpeech.O
 
 	@Override
 	public void onBackPressed() {
-		finish();
 		super.onBackPressed();
+		finish();
 	}
 
 	@Override

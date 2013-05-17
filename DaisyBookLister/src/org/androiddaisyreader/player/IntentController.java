@@ -149,6 +149,7 @@ public class IntentController {
 		final Dialog dialog = new Dialog(mContext);
 		dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
 		dialog.setContentView(R.layout.dialog_error);
+		dialog.setCancelable(false);
 		// set the custom dialog components - text, image and button
 		TextView text = (TextView) dialog.findViewById(R.id.text);
 		text.setText(message);

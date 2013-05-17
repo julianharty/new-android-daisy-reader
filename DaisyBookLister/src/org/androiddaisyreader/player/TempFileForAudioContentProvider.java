@@ -9,7 +9,10 @@ import java.io.IOException;
 import java.io.InputStream;
 
 import org.androiddaisyreader.model.BookContext;
+import org.androiddaisyreader.utils.DaisyReaderConstants;
 import org.apache.commons.io.IOUtils;
+
+import android.os.StatFs;
 
 /**
  * Helper class to provide the audio contents on Android.
@@ -25,35 +28,51 @@ public class TempFileForAudioContentProvider {
 	TempFileForAudioContentProvider(BookContext context) {
 		this.context = context;
 	}
-	
+
 	/**
 	 * Is the original content contained in a zip file?
+	 * 
 	 * @return true if it is, else false.
 	 */
 	boolean doesContentNeedUnzipping() {
 		return context.getBaseUri().endsWith(".zip");
 	}
-	
+
 	/**
 	 * OK the name may be over precise, however it serves my purpose for now :)
-	 * @param sourceFilename the name of the source file
-	 * @return a file handle to the 
-	 * @throws IOException 
+	 * 
+	 * @param sourceFilename
+	 *            the name of the source file
+	 * @return a file handle to the
+	 * @throws IOException
 	 */
 	File getFileHandleToTempAudioFile(String sourceFilename) throws IOException {
 		if (!doesContentNeedUnzipping()) {
-			throw new IllegalStateException("Called incorrectly, should only be used to create temp files for zipped content.");
+			throw new IllegalStateException(
+					"Called incorrectly, should only be used to create temp files for zipped content.");
 		}
 		InputStream in = context.getResource(sourceFilename);
-		File tempFile = File.createTempFile("_DAISYTEMPAUDIO_", ".mp3");
-		FileOutputStream out = new FileOutputStream(tempFile);
-		IOUtils.copy(in, out);
-		File f = tempFile;
-		if (f.exists()) {
-			return f;
+		File tempFile = File.createTempFile(DaisyReaderConstants.PREFIX_AUDIO_TEMP_FILE,
+				DaisyReaderConstants.SUFFIX_AUDIO_TEMP_FILE);
+		// check available space
+		if (isEnoughSpace(tempFile, (long) in.available())) {
+			FileOutputStream out = new FileOutputStream(tempFile);
+			IOUtils.copy(in, out);
+			File f = tempFile;
+			if (f.exists()) {
+				return f;
+			}
 		}
-		
+		// delete file has just create if the space is not enough, before return
+		// null.
+		tempFile.delete();
 		return null;
+	}
+
+	private boolean isEnoughSpace(File tempFile, long sizeOfSourceFile) {
+		StatFs stat = new StatFs(tempFile.getParent());
+		long availableBlocks = stat.getAvailableBlocks() * stat.getBlockSize();
+		return availableBlocks < sizeOfSourceFile;
 	}
 
 }

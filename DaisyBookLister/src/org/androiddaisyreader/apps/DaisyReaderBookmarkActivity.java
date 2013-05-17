@@ -107,7 +107,7 @@ public class DaisyReaderBookmarkActivity extends Activity implements TextToSpeec
 			Log.i(TAG, "sentence is null");
 		}
 	}
-	
+
 	private OnClickListener imgTableOfContentsClick = new OnClickListener() {
 		Navigator navigator;
 
@@ -123,7 +123,7 @@ public class DaisyReaderBookmarkActivity extends Activity implements TextToSpeec
 			}
 		}
 	};
-	
+
 	class LoadingData extends AsyncTask<Void, Void, ArrayList<Bookmark>> {
 		private ProgressDialog progressDialog;
 		private int numberOfBookmarks = mPreferences.getInt(
@@ -182,10 +182,10 @@ public class DaisyReaderBookmarkActivity extends Activity implements TextToSpeec
 
 	@Override
 	public void onBackPressed() {
-		finish();
 		super.onBackPressed();
+		finish();
 	}
-	
+
 	@Override
 	protected void onDestroy() {
 		try {

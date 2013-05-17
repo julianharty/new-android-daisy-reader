@@ -59,6 +59,11 @@ public class DaisyReaderTableOfContentsActivity extends Activity implements
 		imgBookmark.setOnClickListener(imgBookmarkClick);
 		ImageView imgTableOfContents = (ImageView) this.findViewById(R.id.imgTableOfContents);
 		imgTableOfContents.setVisibility(View.INVISIBLE);
+		String targetActivity = getIntent().getStringExtra(DaisyReaderConstants.TARGET_ACTIVITY);
+		// invisible button book mark when you go to bookmark from simple mode.
+		if (targetActivity.equals(getString(R.string.simpleMode))) {
+			imgBookmark.setVisibility(View.INVISIBLE);
+		}
 		startTts();
 		mListResult = getIntent().getStringArrayListExtra(DaisyReaderConstants.LIST_CONTENTS);
 		ArrayAdapter<String> adapter = new ArrayAdapter<String>(getApplicationContext(),
@@ -83,8 +88,8 @@ public class DaisyReaderTableOfContentsActivity extends Activity implements
 
 	@Override
 	public void onBackPressed() {
-		finish();
 		super.onBackPressed();
+		finish();
 	}
 
 	@Override

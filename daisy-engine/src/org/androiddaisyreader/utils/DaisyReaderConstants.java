@@ -1,8 +1,8 @@
 /**
-* This is constants
-* @author LogiGear
-* @date 2013.03.05
-*/
+ * This is constants
+ * @author LogiGear
+ * @date 2013.03.05
+ */
 
 package org.androiddaisyreader.utils;
 
@@ -13,6 +13,7 @@ public class DaisyReaderConstants {
 	public static String DAISY_PATH = "daisyPath";
 	public static String LIST_CONTENTS = "listContents";
 	public static String POSITION_SECTION = "positionSection";
+	public static String POSITION_SENTENCE = "positionSentence";
 	public static String TARGET_ACTIVITY = "targetActivity";
 	public static String BOOK = "book";
 	public static String SENTENCE = "sentence";
@@ -31,4 +32,6 @@ public class DaisyReaderConstants {
 	public static int FONTSIZE_DEFAULT = 20;
 	public static int NUMBER_OF_BOOKMARK_DEFAULT = 10;
 	public static int NUMBER_OF_RECENTBOOK_DEFAULT = 10;
+	public static String PREFIX_AUDIO_TEMP_FILE = "_DAISYTEMPAUDIO_";
+	public static String SUFFIX_AUDIO_TEMP_FILE = ".mp3";
 }

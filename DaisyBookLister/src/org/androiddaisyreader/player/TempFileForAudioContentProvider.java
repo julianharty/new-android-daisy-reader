@@ -72,7 +72,7 @@ public class TempFileForAudioContentProvider {
 	private boolean isEnoughSpace(File tempFile, long sizeOfSourceFile) {
 		StatFs stat = new StatFs(tempFile.getParent());
 		long availableBlocks = stat.getAvailableBlocks() * stat.getBlockSize();
-		return availableBlocks < sizeOfSourceFile;
+		return availableBlocks > sizeOfSourceFile;
 	}
 
 }

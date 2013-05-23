@@ -22,6 +22,8 @@
     <string name="error_wrongFormat">Wrong format</string>
     <string name="error_null">null</string>
     <string name="error_not_enough_space">Not enough Space on SD card</string>
+    <string name="error_no_audio_found">No audio found</string>
+    <string name="error_no_text_found">No text found</string>
     <string name="expand">Expand</string>
     <string name="empty_bookmark">Empty</string>
     <string name="fontSize">Font Size: </string>

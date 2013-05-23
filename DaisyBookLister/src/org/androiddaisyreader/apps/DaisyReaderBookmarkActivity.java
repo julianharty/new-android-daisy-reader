@@ -75,7 +75,7 @@ public class DaisyReaderBookmarkActivity extends Activity implements TextToSpeec
 		TextView tvBookTitle = (TextView) this.findViewById(R.id.bookTitle);
 		Daisy202Book mBook = DaisyReaderUtils.getDaisy202Book(mPath);
 		tvBookTitle.setText(mBook.getTitle());
-		createNewBookmark(mBookTitle);
+		createNewBookmark();
 		SqlLiteBookmarkHelper mSql = new SqlLiteBookmarkHelper(getApplicationContext());
 		mListItems = new ArrayList<Bookmark>();
 		mListItems = mSql.getAllBookmark(mBookTitle);
@@ -89,7 +89,7 @@ public class DaisyReaderBookmarkActivity extends Activity implements TextToSpeec
 		startActivityForResult(checkIntent, RESULT_OK);
 	}
 
-	private void createNewBookmark(String bookTitle) {
+	private void createNewBookmark() {
 		// create a bookmark
 		mBookmark = new Bookmark();
 		String sentence = getIntent().getStringExtra(DaisyReaderConstants.SENTENCE);
@@ -98,7 +98,7 @@ public class DaisyReaderBookmarkActivity extends Activity implements TextToSpeec
 		try {
 
 			Preconditions.checkNotNull(sentence);
-			mBookmark.setPath(bookTitle);
+			mBookmark.setPath(mPath);
 			mBookmark.setText(sentence);
 			mBookmark.setTime(Integer.valueOf(time));
 			mBookmark.setSection(Integer.valueOf(section));
@@ -158,7 +158,7 @@ public class DaisyReaderBookmarkActivity extends Activity implements TextToSpeec
 		protected void onPostExecute(ArrayList<Bookmark> result) {
 			BookmarkListAdapter mAdapter;
 			mAdapter = new BookmarkListAdapter(DaisyReaderBookmarkActivity.this, result, mBookmark,
-					mPath);
+					mPath, mListItems.size());
 			mListBookmark.setAdapter(mAdapter);
 			progressDialog.dismiss();
 		}

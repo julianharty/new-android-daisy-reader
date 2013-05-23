@@ -95,10 +95,10 @@ public class SqlLiteBookmarkHelper extends SQLiteOpenHelper {
 		return mBookmark;
 	}
 
-	public ArrayList<Bookmark> getAllBookmark(String book) {
+	public ArrayList<Bookmark> getAllBookmark(String path) {
 		SQLiteDatabase mdb = getReadableDatabase();
 		Cursor mCursor = mdb.query(TABLE_NAME, new String[] { PATH_KEY, TEXT_KEY, TIME_KEY,
-				SECTION_KEY, SORT_KEY, ID_KEY }, PATH_KEY + "=?", new String[] { book }, null,
+				SECTION_KEY, SORT_KEY, ID_KEY }, PATH_KEY + "=?", new String[] { path }, null,
 				null, SORT_KEY);
 		ArrayList<Bookmark> arrBookmark = new ArrayList<Bookmark>();
 

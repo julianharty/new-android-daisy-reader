@@ -65,7 +65,6 @@ public class DaisyReaderLibraryActivity extends Activity implements TextToSpeech
 	private int mNumberOfRecentBooks;
 	private int mGroupPositionExpand;
 	private SharedPreferences mPreferences;
-	private IntentController mIntentController;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -83,7 +82,6 @@ public class DaisyReaderLibraryActivity extends Activity implements TextToSpeech
 			Log.i(TAG, "can not get intent");
 		}
 		mTts = new TextToSpeech(this, this);
-		mIntentController = new IntentController(this);
 		mSqlLite = new SqlLiteRecentBookHelper(getApplicationContext());
 		mFilesResultScan = new ArrayList<ArrayList<String>>();
 		mHashMapHeaderInfo = new LinkedHashMap<String, HeaderInfo>();
@@ -122,7 +120,6 @@ public class DaisyReaderLibraryActivity extends Activity implements TextToSpeech
 	public void onInit(int arg0) {
 		// TODO Must import because this activity implements
 		// TextToSpeech.OnInitListener
-
 	}
 
 	@Override
@@ -142,6 +139,8 @@ public class DaisyReaderLibraryActivity extends Activity implements TextToSpeech
 
 	@Override
 	protected void onResume() {
+		mTts.speak(getString(R.string.title_activity_daisy_reader_library),
+				TextToSpeech.QUEUE_FLUSH, null);
 		Window window = getWindow();
 		ContentResolver cResolver = getContentResolver();
 		int valueScreen = 0;
@@ -157,8 +156,6 @@ public class DaisyReaderLibraryActivity extends Activity implements TextToSpeech
 		layoutpars.screenBrightness = valueScreen / (float) 255;
 		// apply attribute changes to this window
 		window.setAttributes(layoutpars);
-		mTts.speak(getString(R.string.title_activity_daisy_reader_library),
-				TextToSpeech.QUEUE_FLUSH, null);
 		super.onResume();
 	}
 
@@ -272,19 +269,21 @@ public class DaisyReaderLibraryActivity extends Activity implements TextToSpeech
 	};
 
 	private void itemRecentBookClick(String item) {
+		IntentController intentController = new IntentController(this);
 		String path = null;
 		RecentBooks recentBook = mSqlLite.getInfoRecentBook(item);
 		path = recentBook.getPath();
-		mIntentController.pushToDaisyEbookReaderIntent(path);
+		intentController.pushToDaisyEbookReaderIntent(path);
 	}
 
 	private void itemScanBookClick(String item, File daisyPath) {
+		IntentController intentController = new IntentController(this);
 		String path = daisyPath.getAbsolutePath();
 		if (!daisyPath.getAbsolutePath().endsWith(".zip")) {
 			path = path + File.separator + DaisyReaderUtils.getNccFileName(daisyPath);
 		}
 		addRecentBookToSqlLite(item, path);
-		mIntentController.pushToDaisyEbookReaderIntent(path);
+		intentController.pushToDaisyEbookReaderIntent(path);
 	}
 
 	/**

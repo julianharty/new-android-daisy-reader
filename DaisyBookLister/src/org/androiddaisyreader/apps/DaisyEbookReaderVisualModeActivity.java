@@ -9,15 +9,16 @@ import android.graphics.Color;
 import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.SystemClock;
 import android.preference.PreferenceManager;
 import android.provider.Settings.SettingNotFoundException;
 import android.provider.Settings.System;
 import android.speech.tts.TextToSpeech;
+import android.text.Layout;
 import android.text.Spannable;
 import android.text.SpannableString;
 import android.text.style.BackgroundColorSpan;
 import android.util.Log;
-import android.view.Display;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -29,6 +30,8 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
 
@@ -53,7 +56,6 @@ import com.google.common.base.Preconditions;
 
 import java.io.InputStream;
 import java.util.ArrayList;
-import java.util.List;
 
 /**
  * This activity is visual mode which play audio and show full text.
@@ -89,12 +91,13 @@ public class DaisyEbookReaderVisualModeActivity extends Activity implements
 	private ArrayList<Integer> mListTimeBegin;
 	private ArrayList<Integer> mListTimeEnd;
 	private ArrayList<Integer> mListValueScroll;
+	private ArrayList<Integer> mListValueLine;
 	private String mPath;
 	private SharedPreferences mPreferences;
 	private Window mWindow;
 	private String mFullTextOfBook;
 	private int mTime;
-	private int mNumberTimeOfScroll;
+	private int mTotalLineOnScreen;
 	private int mNumberOfChar;
 	private int mPositionOfScrollView;
 	private int mHighlightColor;
@@ -103,8 +106,11 @@ public class DaisyEbookReaderVisualModeActivity extends Activity implements
 	private int mPositionSentence = 0;
 	private boolean mIsRunable = true;
 	private int mTimeForProcess = 400;
+	private long mLastClickTime = 0;
 	// if audio is over, mIsEndOf will equal true;
 	private boolean mIsEndOf = false;
+	private boolean mIsPlaying = false;
+	private boolean mIsFound = true;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -147,16 +153,20 @@ public class DaisyEbookReaderVisualModeActivity extends Activity implements
 		imgBookmark.setOnClickListener(imgBookmarkClick);
 	}
 
-	private void setEventForNavigationButtons() {
+	ImageButton btnNextSection;
+	ImageButton btnNextSentence;
+	ImageButton btnPreviousSection;
+	ImageButton btnPreviousSentence;
 
+	private void setEventForNavigationButtons() {
 		// Event for buttons on navigation.
-		ImageButton btnNextSection = (ImageButton) this.findViewById(R.id.btnNextSection);
+		btnNextSection = (ImageButton) this.findViewById(R.id.btnNextSection);
 		btnNextSection.setOnClickListener(btnNextSectionClick);
-		ImageButton btnNextSentence = (ImageButton) this.findViewById(R.id.btnNextSentence);
+		btnNextSentence = (ImageButton) this.findViewById(R.id.btnNextSentence);
 		btnNextSentence.setOnClickListener(btnNextSentenceClick);
-		ImageButton btnPreviousSection = (ImageButton) this.findViewById(R.id.btnPreviousSection);
+		btnPreviousSection = (ImageButton) this.findViewById(R.id.btnPreviousSection);
 		btnPreviousSection.setOnClickListener(btnPreviousSectionClick);
-		ImageButton btnPreviousSentence = (ImageButton) this.findViewById(R.id.btnPreviousSentence);
+		btnPreviousSentence = (ImageButton) this.findViewById(R.id.btnPreviousSentence);
 		btnPreviousSentence.setOnClickListener(btnPreviousSentenceClick);
 	}
 
@@ -464,21 +474,19 @@ public class DaisyEbookReaderVisualModeActivity extends Activity implements
 		public void onNext(Section section) {
 			try {
 				// create some values to support to highlight text.
-				mNumberTimeOfScroll = 1;
-				mNumberOfChar = 0;
-				mPositionOfScrollView = 0;
-				mListStringText = new ArrayList<String>();
-				mListTimeBegin = new ArrayList<Integer>();
-				mListTimeEnd = new ArrayList<Integer>();
-				mListValueScroll = new ArrayList<Integer>();
-				mListValueScroll.add(0);
+				prepare();
+				mImgButton.setImageResource(R.drawable.media_pause);
+				// If file or audio is not found, audio must to change status to
+				// pause
+				if (!mIsFound) {
+					setMediaPause();
+					mIsFound = true;
+				}
 				Daisy202Section currentSection = new Daisy202Section.Builder()
 						.setHref(section.getHref()).setContext(mBookContext).build();
 				Part[] parts = currentSection.getParts();
 				getSnippetsOfCurrentSection(parts);
 				getAudioElementsOfCurrentSection(parts);
-
-				mImgButton.setImageResource(R.drawable.media_pause);
 				// seek to time when user loading from book mark.
 				if (mTime != -1) {
 					mPlayer.seekTo(mTime);
@@ -490,34 +498,65 @@ public class DaisyEbookReaderVisualModeActivity extends Activity implements
 			}
 		}
 
+		private void prepare() {
+			mTotalLineOnScreen = 0;
+			mNumberOfChar = 0;
+			mPositionOfScrollView = 0;
+			mListStringText = new ArrayList<String>();
+			mListTimeBegin = new ArrayList<Integer>();
+			mListTimeEnd = new ArrayList<Integer>();
+			mListValueScroll = new ArrayList<Integer>();
+			mListValueScroll.add(mPositionOfScrollView);
+			mListValueLine = new ArrayList<Integer>();
+			mListValueLine.add(mTotalLineOnScreen);
+		}
+
 		private void getSnippetsOfCurrentSection(Part[] parts) {
-			StringBuilder snippetText = new StringBuilder();
-			for (Part part : parts) {
-				int sizeOfPart = part.getSnippets().size();
-				for (int i = 0; i < sizeOfPart; i++) {
-					if (i > 0) {
-						snippetText.append(getString(R.string.space));
+			try {
+				StringBuilder snippetText = new StringBuilder();
+				for (Part part : parts) {
+					int sizeOfPart = part.getSnippets().size();
+					for (int i = 0; i < sizeOfPart; i++) {
+						if (i > 0) {
+							snippetText.append(getString(R.string.space));
+						}
+						String text = part.getSnippets().get(i).getText();
+						snippetText.append(text);
+						mListStringText.add(text);
 					}
-					String text = part.getSnippets().get(i).getText();
-					snippetText.append(text);
-					mListStringText.add(text);
+					snippetText.append(getString(R.string.space));
 				}
-				snippetText.append(getString(R.string.space));
-				List<Audio> audioElements = part.getAudioElements();
-				mListTimeBegin.add(audioElements.get(0).getClipBegin());
-				mListTimeEnd.add(audioElements.get(audioElements.size() - 1).getClipEnd());
+				mContents.setText(snippetText.toString(), TextView.BufferType.SPANNABLE);
+			} catch (Exception e) {
+				mIntentController.pushToDialogError(getString(R.string.error_no_text_found), false);
+				mIsFound = false;
+				mImgButton.setImageResource(R.drawable.media_play);
+				mListTimeBegin.removeAll(mListTimeBegin);
+				Log.i(TAG, "Can not get full text");
 			}
-			mContents.setText(snippetText.toString(), TextView.BufferType.SPANNABLE);
+
 		}
 
 		private void getAudioElementsOfCurrentSection(Part[] parts) {
-			StringBuilder audioListings = new StringBuilder();
-			for (Part part : parts) {
-				for (Audio audioSegment : part.getAudioElements()) {
-					mAudioPlayer.playFileSegment(audioSegment);
-					audioListings.append(audioSegment.getAudioFilename() + ", "
-							+ audioSegment.getClipBegin() + ":" + audioSegment.getClipEnd() + "\n");
+			try {
+				StringBuilder audioListings = new StringBuilder();
+				for (Part part : parts) {
+					for (Audio audioSegment : part.getAudioElements()) {
+						mAudioPlayer.playFileSegment(audioSegment);
+						audioListings.append(audioSegment.getAudioFilename() + ", "
+								+ audioSegment.getClipBegin() + ":" + audioSegment.getClipEnd()
+								+ "\n");
+
+						mListTimeBegin.add(audioSegment.getClipBegin());
+						mListTimeEnd.add(audioSegment.getClipEnd());
+					}
 				}
+			} catch (Exception e) {
+				mIntentController
+						.pushToDialogError(getString(R.string.error_no_audio_found), false);
+				mIsFound = false;
+				mImgButton.setImageResource(R.drawable.media_play);
+				Log.i(TAG, "Can not get audio");
 			}
 		}
 
@@ -548,22 +587,26 @@ public class DaisyEbookReaderVisualModeActivity extends Activity implements
 
 			@Override
 			public void run() {
-				if (mIsRunable) {
-					if (mScrollView.getScrollY() != mPositionOfScrollView) {
-						mScrollView.scrollTo(0, mPositionOfScrollView);
+				try {
+					if (mIsRunable) {
+						if (mScrollView.getScrollY() != mPositionOfScrollView) {
+							mScrollView.scrollTo(0, mPositionOfScrollView);
+						}
+						autoHighlight();
+						autoScroll();
 					}
-					autoHighlight();
-					autoScroll();
+					setIsRunable();
+					if (mTimePause == 0) {
+						int timeReadSentence = mListTimeEnd.get(mPositionSentence)
+								- mListTimeBegin.get(mPositionSentence);
+						mHandler.postDelayed(this, timeReadSentence);
+					} else {
+						mHandler.postDelayed(this, mTimePause);
+					}
+					mTimePause = 0;
+				} catch (Exception e) {
+					Log.i(TAG, "Error highlight text or autoscroll");
 				}
-				setIsRunable();
-				if (mTimePause == 0) {
-					int timeReadSentence = mListTimeEnd.get(mPositionSentence)
-							- mListTimeBegin.get(mPositionSentence);
-					mHandler.postDelayed(this, timeReadSentence);
-				} else {
-					mHandler.postDelayed(this, mTimePause);
-				}
-				mTimePause = 0;
 			}
 		};
 		mHandler.post(mRunnalbe);
@@ -619,18 +662,28 @@ public class DaisyEbookReaderVisualModeActivity extends Activity implements
 
 	private void autoScroll() {
 		try {
-			Preconditions.checkNotNull(mContents.getLayout());
-			Display display = getWindowManager().getDefaultDisplay();
-			// height of navigator, menu, etc.
-			int heightOfControls = 200;
-			int mScreenHeight = display.getHeight() - heightOfControls;
-			int lineCurrent = mContents.getLayout().getLineForOffset(mStartOfSentence);
-			int lineOfScreen = mScreenHeight / mContents.getLineHeight();
-			if (lineCurrent > lineOfScreen * mNumberTimeOfScroll) {
-				mPositionOfScrollView = mContents.getLayout().getLineTop(lineCurrent);
+			Layout contentLayout = mContents.getLayout();
+			Preconditions.checkNotNull(contentLayout);
+			// get height of visual mode activity.
+			LinearLayout f = (LinearLayout) findViewById(R.id.layoutVisualMode);
+			int heightOfViewVisualMode = f.getMeasuredHeight();
+
+			// get height of navigator bar
+			RelativeLayout r = (RelativeLayout) findViewById(R.id.layoutRelativeLayout);
+			int heightOfNavigator = r.getMeasuredHeight();
+
+			// exactly height show text.
+			int heightView = heightOfViewVisualMode - heightOfNavigator;
+
+			int lineEndCurrent = contentLayout.getLineForOffset(mNumberOfChar);
+			int lineTopCurrent = contentLayout.getLineForOffset(mStartOfSentence);
+			int lineOfScreen = heightView / mContents.getLineHeight();
+			if (lineEndCurrent > mTotalLineOnScreen) {
+				mPositionOfScrollView = contentLayout.getLineTop(lineTopCurrent);
 				mScrollView.scrollTo(0, mPositionOfScrollView);
 				addToListValueOfScroll(mPositionOfScrollView);
-				mNumberTimeOfScroll++;
+				mTotalLineOnScreen = lineTopCurrent + lineOfScreen - 1;
+				addToListValueLine(mTotalLineOnScreen);
 			}
 		} catch (NullPointerException e) {
 			Log.i(TAG, "Contents.getLayout() is null");
@@ -638,7 +691,8 @@ public class DaisyEbookReaderVisualModeActivity extends Activity implements
 	}
 
 	/*
-	 * This function help to add value scroll to list.
+	 * This function help to add value scroll to list to support for auto scroll
+	 * previous sentence.
 	 */
 	private void addToListValueOfScroll(int positionOfScrollView) {
 		boolean isAdd = true;
@@ -651,9 +705,28 @@ public class DaisyEbookReaderVisualModeActivity extends Activity implements
 				break;
 			}
 		}
-
 		if (isAdd) {
 			mListValueScroll.add(positionOfScrollView);
+		}
+	}
+
+	/*
+	 * This function help to add value position of line to list to support for
+	 * auto scroll previous sentence.
+	 */
+	private void addToListValueLine(int positionOfLine) {
+		boolean isAdd = true;
+		int sizeOfListValueLine = mListValueLine.size();
+		for (int i = 0; i < sizeOfListValueLine; i++) {
+			int currentLine = mListValueLine.get(i);
+			if (positionOfLine == currentLine) {
+				// Check add permission.
+				isAdd = false;
+				break;
+			}
+		}
+		if (isAdd) {
+			mListValueLine.add(positionOfLine);
 		}
 	}
 
@@ -748,22 +821,31 @@ public class DaisyEbookReaderVisualModeActivity extends Activity implements
 	private long mTimePause = 0;
 
 	private void setMediaPlay() {
-		mPlayer.start();
-		mIsRunable = true;
-		if (mPlayer.getCurrentPosition() != 0 && mListTimeEnd != null) {
-			// if you pause while audio playing. You need to know time pause to
-			// high light text more correctly.
-			mTimePause = mListTimeEnd.get(mPositionSentence) - mPlayer.getCurrentPosition()
-					+ mTimeForProcess;
+		if (mIsEndOf) {
+			mNavigationListener.atEndOfBook();
+		} else {
+			mPlayer.start();
+			mIsRunable = true;
+			if (mPlayer.getCurrentPosition() != 0 && mListTimeEnd != null) {
+				// if you pause while audio playing. You need to know time pause
+				// to high light text more correctly.
+				mTimePause = mListTimeEnd.get(mPositionSentence) - mPlayer.getCurrentPosition()
+						+ mTimeForProcess;
+			}
+			// create call backs when you touch button start.
+			mHandler.post(mRunnalbe);
+			mImgButton.setImageResource(R.drawable.media_pause);
 		}
-		// create call backs when you touch button start.
-		mHandler.post(mRunnalbe);
-		mImgButton.setImageResource(R.drawable.media_pause);
 	}
 
 	private OnClickListener btnNextSentenceClick = new OnClickListener() {
 		@Override
 		public void onClick(View v) {
+			// do not allow user press button many times at the same time.
+			if (SystemClock.elapsedRealtime() - mLastClickTime < DaisyReaderConstants.TIME_WAIT_FOR_CLICK_SENTENCE) {
+				return;
+			}
+			mLastClickTime = SystemClock.elapsedRealtime();
 			nextSentence();
 			try {
 				Preconditions.checkArgument(mPositionSentence < mListTimeBegin.size() - 1);
@@ -774,6 +856,7 @@ public class DaisyEbookReaderVisualModeActivity extends Activity implements
 			} catch (IllegalArgumentException e) {
 				Log.i(TAG, "position sentence is not equal 0");
 			}
+
 		}
 	};
 
@@ -796,13 +879,17 @@ public class DaisyEbookReaderVisualModeActivity extends Activity implements
 			nextSection();
 			mPositionSentence -= 1;
 		}
-
 	}
 
 	private OnClickListener btnPreviousSentenceClick = new OnClickListener() {
 
 		@Override
 		public void onClick(View v) {
+			// do not allow user press button many times at the same time.
+			if (SystemClock.elapsedRealtime() - mLastClickTime < DaisyReaderConstants.TIME_WAIT_FOR_CLICK_SENTENCE) {
+				return;
+			}
+			mLastClickTime = SystemClock.elapsedRealtime();
 			previousSentence();
 			try {
 				Preconditions.checkArgument(mPositionSentence > 0);
@@ -823,7 +910,7 @@ public class DaisyEbookReaderVisualModeActivity extends Activity implements
 				int valueOfScroll = mListValueScroll.get(i);
 				if (positionOfScrollView < valueOfScroll) {
 					mPositionOfScrollView = mListValueScroll.get(i - 1);
-					mNumberTimeOfScroll--;
+					mTotalLineOnScreen = mListValueLine.get(i - 1);
 					break;
 				}
 			}
@@ -835,7 +922,7 @@ public class DaisyEbookReaderVisualModeActivity extends Activity implements
 	 */
 	private void previousSentence() {
 		int lengthOfSpace = 2;
-		boolean isPlaying = mPlayer.isPlaying();
+		mIsPlaying = mPlayer.isPlaying();
 		// this case for user press previous sentence at the begin of book.
 		if (!mNavigator.hasPrevious() && mPositionSentence == 0) {
 			mNavigationListener.atBeginOfBook();
@@ -849,12 +936,12 @@ public class DaisyEbookReaderVisualModeActivity extends Activity implements
 			n = mNavigator.next();
 			mNavigationListener.onNext((Section) n);
 			mIsEndOf = false;
-			mPlayer.seekTo(mListTimeEnd.get(mPositionSentence - 1));
+			mPlayer.seekTo(mListTimeBegin.get(mListTimeBegin.size() - 1));
 		}
 		// this case for user press previous sentence.
 		else if (mPositionSentence > 0) {
-			mStartOfSentence = mStartOfSentence
-					- mListStringText.get(mPositionSentence - 1).length() - lengthOfSpace;
+			int lengthOfCurrentSentence = mListStringText.get(mPositionSentence - 1).length();
+			mStartOfSentence = mStartOfSentence - lengthOfCurrentSentence - lengthOfSpace;
 			mPlayer.seekTo(mListTimeBegin.get(mPositionSentence - 1));
 		}
 		// this case for user press previous sentence at the begin of section.
@@ -864,29 +951,39 @@ public class DaisyEbookReaderVisualModeActivity extends Activity implements
 			if (mListTimeEnd.size() > 1) {
 				// get all text of text view
 				mFullTextOfBook = mContents.getText().toString();
-				mStartOfSentence = mFullTextOfBook.length()
-						- mListStringText.get(mListTimeBegin.size() - 1).length() - lengthOfSpace;
+				int lengthOfCurrentSentence = mListStringText.get(mListTimeBegin.size() - 1)
+						.length();
+				mStartOfSentence = mFullTextOfBook.length() - lengthOfCurrentSentence
+						- lengthOfSpace;
 				mPlayer.seekTo(mListTimeEnd.get(mListTimeEnd.size() - 2));
 			}
 		}
+
 		// keep current state media player.
-		if (!isPlaying) {
+		if (!mIsPlaying) {
 			setMediaPause();
 		}
 	}
 
 	private void nextSection() {
 		mStartOfSentence = 0;
-		boolean isPlaying = mPlayer.isPlaying();
+		mIsPlaying = mPlayer.isPlaying();
 		mController.next();
-		if (!isPlaying) {
-			setMediaPause();
+		if (mIsFound) {
+			if (!mIsPlaying) {
+				setMediaPause();
+			}
 		}
 	}
 
 	private OnClickListener btnNextSectionClick = new OnClickListener() {
 		@Override
 		public void onClick(View v) {
+			// do not allow user press button many times at the same time.
+			if (SystemClock.elapsedRealtime() - mLastClickTime < DaisyReaderConstants.TIME_WAIT_FOR_CLICK_SECTION) {
+				return;
+			}
+			mLastClickTime = SystemClock.elapsedRealtime();
 			nextSection();
 		}
 	};
@@ -894,16 +991,23 @@ public class DaisyEbookReaderVisualModeActivity extends Activity implements
 	private void previousSection() {
 		mStartOfSentence = 0;
 		mIsEndOf = false;
-		boolean isPlaying = mPlayer.isPlaying();
+		mIsPlaying = mPlayer.isPlaying();
 		mController.previous();
-		if (!isPlaying) {
-			setMediaPause();
+		if (mIsFound) {
+			if (!mIsPlaying) {
+				setMediaPause();
+			}
 		}
 	}
 
 	private OnClickListener btnPreviousSectionClick = new OnClickListener() {
 		@Override
 		public void onClick(View v) {
+			// do not allow user press button many times at the same time.
+			if (SystemClock.elapsedRealtime() - mLastClickTime < DaisyReaderConstants.TIME_WAIT_FOR_CLICK_SECTION) {
+				return;
+			}
+			mLastClickTime = SystemClock.elapsedRealtime();
 			previousSection();
 		}
 	};

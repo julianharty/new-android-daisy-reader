@@ -37,14 +37,16 @@ public class BookmarkListAdapter extends ArrayAdapter<Bookmark> {
 	private boolean mOnlyLoad = false;
 	private boolean mOnlySave = false;
 	private String mPath;
+	private int mTotalNumberBookmark;
 
 	public BookmarkListAdapter(Context context, ArrayList<Bookmark> listBookmark,
-			Bookmark bookmark, String path) {
+			Bookmark bookmark, String path, int totalNumberBookmark) {
 		super(context, 0, listBookmark);
 		this.mContext = context;
 		this.mListBookmark = listBookmark;
 		this.mBookmarkTmp = bookmark;
 		this.mPath = path;
+		this.mTotalNumberBookmark = totalNumberBookmark;
 		mSql = new SqlLiteBookmarkHelper(getContext());
 		mVi = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 		if (bookmark.getId() == null) {
@@ -64,7 +66,11 @@ public class BookmarkListAdapter extends ArrayAdapter<Bookmark> {
 			@Override
 			public void onClick(View v) {
 				mBookmark = mListBookmark.get(position);
-				mBookmark.setSort(position);
+				if (mBookmark.getTextShow().equals(mContext.getString(R.string.empty_bookmark))) {
+					mBookmark.setSort(mTotalNumberBookmark);
+				} else {
+					mBookmark.setSort(position);
+				}
 				if (position != mSelectedPosition && mSelectedRB != null) {
 					mSelectedRB.setChecked(false);
 				}

@@ -464,7 +464,7 @@ public class DaisyEbookReaderSimpleModeActivity extends Activity implements OnCl
 			mNavigationListener.onNext((Section) n);
 			mIsEndOf = false;
 			mTts.speak(getString(R.string.previousSentence), TextToSpeech.QUEUE_FLUSH, null);
-			mPlayer.seekTo(mListTimeEnd.get(mPositionSentence - 1));
+			mPlayer.seekTo(mListTimeBegin.get(mListTimeBegin.size() - 1));
 		}
 		// this case for user press previous sentence.
 		else if (mPositionSentence > 0) {

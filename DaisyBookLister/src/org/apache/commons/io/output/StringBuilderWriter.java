@@ -31,6 +31,7 @@ import java.io.Writer;
  * @version $Id: StringBuilderWriter.java 1304052 2012-03-22 20:55:29Z ggregory $
  * @since 2.0
  */
+@SuppressWarnings("serial")
 public class StringBuilderWriter extends Writer implements Serializable {
 
     private final StringBuilder builder;

@@ -34,4 +34,6 @@ public class DaisyReaderConstants {
 	public static int NUMBER_OF_RECENTBOOK_DEFAULT = 10;
 	public static String PREFIX_AUDIO_TEMP_FILE = "_DAISYTEMPAUDIO_";
 	public static String SUFFIX_AUDIO_TEMP_FILE = ".mp3";
+	public static int TIME_WAIT_FOR_CLICK_SECTION = 2000;
+	public static int TIME_WAIT_FOR_CLICK_SENTENCE = 300;
 }

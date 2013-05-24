@@ -110,6 +110,9 @@ public class DaisyReaderSettingActivity extends Activity implements TextToSpeech
 		settingNightmode();
 	}
 
+	/**
+	 * Start text to speech
+	 */
 	private void startTts() {
 		mTts = new TextToSpeech(this, this);
 		Intent checkIntent = new Intent();
@@ -117,6 +120,9 @@ public class DaisyReaderSettingActivity extends Activity implements TextToSpeech
 		startActivityForResult(checkIntent, RESULT_OK);
 	}
 
+	/**
+	 * Setting seekbar brightness.
+	 */
 	private void settingBrightness() {
 		SeekBar brightBar = (SeekBar) findViewById(R.id.barBrightness);
 		brightBar.setMax(255);
@@ -141,6 +147,9 @@ public class DaisyReaderSettingActivity extends Activity implements TextToSpeech
 		brightBar.setOnSeekBarChangeListener(seekBarBrightnessListener);
 	}
 
+	/**
+	 * Setting seekbar font size.
+	 */
 	private void settingFontsize() {
 		SeekBar sizeBar = (SeekBar) findViewById(R.id.barFontSize);
 		mFontsize = mPreferences.getInt(DaisyReaderConstants.FONT_SIZE,
@@ -151,6 +160,9 @@ public class DaisyReaderSettingActivity extends Activity implements TextToSpeech
 		sizeBar.setOnSeekBarChangeListener(seekBarSizeListener);
 	}
 
+	/**
+	 * Setting text color.
+	 */
 	private void settingTextColor() {
 		mCurrentTextColor = mPreferences.getInt(DaisyReaderConstants.TEXT_COLOR, 0xffc0c0c0);
 		mTextColor.setBackgroundColor(mCurrentTextColor);
@@ -165,6 +177,9 @@ public class DaisyReaderSettingActivity extends Activity implements TextToSpeech
 		});
 	}
 
+	/**
+	 * Setting background color.
+	 */
 	private void settingBackgroundColor() {
 		mCurrentBackgroundColor = mPreferences.getInt(DaisyReaderConstants.BACKGROUND_COLOR,
 				Color.BLACK);
@@ -180,6 +195,9 @@ public class DaisyReaderSettingActivity extends Activity implements TextToSpeech
 		});
 	}
 
+	/**
+	 * Setting highlight color.
+	 */
 	private void settingHighlightColor() {
 		mCurrentHighlightColor = mPreferences.getInt(DaisyReaderConstants.HIGHLIGHT_COLOR,
 				Color.YELLOW);
@@ -196,6 +214,9 @@ public class DaisyReaderSettingActivity extends Activity implements TextToSpeech
 
 	}
 
+	/**
+	 * Setting number of bookmark.
+	 */
 	private void settingCurrentBookmark() {
 		mCurrentNumberOfBookmarks = mPreferences.getInt(DaisyReaderConstants.NUMBER_OF_BOOKMARKS,
 				DaisyReaderConstants.NUMBER_OF_BOOKMARK_DEFAULT);
@@ -203,6 +224,9 @@ public class DaisyReaderSettingActivity extends Activity implements TextToSpeech
 		mNumberOfBookmarks.addTextChangedListener(bookmarkTextWatcher);
 	}
 
+	/**
+	 * Setting number of recent book
+	 */
 	private void settingCurrentRecentBook() {
 		mCurrentNumberOfRecentBooks = mPreferences.getInt(
 				DaisyReaderConstants.NUMBER_OF_RECENT_BOOKS,
@@ -211,6 +235,9 @@ public class DaisyReaderSettingActivity extends Activity implements TextToSpeech
 		mNumberOfRecentBooks.addTextChangedListener(recentBooksTextWatcher);
 	}
 
+	/**
+	 * Setting night mode.
+	 */
 	private void settingNightmode() {
 		final ToggleButton toogleNightMode = (ToggleButton) findViewById(R.id.toggleNightMode);
 		boolean isCheckNightMode = mPreferences.getBoolean(DaisyReaderConstants.NIGHT_MODE, false);
@@ -269,7 +296,8 @@ public class DaisyReaderSettingActivity extends Activity implements TextToSpeech
 					return view;
 				}
 			};
-			for (int i = 0; i < mColorTable.length; i++) {
+			int sizeOfColorTable = mColorTable.length;
+			for (int i = 0; i < sizeOfColorTable; i++) {
 				adapter.add("");
 			}
 			gridView.setAdapter(adapter);
@@ -303,11 +331,17 @@ public class DaisyReaderSettingActivity extends Activity implements TextToSpeech
 		return super.onCreateDialog(id);
 	}
 
+	/**
+	 * Handle input value for bookmark
+	 */
 	private TextWatcher bookmarkTextWatcher = new TextWatcher() {
 
 		@Override
 		public void onTextChanged(CharSequence s, int start, int before, int count) {
-			String strEnteredVal = mNumberOfBookmarks.getText().toString();
+			String strEnteredVal = "";
+			if (mNumberOfBookmarks.getText() != null) {
+				strEnteredVal = mNumberOfBookmarks.getText().toString();
+			}
 
 			if (!strEnteredVal.equals("")) {
 				int num = Integer.parseInt(strEnteredVal);
@@ -334,11 +368,17 @@ public class DaisyReaderSettingActivity extends Activity implements TextToSpeech
 		}
 	};
 
+	/**
+	 * Handle input value for recent book
+	 */
 	private TextWatcher recentBooksTextWatcher = new TextWatcher() {
 
 		@Override
 		public void onTextChanged(CharSequence s, int start, int before, int count) {
-			String strEnteredVal = mNumberOfRecentBooks.getText().toString();
+			String strEnteredVal = "";
+			if (mNumberOfRecentBooks.getText() != null) {
+				strEnteredVal = mNumberOfRecentBooks.getText().toString();
+			}
 			if (!strEnteredVal.equals("")) {
 				int num = Integer.parseInt(strEnteredVal);
 				if (num <= 0) {
@@ -364,6 +404,9 @@ public class DaisyReaderSettingActivity extends Activity implements TextToSpeech
 		}
 	};
 
+	/**
+	 * Handle value seek bar brightness.
+	 */
 	private OnSeekBarChangeListener seekBarBrightnessListener = new OnSeekBarChangeListener() {
 
 		@Override
@@ -387,6 +430,9 @@ public class DaisyReaderSettingActivity extends Activity implements TextToSpeech
 		}
 	};
 
+	/**
+	 * Handle value seek bar size of text.
+	 */
 	private OnSeekBarChangeListener seekBarSizeListener = new OnSeekBarChangeListener() {
 
 		@Override

@@ -56,6 +56,7 @@ import com.google.common.base.Preconditions;
 
 import java.io.InputStream;
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * This activity is visual mode which play audio and show full text.
@@ -109,7 +110,6 @@ public class DaisyEbookReaderVisualModeActivity extends Activity implements
 	private long mLastClickTime = 0;
 	// if audio is over, mIsEndOf will equal true;
 	private boolean mIsEndOf = false;
-	private boolean mIsPlaying = false;
 	private boolean mIsFound = true;
 
 	@Override
@@ -135,9 +135,12 @@ public class DaisyEbookReaderVisualModeActivity extends Activity implements
 		mHandler = new Handler();
 		setEventForNavigationButtons();
 		// check if user play daisybook from table of contents or bookmark
-		checkLoadFromBookmarkOrContent();
+		readBook();
 	}
 
+	/**
+	 * Start text to speech
+	 */
 	private void startTts() {
 		mTts = new TextToSpeech(this, this);
 		Intent checkIntent = new Intent();
@@ -145,6 +148,9 @@ public class DaisyEbookReaderVisualModeActivity extends Activity implements
 		startActivityForResult(checkIntent, RESULT_OK);
 	}
 
+	/**
+	 * Set event for top buttons (table of contents, bookmark).
+	 */
 	private void setEventForTopButtons() {
 		ImageView imgTableOfContents = (ImageView) this.findViewById(R.id.imgTableOfContents);
 		imgTableOfContents.setOnClickListener(imgTableOfContentsClick);
@@ -153,24 +159,26 @@ public class DaisyEbookReaderVisualModeActivity extends Activity implements
 		imgBookmark.setOnClickListener(imgBookmarkClick);
 	}
 
-	ImageButton btnNextSection;
-	ImageButton btnNextSentence;
-	ImageButton btnPreviousSection;
-	ImageButton btnPreviousSentence;
-
+	/**
+	 * Set event for bottom buttons (next sentence, next section, previous
+	 * sentence, previous section).
+	 */
 	private void setEventForNavigationButtons() {
 		// Event for buttons on navigation.
-		btnNextSection = (ImageButton) this.findViewById(R.id.btnNextSection);
+		ImageButton btnNextSection = (ImageButton) this.findViewById(R.id.btnNextSection);
 		btnNextSection.setOnClickListener(btnNextSectionClick);
-		btnNextSentence = (ImageButton) this.findViewById(R.id.btnNextSentence);
+		ImageButton btnNextSentence = (ImageButton) this.findViewById(R.id.btnNextSentence);
 		btnNextSentence.setOnClickListener(btnNextSentenceClick);
-		btnPreviousSection = (ImageButton) this.findViewById(R.id.btnPreviousSection);
+		ImageButton btnPreviousSection = (ImageButton) this.findViewById(R.id.btnPreviousSection);
 		btnPreviousSection.setOnClickListener(btnPreviousSectionClick);
-		btnPreviousSentence = (ImageButton) this.findViewById(R.id.btnPreviousSentence);
+		ImageButton btnPreviousSentence = (ImageButton) this.findViewById(R.id.btnPreviousSentence);
 		btnPreviousSentence.setOnClickListener(btnPreviousSentenceClick);
 	}
 
-	private void checkLoadFromBookmarkOrContent() {
+	/**
+	 * Start reading book.
+	 */
+	private void readBook() {
 		try {
 			String i = getIntent().getStringExtra(DaisyReaderConstants.POSITION_SECTION);
 			mTime = getIntent().getIntExtra(DaisyReaderConstants.TIME, -1);
@@ -187,6 +195,8 @@ public class DaisyEbookReaderVisualModeActivity extends Activity implements
 				}
 			} catch (NullPointerException e) {
 				Log.i(TAG, "user does not load from bookmark");
+				// if user do not load from table of contents, play reading book
+				// at normal.
 				togglePlay();
 			}
 
@@ -229,6 +239,11 @@ public class DaisyEbookReaderVisualModeActivity extends Activity implements
 		}
 	};
 
+	/**
+	 * get Bookmark to support for function save or load bookmark
+	 * 
+	 * @return Bookmark
+	 */
 	private Bookmark getBookmark() {
 		String sentence = null;
 		int currentTime = mPlayer.getCurrentPosition();
@@ -238,7 +253,6 @@ public class DaisyEbookReaderVisualModeActivity extends Activity implements
 		}
 		try {
 			Preconditions.checkNotNull(mListStringText);
-
 			int sizeOfStringText = mListStringText.size();
 			for (; i < sizeOfStringText; i++) {
 				if (mListTimeBegin.get(i) <= currentTime && currentTime < mListTimeEnd.get(i)) {
@@ -317,7 +331,9 @@ public class DaisyEbookReaderVisualModeActivity extends Activity implements
 		}
 	}
 
-	// Show dialog when user choose function search of button settings.
+	/**
+	 * Show dialog when user choose function search of button settings.
+	 */
 	private void pushToDialogSearch() {
 		final Dialog dialog = new Dialog(DaisyEbookReaderVisualModeActivity.this);
 		dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
@@ -385,6 +401,9 @@ public class DaisyEbookReaderVisualModeActivity extends Activity implements
 		super.onResume();
 	}
 
+	/**
+	 * get values from setting activity to apply.
+	 */
 	private void getValueFromSetting() {
 		int mFontSize;
 		ContentResolver cResolver = getContentResolver();
@@ -406,6 +425,9 @@ public class DaisyEbookReaderVisualModeActivity extends Activity implements
 		mContents.setTextSize(mFontSize);
 	}
 
+	/**
+	 * Apply night mode setting, if user turn on.
+	 */
 	private void setNightMode() {
 		boolean nightMode = mPreferences.getBoolean(DaisyReaderConstants.NIGHT_MODE, false);
 		if (nightMode) {
@@ -498,6 +520,9 @@ public class DaisyEbookReaderVisualModeActivity extends Activity implements
 			}
 		}
 
+		/**
+		 * Create some values to support to highlight text
+		 */
 		private void prepare() {
 			mTotalLineOnScreen = 0;
 			mNumberOfChar = 0;
@@ -511,9 +536,14 @@ public class DaisyEbookReaderVisualModeActivity extends Activity implements
 			mListValueLine.add(mTotalLineOnScreen);
 		}
 
+		/**
+		 * Get all text from parts.
+		 * 
+		 * @param parts
+		 */
 		private void getSnippetsOfCurrentSection(Part[] parts) {
+			StringBuilder snippetText = new StringBuilder();
 			try {
-				StringBuilder snippetText = new StringBuilder();
 				for (Part part : parts) {
 					int sizeOfPart = part.getSnippets().size();
 					for (int i = 0; i < sizeOfPart; i++) {
@@ -525,18 +555,23 @@ public class DaisyEbookReaderVisualModeActivity extends Activity implements
 						mListStringText.add(text);
 					}
 					snippetText.append(getString(R.string.space));
+					List<Audio> audioElements = part.getAudioElements();
+					mListTimeBegin.add(audioElements.get(0).getClipBegin());
+					mListTimeEnd.add(audioElements.get(audioElements.size() - 1).getClipEnd());
 				}
 				mContents.setText(snippetText.toString(), TextView.BufferType.SPANNABLE);
 			} catch (Exception e) {
-				mIntentController.pushToDialogError(getString(R.string.error_no_text_found), false);
-				mIsFound = false;
-				mImgButton.setImageResource(R.drawable.media_play);
-				mListTimeBegin.removeAll(mListTimeBegin);
+				mContents.setText(snippetText.toString(), TextView.BufferType.SPANNABLE);
 				Log.i(TAG, "Can not get full text");
 			}
 
 		}
 
+		/**
+		 * Get all audio from parts.
+		 * 
+		 * @param parts
+		 */
 		private void getAudioElementsOfCurrentSection(Part[] parts) {
 			try {
 				StringBuilder audioListings = new StringBuilder();
@@ -546,9 +581,6 @@ public class DaisyEbookReaderVisualModeActivity extends Activity implements
 						audioListings.append(audioSegment.getAudioFilename() + ", "
 								+ audioSegment.getClipBegin() + ":" + audioSegment.getClipEnd()
 								+ "\n");
-
-						mListTimeBegin.add(audioSegment.getClipBegin());
-						mListTimeEnd.add(audioSegment.getClipEnd());
 					}
 				}
 			} catch (Exception e) {
@@ -560,6 +592,9 @@ public class DaisyEbookReaderVisualModeActivity extends Activity implements
 			}
 		}
 
+		/**
+		 * Show message at the end of book.
+		 */
 		private void atEndOfBook() {
 			mIntentController.pushToDialogError(getString(R.string.atEnd)
 					+ getString(R.string.space) + mBook.getTitle(), false);
@@ -575,12 +610,19 @@ public class DaisyEbookReaderVisualModeActivity extends Activity implements
 
 		}
 
+		/**
+		 * Show message at the begin of book.
+		 */
 		public void atBeginOfBook() {
 			mIntentController.pushToDialogError(getString(R.string.atBegin)
 					+ getString(R.string.space) + mBook.getTitle(), false);
 		}
 	}
 
+	/**
+	 * Auto highlight text while audio is playing. Auto scroll when the high
+	 * light at the end of screen
+	 */
 	private void autoHighlightAndScroll() {
 		mWordtoSpan = (Spannable) mContents.getText();
 		mRunnalbe = new Runnable() {
@@ -612,6 +654,9 @@ public class DaisyEbookReaderVisualModeActivity extends Activity implements
 		mHandler.post(mRunnalbe);
 	}
 
+	/**
+	 * set start/stop runable.
+	 */
 	private void setIsRunable() {
 		if (mPlayer.isPlaying()) {
 			mIsRunable = true;
@@ -621,6 +666,9 @@ public class DaisyEbookReaderVisualModeActivity extends Activity implements
 		}
 	}
 
+	/**
+	 * this function support to highlight text while audio is playing.
+	 */
 	private void autoHighlight() {
 		try {
 			mFullTextOfBook = mContents.getText().toString();
@@ -660,6 +708,10 @@ public class DaisyEbookReaderVisualModeActivity extends Activity implements
 		}
 	}
 
+	/**
+	 * this function support to autoscroll when highlight text at the end of
+	 * screen.
+	 */
 	private void autoScroll() {
 		try {
 			Layout contentLayout = mContents.getLayout();
@@ -690,7 +742,7 @@ public class DaisyEbookReaderVisualModeActivity extends Activity implements
 		}
 	}
 
-	/*
+	/**
 	 * This function help to add value scroll to list to support for auto scroll
 	 * previous sentence.
 	 */
@@ -710,7 +762,7 @@ public class DaisyEbookReaderVisualModeActivity extends Activity implements
 		}
 	}
 
-	/*
+	/**
 	 * This function help to add value position of line to list to support for
 	 * auto scroll previous sentence.
 	 */
@@ -744,7 +796,9 @@ public class DaisyEbookReaderVisualModeActivity extends Activity implements
 			this.navigationListener = navigationListener;
 		}
 
-		// Go to next section
+		/**
+		 * Go to next section
+		 */
 		public void next() {
 			if (mNavigator.hasNext()) {
 				mStartOfSentence = 0;
@@ -809,6 +863,9 @@ public class DaisyEbookReaderVisualModeActivity extends Activity implements
 		}
 	}
 
+	/**
+	 * Set media pause and remove call back
+	 */
 	private void setMediaPause() {
 		// remove call backs when you touch button stop.
 		mHandler.removeCallbacks(mRunnalbe);
@@ -820,6 +877,9 @@ public class DaisyEbookReaderVisualModeActivity extends Activity implements
 	// this variable will be handle the time when you change from pause to play.
 	private long mTimePause = 0;
 
+	/**
+	 * Set media play and post runnable
+	 */
 	private void setMediaPlay() {
 		if (mIsEndOf) {
 			mNavigationListener.atEndOfBook();
@@ -864,20 +924,25 @@ public class DaisyEbookReaderVisualModeActivity extends Activity implements
 	 * Go to next sentence by seek to time of clip end nearest position.
 	 */
 	private void nextSentence() {
-		int currentTime = mPlayer.getCurrentPosition();
-		// this case for user press next sentence at the end of book.
-		if (currentTime == 0 && !mNavigator.hasNext() && mPositionSentence == mListTimeBegin.size()) {
-			mNavigationListener.atEndOfBook();
-		}
-		// this case for user press next sentence.
-		else if (mPositionSentence < mListTimeBegin.size() - 1) {
-			mPlayer.seekTo(mListTimeBegin.get(mPositionSentence + 1));
-		}
-		// this case for user press next sentence at the end of section.
-		else {
-			mStartOfSentence = 0;
-			nextSection();
-			mPositionSentence -= 1;
+		try {
+			int currentTime = mPlayer.getCurrentPosition();
+			// this case for user press next sentence at the end of book.
+			if (currentTime == 0 && !mNavigator.hasNext()
+					&& mPositionSentence == mListTimeBegin.size()) {
+				mNavigationListener.atEndOfBook();
+			}
+			// this case for user press next sentence.
+			else if (mPositionSentence < mListTimeBegin.size() - 1) {
+				mPlayer.seekTo(mListTimeBegin.get(mPositionSentence + 1));
+			}
+			// this case for user press next sentence at the end of section.
+			else {
+				mStartOfSentence = 0;
+				nextSection();
+				mPositionSentence -= 1;
+			}
+		} catch (Exception e) {
+			Log.i(TAG, "next sentence had mistake");
 		}
 	}
 
@@ -921,56 +986,64 @@ public class DaisyEbookReaderVisualModeActivity extends Activity implements
 	 * Go to previous sentence by seek to time of clip end before two units.
 	 */
 	private void previousSentence() {
-		int lengthOfSpace = 2;
-		mIsPlaying = mPlayer.isPlaying();
-		// this case for user press previous sentence at the begin of book.
-		if (!mNavigator.hasPrevious() && mPositionSentence == 0) {
-			mNavigationListener.atBeginOfBook();
-		}
-		// this case for user press previous sentence at the end of book.
-		else if (mIsEndOf) {
-			// It is code to resolve previous sentence when the end
-			// of the book.
-			mIsRunable = true;
-			Navigable n = mNavigator.previous();
-			n = mNavigator.next();
-			mNavigationListener.onNext((Section) n);
-			mIsEndOf = false;
-			mPlayer.seekTo(mListTimeBegin.get(mListTimeBegin.size() - 1));
-		}
-		// this case for user press previous sentence.
-		else if (mPositionSentence > 0) {
-			int lengthOfCurrentSentence = mListStringText.get(mPositionSentence - 1).length();
-			mStartOfSentence = mStartOfSentence - lengthOfCurrentSentence - lengthOfSpace;
-			mPlayer.seekTo(mListTimeBegin.get(mPositionSentence - 1));
-		}
-		// this case for user press previous sentence at the begin of section.
-		else {
-			mController.previous();
-			mPositionSentence = mListTimeBegin.size() - 1;
-			if (mListTimeEnd.size() > 1) {
-				// get all text of text view
-				mFullTextOfBook = mContents.getText().toString();
-				int lengthOfCurrentSentence = mListStringText.get(mListTimeBegin.size() - 1)
-						.length();
-				mStartOfSentence = mFullTextOfBook.length() - lengthOfCurrentSentence
-						- lengthOfSpace;
-				mPlayer.seekTo(mListTimeEnd.get(mListTimeEnd.size() - 2));
+		boolean isPlaying = mPlayer.isPlaying();
+		try {
+			int lengthOfSpace = 2;
+			// this case for user press previous sentence at the begin of book.
+			if (!mNavigator.hasPrevious() && mPositionSentence == 0) {
+				mNavigationListener.atBeginOfBook();
 			}
+			// this case for user press previous sentence at the end of book.
+			else if (mIsEndOf) {
+				// It is code to resolve previous sentence when the end
+				// of the book.
+				mIsRunable = true;
+				Navigable n = mNavigator.previous();
+				n = mNavigator.next();
+				mNavigationListener.onNext((Section) n);
+				mIsEndOf = false;
+				mPlayer.seekTo(mListTimeBegin.get(mListTimeBegin.size() - 1));
+			}
+			// this case for user press previous sentence.
+			else if (mPositionSentence > 0) {
+				int lengthOfCurrentSentence = mListStringText.get(mPositionSentence - 1).length();
+				mStartOfSentence = mStartOfSentence - lengthOfCurrentSentence - lengthOfSpace;
+				mPlayer.seekTo(mListTimeBegin.get(mPositionSentence - 1));
+			}
+			// this case for user press previous sentence at the begin of
+			// section.
+			else {
+				mController.previous();
+				mPositionSentence = mListTimeBegin.size() - 1;
+				if (mListTimeEnd.size() > 1) {
+					// get all text of text view
+					mFullTextOfBook = mContents.getText().toString();
+					int lengthOfCurrentSentence = mListStringText.get(mListTimeBegin.size() - 1)
+							.length();
+					mStartOfSentence = mFullTextOfBook.length() - lengthOfCurrentSentence
+							- lengthOfSpace;
+					mPlayer.seekTo(mListTimeEnd.get(mListTimeEnd.size() - 2));
+				}
+			}
+		} catch (Exception e) {
+			Log.i(TAG, "previous sentence had mistake");
 		}
 
 		// keep current state media player.
-		if (!mIsPlaying) {
+		if (!isPlaying) {
 			setMediaPause();
 		}
 	}
 
+	/**
+	 * Go to next section.
+	 */
 	private void nextSection() {
 		mStartOfSentence = 0;
-		mIsPlaying = mPlayer.isPlaying();
+		boolean isPlaying = mPlayer.isPlaying();
 		mController.next();
 		if (mIsFound) {
-			if (!mIsPlaying) {
+			if (!isPlaying) {
 				setMediaPause();
 			}
 		}
@@ -988,13 +1061,16 @@ public class DaisyEbookReaderVisualModeActivity extends Activity implements
 		}
 	};
 
+	/**
+	 * Go to next section.
+	 */
 	private void previousSection() {
 		mStartOfSentence = 0;
 		mIsEndOf = false;
-		mIsPlaying = mPlayer.isPlaying();
+		boolean isPlaying = mPlayer.isPlaying();
 		mController.previous();
 		if (mIsFound) {
-			if (!mIsPlaying) {
+			if (!isPlaying) {
 				setMediaPause();
 			}
 		}

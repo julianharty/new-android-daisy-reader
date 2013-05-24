@@ -9,6 +9,13 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
+/**
+ * This adapter to handle sqlite of recent book
+ * 
+ * @author LogiGear
+ * @date 2013.03.05
+ */
+
 public class SqlLiteRecentBookHelper extends SQLiteOpenHelper {
 
 	private static final String DATABASE_NAME = "RecentBooksDB";

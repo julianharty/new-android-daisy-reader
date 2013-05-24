@@ -92,9 +92,12 @@ public class DaisyEbookReaderSimpleModeActivity extends Activity implements OnCl
 		setContentView(relativeLayout);
 		mHandler = new Handler();
 		openBook();
-		playReadBook();
+		readBook();
 	}
 
+	/**
+	 * Start text to speech
+	 */
 	private void startTts() {
 		mTts = new TextToSpeech(this, this);
 		Intent checkIntent = new Intent();
@@ -102,7 +105,10 @@ public class DaisyEbookReaderSimpleModeActivity extends Activity implements OnCl
 		startActivityForResult(checkIntent, RESULT_OK);
 	}
 
-	private void playReadBook() {
+	/**
+	 * Start reading book.
+	 */
+	private void readBook() {
 		try {
 			String i = getIntent().getStringExtra(DaisyReaderConstants.POSITION_SECTION);
 			mTime = getIntent().getStringExtra(DaisyReaderConstants.TIME);
@@ -118,10 +124,13 @@ public class DaisyEbookReaderSimpleModeActivity extends Activity implements OnCl
 				}
 			} catch (NullPointerException e) {
 				Log.i(TAG, "user do not load from table of contents");
+				// if user do not load from table of contents, play reading book
+				// at normal.
 				togglePlay();
 			}
 
 		} catch (Exception e) {
+			// If error the application will so dialog error.
 			mIntentController.pushToDialogError(getString(R.string.error_wrongFormat), true);
 		}
 	}
@@ -245,7 +254,11 @@ public class DaisyEbookReaderSimpleModeActivity extends Activity implements OnCl
 				mIntentController.pushToDialogError(getString(R.string.error_wrongFormat), true);
 			}
 		}
-
+		/**
+		 *
+		 * Get all audio from current section.
+		 * @param currentSection
+		 */
 		private void getAudioElementsOfCurrentSection(Daisy202Section currentSection) {
 			StringBuilder audioListings = new StringBuilder();
 			mListTimeEnd = new ArrayList<Integer>();
@@ -261,7 +274,10 @@ public class DaisyEbookReaderSimpleModeActivity extends Activity implements OnCl
 				}
 			}
 		}
-
+		
+		/**
+		 * Speak message at the end of book.
+		 */
 		public void atEndOfBook() {
 			mTts.speak(getString(R.string.atEnd) + mBook.getTitle(), TextToSpeech.QUEUE_FLUSH, null);
 			if (mPlayer.getCurrentPosition() == -1
@@ -270,7 +286,10 @@ public class DaisyEbookReaderSimpleModeActivity extends Activity implements OnCl
 				mIsEndOf = true;
 			}
 		}
-
+		
+		/**
+		 * Speak message at the begin of book.
+		 */
 		public void atBeginOfBook() {
 			mTts.speak(getString(R.string.atBegin) + mBook.getTitle(), TextToSpeech.QUEUE_FLUSH,
 					null);
@@ -290,8 +309,10 @@ public class DaisyEbookReaderSimpleModeActivity extends Activity implements OnCl
 		Controller(NavigationListener navigationListener) {
 			this.navigationListener = navigationListener;
 		}
-
-		// Go to next section
+		
+		/**
+		 * Go to next section
+		 */
 		public void next() {
 			if (mNavigator.hasNext()) {
 				if (mIsFirstNext) {
@@ -342,7 +363,10 @@ public class DaisyEbookReaderSimpleModeActivity extends Activity implements OnCl
 	@Override
 	public void onClick(View v) {
 	}
-
+	
+	/**
+	 * Handle all gesture actions.
+	 */
 	private GestureListener gestureListener = new GestureListener() {
 		private long startTime;
 
@@ -421,23 +445,31 @@ public class DaisyEbookReaderSimpleModeActivity extends Activity implements OnCl
 	 * Go to next sentence by seek to time of clip end nearest position.
 	 */
 	private void nextSentence() {
-		int currentTime = mPlayer.getCurrentPosition();
-		// this case for user press next sentence at the end of book.
-		if (currentTime == 0 && !mNavigator.hasNext() && mPositionSentence == mListTimeBegin.size()) {
-			mNavigationListener.atEndOfBook();
-		}
-		// this case for user press next sentence.
-		else if (mPositionSentence < mListTimeBegin.size() - 1) {
-			mTts.speak(getString(R.string.nextSentence), TextToSpeech.QUEUE_FLUSH, null);
-			mPlayer.seekTo(mListTimeBegin.get(mPositionSentence + 1));
-		}
-		// this case for user press next sentence at the end of section.
-		else {
-			nextSection();
-			mPositionSentence -= 1;
+		try {
+			int currentTime = mPlayer.getCurrentPosition();
+			// this case for user press next sentence at the end of book.
+			if (currentTime == 0 && !mNavigator.hasNext()
+					&& mPositionSentence == mListTimeBegin.size()) {
+				mNavigationListener.atEndOfBook();
+			}
+			// this case for user press next sentence.
+			else if (mPositionSentence < mListTimeBegin.size() - 1) {
+				mTts.speak(getString(R.string.nextSentence), TextToSpeech.QUEUE_FLUSH, null);
+				mPlayer.seekTo(mListTimeBegin.get(mPositionSentence + 1));
+			}
+			// this case for user press next sentence at the end of section.
+			else {
+				nextSection();
+				mPositionSentence -= 1;
+			}
+		} catch (Exception e) {
+			Log.i(TAG, "next sentence had mistake");
 		}
 	}
-
+	
+	/**
+	 * Go to next section.
+	 */
 	private void nextSection() {
 		boolean isPlaying = mPlayer.isPlaying();
 		mController.next();
@@ -451,42 +483,50 @@ public class DaisyEbookReaderSimpleModeActivity extends Activity implements OnCl
 	 */
 	private void previousSentence() {
 		boolean isPlaying = mPlayer.isPlaying();
-		// this case for user press previous sentence at the begin of book.
-		if (!mNavigator.hasPrevious() && mPositionSentence == 0) {
-			mNavigationListener.atBeginOfBook();
-		}
-		// this case for user press previous sentence at the end of book.
-		else if (mIsEndOf) {
-			// It is code to resolve previous sentence when the end
-			// of the book.
-			Navigable n = mNavigator.previous();
-			n = mNavigator.next();
-			mNavigationListener.onNext((Section) n);
-			mIsEndOf = false;
-			mTts.speak(getString(R.string.previousSentence), TextToSpeech.QUEUE_FLUSH, null);
-			mPlayer.seekTo(mListTimeBegin.get(mListTimeBegin.size() - 1));
-		}
-		// this case for user press previous sentence.
-		else if (mPositionSentence > 0) {
-			mTts.speak(getString(R.string.previousSentence), TextToSpeech.QUEUE_FLUSH, null);
-			mPlayer.seekTo(mListTimeBegin.get(mPositionSentence - 1));
-		}
-		// this case for user press previous sentence at the begin of section.
-		else {
-			mController.previous();
-			int sizeOfListEnd = mListTimeEnd.size();
-			mPositionSentence = sizeOfListEnd - 1;
-			if (sizeOfListEnd > 1) {
-				mPlayer.seekTo(mListTimeEnd.get(sizeOfListEnd - 2));
+		try {
+			// this case for user press previous sentence at the begin of book.
+			if (!mNavigator.hasPrevious() && mPositionSentence == 0) {
+				mNavigationListener.atBeginOfBook();
 			}
-			mTts.speak(getString(R.string.previousSentence), TextToSpeech.QUEUE_FLUSH, null);
+			// this case for user press previous sentence at the end of book.
+			else if (mIsEndOf) {
+				// It is code to resolve previous sentence when the end
+				// of the book.
+				Navigable n = mNavigator.previous();
+				n = mNavigator.next();
+				mNavigationListener.onNext((Section) n);
+				mIsEndOf = false;
+				mTts.speak(getString(R.string.previousSentence), TextToSpeech.QUEUE_FLUSH, null);
+				mPlayer.seekTo(mListTimeBegin.get(mListTimeBegin.size() - 1));
+			}
+			// this case for user press previous sentence.
+			else if (mPositionSentence > 0) {
+				mTts.speak(getString(R.string.previousSentence), TextToSpeech.QUEUE_FLUSH, null);
+				mPlayer.seekTo(mListTimeBegin.get(mPositionSentence - 1));
+			}
+			// this case for user press previous sentence at the begin of
+			// section.
+			else {
+				mController.previous();
+				int sizeOfListEnd = mListTimeEnd.size();
+				mPositionSentence = sizeOfListEnd - 1;
+				if (sizeOfListEnd > 1) {
+					mPlayer.seekTo(mListTimeEnd.get(sizeOfListEnd - 2));
+				}
+				mTts.speak(getString(R.string.previousSentence), TextToSpeech.QUEUE_FLUSH, null);
+			}
+		} catch (Exception e) {
+			Log.i(TAG, "previous sentence had mistake");
 		}
 		// keep current state media player.
 		if (!isPlaying) {
 			setMediaPause();
 		}
 	}
-
+	
+	/**
+	 * Go to previous section.
+	 */
 	private void previousSection() {
 		boolean isPlaying = mPlayer.isPlaying();
 		mIsEndOf = false;
@@ -495,7 +535,10 @@ public class DaisyEbookReaderSimpleModeActivity extends Activity implements OnCl
 			setMediaPause();
 		}
 	}
-
+	
+	/**
+	 * Set media pause and remove call back
+	 */
 	private void setMediaPause() {
 		mHandler.removeCallbacks(mRunnalbe);
 		mPlayer.pause();
@@ -503,7 +546,10 @@ public class DaisyEbookReaderSimpleModeActivity extends Activity implements OnCl
 	}
 
 	long mTimePause = 0;
-
+	
+	/**
+	 * Set media play and post runnable
+	 */
 	private void setMediaPlay() {
 		mPlayer.start();
 		mIsRunable = true;
@@ -531,7 +577,10 @@ public class DaisyEbookReaderSimpleModeActivity extends Activity implements OnCl
 			}
 		}
 	}
-
+	
+	/**
+	 * This function help to get current position sentence to support next sentence, previous sentence.
+	 */
 	private void getCurrentPositionSentence() {
 		try {
 			mRunnalbe = new Runnable() {

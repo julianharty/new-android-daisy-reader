@@ -82,6 +82,9 @@ public class DaisyReaderBookmarkActivity extends Activity implements TextToSpeec
 		loadData();
 	}
 
+	/**
+	 * Start text to speech
+	 */
 	private void startTts() {
 		mTts = new TextToSpeech(this, this);
 		Intent checkIntent = new Intent();
@@ -89,6 +92,9 @@ public class DaisyReaderBookmarkActivity extends Activity implements TextToSpeec
 		startActivityForResult(checkIntent, RESULT_OK);
 	}
 
+	/**
+	 * Create new bookmark.
+	 */
 	private void createNewBookmark() {
 		// create a bookmark
 		mBookmark = new Bookmark();
@@ -124,6 +130,9 @@ public class DaisyReaderBookmarkActivity extends Activity implements TextToSpeec
 		}
 	};
 
+	/**
+	 * Show dialog when data loading.
+	 */
 	class LoadingData extends AsyncTask<Void, Void, ArrayList<Bookmark>> {
 		private ProgressDialog progressDialog;
 		private int numberOfBookmarks = mPreferences.getInt(

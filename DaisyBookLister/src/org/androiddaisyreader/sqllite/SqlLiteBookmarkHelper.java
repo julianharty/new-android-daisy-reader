@@ -11,6 +11,13 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
+/**
+ * This adapter to handle sqlite of bookmark
+ * 
+ * @author LogiGear
+ * @date 2013.03.05
+ */
+
 public class SqlLiteBookmarkHelper extends SQLiteOpenHelper {
 
 	private static final String DATABASE_NAME = "BookmarksDB";
@@ -41,7 +48,11 @@ public class SqlLiteBookmarkHelper extends SQLiteOpenHelper {
 		// Create tables again
 		onCreate(db);
 	}
-
+	
+	/**
+	 * Add a record of Bookmark table
+	 * @param bookmark
+	 */
 	public void addBookmark(Bookmark bookmark) {
 		SQLiteDatabase mdb = getWritableDatabase();
 		ContentValues mValue = new ContentValues();
@@ -55,14 +66,22 @@ public class SqlLiteBookmarkHelper extends SQLiteOpenHelper {
 		mdb.insert(TABLE_NAME, null, mValue);
 		mdb.close();
 	}
-
+	
+	/**
+	 * Delete a record of Bookmark table
+	 * @param id
+	 */
 	public void deleteBookmark(String id) {
 		SQLiteDatabase mdb = getWritableDatabase();
 
 		mdb.delete(TABLE_NAME, ID_KEY + "=?", new String[] { id });
 		mdb.close();
 	}
-
+	
+	/**
+	 * Update bookmark to sqlite
+	 * @param bookmark
+	 */
 	public void updateBookmark(Bookmark bookmark) {
 		SQLiteDatabase mdb = getWritableDatabase();
 
@@ -75,7 +94,12 @@ public class SqlLiteBookmarkHelper extends SQLiteOpenHelper {
 		mdb.update(TABLE_NAME, mValue, ID_KEY + "=?", new String[] { bookmark.getId() });
 		mdb.close();
 	}
-
+	
+	/**
+	 * Get Info (name, path, section, ect) by ID
+	 * @param id
+	 * @return Bookmark
+	 */
 	public Bookmark getInfoBookmark(String id) {
 		SQLiteDatabase mdb = getReadableDatabase();
 
@@ -94,7 +118,12 @@ public class SqlLiteBookmarkHelper extends SQLiteOpenHelper {
 		mdb.close();
 		return mBookmark;
 	}
-
+	
+	/**
+	 * Get all bookmark by path of book
+	 * @param path
+	 * @return ArrayList<Bookmark>
+	 */
 	public ArrayList<Bookmark> getAllBookmark(String path) {
 		SQLiteDatabase mdb = getReadableDatabase();
 		Cursor mCursor = mdb.query(TABLE_NAME, new String[] { PATH_KEY, TEXT_KEY, TIME_KEY,

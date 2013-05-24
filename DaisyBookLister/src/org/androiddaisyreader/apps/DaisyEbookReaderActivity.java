@@ -66,14 +66,20 @@ public class DaisyEbookReaderActivity extends Activity implements TextToSpeech.O
 		ImageView imgBookmarks = (ImageView) this.findViewById(R.id.imgBookmark);
 		imgBookmarks.setOnClickListener(imgBookmarkClick);
 	}
-
+	
+	/**
+	 * Start text to speech
+	 */
 	private void startTts() {
 		mTts = new TextToSpeech(this, this);
 		Intent checkIntent = new Intent();
 		checkIntent.setAction(TextToSpeech.Engine.ACTION_CHECK_TTS_DATA);
 		startActivityForResult(checkIntent, RESULT_OK);
 	}
-
+	
+	/**
+	 * Set book title on the top activity (between icon table of content and bookmark) 
+	 */
 	private void setBookTitle() {
 		TextView tvBookTitle = (TextView) this.findViewById(R.id.bookTitle);
 		mPath = getIntent().getStringExtra(DaisyReaderConstants.DAISY_PATH);

@@ -13,6 +13,12 @@ import android.view.ViewGroup;
 import android.widget.BaseExpandableListAdapter;
 import android.widget.TextView;
 
+/**
+ * This adapter to handle library list
+ * 
+ * @author LogiGear
+ * @date 2013.03.05
+ */
 public class LibraryListAdapter extends BaseExpandableListAdapter {
 
 	private Context mContext;

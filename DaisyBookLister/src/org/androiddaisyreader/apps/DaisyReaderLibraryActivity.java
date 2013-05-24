@@ -267,7 +267,11 @@ public class DaisyReaderLibraryActivity extends Activity implements TextToSpeech
 			}
 		};
 	};
-
+	
+	/**
+	 * Handle click on list recent book.
+	 * @param item
+	 */
 	private void itemRecentBookClick(String item) {
 		IntentController intentController = new IntentController(this);
 		String path = null;
@@ -275,7 +279,11 @@ public class DaisyReaderLibraryActivity extends Activity implements TextToSpeech
 		path = recentBook.getPath();
 		intentController.pushToDaisyEbookReaderIntent(path);
 	}
-
+	
+	/**
+	 * Handle click on list scan book.
+	 * @param item
+	 */
 	private void itemScanBookClick(String item, File daisyPath) {
 		IntentController intentController = new IntentController(this);
 		String path = daisyPath.getAbsolutePath();
@@ -324,7 +332,11 @@ public class DaisyReaderLibraryActivity extends Activity implements TextToSpeech
 		headerInfo.setBookList(mBookListDetail);
 		mListAdapter.notifyDataSetChanged();
 	}
-
+	
+	/**
+	 * Remove books from list by header (Scan book or Recent book)
+	 * @param header
+	 */
 	private void removeBooksFromExpandableList(String header) {
 		// check the hash map if the group already exists
 		HeaderInfo headerInfo = mHashMapHeaderInfo.get(header);
@@ -334,13 +346,17 @@ public class DaisyReaderLibraryActivity extends Activity implements TextToSpeech
 		headerInfo.setBookList(mBookListDetail);
 		mListAdapter.notifyDataSetChanged();
 	}
-
+	
+	/**
+	 * Load recent books
+	 */
 	private void loadRecentBooks() {
 		mFilesResultRecent = new ArrayList<String>();
 		// get all recent books from sqlite.
 		List<RecentBooks> recentBooks = mSqlLite.getAllRecentBooks();
 		// if size of recent books > number of recent books in setting.
-		if (recentBooks.size() >= mNumberOfRecentBooks) {
+		int sizeOfRecentBooks = recentBooks.size();
+		if (sizeOfRecentBooks >= mNumberOfRecentBooks) {
 			// get all items from 0 to number of recent books
 			for (int i = 0; i < mNumberOfRecentBooks; i++) {
 				RecentBooks re = recentBooks.get(i);
@@ -350,7 +366,7 @@ public class DaisyReaderLibraryActivity extends Activity implements TextToSpeech
 				}
 			}
 		} else {
-			for (int i = 0; i < recentBooks.size(); i++) {
+			for (int i = 0; i < sizeOfRecentBooks; i++) {
 				RecentBooks re = recentBooks.get(i);
 				File f = new File(re.getPath());
 				if (f.exists()) {
@@ -358,7 +374,8 @@ public class DaisyReaderLibraryActivity extends Activity implements TextToSpeech
 				}
 			}
 		}
-		for (int j = 0; j < mFilesResultRecent.size(); j++) {
+		int sizeOfFilesResultRecent = mFilesResultRecent.size();
+		for (int j = 0; j < sizeOfFilesResultRecent; j++) {
 			addBookToExpandableList(getString(R.string.recentBooks), mFilesResultRecent.get(j));
 		}
 	}
@@ -402,7 +419,8 @@ public class DaisyReaderLibraryActivity extends Activity implements TextToSpeech
 			File[] files = mCurrentDirectory.listFiles();
 			try {
 				Preconditions.checkNotNull(files);
-				for (int i = 0; i < files.length; i++) {
+				int lengthOfFile = files.length;
+				for (int i = 0; i < lengthOfFile; i++) {
 					ArrayList<String> listResult = DaisyReaderUtils.getDaisyBook(files[i], false);
 					for (String result : listResult) {
 						String[] title = result.split(File.separator);
@@ -424,7 +442,8 @@ public class DaisyReaderLibraryActivity extends Activity implements TextToSpeech
 		protected void onPostExecute(ArrayList<String> result) {
 			String header = getString(R.string.scanBooks);
 			removeBooksFromExpandableList(header);
-			for (int i = 0; i < result.size(); i++) {
+			int sizeOfResult = result.size();
+			for (int i = 0; i < sizeOfResult; i++) {
 				addBookToExpandableList(getString(R.string.scanBooks), result.get(i));
 			}
 			mProgressDialog.dismiss();

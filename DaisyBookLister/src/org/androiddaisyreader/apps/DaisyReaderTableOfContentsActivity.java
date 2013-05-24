@@ -78,7 +78,10 @@ public class DaisyReaderTableOfContentsActivity extends Activity implements
 		Daisy202Book book = DaisyReaderUtils.getDaisy202Book(mPath);
 		tvBookTitle.setText(book.getTitle());
 	}
-
+	
+	/**
+	 * Start text to speech
+	 */
 	private void startTts() {
 		mTts = new TextToSpeech(this, this);
 		Intent checkIntent = new Intent();
@@ -156,7 +159,11 @@ public class DaisyReaderTableOfContentsActivity extends Activity implements
 			}
 		}
 	};
-
+	
+	/**
+	 * Handle push to simple mode or visual mode
+	 * @param position
+	 */
 	private void pushToDaisyEbookReaderModeIntent(int position) {
 		Intent i = null;
 		String targetActivity = getIntent().getStringExtra(DaisyReaderConstants.TARGET_ACTIVITY);

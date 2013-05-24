@@ -22,6 +22,13 @@ import android.widget.Button;
 import android.widget.RadioButton;
 import android.widget.TextView;
 
+/**
+ * This adapter to handle bookmark
+ * 
+ * @author LogiGear
+ * @date 2013.03.05
+ */
+
 public class BookmarkListAdapter extends ArrayAdapter<Bookmark> {
 	private Context mContext;
 	private ArrayList<Bookmark> mListBookmark;
@@ -81,7 +88,11 @@ public class BookmarkListAdapter extends ArrayAdapter<Bookmark> {
 		});
 		return mV;
 	}
-
+	
+	/**
+	 * Show dialog for user choose save, load or cancel.
+	 * @param message
+	 */
 	public void pushToDialogOptions(String message) {
 		mDialog = new Dialog(mContext);
 		mDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
@@ -110,7 +121,10 @@ public class BookmarkListAdapter extends ArrayAdapter<Bookmark> {
 		buttonCancel.setOnClickListener(buttonCancelClick);
 		mDialog.show();
 	}
-
+	
+	/**
+	 * Handle save bookmark
+	 */
 	OnClickListener buttonSaveClick = new OnClickListener() {
 		@Override
 		public void onClick(View v) {
@@ -125,7 +139,10 @@ public class BookmarkListAdapter extends ArrayAdapter<Bookmark> {
 			a.onBackPressed();
 		}
 	};
-
+	
+	/**
+	 * Handle cancel bookmark
+	 */
 	OnClickListener buttonCancelClick = new OnClickListener() {
 
 		@Override
@@ -133,7 +150,10 @@ public class BookmarkListAdapter extends ArrayAdapter<Bookmark> {
 			mDialog.dismiss();
 		}
 	};
-
+	
+	/**
+	 * Handle load bookmark
+	 */
 	OnClickListener buttonLoadClick = new OnClickListener() {
 
 		@Override
@@ -143,7 +163,13 @@ public class BookmarkListAdapter extends ArrayAdapter<Bookmark> {
 			mDialog.dismiss();
 		}
 	};
-
+	
+	/**
+	 * Push to visual mode when user load from bookmark
+	 * @param path
+	 * @param section
+	 * @param time
+	 */
 	private void pushToDaisyEbookReaderVisualModeIntent(String path, int section, int time) {
 		Intent i = new Intent(mContext, DaisyEbookReaderVisualModeActivity.class);
 		i.putExtra(DaisyReaderConstants.POSITION_SECTION, String.valueOf(section));

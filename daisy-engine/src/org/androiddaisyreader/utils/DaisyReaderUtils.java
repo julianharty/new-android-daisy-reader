@@ -81,6 +81,11 @@ public final class DaisyReaderUtils {
 		return false;
 	}
 
+	/**
+	 * 
+	 * @param filename
+	 * @return true if the uri has a zip file daisy book, else false.
+	 */
 	private static boolean zipFileContainsDaisy2_02Book(String filename) {
 		ZipEntry entry;
 		try {
@@ -99,7 +104,7 @@ public final class DaisyReaderUtils {
 		return false;
 	}
 
-	/*
+	/**
 	 * return the NccFileName for a given book's root folder.
 	 * 
 	 * @param currentDirectory
@@ -154,23 +159,12 @@ public final class DaisyReaderUtils {
 	 * @return ArrayList<String>
 	 */
 	public static ArrayList<String> getContents(String path) {
-		// Guard code to protect the private methods from needing to check for
-		// invalid inputs.
-		if (path == null) {
-			return null; // TODO 20130326 (jharty) consider better error
-							// reporting.
-		}
-
 		String chapter = "Chapter";
 		Daisy202Book book = getDaisy202Book(path);
 		Object[] sections = null;
-		if (book == null) {
-			// Short circuit the processing, and avoid a NPE bug
-			return null;
-		}
-
+		if (book != null)
+			sections = book.getChildren().toArray();
 		ArrayList<String> listResult = new ArrayList<String>();
-		sections = book.getChildren().toArray();
 		for (int i = 0; i < sections.length; i++) {
 			Section section = (Section) sections[i];
 			int numOfChapter = i + 1;
@@ -188,7 +182,6 @@ public final class DaisyReaderUtils {
 	public static Daisy202Book getDaisy202Book(String path) {
 		InputStream contents;
 		Daisy202Book book = null;
-
 		try {
 			BookContext bookContext = DaisyReaderUtils.openBook(path);
 			contents = bookContext.getResource(DaisyReaderConstants.FILE_NCC_NAME_NOT_CAPS);
@@ -197,7 +190,6 @@ public final class DaisyReaderUtils {
 			// TODO 20120515 (jharty): Add test for SDCARD being available
 			// so we can tell the user...
 			e.printStackTrace();
-			return null;
 		}
 		return book;
 	}

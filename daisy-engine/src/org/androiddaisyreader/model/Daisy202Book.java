@@ -25,7 +25,15 @@ public class Daisy202Book extends Book {
 			book.title = content.trim();
 			return this;
 		}
-
+		
+		//Added by Logigear to resolve case: the daisy book is not audio.
+		//Date: Jun-13-2013
+		public Builder setTotalTime(String totalTime)
+		{
+			book.totalTime = totalTime.trim();
+			return this;
+		}
+		
 		public Daisy202Book build() {
 			book.sections = Collections.unmodifiableList(book.sections);
 			return book;

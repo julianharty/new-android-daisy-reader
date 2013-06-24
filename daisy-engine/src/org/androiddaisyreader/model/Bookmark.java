@@ -40,7 +40,7 @@ public class Bookmark {
 	public void setSection(int section) {
 		this.section = section;
 	}
-	
+
 	public String getId() {
 		return id;
 	}
@@ -48,7 +48,7 @@ public class Bookmark {
 	public void setId(String id) {
 		this.id = id;
 	}
-	
+
 	public int getSort() {
 		return sort;
 	}
@@ -56,7 +56,7 @@ public class Bookmark {
 	public void setSort(int sort) {
 		this.sort = sort;
 	}
-	
+
 	public String getTextShow() {
 		return textShow;
 	}
@@ -73,9 +73,8 @@ public class Bookmark {
 		this.sort = sort;
 		this.id = id;
 	}
-	
-	public Bookmark()
-	{
-		
+
+	public Bookmark() {
+
 	}
 }

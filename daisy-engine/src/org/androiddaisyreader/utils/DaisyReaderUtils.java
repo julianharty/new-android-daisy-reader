@@ -66,7 +66,7 @@ public final class DaisyReaderUtils {
 	 *            textual identifier e.g. a filename or path
 	 * @return true if the uri represents a DAISY 2.02 book, else false.
 	 */
-	public static boolean isDaisy2_02Book(String uri) {
+	public static boolean isDaisy2_02Book(String uri) throws IOException{
 		try {
 			ArrayList<String> temp = getContents(uri);
 			if (temp != null) {
@@ -158,7 +158,7 @@ public final class DaisyReaderUtils {
 	 * @param path
 	 * @return ArrayList<String>
 	 */
-	public static ArrayList<String> getContents(String path) {
+	public static ArrayList<String> getContents(String path) throws IOException{
 		String chapter = "Chapter";
 		Daisy202Book book = getDaisy202Book(path);
 		Object[] sections = null;
@@ -179,18 +179,12 @@ public final class DaisyReaderUtils {
 	 * @param path
 	 * @return Daisy202Book
 	 */
-	public static Daisy202Book getDaisy202Book(String path) {
+	public static Daisy202Book getDaisy202Book(String path) throws IOException {
 		InputStream contents;
 		Daisy202Book book = null;
-		try {
-			BookContext bookContext = DaisyReaderUtils.openBook(path);
-			contents = bookContext.getResource(DaisyReaderConstants.FILE_NCC_NAME_NOT_CAPS);
-			book = NccSpecification.readFromStream(contents);
-		} catch (Exception e) {
-			// TODO 20120515 (jharty): Add test for SDCARD being available
-			// so we can tell the user...
-			e.printStackTrace();
-		}
+		BookContext bookContext = DaisyReaderUtils.openBook(path);
+		contents = bookContext.getResource(DaisyReaderConstants.FILE_NCC_NAME_NOT_CAPS);
+		book = NccSpecification.readFromStream(contents);
 		return book;
 	}
 

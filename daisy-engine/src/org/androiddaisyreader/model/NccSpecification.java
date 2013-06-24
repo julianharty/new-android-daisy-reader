@@ -118,6 +118,14 @@ public class NccSpecification extends DefaultHandler {
 			public String toString() {
 				return "dc:date";
 			}
+		},
+		//Added by Logigear to resolve case: the daisy book is not audio.
+		//Date: Jun-13-2013
+		TOTALTIME{
+			@Override
+			public String toString() {
+				return "ncc:totalTime";
+			}
 		}
 		// Add more enums as we need them.
 	}
@@ -289,6 +297,11 @@ public class NccSpecification extends DefaultHandler {
 				break;
 			case TITLE:
 				bookBuilder.setTitle(content);
+				break;
+			//Added by Logigear to resolve case: the daisy book is not audio.
+			//Date: Jun-13-2013
+			case TOTALTIME:
+				bookBuilder.setTotalTime(content);
 				break;
 			default:
 				// this handles null (apparently :)

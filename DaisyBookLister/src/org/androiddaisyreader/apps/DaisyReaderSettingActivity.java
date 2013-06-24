@@ -2,7 +2,6 @@ package org.androiddaisyreader.apps;
 
 import android.os.Bundle;
 import android.preference.PreferenceManager;
-import android.provider.Settings.SettingNotFoundException;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
@@ -13,7 +12,6 @@ import android.graphics.Color;
 import android.speech.tts.TextToSpeech;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -33,8 +31,6 @@ import android.view.WindowManager.LayoutParams;
 
 import org.androiddaisyreader.utils.DaisyReaderConstants;
 
-import com.google.common.base.Preconditions;
-
 /**
  * This activity is setting. It have some functions such as: change text color,
  * change highlight color, etc.
@@ -45,7 +41,6 @@ import com.google.common.base.Preconditions;
 @SuppressWarnings("deprecation")
 public class DaisyReaderSettingActivity extends Activity implements TextToSpeech.OnInitListener {
 
-	private String TAG = "DaisyReaderSetting";
 	private TextToSpeech mTts;
 	private Window mWindow;
 	private SharedPreferences mPreferences;
@@ -84,7 +79,8 @@ public class DaisyReaderSettingActivity extends Activity implements TextToSpeech
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_daisy_reader_setting);
-		mPreferences = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+		mPreferences = PreferenceManager
+				.getDefaultSharedPreferences(DaisyReaderSettingActivity.this);
 		mEditor = mPreferences.edit();
 		startTts();
 		settingBrightness();
@@ -129,20 +125,23 @@ public class DaisyReaderSettingActivity extends Activity implements TextToSpeech
 		brightBar.setKeyProgressIncrement(1);
 		ContentResolver contentResolver = getContentResolver();
 		mWindow = getWindow();
+		layoutpars = mWindow.getAttributes();
 		try {
-			// get the current system brightness
+			SharedPreferences mPreferences = PreferenceManager
+					.getDefaultSharedPreferences(DaisyReaderSettingActivity.this);
 			mBrightness = mPreferences.getInt(DaisyReaderConstants.BRIGHTNESS,
 					System.getInt(contentResolver, System.SCREEN_BRIGHTNESS));
-		} catch (SettingNotFoundException e) {
-			Log.i(TAG, "can not get value of brightness");
+			// sets the progress of the seek bar based on the system's
+			// brightness
+			brightBar.setProgress(mBrightness - mDefaultBrightness);
+			// set the brightness of this window
+			layoutpars.screenBrightness = mBrightness / (float) 255;
+			// apply attribute changes to this window
+			mWindow.setAttributes(layoutpars);
+		} catch (Exception e) {
+			PrivateException ex = new PrivateException(e, DaisyReaderSettingActivity.this);
+			ex.writeLogException();
 		}
-		// sets the progress of the seek bar based on the system's brightness
-		brightBar.setProgress(mBrightness - mDefaultBrightness);
-		layoutpars = mWindow.getAttributes();
-		// set the brightness of this window
-		layoutpars.screenBrightness = mBrightness / (float) 255;
-		// apply attribute changes to this window
-		mWindow.setAttributes(layoutpars);
 		// register OnSeekBarChangeListener, so it can actually change values
 		brightBar.setOnSeekBarChangeListener(seekBarBrightnessListener);
 	}
@@ -268,11 +267,12 @@ public class DaisyReaderSettingActivity extends Activity implements TextToSpeech
 	@Override
 	protected void onDestroy() {
 		try {
-			Preconditions.checkNotNull(mTts);
 			mTts.stop();
 			mTts.shutdown();
-		} catch (NullPointerException e) {
-			Log.i(TAG, "tts is null");
+		} catch (Exception e) {
+			PrivateException ex = new PrivateException(e, DaisyReaderSettingActivity.this);
+			ex.writeLogException();
+			;
 		}
 		super.onDestroy();
 	}
@@ -326,7 +326,7 @@ public class DaisyReaderSettingActivity extends Activity implements TextToSpeech
 			});
 
 			return new AlertDialog.Builder(this).setView(dialogView1)
-					.setNegativeButton("Cancel", null).create();
+					.setNegativeButton(getString(R.string.cancel_bookmark), null).create();
 		}
 		return super.onCreateDialog(id);
 	}
@@ -455,7 +455,5 @@ public class DaisyReaderSettingActivity extends Activity implements TextToSpeech
 
 	@Override
 	public void onInit(int status) {
-		// TODO Auto-generated method stub
-
 	}
 }

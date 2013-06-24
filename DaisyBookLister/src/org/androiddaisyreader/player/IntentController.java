@@ -23,14 +23,11 @@ import org.androiddaisyreader.model.Section;
 import org.androiddaisyreader.utils.DaisyReaderConstants;
 
 import android.app.Activity;
-import android.app.Dialog;
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
-import android.view.View;
-import android.view.Window;
-import android.view.View.OnClickListener;
-import android.widget.Button;
-import android.widget.TextView;
+import android.speech.tts.TextToSpeech;
 
 public class IntentController {
 	private Context mContext;
@@ -92,13 +89,13 @@ public class IntentController {
 
 	public void pushToDaisyReaderBookmarkIntent(Bookmark bookmark, String path) {
 		Intent i = new Intent(mContext, DaisyReaderBookmarkActivity.class);
-		i.putExtra(DaisyReaderConstants.BOOK, bookmark.getPath());
 		i.putExtra(DaisyReaderConstants.DAISY_PATH, path);
 		if (bookmark.getText() != null) {
 			i.putExtra(DaisyReaderConstants.SENTENCE, bookmark.getText());
 			i.putExtra(DaisyReaderConstants.TIME, String.valueOf(bookmark.getTime()));
 			i.putExtra(DaisyReaderConstants.SECTION, String.valueOf(bookmark.getSection()));
 		}
+
 		mContext.startActivity(i);
 	}
 
@@ -114,6 +111,11 @@ public class IntentController {
 		i.putExtra(DaisyReaderConstants.DAISY_PATH, path);
 		i.putExtra(DaisyReaderConstants.TIME, String.valueOf(currentTime));
 		i.putExtra(DaisyReaderConstants.POSITION_SECTION, String.valueOf(section));
+		mContext.startActivity(i);
+	}
+
+	public void pushToDaisyEbookReaderSimpleModeIntent() {
+		Intent i = new Intent(mContext, DaisyEbookReaderSimpleModeActivity.class);
 		mContext.startActivity(i);
 	}
 
@@ -140,33 +142,42 @@ public class IntentController {
 	}
 
 	/**
-	 * handle show/hide dialog error
+	 * Show dialog when application has error.
 	 * 
-	 * @param message
-	 * @param isBack
+	 * @param message: this will show for user
+	 * @param title: title of dialog
+	 * @param resId: icon message
+	 * @param isBack: previous screen before if true and otherwise.
+	 * @param isSpeak: application will speak.
+	 * @param tts: text to speech
 	 */
-	public void pushToDialogError(String message, final boolean isBack) {
-		final Dialog dialog = new Dialog(mContext);
-		dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
-		dialog.setContentView(R.layout.dialog_error);
-		dialog.setCancelable(false);
-		// set the custom dialog components - text, image and button
-		TextView text = (TextView) dialog.findViewById(R.id.text);
-		text.setText(message);
+	@SuppressWarnings("deprecation")
+	public void pushToDialog(String message, String title, int resId, final boolean isBack,
+			boolean isSpeak, TextToSpeech tts) {
+		AlertDialog alertDialog = new AlertDialog.Builder(mContext).create();
+		// Setting Dialog Title
+		alertDialog.setTitle(title);
+		// Setting Dialog Message
+		alertDialog.setMessage(message);
+		// Setting Icon to Dialog
+		alertDialog.setIcon(resId);
+		// Setting OK Button
+		alertDialog.setButton(mContext.getString(R.string.ok),
+				new DialogInterface.OnClickListener() {
+					public void onClick(DialogInterface dialog, int which) {
+						dialog.dismiss();
+						if (isBack) {
+							Activity a = (Activity) mContext;
+							a.onBackPressed();
+						}
+					}
+				});
 
-		Button dialogButton = (Button) dialog.findViewById(R.id.buttonOK);
-		// if button is clicked, close the custom dialog
-		dialogButton.setOnClickListener(new OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				dialog.dismiss();
-				if (isBack) {
-					Activity a = (Activity) mContext;
-					a.onBackPressed();
-				}
-			}
-		});
-		dialog.show();
+		if (isSpeak && tts != null) {
+			tts.speak(message, TextToSpeech.QUEUE_FLUSH, null);
+		}
+		// Showing Alert Message
+		alertDialog.show();
 	}
 
 	/**

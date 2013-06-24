@@ -2,14 +2,11 @@ package org.androiddaisyreader.sqllite;
 
 import java.util.ArrayList;
 import java.util.UUID;
-
 import org.androiddaisyreader.model.Bookmark;
-
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
-import android.database.sqlite.SQLiteOpenHelper;
 
 /**
  * This adapter to handle sqlite of bookmark
@@ -18,125 +15,115 @@ import android.database.sqlite.SQLiteOpenHelper;
  * @date 2013.03.05
  */
 
-public class SqlLiteBookmarkHelper extends SQLiteOpenHelper {
-
-	private static final String DATABASE_NAME = "BookmarksDB";
-	private static final String TABLE_NAME = "Bookmarks";
-	private static final String ID_KEY = "_id";
-	private static final String PATH_KEY = "_path";
-	private static final String TEXT_KEY = "_text";
-	private static final String TIME_KEY = "_time";
-	private static final String SECTION_KEY = "_section";
-	private static final String SORT_KEY = "_sort";
+public class SqlLiteBookmarkHelper extends HandleSqlLite {
 
 	public SqlLiteBookmarkHelper(Context context) {
-		super(context, DATABASE_NAME, null, 2);
+		super(context);
 	}
 
-	@Override
-	public void onCreate(SQLiteDatabase db) {
-		String sqlCreateTable = "create table " + TABLE_NAME + "(" + ID_KEY + " text primary key,"
-				+ PATH_KEY + " text," + TEXT_KEY + " text," + TIME_KEY + " integer," + SECTION_KEY
-				+ " integer," + SORT_KEY + " integer " + ")";
-		db.execSQL(sqlCreateTable);
-	}
-
-	@Override
-	public void onUpgrade(SQLiteDatabase db, int arg1, int arg2) {
-		// drop table if version is different.
-		db.execSQL("drop table if exists " + TABLE_NAME);
-		// Create tables again
-		onCreate(db);
-	}
-	
 	/**
 	 * Add a record of Bookmark table
+	 * 
 	 * @param bookmark
 	 */
 	public void addBookmark(Bookmark bookmark) {
 		SQLiteDatabase mdb = getWritableDatabase();
 		ContentValues mValue = new ContentValues();
-		mValue.put(PATH_KEY, bookmark.getPath());
-		mValue.put(TEXT_KEY, bookmark.getText());
-		mValue.put(TIME_KEY, bookmark.getTime());
-		mValue.put(SECTION_KEY, bookmark.getSection());
-		mValue.put(SORT_KEY, bookmark.getSort());
-		mValue.put(ID_KEY, UUID.randomUUID().toString());
+		mValue.put(PATH_KEY_BOOKMARK, bookmark.getPath());
+		mValue.put(TEXT_KEY_BOOKMARK, bookmark.getText());
+		mValue.put(TIME_KEY_BOOKMARK, bookmark.getTime());
+		mValue.put(SECTION_KEY_BOOKMARK, bookmark.getSection());
+		mValue.put(SORT_KEY_BOOKMARK, bookmark.getSort());
+		mValue.put(ID_KEY_BOOKMARK, UUID.randomUUID().toString());
 
-		mdb.insert(TABLE_NAME, null, mValue);
+		mdb.insert(TABLE_NAME_BOOKMARK, null, mValue);
 		mdb.close();
 	}
-	
+
 	/**
 	 * Delete a record of Bookmark table
+	 * 
 	 * @param id
 	 */
 	public void deleteBookmark(String id) {
 		SQLiteDatabase mdb = getWritableDatabase();
 
-		mdb.delete(TABLE_NAME, ID_KEY + "=?", new String[] { id });
+		mdb.delete(TABLE_NAME_BOOKMARK, ID_KEY_BOOKMARK + "=?", new String[] { id });
 		mdb.close();
 	}
-	
+
 	/**
 	 * Update bookmark to sqlite
+	 * 
 	 * @param bookmark
 	 */
 	public void updateBookmark(Bookmark bookmark) {
 		SQLiteDatabase mdb = getWritableDatabase();
 
 		ContentValues mValue = new ContentValues();
-		mValue.put(PATH_KEY, bookmark.getPath());
-		mValue.put(TEXT_KEY, bookmark.getText());
-		mValue.put(TIME_KEY, bookmark.getTime());
-		mValue.put(SECTION_KEY, bookmark.getSection());
-		mValue.put(SORT_KEY, bookmark.getSort());
-		mdb.update(TABLE_NAME, mValue, ID_KEY + "=?", new String[] { bookmark.getId() });
+		mValue.put(PATH_KEY_BOOKMARK, bookmark.getPath());
+		mValue.put(TEXT_KEY_BOOKMARK, bookmark.getText());
+		mValue.put(TIME_KEY_BOOKMARK, bookmark.getTime());
+		mValue.put(SECTION_KEY_BOOKMARK, bookmark.getSection());
+		mValue.put(SORT_KEY_BOOKMARK, bookmark.getSort());
+		mdb.update(TABLE_NAME_BOOKMARK, mValue, ID_KEY_BOOKMARK + "=?", new String[] { bookmark.getId() });
 		mdb.close();
 	}
-	
+
 	/**
 	 * Get Info (name, path, section, ect) by ID
+	 * 
 	 * @param id
 	 * @return Bookmark
 	 */
 	public Bookmark getInfoBookmark(String id) {
 		SQLiteDatabase mdb = getReadableDatabase();
 
-		Cursor mCursor = mdb.query(TABLE_NAME, new String[] { PATH_KEY, TEXT_KEY, TIME_KEY,
-				SECTION_KEY, SORT_KEY, ID_KEY }, ID_KEY + "=?", new String[] { id }, null, null,
+		Cursor mCursor = mdb.query(TABLE_NAME_BOOKMARK, new String[] { PATH_KEY_BOOKMARK, TEXT_KEY_BOOKMARK, TIME_KEY_BOOKMARK,
+				SECTION_KEY_BOOKMARK, SORT_KEY_BOOKMARK, ID_KEY_BOOKMARK }, ID_KEY_BOOKMARK + "=?", new String[] { id }, null, null,
 				null);
 
 		// Check data null or empty
-		if (mCursor != null)
+		Bookmark bookmark = null;
+		if (mCursor != null && mCursor.getCount() > 0) {
 			mCursor.moveToFirst();
-		Bookmark mBookmark = new Bookmark(mCursor.getString(0), mCursor.getString(1),
-				Integer.valueOf(mCursor.getString(2)), Integer.valueOf(mCursor.getString(3)),
-				Integer.valueOf(mCursor.getString(4)), mCursor.getString(5));
-
+			String path = mCursor.getString(mCursor.getColumnIndex(PATH_KEY_BOOKMARK));
+			String text = mCursor.getString(mCursor.getColumnIndex(TEXT_KEY_BOOKMARK));
+			int time = Integer.valueOf(mCursor.getString(mCursor.getColumnIndex(TIME_KEY_BOOKMARK)));
+			int section = Integer.valueOf(mCursor.getString(mCursor.getColumnIndex(SECTION_KEY_BOOKMARK)));
+			int sort = Integer.valueOf(mCursor.getString(mCursor.getColumnIndex(SORT_KEY_BOOKMARK)));
+			String valueId = mCursor.getString(mCursor.getColumnIndex(ID_KEY_BOOKMARK));
+			bookmark = new Bookmark(path, text, time, section, sort, valueId);
+		}
 		mCursor.close();
 		mdb.close();
-		return mBookmark;
+		return bookmark;
 	}
-	
+
 	/**
 	 * Get all bookmark by path of book
+	 * 
 	 * @param path
 	 * @return ArrayList<Bookmark>
 	 */
 	public ArrayList<Bookmark> getAllBookmark(String path) {
 		SQLiteDatabase mdb = getReadableDatabase();
-		Cursor mCursor = mdb.query(TABLE_NAME, new String[] { PATH_KEY, TEXT_KEY, TIME_KEY,
-				SECTION_KEY, SORT_KEY, ID_KEY }, PATH_KEY + "=?", new String[] { path }, null,
-				null, SORT_KEY);
+		Cursor mCursor = mdb.query(TABLE_NAME_BOOKMARK, new String[] { PATH_KEY_BOOKMARK, TEXT_KEY_BOOKMARK, TIME_KEY_BOOKMARK,
+				SECTION_KEY_BOOKMARK, SORT_KEY_BOOKMARK, ID_KEY_BOOKMARK }, PATH_KEY_BOOKMARK + "=?", new String[] { path }, null,
+				null, SORT_KEY_BOOKMARK);
 		ArrayList<Bookmark> arrBookmark = new ArrayList<Bookmark>();
 
 		if (mCursor.moveToFirst()) {
 			do {
+				String valuePath = mCursor.getString(mCursor.getColumnIndex(PATH_KEY_BOOKMARK));
+				String text = mCursor.getString(mCursor.getColumnIndex(TEXT_KEY_BOOKMARK));
+				int time = Integer.valueOf(mCursor.getString(mCursor.getColumnIndex(TIME_KEY_BOOKMARK)));
+				int section = Integer
+						.valueOf(mCursor.getString(mCursor.getColumnIndex(SECTION_KEY_BOOKMARK)));
+				int sort = Integer.valueOf(mCursor.getString(mCursor.getColumnIndex(SORT_KEY_BOOKMARK)));
+				String valueId = mCursor.getString(mCursor.getColumnIndex(ID_KEY_BOOKMARK));
 				// Add to ArrayList
-				arrBookmark.add(new Bookmark(mCursor.getString(0), mCursor.getString(1), Integer
-						.valueOf(mCursor.getString(2)), Integer.valueOf(mCursor.getString(3)),
-						Integer.valueOf(mCursor.getString(4)), mCursor.getString(5)));
+				arrBookmark.add(new Bookmark(valuePath, text, time, section, sort, valueId));
 			} while (mCursor.moveToNext());
 		}
 

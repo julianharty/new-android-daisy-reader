@@ -7,7 +7,6 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
-import android.database.sqlite.SQLiteOpenHelper;
 
 /**
  * This adapter to handle sqlite of recent book
@@ -16,32 +15,10 @@ import android.database.sqlite.SQLiteOpenHelper;
  * @date 2013.03.05
  */
 
-public class SqlLiteRecentBookHelper extends SQLiteOpenHelper {
-
-	private static final String DATABASE_NAME = "RecentBooksDB";
-	private static final String TABLE_NAME = "RecentBooks";
-	private static final String NAME_KEY = "_name";
-	private static final String PATH_KEY = "_path";
-	private static final String SORT_KEY = "_sort";
+public class SqlLiteRecentBookHelper extends HandleSqlLite {
 
 	public SqlLiteRecentBookHelper(Context context) {
-		super(context, DATABASE_NAME, null, 1);
-	}
-
-	@Override
-	public void onCreate(SQLiteDatabase db) {
-		String sqlCreateTable = "create table " + TABLE_NAME + "(" + NAME_KEY
-				+ " text primary key," + PATH_KEY + " text," + SORT_KEY + " integer " + ")";
-		db.execSQL(sqlCreateTable);
-
-	}
-
-	@Override
-	public void onUpgrade(SQLiteDatabase db, int arg1, int arg2) {
-		// drop table if version is different.
-		db.execSQL("drop table if exists " + TABLE_NAME);
-		// Create tables again
-		onCreate(db);
+		super(context);
 	}
 
 	/**
@@ -53,11 +30,11 @@ public class SqlLiteRecentBookHelper extends SQLiteOpenHelper {
 		SQLiteDatabase mdb = getWritableDatabase();
 		ContentValues mValue = new ContentValues();
 
-		mValue.put(NAME_KEY, recentBooks.getName());
-		mValue.put(PATH_KEY, recentBooks.getPath());
-		mValue.put(SORT_KEY, recentBooks.getSort());
+		mValue.put(NAME_KEY_RECENT_BOOKS, recentBooks.getName());
+		mValue.put(PATH_KEY_RECENT_BOOKS, recentBooks.getPath());
+		mValue.put(SORT_KEY_RECENT_BOOKS, recentBooks.getSort());
 
-		mdb.insert(TABLE_NAME, null, mValue);
+		mdb.insert(TABLE_NAME_RECENT_BOOKS, null, mValue);
 		mdb.close();
 	}
 
@@ -69,7 +46,7 @@ public class SqlLiteRecentBookHelper extends SQLiteOpenHelper {
 	public void deleteRecentBook(RecentBooks recentBooks) {
 		SQLiteDatabase mdb = getWritableDatabase();
 
-		mdb.delete(TABLE_NAME, NAME_KEY + "=?",
+		mdb.delete(TABLE_NAME_RECENT_BOOKS, NAME_KEY_RECENT_BOOKS + "=?",
 				new String[] { String.valueOf(recentBooks.getName()) });
 		mdb.close();
 	}
@@ -83,9 +60,10 @@ public class SqlLiteRecentBookHelper extends SQLiteOpenHelper {
 		SQLiteDatabase mdb = getWritableDatabase();
 
 		ContentValues mValue = new ContentValues();
-		mValue.put(SORT_KEY, recentBooks.getSort());
+		mValue.put(SORT_KEY_RECENT_BOOKS, recentBooks.getSort());
 
-		mdb.update(TABLE_NAME, mValue, NAME_KEY + "=?", new String[] { recentBooks.getName() });
+		mdb.update(TABLE_NAME_RECENT_BOOKS, mValue, NAME_KEY_RECENT_BOOKS + "=?",
+				new String[] { recentBooks.getName() });
 		mdb.close();
 	}
 
@@ -98,15 +76,19 @@ public class SqlLiteRecentBookHelper extends SQLiteOpenHelper {
 	public RecentBooks getInfoRecentBook(String name) {
 		SQLiteDatabase mdb = getReadableDatabase();
 
-		Cursor mCursor = mdb.query(TABLE_NAME, new String[] { NAME_KEY, PATH_KEY, SORT_KEY },
-				NAME_KEY + "=?", new String[] { name }, null, null, null);
-
+		Cursor mCursor = mdb.query(TABLE_NAME_RECENT_BOOKS, new String[] { NAME_KEY_RECENT_BOOKS,
+				PATH_KEY_RECENT_BOOKS, SORT_KEY_RECENT_BOOKS }, NAME_KEY_RECENT_BOOKS + "=?",
+				new String[] { name }, null, null, null);
+		RecentBooks mRecentBooks = null;
 		// Check data null or empty
-		if (mCursor != null)
+		if (mCursor != null && mCursor.getCount() > 0) {
 			mCursor.moveToFirst();
-		RecentBooks mRecentBooks = new RecentBooks(mCursor.getString(0), mCursor.getString(1),
-				Integer.valueOf(mCursor.getString(2)));
-
+			String valueName = mCursor.getString(mCursor.getColumnIndex(NAME_KEY_RECENT_BOOKS));
+			String path = mCursor.getString(mCursor.getColumnIndex(PATH_KEY_RECENT_BOOKS));
+			int sort = Integer.valueOf(mCursor.getString(mCursor
+					.getColumnIndex(SORT_KEY_RECENT_BOOKS)));
+			mRecentBooks = new RecentBooks(valueName, path, sort);
+		}
 		mCursor.close();
 		mdb.close();
 		return mRecentBooks;
@@ -119,15 +101,18 @@ public class SqlLiteRecentBookHelper extends SQLiteOpenHelper {
 	 */
 	public ArrayList<RecentBooks> getAllRecentBooks() {
 		SQLiteDatabase mdb = getReadableDatabase();
-		String sql = "SELECT * FROM " + TABLE_NAME + " ORDER BY " + SORT_KEY + " DESC";
+		String sql = "SELECT * FROM " + TABLE_NAME_RECENT_BOOKS + " ORDER BY "
+				+ SORT_KEY_RECENT_BOOKS + " DESC";
 		Cursor mCursor = mdb.rawQuery(sql, null);
 		ArrayList<RecentBooks> arrRecentBooks = new ArrayList<RecentBooks>();
-
 		if (mCursor.moveToFirst()) {
 			do {
+				String valueName = mCursor.getString(mCursor.getColumnIndex(NAME_KEY_RECENT_BOOKS));
+				String path = mCursor.getString(mCursor.getColumnIndex(PATH_KEY_RECENT_BOOKS));
+				int sort = Integer.valueOf(mCursor.getString(mCursor
+						.getColumnIndex(SORT_KEY_RECENT_BOOKS)));
 				// Add to ArrayList
-				arrRecentBooks.add(new RecentBooks(mCursor.getString(0), mCursor.getString(1),
-						Integer.valueOf(mCursor.getString(2))));
+				arrRecentBooks.add(new RecentBooks(valueName, path, sort));
 			} while (mCursor.moveToNext());
 		}
 
@@ -145,9 +130,9 @@ public class SqlLiteRecentBookHelper extends SQLiteOpenHelper {
 	 */
 	public boolean isExists(String name) {
 		SQLiteDatabase mdb = getReadableDatabase();
-		Cursor mCursor = mdb.query(TABLE_NAME, new String[] { NAME_KEY, PATH_KEY, SORT_KEY },
-				NAME_KEY + "=?", new String[] { name }, null, null, null);
-
+		Cursor mCursor = mdb.query(TABLE_NAME_RECENT_BOOKS, new String[] { NAME_KEY_RECENT_BOOKS,
+				PATH_KEY_RECENT_BOOKS, SORT_KEY_RECENT_BOOKS }, NAME_KEY_RECENT_BOOKS + "=?",
+				new String[] { name }, null, null, null);
 		return mCursor.moveToFirst();
 	}
 }

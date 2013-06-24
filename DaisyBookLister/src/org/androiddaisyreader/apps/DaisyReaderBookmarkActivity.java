@@ -4,7 +4,6 @@ import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
-import android.provider.Settings.SettingNotFoundException;
 import android.provider.Settings.System;
 import android.annotation.SuppressLint;
 import android.app.Activity;
@@ -13,7 +12,6 @@ import android.content.ContentResolver;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.speech.tts.TextToSpeech;
-import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.view.View.OnClickListener;
@@ -31,8 +29,6 @@ import org.androiddaisyreader.sqllite.SqlLiteBookmarkHelper;
 import org.androiddaisyreader.utils.DaisyReaderConstants;
 import org.androiddaisyreader.utils.DaisyReaderUtils;
 
-import com.google.common.base.Preconditions;
-
 import java.util.ArrayList;
 import java.util.UUID;
 
@@ -45,7 +41,6 @@ import java.util.UUID;
  */
 @SuppressLint("NewApi")
 public class DaisyReaderBookmarkActivity extends Activity implements TextToSpeech.OnInitListener {
-	private String TAG = "EbookReaderBookmark";
 	private TextToSpeech mTts;
 	private ListView mListBookmark;
 	private ArrayList<Bookmark> mListItems;
@@ -54,13 +49,16 @@ public class DaisyReaderBookmarkActivity extends Activity implements TextToSpeec
 	private SharedPreferences mPreferences;
 	private Window mWindow;
 	private IntentController mIntentController;
+	private Daisy202Book mBook;
+	private LoadingData mLoadingData;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		requestWindowFeature(Window.FEATURE_CUSTOM_TITLE);
 		setContentView(R.layout.activity_daisy_reader_bookmark);
-		mPreferences = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+		mPreferences = PreferenceManager
+				.getDefaultSharedPreferences(DaisyReaderBookmarkActivity.this);
 		mWindow = getWindow();
 		mWindow.setFeatureInt(Window.FEATURE_CUSTOM_TITLE, R.layout.custom_title);
 		mIntentController = new IntentController(this);
@@ -70,16 +68,25 @@ public class DaisyReaderBookmarkActivity extends Activity implements TextToSpeec
 		ImageView imgTableOfContents = (ImageView) this.findViewById(R.id.imgTableOfContents);
 		imgTableOfContents.setOnClickListener(imgTableOfContentsClick);
 		mListBookmark = (ListView) this.findViewById(R.id.listBookmark);
-		String mBookTitle = getIntent().getStringExtra(DaisyReaderConstants.BOOK);
 		mPath = getIntent().getStringExtra(DaisyReaderConstants.DAISY_PATH);
 		TextView tvBookTitle = (TextView) this.findViewById(R.id.bookTitle);
-		Daisy202Book mBook = DaisyReaderUtils.getDaisy202Book(mPath);
-		tvBookTitle.setText(mBook.getTitle());
-		createNewBookmark();
-		SqlLiteBookmarkHelper mSql = new SqlLiteBookmarkHelper(getApplicationContext());
-		mListItems = new ArrayList<Bookmark>();
-		mListItems = mSql.getAllBookmark(mBookTitle);
-		loadData();
+		try {
+			try {
+				mBook = DaisyReaderUtils.getDaisy202Book(mPath);
+			} catch (Exception e) {
+				PrivateException ex = new PrivateException(e, DaisyReaderBookmarkActivity.this,
+						mPath);
+				throw ex;
+			}
+			tvBookTitle.setText(mBook.getTitle());
+			createNewBookmark();
+			SqlLiteBookmarkHelper mSql = new SqlLiteBookmarkHelper(DaisyReaderBookmarkActivity.this);
+			mListItems = new ArrayList<Bookmark>();
+			mListItems = mSql.getAllBookmark(mPath);
+			loadData();
+		} catch (PrivateException e) {
+			e.showDialogException(mIntentController);
+		}
 	}
 
 	/**
@@ -97,20 +104,19 @@ public class DaisyReaderBookmarkActivity extends Activity implements TextToSpeec
 	 */
 	private void createNewBookmark() {
 		// create a bookmark
-		mBookmark = new Bookmark();
-		String sentence = getIntent().getStringExtra(DaisyReaderConstants.SENTENCE);
-		String section = getIntent().getStringExtra(DaisyReaderConstants.SECTION);
-		String time = getIntent().getStringExtra(DaisyReaderConstants.TIME);
 		try {
-
-			Preconditions.checkNotNull(sentence);
+			mBookmark = new Bookmark();
+			String sentence = getIntent().getStringExtra(DaisyReaderConstants.SENTENCE);
+			String section = getIntent().getStringExtra(DaisyReaderConstants.SECTION);
+			String time = getIntent().getStringExtra(DaisyReaderConstants.TIME);
 			mBookmark.setPath(mPath);
 			mBookmark.setText(sentence);
 			mBookmark.setTime(Integer.valueOf(time));
 			mBookmark.setSection(Integer.valueOf(section));
 			mBookmark.setId(UUID.randomUUID().toString());
-		} catch (NullPointerException e) {
-			Log.i(TAG, "sentence is null");
+		} catch (Exception e) {
+			PrivateException ex = new PrivateException(e, DaisyReaderBookmarkActivity.this);
+			ex.writeLogException();
 		}
 	}
 
@@ -120,12 +126,18 @@ public class DaisyReaderBookmarkActivity extends Activity implements TextToSpeec
 		@Override
 		public void onClick(View v) {
 			try {
-				Daisy202Book mBook = DaisyReaderUtils.getDaisy202Book(mPath);
-				navigator = new Navigator(mBook);
-				mIntentController.pushToTableOfContentsIntent(mPath, navigator,
-						getString(R.string.visualMode));
-			} catch (Exception e) {
-				mIntentController.pushToDialogError(getString(R.string.error_noPathFound), true);
+				try {
+					Daisy202Book mBook = DaisyReaderUtils.getDaisy202Book(mPath);
+					navigator = new Navigator(mBook);
+					mIntentController.pushToTableOfContentsIntent(mPath, navigator,
+							getString(R.string.visual_mode));
+				} catch (Exception e) {
+					PrivateException ex = new PrivateException(e, DaisyReaderBookmarkActivity.this,
+							mPath);
+					throw ex;
+				}
+			} catch (PrivateException e) {
+				e.showDialogException(mIntentController);
 			}
 		}
 	};
@@ -182,27 +194,29 @@ public class DaisyReaderBookmarkActivity extends Activity implements TextToSpeec
 	}
 
 	private void loadData() {
+		mLoadingData = new LoadingData();
 		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
-			new LoadingData().executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
+			mLoadingData.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
 		} else {
-			new LoadingData().execute();
+			mLoadingData.execute();
 		}
 	}
 
 	@Override
 	public void onBackPressed() {
 		super.onBackPressed();
+		mLoadingData.cancel(true);
 		finish();
 	}
 
 	@Override
 	protected void onDestroy() {
 		try {
-			Preconditions.checkNotNull(mTts);
 			mTts.stop();
 			mTts.shutdown();
-		} catch (NullPointerException e) {
-			Log.i(TAG, "tts is null");
+		} catch (Exception e) {
+			PrivateException ex = new PrivateException(e, DaisyReaderBookmarkActivity.this);
+			ex.writeLogException();
 		}
 		super.onDestroy();
 	}
@@ -213,18 +227,19 @@ public class DaisyReaderBookmarkActivity extends Activity implements TextToSpeec
 				TextToSpeech.QUEUE_FLUSH, null);
 		ContentResolver cResolver = getContentResolver();
 		int valueScreen = 0;
-		// get value of brightness from preference. Otherwise, get current
-		// brightness from system.
 		try {
+			SharedPreferences mPreferences = PreferenceManager
+					.getDefaultSharedPreferences(DaisyReaderBookmarkActivity.this);
 			valueScreen = mPreferences.getInt(DaisyReaderConstants.BRIGHTNESS,
 					System.getInt(cResolver, System.SCREEN_BRIGHTNESS));
-		} catch (SettingNotFoundException e) {
-			Log.i(TAG, "can not get value of screen");
+			LayoutParams layoutpars = mWindow.getAttributes();
+			layoutpars.screenBrightness = valueScreen / (float) 255;
+			// apply attribute changes to this window
+			mWindow.setAttributes(layoutpars);
+		} catch (Exception e) {
+			PrivateException ex = new PrivateException(e, DaisyReaderBookmarkActivity.this);
+			ex.writeLogException();
 		}
-		LayoutParams layoutpars = mWindow.getAttributes();
-		layoutpars.screenBrightness = valueScreen / (float) 255;
-		// apply attribute changes to this window
-		mWindow.setAttributes(layoutpars);
 		super.onResume();
 	}
 

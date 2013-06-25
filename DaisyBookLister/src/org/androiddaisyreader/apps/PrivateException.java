@@ -37,7 +37,11 @@ public class PrivateException extends Exception {
 		String nameFolder = "";
 		String names[] = path.split("/");
 		if (names.length > 1) {
-			nameFolder = "\"" + names[names.length - 2] + "\"";
+			if (path.contains(DaisyReaderConstants.SUFFIX_ZIP_FILE)) {
+				nameFolder = "\"" + names[names.length - 1] + "\"";
+			} else {
+				nameFolder = "\"" + names[names.length - 2] + "\"";
+			}
 		}
 		return nameFolder;
 	}

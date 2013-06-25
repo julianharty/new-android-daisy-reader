@@ -17,27 +17,28 @@
             android:layout_height="wrap_content"
             android:layout_alignParentTop="true"
             android:layout_centerHorizontal="true"
-            android:text="@string/simpleMode"
+            android:text="@string/simple_mode"
             android:textAppearance="?android:attr/textAppearanceLarge" />
+
+        <TextView
+            android:id="@+id/textView1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_below="@+id/textView2"
+            android:layout_marginTop="18dp"
+            android:layout_toRightOf="@+id/imageView1"
+            android:text="@string/desc_simple_mode"
+            android:textAppearance="?android:attr/textAppearanceMedium" />
 
         <ImageView
             android:id="@+id/imageView1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentLeft="true"
-            android:layout_centerVertical="true"
-            android:contentDescription="@string/descSimpleMode"
+            android:layout_alignTop="@+id/textView1"
+            android:contentDescription="@string/desc_simple_mode"
             android:src="@drawable/simple" />
-
-        <TextView
-            android:id="@+id/textView1"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignLeft="@+id/textView2"
-            android:layout_alignParentRight="true"
-            android:layout_alignTop="@+id/imageView1"
-            android:text="@string/descSimpleMode"
-            android:textAppearance="?android:attr/textAppearanceMedium" />
 
     </RelativeLayout>
 
@@ -53,7 +54,7 @@
             android:layout_height="wrap_content"
             android:layout_alignParentTop="true"
             android:layout_centerHorizontal="true"
-            android:text="@string/visualMode"
+            android:text="@string/visual_mode"
             android:textAppearance="?android:attr/textAppearanceLarge" />
 
         <ImageView
@@ -63,7 +64,7 @@
             android:layout_alignParentLeft="true"
             android:layout_below="@+id/TextView02"
             android:layout_marginTop="18dp"
-            android:contentDescription="@string/descVisualMode"
+            android:contentDescription="@string/desc_visual_mode"
             android:src="@drawable/visual" />
 
         <TextView
@@ -73,7 +74,7 @@
             android:layout_alignParentRight="true"
             android:layout_alignTop="@+id/imageView2"
             android:layout_toRightOf="@+id/imageView2"
-            android:text="@string/descVisualMode"
+            android:text="@string/desc_visual_mode"
             android:textAppearance="?android:attr/textAppearanceMedium" />
 
     </RelativeLayout>

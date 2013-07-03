@@ -2,11 +2,12 @@ package org.androiddaisyreader.apps;
 
 import java.io.IOException;
 
-import org.androiddaisyreader.player.IntentController;
-
 import android.content.Context;
 import android.provider.Settings.SettingNotFoundException;
 import android.util.Log;
+
+import org.androiddaisyreader.player.IntentController;
+import org.androiddaisyreader.utils.DaisyReaderConstants;
 
 /**
  * This class will handle all exception.

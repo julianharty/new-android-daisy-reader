@@ -1,17 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string name="app_name">Ebook Reader</string>
+    <string name="app_name">DaisyBook Reader</string>
     <string name="atBegin">At the beginning of </string>
     <string name="atEnd">At the end of </string>
     <string name="bookmarks">Bookmarks</string>
     <string name="brightness">Brightness</string>
-    <string name="color_picker_viewer">Color Viewer(Click to select 16Color)</string>
+    <string name="color_picker_viewer">Color Viewer(Click to choose another color)</string>
     <string name="change_text_color">Text color</string>
     <string name="change_background_color">Background color</string>
     <string name="change_highlight_color">Highlight color</string>
-    <string name="change_number_recent_books">Number recent books</string>
-    <string name="change_number_bookmarks">Number bookmarks</string>
+    <string name="change_number_recent_books">Number of recent books</string>
+    <string name="change_number_bookmarks">Number of bookmarks</string>
     <string name="chapter">Chapter</string>
     <string name="cancel_bookmark">Cancel</string>
     <string name="collapse">Collapse</string>
@@ -19,12 +19,12 @@
     <string name="desc_visual_mode">In the graphical mode, all menus are vocalized and include large, graphical elements</string>
     <string name="error_title">DaisyReader - Message</string>
     <string name="error_no_path_found">Not found %s on SD card. Please check again</string>
-    <string name="error_wrong_format">The daisy book has wrong format</string>
-    <string name="error_wrong_format_audio">The daisy book is not supported audio</string>
+    <string name="error_wrong_format">The daisy book has the wrong format</string>
+    <string name="error_wrong_format_audio">The audio files in this DAISY book are not supported by this application</string>
     <string name="error_not_enough_space">The SD card doesn’t enough space to decompress the zip file</string>
-    <string name="error_no_audio_found">The current chapter is not supported audio</string>
-    <string name="error_no_text_found">The current chapter is not supported text</string>
-    <string name="error_parse_file_ncc">Could not read book %s</string>
+    <string name="error_no_audio_found">We cannot find the audio for the current chapter</string>
+    <string name="error_no_text_found">We cannot find text for the current chapter</string>
+    <string name="error_parse_file_ncc">Could not read the master file for this book %s</string>
     <string name="expand">Expand</string>
     <string name="empty_bookmark">Empty</string>
     <string name="fontSize">Font Size: </string>
@@ -42,7 +42,7 @@
     <string name="play">Play</string>
     <string name="tableOfContents">Table of Contents</string>
     <string name="title_activity_daisy_reader_library">Library</string>
-    <string name="title_activity_daisy_ebook_reader">Mode Choose</string>
+    <string name="title_activity_daisy_ebook_reader">Select which mode of player to use</string>
     <string name="title_activity_daisy_ebook_reader_simple_mode">Simple Mode</string>
     <string name="title_activity_daisy_reader_table_of_contents">Table Of Contents</string>
     <string name="title_activity_daisy_ebook_reader_visual_mode">Visual Mode</string>

@@ -24,9 +24,9 @@ import org.androiddaisyreader.model.Bookmark;
 import org.androiddaisyreader.model.CurrentInformation;
 import org.androiddaisyreader.model.Daisy202Book;
 import org.androiddaisyreader.player.IntentController;
-import org.androiddaisyreader.sqllite.SqlLiteCurrentInformationHelper;
-import org.androiddaisyreader.utils.DaisyReaderConstants;
-import org.androiddaisyreader.utils.DaisyReaderUtils;
+import org.androiddaisyreader.sqlite.SQLiteCurrentInformationHelper;
+import org.androiddaisyreader.utils.DaisyBookUtil;
+import org.androiddaisyreader.utils.Constants;
 import java.util.ArrayList;
 
 /**
@@ -56,13 +56,13 @@ public class DaisyReaderTableOfContentsActivity extends Activity implements
 		imgBookmark.setOnClickListener(imgBookmarkClick);
 		ImageView imgTableOfContents = (ImageView) this.findViewById(R.id.imgTableOfContents);
 		imgTableOfContents.setVisibility(View.INVISIBLE);
-		String targetActivity = getIntent().getStringExtra(DaisyReaderConstants.TARGET_ACTIVITY);
+		String targetActivity = getIntent().getStringExtra(Constants.TARGET_ACTIVITY);
 		// invisible button book mark when you go to bookmark from simple mode.
 		if (targetActivity.equals(getString(R.string.simple_mode))) {
 			imgBookmark.setVisibility(View.INVISIBLE);
 		}
 		startTts();
-		mListResult = getIntent().getStringArrayListExtra(DaisyReaderConstants.LIST_CONTENTS);
+		mListResult = getIntent().getStringArrayListExtra(Constants.LIST_CONTENTS);
 		ArrayAdapter<String> adapter = new ArrayAdapter<String>(
 				DaisyReaderTableOfContentsActivity.this, R.layout.listrow, R.id.rowTextView,
 				mListResult);
@@ -90,10 +90,10 @@ public class DaisyReaderTableOfContentsActivity extends Activity implements
 	 */
 	private void setBookTitle() {
 		TextView tvBookTitle = (TextView) this.findViewById(R.id.bookTitle);
-		mPath = getIntent().getStringExtra(DaisyReaderConstants.DAISY_PATH);
+		mPath = getIntent().getStringExtra(Constants.DAISY_PATH);
 		try {
 			try {
-				mBook = DaisyReaderUtils.getDaisy202Book(mPath);
+				mBook = DaisyBookUtil.getDaisy202Book(mPath);
 			} catch (Exception e) {
 				PrivateException ex = new PrivateException(e,
 						DaisyReaderTableOfContentsActivity.this, mPath);
@@ -134,7 +134,7 @@ public class DaisyReaderTableOfContentsActivity extends Activity implements
 		try {
 			SharedPreferences mPreferences = PreferenceManager
 					.getDefaultSharedPreferences(DaisyReaderTableOfContentsActivity.this);
-			valueScreen = mPreferences.getInt(DaisyReaderConstants.BRIGHTNESS,
+			valueScreen = mPreferences.getInt(Constants.BRIGHTNESS,
 					System.getInt(cResolver, System.SCREEN_BRIGHTNESS));
 			LayoutParams layoutpars = mWindow.getAttributes();
 			layoutpars.screenBrightness = valueScreen / (float) 255;
@@ -179,8 +179,8 @@ public class DaisyReaderTableOfContentsActivity extends Activity implements
 	 */
 	private void pushToDaisyEbookReaderModeIntent(int position) {
 		Intent i = null;
-		String targetActivity = getIntent().getStringExtra(DaisyReaderConstants.TARGET_ACTIVITY);
-		SqlLiteCurrentInformationHelper sql = new SqlLiteCurrentInformationHelper(
+		String targetActivity = getIntent().getStringExtra(Constants.TARGET_ACTIVITY);
+		SQLiteCurrentInformationHelper sql = new SQLiteCurrentInformationHelper(
 				DaisyReaderTableOfContentsActivity.this);
 		CurrentInformation current = sql.getCurrentInformation();
 		if (targetActivity.equals(getString(R.string.simple_mode))) {
@@ -196,9 +196,9 @@ public class DaisyReaderTableOfContentsActivity extends Activity implements
 				sql.updateCurrentInformation(current);
 			}
 		}
-		i.putExtra(DaisyReaderConstants.POSITION_SECTION, String.valueOf(position));
+		i.putExtra(Constants.POSITION_SECTION, String.valueOf(position));
 		// Make sure path of daisy book is correct.
-		i.putExtra(DaisyReaderConstants.DAISY_PATH, mPath);
+		i.putExtra(Constants.DAISY_PATH, mPath);
 		this.startActivity(i);
 	}
 

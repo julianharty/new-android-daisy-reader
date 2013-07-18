@@ -4,12 +4,15 @@
     android:versionCode="1"
     android:versionName="1.0" >
 
-    <uses-sdk
-        android:minSdkVersion="8"
-        android:targetSdkVersion="16" />
+    <uses-sdk android:minSdkVersion="8" />
 
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" >
-    </uses-permission>
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+
+    <instrumentation
+        android:name="android.test.InstrumentationTestRunner"
+        android:targetPackage="org.androiddaisyreader.apps" />
 
     <application
         android:icon="@drawable/icon"
@@ -20,6 +23,7 @@
             android:label="@string/app_name"
             android:screenOrientation="portrait" >
         </activity>
+
         <activity
             android:name="org.androiddaisyreader.apps.DaisyReaderLibraryActivity"
             android:label="@string/app_name"
@@ -58,6 +62,38 @@
         <activity
             android:name="org.androiddaisyreader.apps.DaisyReaderBookmarkActivity"
             android:label="@string/title_activity_daisy_reader_bookmark"
+            android:screenOrientation="portrait" >
+        </activity>
+        <activity
+            android:name="org.androiddaisyreader.apps.metadata.DaisyEbookReaderReportIssueActivity"
+            android:label="@string/title_activity_daisy_ebook_reader_report_issue" >
+        </activity>
+        <activity
+            android:name="org.androiddaisyreader.apps.DaisyReaderRecentBooksActivity"
+            android:label="@string/recent_books"
+            android:screenOrientation="portrait" >
+        </activity>
+        <activity
+            android:name="org.androiddaisyreader.apps.DaisyReaderScanBooksActivity"
+            android:label="@string/scan_books"
+            android:screenOrientation="portrait" >
+        </activity>
+        <activity
+            android:name="org.androiddaisyreader.apps.DaisyReaderDownloadBooks"
+            android:label="@string/download_books"
+            android:screenOrientation="portrait" >
+        </activity>
+        <activity
+            android:name="org.androiddaisyreader.apps.DaisyReaderDownloadSiteActivity"
+            android:label="@string/download_sites"
+            android:screenOrientation="portrait" >
+        </activity>
+
+        <uses-library android:name="android.test.runner" />
+
+        <activity
+            android:name="org.androiddaisyreader.apps.DaisyReaderDownloadedBooks"
+            android:label="@string/downloaded_books"
             android:screenOrientation="portrait" >
         </activity>
     </application>

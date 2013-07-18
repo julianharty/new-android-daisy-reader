@@ -31,9 +31,9 @@ import org.androiddaisyreader.model.Part;
 import org.androiddaisyreader.model.Section;
 import org.androiddaisyreader.player.AndroidAudioPlayer;
 import org.androiddaisyreader.player.IntentController;
-import org.androiddaisyreader.sqllite.SqlLiteCurrentInformationHelper;
-import org.androiddaisyreader.utils.DaisyReaderConstants;
-import org.androiddaisyreader.utils.DaisyReaderUtils;
+import org.androiddaisyreader.sqlite.SQLiteCurrentInformationHelper;
+import org.androiddaisyreader.utils.DaisyBookUtil;
+import org.androiddaisyreader.utils.Constants;
 
 import com.google.marvin.widget.GestureOverlay;
 import com.google.marvin.widget.GestureOverlay.Gesture;
@@ -81,7 +81,7 @@ public class DaisyEbookReaderSimpleModeActivity extends Activity implements OnCl
 	private boolean mIsFound = true;
 	private int mOldMessage;
 	private CurrentInformation mCurrent;
-	private SqlLiteCurrentInformationHelper mSql;
+	private SQLiteCurrentInformationHelper mSql;
 	private int mPositionSection = 0;
 	private boolean mIsPlaying = false;
 	private String mPath;
@@ -92,7 +92,7 @@ public class DaisyEbookReaderSimpleModeActivity extends Activity implements OnCl
 		setContentView(R.layout.activity_daisy_ebook_reader_simple_mode);
 		mWindow = getWindow();
 		mIntentController = new IntentController(DaisyEbookReaderSimpleModeActivity.this);
-		mSql = new SqlLiteCurrentInformationHelper(DaisyEbookReaderSimpleModeActivity.this);
+		mSql = new SQLiteCurrentInformationHelper(DaisyEbookReaderSimpleModeActivity.this);
 		startTts();
 		mNavigationListener = new NavigationListener();
 		mController = new Controller(mNavigationListener);
@@ -101,7 +101,7 @@ public class DaisyEbookReaderSimpleModeActivity extends Activity implements OnCl
 		relativeLayout.addView(mGestureOverlay);
 		setContentView(relativeLayout);
 		mHandler = new Handler();
-		mPath = getIntent().getStringExtra(DaisyReaderConstants.DAISY_PATH);
+		mPath = getIntent().getStringExtra(Constants.DAISY_PATH);
 		openBook();
 		readBook();
 	}
@@ -132,8 +132,8 @@ public class DaisyEbookReaderSimpleModeActivity extends Activity implements OnCl
 				mCurrent.setActivity(getString(R.string.title_activity_daisy_ebook_reader_simple_mode));
 				mSql.updateCurrentInformation(mCurrent);
 			} else {
-				section = getIntent().getStringExtra(DaisyReaderConstants.POSITION_SECTION);
-				mTime = getIntent().getStringExtra(DaisyReaderConstants.TIME);
+				section = getIntent().getStringExtra(Constants.POSITION_SECTION);
+				mTime = getIntent().getStringExtra(Constants.TIME);
 			}
 			if (section != null) {
 				int countLoop = Integer.valueOf(section) - mPositionSection;
@@ -142,7 +142,8 @@ public class DaisyEbookReaderSimpleModeActivity extends Activity implements OnCl
 					mNavigationListener.onNext((Section) n);
 				}
 			} else {
-				// if user do not load from table of contents, play reading book at normal.
+				// if user do not load from table of contents, play reading book
+				// at normal.
 				togglePlay();
 			}
 		} catch (Exception e) {
@@ -191,7 +192,8 @@ public class DaisyEbookReaderSimpleModeActivity extends Activity implements OnCl
 							getString(R.string.title_activity_daisy_ebook_reader_visual_mode))) {
 				n = mNavigator.next();
 				mIsFirstPrevious = true;
-				mIsFirstNext = false;;
+				mIsFirstNext = false;
+				;
 			}
 			mPositionSection += 1;
 		}
@@ -248,7 +250,7 @@ public class DaisyEbookReaderSimpleModeActivity extends Activity implements OnCl
 		// create a current information
 		CurrentInformation current = new CurrentInformation();
 		try {
-			current.setPath(getIntent().getStringExtra(DaisyReaderConstants.DAISY_PATH));
+			current.setPath(getIntent().getStringExtra(Constants.DAISY_PATH));
 			current.setSection(mPositionSection);
 			current.setTime(mPlayer.getCurrentPosition());
 			current.setPlaying(mIsPlaying);
@@ -262,7 +264,7 @@ public class DaisyEbookReaderSimpleModeActivity extends Activity implements OnCl
 		}
 		mSql.addCurrentInformation(current);
 	}
-	
+
 	/**
 	 * Update current information.
 	 */
@@ -293,7 +295,7 @@ public class DaisyEbookReaderSimpleModeActivity extends Activity implements OnCl
 
 	@Override
 	protected void onResume() {
-		speakOut(DaisyReaderConstants.SIMPLE_MODE);
+		speakOut(Constants.SIMPLE_MODE);
 		speakOut(mOldMessage);
 		ContentResolver cResolver = getContentResolver();
 		int valueScreen = 0;
@@ -302,7 +304,7 @@ public class DaisyEbookReaderSimpleModeActivity extends Activity implements OnCl
 		try {
 			SharedPreferences mPreferences = PreferenceManager
 					.getDefaultSharedPreferences(DaisyEbookReaderSimpleModeActivity.this);
-			valueScreen = mPreferences.getInt(DaisyReaderConstants.BRIGHTNESS,
+			valueScreen = mPreferences.getInt(Constants.BRIGHTNESS,
 					System.getInt(cResolver, System.SCREEN_BRIGHTNESS));
 			LayoutParams layoutpars = mWindow.getAttributes();
 			layoutpars.screenBrightness = valueScreen / (float) 255;
@@ -352,8 +354,8 @@ public class DaisyEbookReaderSimpleModeActivity extends Activity implements OnCl
 		InputStream contents;
 		try {
 			try {
-				mBookContext = DaisyReaderUtils.openBook(mPath);
-				contents = mBookContext.getResource(DaisyReaderConstants.FILE_NCC_NAME_NOT_CAPS);
+				mBookContext = DaisyBookUtil.openBook(mPath);
+				contents = mBookContext.getResource(Constants.FILE_NCC_NAME_NOT_CAPS);
 				mAndroidAudioPlayer = new AndroidAudioPlayer(mBookContext);
 				mAndroidAudioPlayer.addCallbackListener(audioCallbackListener);
 				mAudioPlayer = new AudioPlayerController(mAndroidAudioPlayer);
@@ -468,8 +470,8 @@ public class DaisyEbookReaderSimpleModeActivity extends Activity implements OnCl
 				PrivateException ex = new PrivateException(e,
 						DaisyEbookReaderSimpleModeActivity.this, mPath);
 				ex.showDialogException(mIntentController);
-				mOldMessage = DaisyReaderConstants.ERROR_NO_AUDIO_FOUND;
-				speakOut(DaisyReaderConstants.ERROR_NO_AUDIO_FOUND);
+				mOldMessage = Constants.ERROR_NO_AUDIO_FOUND;
+				speakOut(Constants.ERROR_NO_AUDIO_FOUND);
 				mIsFound = false;
 			}
 		}
@@ -478,7 +480,7 @@ public class DaisyEbookReaderSimpleModeActivity extends Activity implements OnCl
 		 * Speak message at the end of book.
 		 */
 		public void atEndOfBook() {
-			speakOut(DaisyReaderConstants.AT_THE_END);
+			speakOut(Constants.AT_THE_END);
 			int currentTime = mPlayer.getCurrentPosition();
 			if (currentTime == -1 || currentTime == mPlayer.getDuration() || currentTime == 0) {
 				mIsRunable = false;
@@ -494,7 +496,7 @@ public class DaisyEbookReaderSimpleModeActivity extends Activity implements OnCl
 		 * Speak message at the begin of book.
 		 */
 		public void atBeginOfBook() {
-			speakOut(DaisyReaderConstants.AT_THE_BEGIN);
+			speakOut(Constants.AT_THE_BEGIN);
 		}
 	}
 
@@ -602,7 +604,7 @@ public class DaisyEbookReaderSimpleModeActivity extends Activity implements OnCl
 					} else {
 						createCurrentInformation();
 					}
-					String path = getIntent().getStringExtra(DaisyReaderConstants.DAISY_PATH);
+					String path = getIntent().getStringExtra(Constants.DAISY_PATH);
 					mIntentController.pushToTableOfContentsIntent(path, mNavigatorOfTableContents,
 							getString(R.string.simple_mode));
 				} else {
@@ -614,7 +616,7 @@ public class DaisyEbookReaderSimpleModeActivity extends Activity implements OnCl
 					case Gesture.DOWN:
 						Log.i("GESTURE", "Action: DOWN");
 						if (mNavigator.hasNext()) {
-							speakOut(DaisyReaderConstants.NEXT_SECTION);
+							speakOut(Constants.NEXT_SECTION);
 						}
 						nextSection();
 						break;
@@ -622,13 +624,13 @@ public class DaisyEbookReaderSimpleModeActivity extends Activity implements OnCl
 						Log.i("GESTURE", "Action: UP");
 
 						if (mNavigator.hasPrevious()) {
-							speakOut(DaisyReaderConstants.PREVIOUS_SECTION);
+							speakOut(Constants.PREVIOUS_SECTION);
 						}
 						previousSection();
 						break;
 					case Gesture.LEFT:
 						Log.i("GESTURE", "Action: LEFT");
-						speakOut(DaisyReaderConstants.PREVIOUS_SENTENCE);
+						speakOut(Constants.PREVIOUS_SENTENCE);
 						previousSentence();
 						if (mPositionSentence > 0) {
 							mPositionSentence -= 1;
@@ -639,7 +641,7 @@ public class DaisyEbookReaderSimpleModeActivity extends Activity implements OnCl
 						break;
 					case Gesture.RIGHT:
 						Log.i("GESTURE", "Action: RIGHT");
-						speakOut(DaisyReaderConstants.NEXT_SENTENCE);
+						speakOut(Constants.NEXT_SENTENCE);
 						nextSentence();
 						if (mPositionSentence < mListTimeBegin.size() - 1) {
 							mPositionSentence += 1;
@@ -717,16 +719,17 @@ public class DaisyEbookReaderSimpleModeActivity extends Activity implements OnCl
 			else if (mIsEndOf) {
 				// It is code to resolve previous sentence when the end
 				// of the book.
-				Navigable n = mNavigator.previous();
-				n = mNavigator.next();
-				mNavigationListener.onNext((Section) n);
-				mIsEndOf = false;
 				mCurrent = mSql.getCurrentInformation();
 				if (mCurrent != null) {
 					mCurrent.setAtTheEnd(false);
 					mSql.updateCurrentInformation(mCurrent);
 				}
+				Navigable n = mNavigator.previous();
+				n = mNavigator.next();
+				mNavigationListener.onNext((Section) n);
+				mIsEndOf = false;
 				mPlayer.seekTo(mListTimeBegin.get(mListTimeBegin.size() - 1));
+				mPositionSentence = mListTimeBegin.size() - 1;
 			}
 			// this case for user press previous sentence.
 			else if (mPositionSentence > 0) {
@@ -809,13 +812,13 @@ public class DaisyEbookReaderSimpleModeActivity extends Activity implements OnCl
 	private void togglePlay() {
 		if (mPlayer.isPlaying()) {
 			setMediaPause();
-			speakOut(DaisyReaderConstants.PAUSE);
+			speakOut(Constants.PAUSE);
 		} else {
 			try {
 				setMediaPlay();
-				speakOut(DaisyReaderConstants.PLAY);
+				speakOut(Constants.PLAY);
 			} catch (Exception e) {
-				speakOut(DaisyReaderConstants.ERROR_WRONG_FORMAT_AUDIO);
+				speakOut(Constants.ERROR_WRONG_FORMAT_AUDIO);
 				PrivateException ex = new PrivateException(e,
 						DaisyEbookReaderSimpleModeActivity.this);
 				ex.writeLogException();
@@ -863,46 +866,47 @@ public class DaisyEbookReaderSimpleModeActivity extends Activity implements OnCl
 			ex.writeLogException();
 		}
 	}
-	
+
 	/**
 	 * This function will speak out message.
+	 * 
 	 * @param message
 	 */
 	private void speakOut(int message) {
 		switch (message) {
-		case DaisyReaderConstants.ERROR_NO_AUDIO_FOUND:
+		case Constants.ERROR_NO_AUDIO_FOUND:
 			mTts.speak(getString(R.string.error_no_audio_found), TextToSpeech.QUEUE_FLUSH, null);
 			break;
-		case DaisyReaderConstants.SIMPLE_MODE:
+		case Constants.SIMPLE_MODE:
 			mTts.speak(getString(R.string.title_activity_daisy_ebook_reader_simple_mode),
 					TextToSpeech.QUEUE_FLUSH, null);
 			break;
-		case DaisyReaderConstants.ERROR_WRONG_FORMAT_AUDIO:
+		case Constants.ERROR_WRONG_FORMAT_AUDIO:
 			mTts.speak(getString(R.string.error_wrong_format_audio), TextToSpeech.QUEUE_FLUSH, null);
 			break;
-		case DaisyReaderConstants.AT_THE_END:
+		case Constants.AT_THE_END:
 			mTts.speak(getString(R.string.atEnd) + mBook.getTitle(), TextToSpeech.QUEUE_FLUSH, null);
 			break;
-		case DaisyReaderConstants.AT_THE_BEGIN:
+		case Constants.AT_THE_BEGIN:
 			mTts.speak(getString(R.string.atBegin) + mBook.getTitle(), TextToSpeech.QUEUE_FLUSH,
 					null);
 			break;
-		case DaisyReaderConstants.NEXT_SECTION:
+		case Constants.NEXT_SECTION:
 			mTts.speak(getString(R.string.next_section), TextToSpeech.QUEUE_FLUSH, null);
 			break;
-		case DaisyReaderConstants.PREVIOUS_SECTION:
+		case Constants.PREVIOUS_SECTION:
 			mTts.speak(getString(R.string.previous_section), TextToSpeech.QUEUE_FLUSH, null);
 			break;
-		case DaisyReaderConstants.NEXT_SENTENCE:
+		case Constants.NEXT_SENTENCE:
 			mTts.speak(getString(R.string.next_sentence), TextToSpeech.QUEUE_FLUSH, null);
 			break;
-		case DaisyReaderConstants.PREVIOUS_SENTENCE:
+		case Constants.PREVIOUS_SENTENCE:
 			mTts.speak(getString(R.string.previous_sentence), TextToSpeech.QUEUE_FLUSH, null);
 			break;
-		case DaisyReaderConstants.PLAY:
+		case Constants.PLAY:
 			mTts.speak(getString(R.string.play), TextToSpeech.QUEUE_FLUSH, null);
 			break;
-		case DaisyReaderConstants.PAUSE:
+		case Constants.PAUSE:
 			mTts.speak(getString(R.string.pause), TextToSpeech.QUEUE_FLUSH, null);
 			break;
 		default:

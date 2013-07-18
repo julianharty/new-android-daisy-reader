@@ -7,9 +7,8 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
-
 import org.androiddaisyreader.model.BookContext;
-import org.androiddaisyreader.utils.DaisyReaderConstants;
+import org.androiddaisyreader.utils.Constants;
 import org.apache.commons.io.IOUtils;
 
 import android.os.StatFs;
@@ -52,8 +51,8 @@ public class TempFileForAudioContentProvider {
 					"Called incorrectly, should only be used to create temp files for zipped content.");
 		}
 		InputStream in = context.getResource(sourceFilename);
-		File tempFile = File.createTempFile(DaisyReaderConstants.PREFIX_AUDIO_TEMP_FILE,
-				DaisyReaderConstants.SUFFIX_AUDIO_TEMP_FILE);
+		File tempFile = File.createTempFile(Constants.PREFIX_AUDIO_TEMP_FILE,
+				Constants.SUFFIX_AUDIO_TEMP_FILE);
 		// check available space
 		if (isEnoughSpace(tempFile, (long) in.available())) {
 			FileOutputStream out = new FileOutputStream(tempFile);
@@ -71,7 +70,7 @@ public class TempFileForAudioContentProvider {
 
 	private boolean isEnoughSpace(File tempFile, long sizeOfSourceFile) {
 		StatFs stat = new StatFs(tempFile.getParent());
-		double availableBlocks = (double)stat.getAvailableBlocks() * (double)stat.getBlockSize();
+		double availableBlocks = (double) stat.getAvailableBlocks() * (double) stat.getBlockSize();
 		return availableBlocks > sizeOfSourceFile;
 	}
 

@@ -20,7 +20,7 @@ import org.androiddaisyreader.model.Bookmark;
 import org.androiddaisyreader.model.Navigable;
 import org.androiddaisyreader.model.Navigator;
 import org.androiddaisyreader.model.Section;
-import org.androiddaisyreader.utils.DaisyReaderConstants;
+import org.androiddaisyreader.utils.Constants;
 
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -74,9 +74,9 @@ public class IntentController {
 				}
 			}
 		}
-		i.putStringArrayListExtra(DaisyReaderConstants.LIST_CONTENTS, listContents);
-		i.putExtra(DaisyReaderConstants.DAISY_PATH, path);
-		i.putExtra(DaisyReaderConstants.TARGET_ACTIVITY, targetActivity);
+		i.putStringArrayListExtra(Constants.LIST_CONTENTS, listContents);
+		i.putExtra(Constants.DAISY_PATH, path);
+		i.putExtra(Constants.TARGET_ACTIVITY, targetActivity);
 		mContext.startActivity(i);
 	}
 
@@ -89,11 +89,11 @@ public class IntentController {
 
 	public void pushToDaisyReaderBookmarkIntent(Bookmark bookmark, String path) {
 		Intent i = new Intent(mContext, DaisyReaderBookmarkActivity.class);
-		i.putExtra(DaisyReaderConstants.DAISY_PATH, path);
+		i.putExtra(Constants.DAISY_PATH, path);
 		if (bookmark.getText() != null) {
-			i.putExtra(DaisyReaderConstants.SENTENCE, bookmark.getText());
-			i.putExtra(DaisyReaderConstants.TIME, String.valueOf(bookmark.getTime()));
-			i.putExtra(DaisyReaderConstants.SECTION, String.valueOf(bookmark.getSection()));
+			i.putExtra(Constants.SENTENCE, bookmark.getText());
+			i.putExtra(Constants.TIME, String.valueOf(bookmark.getTime()));
+			i.putExtra(Constants.SECTION, String.valueOf(bookmark.getSection()));
 		}
 
 		mContext.startActivity(i);
@@ -108,9 +108,9 @@ public class IntentController {
 	 */
 	public void pushToDaisyEbookReaderSimpleModeIntent(String path, int section, int currentTime) {
 		Intent i = new Intent(mContext, DaisyEbookReaderSimpleModeActivity.class);
-		i.putExtra(DaisyReaderConstants.DAISY_PATH, path);
-		i.putExtra(DaisyReaderConstants.TIME, String.valueOf(currentTime));
-		i.putExtra(DaisyReaderConstants.POSITION_SECTION, String.valueOf(section));
+		i.putExtra(Constants.DAISY_PATH, path);
+		i.putExtra(Constants.TIME, String.valueOf(currentTime));
+		i.putExtra(Constants.POSITION_SECTION, String.valueOf(section));
 		mContext.startActivity(i);
 	}
 
@@ -126,7 +126,7 @@ public class IntentController {
 	 */
 	public void pushToDaisyEbookReaderSimpleModeIntent(String path) {
 		Intent i = new Intent(mContext, DaisyEbookReaderSimpleModeActivity.class);
-		i.putExtra(DaisyReaderConstants.DAISY_PATH, path);
+		i.putExtra(Constants.DAISY_PATH, path);
 		mContext.startActivity(i);
 	}
 
@@ -137,19 +137,25 @@ public class IntentController {
 	 */
 	public void pushToDaisyEbookReaderVisualModeIntent(String path) {
 		Intent i = new Intent(mContext, DaisyEbookReaderVisualModeActivity.class);
-		i.putExtra(DaisyReaderConstants.DAISY_PATH, path);
+		i.putExtra(Constants.DAISY_PATH, path);
 		mContext.startActivity(i);
 	}
 
 	/**
 	 * Show dialog when application has error.
 	 * 
-	 * @param message: this will show for user
-	 * @param title: title of dialog
-	 * @param resId: icon message
-	 * @param isBack: previous screen before if true and otherwise.
-	 * @param isSpeak: application will speak.
-	 * @param tts: text to speech
+	 * @param message
+	 *            : this will show for user
+	 * @param title
+	 *            : title of dialog
+	 * @param resId
+	 *            : icon message
+	 * @param isBack
+	 *            : previous screen before if true and otherwise.
+	 * @param isSpeak
+	 *            : application will speak.
+	 * @param tts
+	 *            : text to speech
 	 */
 	@SuppressWarnings("deprecation")
 	public void pushToDialog(String message, String title, int resId, final boolean isBack,
@@ -190,7 +196,7 @@ public class IntentController {
 
 	public void pushToDaisyEbookReaderIntent(String path) {
 		Intent i = new Intent(mContext, DaisyEbookReaderActivity.class);
-		i.putExtra(DaisyReaderConstants.DAISY_PATH, path);
+		i.putExtra(Constants.DAISY_PATH, path);
 		mContext.startActivity(i);
 	}
 }

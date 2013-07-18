@@ -25,9 +25,9 @@ import org.androiddaisyreader.model.Bookmark;
 import org.androiddaisyreader.model.Daisy202Book;
 import org.androiddaisyreader.model.Navigator;
 import org.androiddaisyreader.player.IntentController;
-import org.androiddaisyreader.sqllite.SqlLiteBookmarkHelper;
-import org.androiddaisyreader.utils.DaisyReaderConstants;
-import org.androiddaisyreader.utils.DaisyReaderUtils;
+import org.androiddaisyreader.sqlite.SQLiteBookmarkHelper;
+import org.androiddaisyreader.utils.DaisyBookUtil;
+import org.androiddaisyreader.utils.Constants;
 
 import java.util.ArrayList;
 import java.util.UUID;
@@ -68,11 +68,11 @@ public class DaisyReaderBookmarkActivity extends Activity implements TextToSpeec
 		ImageView imgTableOfContents = (ImageView) this.findViewById(R.id.imgTableOfContents);
 		imgTableOfContents.setOnClickListener(imgTableOfContentsClick);
 		mListBookmark = (ListView) this.findViewById(R.id.listBookmark);
-		mPath = getIntent().getStringExtra(DaisyReaderConstants.DAISY_PATH);
+		mPath = getIntent().getStringExtra(Constants.DAISY_PATH);
 		TextView tvBookTitle = (TextView) this.findViewById(R.id.bookTitle);
 		try {
 			try {
-				mBook = DaisyReaderUtils.getDaisy202Book(mPath);
+				mBook = DaisyBookUtil.getDaisy202Book(mPath);
 			} catch (Exception e) {
 				PrivateException ex = new PrivateException(e, DaisyReaderBookmarkActivity.this,
 						mPath);
@@ -80,7 +80,7 @@ public class DaisyReaderBookmarkActivity extends Activity implements TextToSpeec
 			}
 			tvBookTitle.setText(mBook.getTitle());
 			createNewBookmark();
-			SqlLiteBookmarkHelper mSql = new SqlLiteBookmarkHelper(DaisyReaderBookmarkActivity.this);
+			SQLiteBookmarkHelper mSql = new SQLiteBookmarkHelper(DaisyReaderBookmarkActivity.this);
 			mListItems = new ArrayList<Bookmark>();
 			mListItems = mSql.getAllBookmark(mPath);
 			loadData();
@@ -106,9 +106,9 @@ public class DaisyReaderBookmarkActivity extends Activity implements TextToSpeec
 		// create a bookmark
 		try {
 			mBookmark = new Bookmark();
-			String sentence = getIntent().getStringExtra(DaisyReaderConstants.SENTENCE);
-			String section = getIntent().getStringExtra(DaisyReaderConstants.SECTION);
-			String time = getIntent().getStringExtra(DaisyReaderConstants.TIME);
+			String sentence = getIntent().getStringExtra(Constants.SENTENCE);
+			String section = getIntent().getStringExtra(Constants.SECTION);
+			String time = getIntent().getStringExtra(Constants.TIME);
 			mBookmark.setPath(mPath);
 			mBookmark.setText(sentence);
 			mBookmark.setTime(Integer.valueOf(time));
@@ -127,7 +127,7 @@ public class DaisyReaderBookmarkActivity extends Activity implements TextToSpeec
 		public void onClick(View v) {
 			try {
 				try {
-					Daisy202Book mBook = DaisyReaderUtils.getDaisy202Book(mPath);
+					Daisy202Book mBook = DaisyBookUtil.getDaisy202Book(mPath);
 					navigator = new Navigator(mBook);
 					mIntentController.pushToTableOfContentsIntent(mPath, navigator,
 							getString(R.string.visual_mode));
@@ -148,8 +148,8 @@ public class DaisyReaderBookmarkActivity extends Activity implements TextToSpeec
 	class LoadingData extends AsyncTask<Void, Void, ArrayList<Bookmark>> {
 		private ProgressDialog progressDialog;
 		private int numberOfBookmarks = mPreferences.getInt(
-				DaisyReaderConstants.NUMBER_OF_BOOKMARKS,
-				DaisyReaderConstants.NUMBER_OF_BOOKMARK_DEFAULT);;
+				Constants.NUMBER_OF_BOOKMARKS,
+				Constants.NUMBER_OF_BOOKMARK_DEFAULT);;
 
 		@Override
 		protected ArrayList<Bookmark> doInBackground(Void... params) {
@@ -230,7 +230,7 @@ public class DaisyReaderBookmarkActivity extends Activity implements TextToSpeec
 		try {
 			SharedPreferences mPreferences = PreferenceManager
 					.getDefaultSharedPreferences(DaisyReaderBookmarkActivity.this);
-			valueScreen = mPreferences.getInt(DaisyReaderConstants.BRIGHTNESS,
+			valueScreen = mPreferences.getInt(Constants.BRIGHTNESS,
 					System.getInt(cResolver, System.SCREEN_BRIGHTNESS));
 			LayoutParams layoutpars = mWindow.getAttributes();
 			layoutpars.screenBrightness = valueScreen / (float) 255;

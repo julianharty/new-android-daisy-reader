@@ -49,9 +49,9 @@ import org.androiddaisyreader.model.Part;
 import org.androiddaisyreader.model.Section;
 import org.androiddaisyreader.player.AndroidAudioPlayer;
 import org.androiddaisyreader.player.IntentController;
-import org.androiddaisyreader.sqllite.SqlLiteCurrentInformationHelper;
-import org.androiddaisyreader.utils.DaisyReaderConstants;
-import org.androiddaisyreader.utils.DaisyReaderUtils;
+import org.androiddaisyreader.sqlite.SQLiteCurrentInformationHelper;
+import org.androiddaisyreader.utils.DaisyBookUtil;
+import org.androiddaisyreader.utils.Constants;
 
 import com.google.common.base.Preconditions;
 
@@ -113,7 +113,7 @@ public class DaisyEbookReaderVisualModeActivity extends Activity implements
 	private boolean mIsEndOf = false;
 	private boolean mIsFound = true;
 	private boolean mIsPlaying = false;
-	private SqlLiteCurrentInformationHelper mSql;
+	private SQLiteCurrentInformationHelper mSql;
 	private CurrentInformation mCurrent;
 
 	@Override
@@ -126,8 +126,8 @@ public class DaisyEbookReaderVisualModeActivity extends Activity implements
 		mWindow = getWindow();
 		mWindow.setFeatureInt(Window.FEATURE_CUSTOM_TITLE, R.layout.custom_title);
 		mIntentController = new IntentController(this);
-		mSql = new SqlLiteCurrentInformationHelper(DaisyEbookReaderVisualModeActivity.this);
-		mPath = getIntent().getStringExtra(DaisyReaderConstants.DAISY_PATH);
+		mSql = new SQLiteCurrentInformationHelper(DaisyEbookReaderVisualModeActivity.this);
+		mPath = getIntent().getStringExtra(Constants.DAISY_PATH);
 		startTts();
 		setEventForTopButtons();
 		openBook();
@@ -200,8 +200,8 @@ public class DaisyEbookReaderVisualModeActivity extends Activity implements
 			mTime = mCurrent.getTime();
 			mPositionSentence = 0;
 		} else {
-			section = getIntent().getStringExtra(DaisyReaderConstants.POSITION_SECTION);
-			mTime = getIntent().getIntExtra(DaisyReaderConstants.TIME, -1);
+			section = getIntent().getStringExtra(Constants.POSITION_SECTION);
+			mTime = getIntent().getIntExtra(Constants.TIME, -1);
 		}
 		try {
 			if (section != null) {
@@ -339,7 +339,7 @@ public class DaisyEbookReaderVisualModeActivity extends Activity implements
 				createCurrentInformation();
 			}
 			mIntentController.pushToDaisyReaderBookmarkIntent(getBookmark(), getIntent()
-					.getStringExtra(DaisyReaderConstants.DAISY_PATH));
+					.getStringExtra(Constants.DAISY_PATH));
 		}
 	};
 
@@ -420,7 +420,7 @@ public class DaisyEbookReaderVisualModeActivity extends Activity implements
 				createCurrentInformation();
 			}
 			mIntentController.pushToTableOfContentsIntent(
-					getIntent().getStringExtra(DaisyReaderConstants.DAISY_PATH),
+					getIntent().getStringExtra(Constants.DAISY_PATH),
 					mNavigatorOfTableContents, getString(R.string.visual_mode));
 			return true;
 			// go to simple mode
@@ -431,7 +431,7 @@ public class DaisyEbookReaderVisualModeActivity extends Activity implements
 				createCurrentInformation();
 			}
 			mIntentController.pushToDaisyEbookReaderSimpleModeIntent(getIntent().getStringExtra(
-					DaisyReaderConstants.DAISY_PATH));
+					Constants.DAISY_PATH));
 			return true;
 			// go to settings
 		case R.id.menu_settings:
@@ -450,7 +450,7 @@ public class DaisyEbookReaderVisualModeActivity extends Activity implements
 				createCurrentInformation();
 			}
 			mIntentController.pushToDaisyReaderBookmarkIntent(getBookmark(), getIntent()
-					.getStringExtra(DaisyReaderConstants.DAISY_PATH));
+					.getStringExtra(Constants.DAISY_PATH));
 			return true;
 			// go to library
 		case R.id.menu_library:
@@ -592,7 +592,7 @@ public class DaisyEbookReaderVisualModeActivity extends Activity implements
 		try {
 			SharedPreferences mPreferences = PreferenceManager
 					.getDefaultSharedPreferences(DaisyEbookReaderVisualModeActivity.this);
-			valueScreen = mPreferences.getInt(DaisyReaderConstants.BRIGHTNESS,
+			valueScreen = mPreferences.getInt(Constants.BRIGHTNESS,
 					System.getInt(cResolver, System.SCREEN_BRIGHTNESS));
 			LayoutParams layoutpars = mWindow.getAttributes();
 			layoutpars.screenBrightness = valueScreen / (float) 255;
@@ -602,8 +602,8 @@ public class DaisyEbookReaderVisualModeActivity extends Activity implements
 			PrivateException ex = new PrivateException(e, DaisyEbookReaderVisualModeActivity.this);
 			ex.writeLogException();
 		}
-		mFontSize = mPreferences.getInt(DaisyReaderConstants.FONT_SIZE,
-				DaisyReaderConstants.FONTSIZE_DEFAULT);
+		mFontSize = mPreferences.getInt(Constants.FONT_SIZE,
+				Constants.FONTSIZE_DEFAULT);
 		mContents.setTextSize(mFontSize);
 	}
 
@@ -611,23 +611,23 @@ public class DaisyEbookReaderVisualModeActivity extends Activity implements
 	 * Apply night mode setting, if user turn on.
 	 */
 	private void setNightMode() {
-		boolean nightMode = mPreferences.getBoolean(DaisyReaderConstants.NIGHT_MODE, false);
+		boolean nightMode = mPreferences.getBoolean(Constants.NIGHT_MODE, false);
 		if (nightMode) {
 			mContents.setTextColor(Color.WHITE);
 			mScrollView.setBackgroundColor(Color.BLACK);
 			mHighlightColor = 0xff408000;
 		} else {
 			// apply text color
-			int textColor = mPreferences.getInt(DaisyReaderConstants.TEXT_COLOR, 0xffc0c0c0);
+			int textColor = mPreferences.getInt(Constants.TEXT_COLOR, 0xffc0c0c0);
 			mContents.setTextColor(textColor);
 
 			// apply background color
-			int backgroundColor = mPreferences.getInt(DaisyReaderConstants.BACKGROUND_COLOR,
+			int backgroundColor = mPreferences.getInt(Constants.BACKGROUND_COLOR,
 					Color.BLACK);
 			mScrollView.setBackgroundColor(backgroundColor);
 
 			// apply highlight color
-			mHighlightColor = mPreferences.getInt(DaisyReaderConstants.HIGHLIGHT_COLOR,
+			mHighlightColor = mPreferences.getInt(Constants.HIGHLIGHT_COLOR,
 					Color.YELLOW);
 		}
 
@@ -650,8 +650,8 @@ public class DaisyEbookReaderVisualModeActivity extends Activity implements
 		InputStream contents;
 		try {
 			try {
-				mBookContext = DaisyReaderUtils.openBook(mPath);
-				contents = mBookContext.getResource(DaisyReaderConstants.FILE_NCC_NAME_NOT_CAPS);
+				mBookContext = DaisyBookUtil.openBook(mPath);
+				contents = mBookContext.getResource(Constants.FILE_NCC_NAME_NOT_CAPS);
 				mAndroidAudioPlayer = new AndroidAudioPlayer(mBookContext);
 				mAndroidAudioPlayer.addCallbackListener(audioCallbackListener);
 				mAudioPlayer = new AudioPlayerController(mAndroidAudioPlayer);
@@ -1126,7 +1126,7 @@ public class DaisyEbookReaderVisualModeActivity extends Activity implements
 		@Override
 		public void onClick(View v) {
 			// do not allow user press button many times at the same time.
-			if (SystemClock.elapsedRealtime() - mLastClickTime < DaisyReaderConstants.TIME_WAIT_FOR_CLICK_SENTENCE) {
+			if (SystemClock.elapsedRealtime() - mLastClickTime < Constants.TIME_WAIT_FOR_CLICK_SENTENCE) {
 				return;
 			}
 			mLastClickTime = SystemClock.elapsedRealtime();
@@ -1178,7 +1178,7 @@ public class DaisyEbookReaderVisualModeActivity extends Activity implements
 		@Override
 		public void onClick(View v) {
 			// do not allow user press button many times at the same time.
-			if (SystemClock.elapsedRealtime() - mLastClickTime < DaisyReaderConstants.TIME_WAIT_FOR_CLICK_SENTENCE) {
+			if (SystemClock.elapsedRealtime() - mLastClickTime < Constants.TIME_WAIT_FOR_CLICK_SENTENCE) {
 				return;
 			}
 			mLastClickTime = SystemClock.elapsedRealtime();
@@ -1235,6 +1235,7 @@ public class DaisyEbookReaderVisualModeActivity extends Activity implements
 				mIsEndOf = false;
 
 				mPlayer.seekTo(mListTimeBegin.get(mListTimeBegin.size() - 1));
+				mPositionSentence = mListTimeBegin.size() - 1;
 			}
 			// this case for user press previous sentence.
 			else if (mPositionSentence > 0) {
@@ -1283,7 +1284,7 @@ public class DaisyEbookReaderVisualModeActivity extends Activity implements
 		@Override
 		public void onClick(View v) {
 			// do not allow user press button many times at the same time.
-			if (SystemClock.elapsedRealtime() - mLastClickTime < DaisyReaderConstants.TIME_WAIT_FOR_CLICK_SECTION) {
+			if (SystemClock.elapsedRealtime() - mLastClickTime < Constants.TIME_WAIT_FOR_CLICK_SECTION) {
 				return;
 			}
 			mLastClickTime = SystemClock.elapsedRealtime();
@@ -1313,7 +1314,7 @@ public class DaisyEbookReaderVisualModeActivity extends Activity implements
 		@Override
 		public void onClick(View v) {
 			// do not allow user press button many times at the same time.
-			if (SystemClock.elapsedRealtime() - mLastClickTime < DaisyReaderConstants.TIME_WAIT_FOR_CLICK_SECTION) {
+			if (SystemClock.elapsedRealtime() - mLastClickTime < Constants.TIME_WAIT_FOR_CLICK_SECTION) {
 				return;
 			}
 			mLastClickTime = SystemClock.elapsedRealtime();

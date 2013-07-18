@@ -5,8 +5,8 @@ import java.util.ArrayList;
 import org.androiddaisyreader.apps.DaisyEbookReaderVisualModeActivity;
 import org.androiddaisyreader.apps.R;
 import org.androiddaisyreader.model.Bookmark;
-import org.androiddaisyreader.sqllite.SqlLiteBookmarkHelper;
-import org.androiddaisyreader.utils.DaisyReaderConstants;
+import org.androiddaisyreader.sqlite.SQLiteBookmarkHelper;
+import org.androiddaisyreader.utils.Constants;
 
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -36,7 +36,7 @@ public class BookmarkListAdapter extends ArrayAdapter<Bookmark> {
 	private Bookmark mBookmarkTmp;
 	private int mSelectedPosition = -1;;
 	private RadioButton mSelectedRB;
-	private SqlLiteBookmarkHelper mSql;
+	private SQLiteBookmarkHelper mSql;
 	private String mPath;
 	private int mTotalNumberBookmark;
 
@@ -48,7 +48,7 @@ public class BookmarkListAdapter extends ArrayAdapter<Bookmark> {
 		this.mBookmarkTmp = bookmark;
 		this.mPath = path;
 		this.mTotalNumberBookmark = totalNumberBookmark;
-		mSql = new SqlLiteBookmarkHelper(getContext());
+		mSql = new SQLiteBookmarkHelper(getContext());
 		mVi = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 	}
 
@@ -187,9 +187,9 @@ public class BookmarkListAdapter extends ArrayAdapter<Bookmark> {
 	 */
 	private void pushToDaisyEbookReaderVisualModeIntent(String path, int section, int time) {
 		Intent i = new Intent(mContext, DaisyEbookReaderVisualModeActivity.class);
-		i.putExtra(DaisyReaderConstants.POSITION_SECTION, String.valueOf(section));
-		i.putExtra(DaisyReaderConstants.DAISY_PATH, path);
-		i.putExtra(DaisyReaderConstants.TIME, time);
+		i.putExtra(Constants.POSITION_SECTION, String.valueOf(section));
+		i.putExtra(Constants.DAISY_PATH, path);
+		i.putExtra(Constants.TIME, time);
 		mContext.startActivity(i);
 	}
 }

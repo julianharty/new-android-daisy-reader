@@ -25,6 +25,10 @@
     <string name="error_no_audio_found">We cannot find the audio for the current chapter</string>
     <string name="error_no_text_found">We cannot find text for the current chapter</string>
     <string name="error_parse_file_ncc">Could not read the master file for this book %s</string>
+    <string name="error_connect_internet">Please check your Internet connection again</string>
+    <string name="error_cannot_dowload">The download is not successfully, please try it again</string>
+    <string name="error_unknown_host">Please check the host name again</string>
+    <string name="error_file_not_found">The download file is invalid, please check again</string>
     <string name="expand">Expand</string>
     <string name="empty_bookmark">Empty</string>
     <string name="fontSize">Font Size: </string>
@@ -32,10 +36,14 @@
     <string name="menu_settings">Settings</string>
     <string name="message_bookmark">Choosing options</string>
     <string name="message_exit_application">Press the Back button to exit</string>
+    <string name="message_downloading_file">Downloading file &#x2026;</string>
+    <string name="message_confirm_exit_download">Are you sure you want to exit download?</string>
     <string name="night_mode">Night Mode</string>
     <string name="next_section">Next section</string>
     <string name="next_sentence">Next sentence</string>
     <string name="ok">OK</string>
+    <string name="yes">Yes</string>
+    <string name="no">No</string>
     <string name="previous_sentence">Previous sentence</string>
     <string name="previous_section">Previous section</string>
     <string name="pause">Pause</string>
@@ -62,7 +70,20 @@
     <string name="unzipping">Unzipping</string>
     <string name="visual_mode">VISUAL mode</string>
     <string name="waiting">Waiting &#x2026;</string>
+    <string name="web_site_name_daisy_org">The DAISY Consortium</string>
+    <string name="web_site_url_daisy_org">http://www.daisy.org/sample-content</string>
+    <string name="web_site_name_htctu">The High Tech Center Training Unit</string>
+    <string name="web_site_url_htctu">http://www.htctu.net/demos</string>
     <string name="hello_world">Hello world!</string>
     <string name="title_activity_daisy_ebook_reader_report_issue">DaisyEbookReaderReportIssueActivity</string>
+    <string name="download_books">Download Books</string>
+    <string name="downloaded_books">Downloaded Books</string>
+    <string name="download_sites">Download Sites</string>
+    <string name="search">Search</string>
+    <string name="logo_of_book">Logo Book</string>
+    <string name="title_activity_daisy_reader_scan_book">Scan on Sd card</string>
+    <string name="author">Author:</string>
+    <string name="produced_date">Produced Date:</string>
+    <string name="publisher">Publisher:</string>
 
 </resources>

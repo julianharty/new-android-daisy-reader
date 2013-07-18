@@ -1,10 +1,10 @@
-package org.androiddaisyreader.sqllite;
+package org.androiddaisyreader.sqlite;
 
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
-public class HandleSqlLite extends SQLiteOpenHelper {
+public class SQLiteHandler extends SQLiteOpenHelper {
 
 	private static final String DATABASE_NAME = "EbookReaderDB";
 
@@ -33,8 +33,18 @@ public class HandleSqlLite extends SQLiteOpenHelper {
 	public static final String PATH_KEY_RECENT_BOOKS = "_path";
 	public static final String SORT_KEY_RECENT_BOOKS = "_sort";
 
-	public HandleSqlLite(Context context) {
-		super(context, DATABASE_NAME, null, 2);
+	public static final String TABLE_NAME_DAISY_BOOK = "DaisyBook";
+	public static final String ID_KEY_DAISY_BOOK = "_id";
+	public static final String TITLE_KEY_DAISY_BOOK = "_name";
+	public static final String PATH_KEY_DAISY_BOOK = "_path";
+	public static final String AUTHOR_KEY_DAISY_BOOK = "_author";
+	public static final String PUBLISHER_KEY_DAISY_BOOK = "_publisher";
+	public static final String DATE_DAISY_BOOK = "_date";
+	public static final String TYPE_OF_METADATA_DAISY_BOOK = "_type";
+	public static final String SORT_KEY_DAISY_BOOK = "_sort";
+
+	public SQLiteHandler(Context context) {
+		super(context, DATABASE_NAME, null, 1);
 	}
 
 	@Override
@@ -60,6 +70,13 @@ public class HandleSqlLite extends SQLiteOpenHelper {
 				+ NAME_KEY_RECENT_BOOKS + " text primary key," + PATH_KEY_RECENT_BOOKS + " text,"
 				+ SORT_KEY_RECENT_BOOKS + " integer " + ")";
 		db.execSQL(sqlCreateTableRecentBooks);
+
+		String sqlCreateTableDaisyBook = "create table " + TABLE_NAME_DAISY_BOOK + "("
+				+ ID_KEY_DAISY_BOOK + " text primary key," + PATH_KEY_DAISY_BOOK + " text,"
+				+ TITLE_KEY_DAISY_BOOK + " text," + AUTHOR_KEY_DAISY_BOOK + " text,"
+				+ PUBLISHER_KEY_DAISY_BOOK + " text," + TYPE_OF_METADATA_DAISY_BOOK + " text,"
+				+ DATE_DAISY_BOOK + " text," + SORT_KEY_RECENT_BOOKS + " integer " + ")";
+		db.execSQL(sqlCreateTableDaisyBook);
 	}
 
 	@Override
@@ -67,6 +84,7 @@ public class HandleSqlLite extends SQLiteOpenHelper {
 		db.execSQL("DROP TABLE IF EXISTS " + TABLE_NAME_BOOKMARK);
 		db.execSQL("DROP TABLE IF EXISTS " + TABLE_NAME_CURRENT_INFORMATION);
 		db.execSQL("DROP TABLE IF EXISTS " + TABLE_NAME_RECENT_BOOKS);
+		db.execSQL("DROP TABLE IF EXISTS " + TABLE_NAME_DAISY_BOOK);
 		onCreate(db);
 	}
 

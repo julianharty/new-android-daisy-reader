@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical" >
+
+    <EditText
+        android:id="@+id/edit_text_search"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:layout_margin="10dp"
+        android:hint="@string/search"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp"
+        android:drawableLeft="@drawable/ic_search_20x20"
+        android:drawablePadding="10dp"
+        android:background="@drawable/border_text_view"
+        android:singleLine="true" >
+
+    </EditText>
+    <ListView
+        android:id="@+id/list_view_download_books"
+        android:layout_width="match_parent"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_height="wrap_content" >
+
+    </ListView>
+    
+</LinearLayout>

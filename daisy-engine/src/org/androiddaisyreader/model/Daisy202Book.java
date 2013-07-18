@@ -14,7 +14,7 @@ public class Daisy202Book extends Book {
 			book.sections.add(section);
 			return this;
 		}
-		
+
 		public Builder setDate(Date date) {
 			book.date = date;
 			return this;
@@ -25,15 +25,25 @@ public class Daisy202Book extends Book {
 			book.title = content.trim();
 			return this;
 		}
-		
-		//Added by Logigear to resolve case: the daisy book is not audio.
-		//Date: Jun-13-2013
-		public Builder setTotalTime(String totalTime)
-		{
+
+		// Added by Logigear to resolve case: the daisy book is not audio.
+		// Date: Jun-13-2013
+		public Builder setTotalTime(String totalTime) {
 			book.totalTime = totalTime.trim();
 			return this;
 		}
+
+		public Builder setCreator(String creator) {
+			book.author = creator;
+			return this;
+		}
 		
+		public Builder setPublisher(String publisher)
+		{
+			book.publisher = publisher;
+			return this;
+		}
+
 		public Daisy202Book build() {
 			book.sections = Collections.unmodifiableList(book.sections);
 			return book;
@@ -51,5 +61,5 @@ public class Daisy202Book extends Book {
 	public Date getDate() {
 		return date;
 	}
-	
+
 }

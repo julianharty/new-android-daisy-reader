@@ -1,0 +1,78 @@
+<books type="1">
+	<website url="http://www.daisy.org/sample-content">
+		<book link="http://www.daisy.org/samples/202toc-only/light-man.zip">
+			<title>A Light Man (34.4 MB)</title>
+			<author>Henry James</author>
+			<publisher></publisher>
+			<date>June 2009</date>
+		</book>
+		<book link="http://www.daisy.org/samples/3full-text-full-audio/are-you-ready-z3986.zip">
+			<title>Are You Ready? (13 MB)</title>
+			<author>wikiHow</author>
+			<publisher></publisher>
+			<date>April 2009</date>
+		</book>
+		<book link="http://www.daisy.org/samples/202toc-only/mountains-skip.zip">
+			<title>Climbing the Highest Mountain(1.85 MB)</title>
+			<author>Per Sennels</author>
+			<publisher></publisher>
+			<date>May 2003</date>
+		</book>
+		<book link="http://www.daisy.org/samples/3full-text-full-audio/1Brochure-DAISY-Consortium.zip">
+			<title>DAISY Brochure (7 MB)</title>
+			<author>DAISY Consortium</author>
+			<publisher></publisher>
+			<date>October 2009</date>
+		</book>
+		<book link="http://www.daisy.org/samples/202full-text-full-audio/fire-safety.zip">
+			<title>Fire Safety (9.67 MB)</title>
+			<author>Wendy Blaxland - Macmillan Education Aust Pty. Ltd.</author>
+			<publisher></publisher>
+			<date>December 2003</date>
+		</book>
+		<book link="http://www.daisy.org/samples/202full-text-full-audio/gon-ruby-mp3.zip">
+			<title>Gongitsune (9.11 MB)</title>
+			<author>Iwanami Shoten</author>
+			<publisher></publisher>
+			<date>June 2009</date>
+		</book>
+		<book link="http://www.daisy.org/samples/202full-text-full-audio/frontpage-202-complete.zip">
+			<title>Microsoft FrontPage 2003 (575 MB)</title>
+			<author>Jim Byens - Microsoft Press</author>
+			<publisher></publisher>
+			<date>September 2005</date>
+		</book>
+		<book link="http://www.daisy.org/samples/dtbook-xml/great-painters-dtbook-2005-3.zip">
+			<title>Selections from Great Pictures, As Seen and Described by Famous Writers (584 KB)</title>
+			<author>Esther Singleton</author>
+			<publisher></publisher>
+			<date>February 2009</date>
+		</book>
+		<book link="http://www.daisy.org/samples/202full-text-full-audio/valentin-hauy.zip">
+			<title>Valentin Hauy (118 MB)</title>
+			<author>Beatrice Christensen Sköld</author>
+			<publisher></publisher>
+			<date>April 2003</date>
+		</book>
+	</website>
+	<website url="http://www.htctu.net/demos">
+		<book link="http://www.htctu.net/demos/daisy/AliceWonderland.zip">
+			<title>Alice in Wonderland (25 MB)</title>
+			<author></author>
+			<publisher></publisher>
+			<date></date>
+		</book>
+		<book link="http://www.htctu.net/demos/daisy/ChristmasStoriesDickens.zip">
+			<title>Christmas Stories by Charles Dickens (20 MB)</title>
+			<author></author>
+			<publisher></publisher>
+			<date></date>
+		</book>
+		<book link="http://www.htctu.net/demos/daisy/HoundBaskervilles.zip">
+			<title>Hound of the Baskervilles (50 MB)</title>
+			<author></author>
+			<publisher></publisher>
+			<date></date>
+		</book>
+	</website>
+</books>

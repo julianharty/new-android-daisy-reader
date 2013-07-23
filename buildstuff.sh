@@ -12,5 +12,10 @@ if [ "$?" = 1 ]; then
     echo "copy of the daisy-engine jar files failed."
     FAILED=1
 fi
+ant clean debug
+if [ "$?" = 1 ]; then
+   echo "Debug build of the DaisyBookLister app failed."
+   FAILED=1
+fi 
 exit $FAILED
 

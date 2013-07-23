@@ -1,5 +1,6 @@
 #!/bin/bash
 FAILED=0
+sudo mkdir /sdcard
 cd ./daisy-engine
 ant clean sources-jar
 if [ "$?" = 1 ]; then

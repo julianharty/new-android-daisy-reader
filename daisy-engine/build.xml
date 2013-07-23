@@ -89,6 +89,9 @@
   </jar>
 </target>
 
+<target name="build-and-test" depends="test, jar, sources-jar" >
+  
+</target>
 <target name="clean" description="clean up temporary files." >
   <delete dir="${build}" />
   <delete file="${daisymodelsourcesjar}" />

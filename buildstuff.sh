@@ -1,7 +1,7 @@
 #!/bin/bash
 FAILED=0
 cd ./daisy-engine
-ant clean build-and-test
+ant clean sources-jar
 if [ "$?" = 1 ]; then
     echo "daisy-engine build failed!"
     FAILED=1

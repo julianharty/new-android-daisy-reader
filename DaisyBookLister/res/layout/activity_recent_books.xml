@@ -2,6 +2,8 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:focusable="true"
+    android:focusableInTouchMode="true"
     android:orientation="vertical" >
 
     <EditText
@@ -11,10 +13,10 @@
         android:layout_margin="10dp"
         android:background="@drawable/border_text_view"
         android:drawableLeft="@drawable/ic_search_20x20"
-        android:hint="@string/search"
-        android:paddingRight="10dp"
-        android:paddingLeft="10dp"
         android:drawablePadding="10dp"
+        android:hint="@string/search"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp"
         android:singleLine="true" >
     </EditText>
 

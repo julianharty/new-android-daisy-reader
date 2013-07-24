@@ -1,35 +1,35 @@
 package org.androiddaisyreader.apps;
 
-import android.os.Bundle;
-import android.preference.PreferenceManager;
-import android.app.Activity;
+import org.androiddaisyreader.utils.Constants;
+
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.ContentResolver;
-import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
+import android.os.Bundle;
+import android.preference.PreferenceManager;
+import android.provider.Settings.System;
 import android.speech.tts.TextToSpeech;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.view.Window;
+import android.view.WindowManager.LayoutParams;
 import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.GridView;
 import android.widget.SeekBar;
-import android.widget.AdapterView.OnItemClickListener;
 import android.widget.SeekBar.OnSeekBarChangeListener;
 import android.widget.TextView;
 import android.widget.ToggleButton;
-import android.provider.Settings.System;
-import android.view.View.OnClickListener;
-import android.view.WindowManager.LayoutParams;
 
-import org.androiddaisyreader.utils.Constants;
+import com.actionbarsherlock.view.MenuItem;
 
 /**
  * This activity is setting. It have some functions such as: change text color,
@@ -40,9 +40,8 @@ import org.androiddaisyreader.utils.Constants;
  */
 
 @SuppressWarnings("deprecation")
-public class DaisyReaderSettingActivity extends Activity implements TextToSpeech.OnInitListener {
+public class DaisyReaderSettingActivity extends DaisyEbookReaderBaseActivity {
 
-	private TextToSpeech mTts;
 	private Window mWindow;
 	private SharedPreferences mPreferences;
 	private SharedPreferences.Editor mEditor;
@@ -80,10 +79,10 @@ public class DaisyReaderSettingActivity extends Activity implements TextToSpeech
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_daisy_reader_setting);
+		getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 		mPreferences = PreferenceManager
 				.getDefaultSharedPreferences(DaisyReaderSettingActivity.this);
 		mEditor = mPreferences.edit();
-		startTts();
 		settingBrightness();
 
 		mFontSize = (TextView) findViewById(R.id.tvFontSize);
@@ -107,14 +106,18 @@ public class DaisyReaderSettingActivity extends Activity implements TextToSpeech
 		settingNightmode();
 	}
 
-	/**
-	 * Start text to speech
-	 */
-	private void startTts() {
-		mTts = new TextToSpeech(this, this);
-		Intent checkIntent = new Intent();
-		checkIntent.setAction(TextToSpeech.Engine.ACTION_CHECK_TTS_DATA);
-		startActivityForResult(checkIntent, RESULT_OK);
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+		switch (item.getItemId()) {
+
+		case android.R.id.home:
+			onBackPressed();
+			break;
+
+		default:
+			return super.onOptionsItemSelected(item);
+		}
+		return false;
 	}
 
 	/**
@@ -152,8 +155,7 @@ public class DaisyReaderSettingActivity extends Activity implements TextToSpeech
 	 */
 	private void settingFontsize() {
 		SeekBar sizeBar = (SeekBar) findViewById(R.id.barFontSize);
-		mFontsize = mPreferences.getInt(Constants.FONT_SIZE,
-				Constants.FONTSIZE_DEFAULT);
+		mFontsize = mPreferences.getInt(Constants.FONT_SIZE, Constants.FONTSIZE_DEFAULT);
 		mFontSize.setTextSize(mFontsize);
 		sizeBar.setMax(30);
 		sizeBar.setProgress(mFontsize - mDefaultFontsize);
@@ -181,8 +183,7 @@ public class DaisyReaderSettingActivity extends Activity implements TextToSpeech
 	 * Setting background color.
 	 */
 	private void settingBackgroundColor() {
-		mCurrentBackgroundColor = mPreferences.getInt(Constants.BACKGROUND_COLOR,
-				Color.BLACK);
+		mCurrentBackgroundColor = mPreferences.getInt(Constants.BACKGROUND_COLOR, Color.BLACK);
 		mBackgroundColor.setBackgroundColor(mCurrentBackgroundColor);
 		mBackgroundColor.setOnClickListener(new OnClickListener() {
 			@Override
@@ -199,8 +200,7 @@ public class DaisyReaderSettingActivity extends Activity implements TextToSpeech
 	 * Setting highlight color.
 	 */
 	private void settingHighlightColor() {
-		mCurrentHighlightColor = mPreferences.getInt(Constants.HIGHLIGHT_COLOR,
-				Color.YELLOW);
+		mCurrentHighlightColor = mPreferences.getInt(Constants.HIGHLIGHT_COLOR, Color.YELLOW);
 		mHighlightColor.setBackgroundColor(mCurrentHighlightColor);
 		mHighlightColor.setOnClickListener(new OnClickListener() {
 			@Override
@@ -228,8 +228,7 @@ public class DaisyReaderSettingActivity extends Activity implements TextToSpeech
 	 * Setting number of recent book
 	 */
 	private void settingCurrentRecentBook() {
-		mCurrentNumberOfRecentBooks = mPreferences.getInt(
-				Constants.NUMBER_OF_RECENT_BOOKS,
+		mCurrentNumberOfRecentBooks = mPreferences.getInt(Constants.NUMBER_OF_RECENT_BOOKS,
 				Constants.NUMBER_OF_RECENTBOOK_DEFAULT);
 		mNumberOfRecentBooks.setText(String.valueOf(mCurrentNumberOfRecentBooks));
 		mNumberOfRecentBooks.addTextChangedListener(recentBooksTextWatcher);
@@ -260,9 +259,9 @@ public class DaisyReaderSettingActivity extends Activity implements TextToSpeech
 
 	@Override
 	protected void onResume() {
+		super.onResume();
 		mTts.speak(getString(R.string.title_activity_daisy_reader_setting),
 				TextToSpeech.QUEUE_FLUSH, null);
-		super.onResume();
 	}
 
 	@Override
@@ -314,8 +313,7 @@ public class DaisyReaderSettingActivity extends Activity implements TextToSpeech
 					}
 					if (mChangeBackground) {
 						mBackgroundColor.setBackgroundColor(mCurrentBackgroundColor);
-						mEditor.putInt(Constants.BACKGROUND_COLOR,
-								mCurrentBackgroundColor);
+						mEditor.putInt(Constants.BACKGROUND_COLOR, mCurrentBackgroundColor);
 					}
 					if (mChangeHighlight) {
 						mHighlightColor.setBackgroundColor(mCurrentHighlightColor);
@@ -454,7 +452,4 @@ public class DaisyReaderSettingActivity extends Activity implements TextToSpeech
 		}
 	};
 
-	@Override
-	public void onInit(int status) {
-	}
 }

@@ -1,21 +1,9 @@
 package org.androiddaisyreader.apps;
 
-import android.media.MediaPlayer;
-import android.os.Bundle;
-import android.os.Handler;
-import android.preference.PreferenceManager;
-import android.provider.Settings.System;
-import android.app.Activity;
-import android.content.ContentResolver;
-import android.content.Intent;
-import android.content.SharedPreferences;
-import android.speech.tts.TextToSpeech;
-import android.util.Log;
-import android.view.View;
-import android.view.Window;
-import android.view.View.OnClickListener;
-import android.view.WindowManager.LayoutParams;
-import android.widget.RelativeLayout;
+import java.io.InputStream;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.UUID;
 
 import org.androiddaisyreader.AudioCallbackListener;
 import org.androiddaisyreader.controller.AudioPlayerController;
@@ -32,17 +20,21 @@ import org.androiddaisyreader.model.Section;
 import org.androiddaisyreader.player.AndroidAudioPlayer;
 import org.androiddaisyreader.player.IntentController;
 import org.androiddaisyreader.sqlite.SQLiteCurrentInformationHelper;
-import org.androiddaisyreader.utils.DaisyBookUtil;
 import org.androiddaisyreader.utils.Constants;
+import org.androiddaisyreader.utils.DaisyBookUtil;
 
+import android.media.MediaPlayer;
+import android.os.Bundle;
+import android.os.Handler;
+import android.speech.tts.TextToSpeech;
+import android.util.Log;
+import android.view.View;
+import android.widget.RelativeLayout;
+
+import com.actionbarsherlock.view.MenuItem;
 import com.google.marvin.widget.GestureOverlay;
 import com.google.marvin.widget.GestureOverlay.Gesture;
 import com.google.marvin.widget.GestureOverlay.GestureListener;
-
-import java.io.InputStream;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.UUID;
 
 /**
  * This activity is simple mode which play audio.
@@ -51,11 +43,9 @@ import java.util.UUID;
  * @date 2013.03.05
  */
 
-public class DaisyEbookReaderSimpleModeActivity extends Activity implements OnClickListener,
-		TextToSpeech.OnInitListener {
+public class DaisyEbookReaderSimpleModeActivity extends DaisyEbookReaderBaseActivity {
 	private boolean mIsFirstNext = false;
 	private boolean mIsFirstPrevious = true;
-	private TextToSpeech mTts;
 	private BookContext mBookContext;
 	private Daisy202Book mBook;
 	private Navigator mNavigator;
@@ -69,7 +59,6 @@ public class DaisyEbookReaderSimpleModeActivity extends Activity implements OnCl
 	private ArrayList<Integer> mListTimeEnd;
 	private ArrayList<Integer> mListTimeBegin;
 	private IntentController mIntentController;
-	private Window mWindow;
 	private String mTime;
 	private int mPositionSentence = 0;
 	private boolean mIsRunable = true;
@@ -90,10 +79,10 @@ public class DaisyEbookReaderSimpleModeActivity extends Activity implements OnCl
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_daisy_ebook_reader_simple_mode);
-		mWindow = getWindow();
+		getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 		mIntentController = new IntentController(DaisyEbookReaderSimpleModeActivity.this);
 		mSql = new SQLiteCurrentInformationHelper(DaisyEbookReaderSimpleModeActivity.this);
-		startTts();
+
 		mNavigationListener = new NavigationListener();
 		mController = new Controller(mNavigationListener);
 		RelativeLayout relativeLayout = (RelativeLayout) findViewById(R.id.daisyReaderSimpleModeLayout);
@@ -106,14 +95,18 @@ public class DaisyEbookReaderSimpleModeActivity extends Activity implements OnCl
 		readBook();
 	}
 
-	/**
-	 * Start text to speech
-	 */
-	private void startTts() {
-		mTts = new TextToSpeech(DaisyEbookReaderSimpleModeActivity.this, this);
-		Intent checkIntent = new Intent();
-		checkIntent.setAction(TextToSpeech.Engine.ACTION_CHECK_TTS_DATA);
-		startActivityForResult(checkIntent, RESULT_OK);
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+		switch (item.getItemId()) {
+
+		case android.R.id.home:
+			onBackPressed();
+			break;
+
+		default:
+			return super.onOptionsItemSelected(item);
+		}
+		return false;
 	}
 
 	/**
@@ -279,45 +272,30 @@ public class DaisyEbookReaderSimpleModeActivity extends Activity implements OnCl
 
 	@Override
 	protected void onDestroy() {
+		super.onDestroy();
 		try {
 			if (mPlayer.isPlaying()) {
 				mPlayer.stop();
 			}
-			mTts.stop();
 			mTts.shutdown();
 		} catch (Exception e) {
 			PrivateException ex = new PrivateException(e, DaisyEbookReaderSimpleModeActivity.this);
 			ex.writeLogException();
 		}
 		mHandler.removeCallbacks(mRunnalbe);
-		super.onDestroy();
+		
 	}
 
 	@Override
 	protected void onResume() {
+		super.onResume();
 		speakOut(Constants.SIMPLE_MODE);
 		speakOut(mOldMessage);
-		ContentResolver cResolver = getContentResolver();
-		int valueScreen = 0;
-		// get value of brightness from preference. Otherwise, get current
-		// brightness from system.
-		try {
-			SharedPreferences mPreferences = PreferenceManager
-					.getDefaultSharedPreferences(DaisyEbookReaderSimpleModeActivity.this);
-			valueScreen = mPreferences.getInt(Constants.BRIGHTNESS,
-					System.getInt(cResolver, System.SCREEN_BRIGHTNESS));
-			LayoutParams layoutpars = mWindow.getAttributes();
-			layoutpars.screenBrightness = valueScreen / (float) 255;
-			// apply attribute changes to this window
-			mWindow.setAttributes(layoutpars);
-		} catch (Exception e) {
-			PrivateException ex = new PrivateException(e, DaisyEbookReaderSimpleModeActivity.this);
-			ex.writeLogException();
-		}
+
 		if (mBook != null) {
 			mNavigatorOfTableContents = new Navigator(mBook);
 		}
-		super.onResume();
+
 	}
 
 	@Override
@@ -912,12 +890,6 @@ public class DaisyEbookReaderSimpleModeActivity extends Activity implements OnCl
 		default:
 			break;
 		}
-	}
-
-	@Override
-	public void onInit(int status) {
-		// TODO Must import because this activity implements
-		// TextToSpeech.OnInitListener
 	}
 
 }

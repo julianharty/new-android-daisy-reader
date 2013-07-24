@@ -7,6 +7,7 @@
 package org.androiddaisyreader.utils;
 
 public class Constants {
+	public static String BUGSENSE_API_KEY = "9d29bb80";
 	public static int MY_DATA_CHECK_CODE = 1234;
 	public static String NUMBER_OF_RECENT_BOOKS = "numberOfRecentBooks";
 	public static String NUMBER_OF_BOOKMARKS = "numberOfBookmarks";
@@ -35,6 +36,7 @@ public class Constants {
 	public static String SUFFIX_ZIP_FILE = ".zip";
 	public static String LINK_WEBSITE = "link";
 	public static String NAME_WEBSITE = "name";
+	public static String SERVICE_DONE = "serviceDone";
 	public static int FONTSIZE_DEFAULT = 20;
 	public static int NUMBER_OF_BOOKMARK_DEFAULT = 10;
 	public static int NUMBER_OF_RECENTBOOK_DEFAULT = 10;
@@ -80,11 +82,12 @@ public class Constants {
 	public final static String META_DATA_FILE_NAME = "metadata.xml";
 	public final static String META_DATA_SCAN_BOOK_FILE_NAME = "metadata_scanbook.xml";
 
-	// All website
 	public final static String FOLDER_DOWNLOADED = "/download";
+	public static String FOLDER_NAME = "dataDaisyBooks";
 	public static String FOLDER_CONTAIN_METADATA = "";
 
 	public final static int TYPE_WIFI = 1;
 	public final static int TYPE_MOBILE = 2;
 	public final static int TYPE_NOT_CONNECTED = 0;
+	
 }

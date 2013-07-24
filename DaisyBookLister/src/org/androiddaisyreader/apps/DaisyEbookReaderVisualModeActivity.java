@@ -1,38 +1,9 @@
 package org.androiddaisyreader.apps;
 
-import android.app.Activity;
-import android.app.Dialog;
-import android.content.ContentResolver;
-import android.content.Intent;
-import android.content.SharedPreferences;
-import android.graphics.Color;
-import android.media.MediaPlayer;
-import android.os.Bundle;
-import android.os.Handler;
-import android.os.SystemClock;
-import android.preference.PreferenceManager;
-import android.provider.Settings.System;
-import android.speech.tts.TextToSpeech;
-import android.text.Layout;
-import android.text.Spannable;
-import android.text.SpannableString;
-import android.text.style.BackgroundColorSpan;
-import android.util.Log;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
-import android.view.View;
-import android.view.View.OnClickListener;
-import android.view.Window;
-import android.view.WindowManager.LayoutParams;
-import android.widget.Button;
-import android.widget.EditText;
-import android.widget.ImageButton;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
-import android.widget.ScrollView;
-import android.widget.TextView;
+import java.io.InputStream;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.UUID;
 
 import org.androiddaisyreader.AudioCallbackListener;
 import org.androiddaisyreader.controller.AudioPlayerController;
@@ -50,15 +21,41 @@ import org.androiddaisyreader.model.Section;
 import org.androiddaisyreader.player.AndroidAudioPlayer;
 import org.androiddaisyreader.player.IntentController;
 import org.androiddaisyreader.sqlite.SQLiteCurrentInformationHelper;
-import org.androiddaisyreader.utils.DaisyBookUtil;
 import org.androiddaisyreader.utils.Constants;
+import org.androiddaisyreader.utils.DaisyBookUtil;
 
+import android.app.Dialog;
+import android.content.ContentResolver;
+import android.content.SharedPreferences;
+import android.graphics.Color;
+import android.media.MediaPlayer;
+import android.os.Bundle;
+import android.os.Handler;
+import android.os.SystemClock;
+import android.preference.PreferenceManager;
+import android.provider.Settings.System;
+import android.speech.tts.TextToSpeech;
+import android.text.Layout;
+import android.text.Spannable;
+import android.text.SpannableString;
+import android.text.style.BackgroundColorSpan;
+import android.util.Log;
+import android.view.View;
+import android.view.View.OnClickListener;
+import android.view.Window;
+import android.view.WindowManager.LayoutParams;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.ImageButton;
+import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
+import android.widget.ScrollView;
+import android.widget.TextView;
+
+import com.actionbarsherlock.view.Menu;
+import com.actionbarsherlock.view.MenuItem;
+import com.actionbarsherlock.view.SubMenu;
 import com.google.common.base.Preconditions;
-
-import java.io.InputStream;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.UUID;
 
 /**
  * This activity is visual mode which play audio and show full text.
@@ -67,12 +64,18 @@ import java.util.UUID;
  * @date 2013.03.05
  */
 
-public class DaisyEbookReaderVisualModeActivity extends Activity implements
-		TextToSpeech.OnInitListener {
+public class DaisyEbookReaderVisualModeActivity extends DaisyEbookReaderBaseActivity {
+
+	private static final int SUBMENU_MENU = 1;
+	private static final int SUBMENU_LIBRARY = 2;
+	private static final int SUBMENU_BOOKMARKS = 3;
+	private static final int SUBMENU_TABLE_OF_CONTENTS = 4;
+	private static final int SUBMENU_SIMPLE_MODE = 5;
+	private static final int SUBMENU_SEARCH = 6;
+	private static final int SUBMENU_SETTINGS = 7;
 
 	private boolean mIsFirstNext = false;
 	private boolean mIsFirstPrevious = true;
-	private TextToSpeech mTts;
 	private BookContext mBookContext;
 	private Daisy202Book mBook;
 	private Navigator mNavigator;
@@ -119,26 +122,21 @@ public class DaisyEbookReaderVisualModeActivity extends Activity implements
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		requestWindowFeature(Window.FEATURE_CUSTOM_TITLE);
 		setContentView(R.layout.activity_daisy_ebook_reader_visual_mode);
 		mPreferences = PreferenceManager
 				.getDefaultSharedPreferences(DaisyEbookReaderVisualModeActivity.this);
-		mWindow = getWindow();
-		mWindow.setFeatureInt(Window.FEATURE_CUSTOM_TITLE, R.layout.custom_title);
 		mIntentController = new IntentController(this);
 		mSql = new SQLiteCurrentInformationHelper(DaisyEbookReaderVisualModeActivity.this);
 		mPath = getIntent().getStringExtra(Constants.DAISY_PATH);
-		startTts();
-		setEventForTopButtons();
+
 		openBook();
-		TextView tvBookTitle = (TextView) this.findViewById(R.id.bookTitle);
+		getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 		if (mBook != null) {
-			tvBookTitle.setText(mBook.getTitle());
+			getSupportActionBar().setTitle(mBook.getTitle());
 			mContents = (TextView) this.findViewById(R.id.contents);
 			mScrollView = (ScrollView) findViewById(R.id.scrollView);
 			mImgButton = (ImageButton) this.findViewById(R.id.btnPlay);
 			mImgButton.setOnClickListener(imgButtonClick);
-
 			mHandler = new Handler();
 			setEventForNavigationButtons();
 			// check if user play daisybook from table of contents or bookmark
@@ -148,27 +146,104 @@ public class DaisyEbookReaderVisualModeActivity extends Activity implements
 					String.format(getString(R.string.error_no_path_found), mPath),
 					getString(R.string.error_title), R.drawable.error, true, false, null);
 		}
+
+	}
+
+	@Override
+	public boolean onCreateOptionsMenu(Menu menu) {
+		SubMenu subMenu = menu.addSubMenu(0, SUBMENU_MENU, 1, R.string.menu_title);
+
+		subMenu.add(0, SUBMENU_LIBRARY, 2, R.string.submenu_library).setIcon(R.drawable.library);
+
+		subMenu.add(0, SUBMENU_BOOKMARKS, 3, R.string.submenu_bookmarks).setIcon(
+				R.drawable.bookmark);
+
+		subMenu.add(0, SUBMENU_TABLE_OF_CONTENTS, 4, R.string.submenu_table_of_contents).setIcon(
+				R.drawable.table_of_contents);
+
+		subMenu.add(0, SUBMENU_SIMPLE_MODE, 5, R.string.submenu_simple_mode).setIcon(
+				R.drawable.simple_mode);
+
+		subMenu.add(0, SUBMENU_SEARCH, 6, R.string.submenu_search).setIcon(R.drawable.search);
+
+		subMenu.add(0, SUBMENU_SETTINGS, 7, R.string.submenu_settings).setIcon(R.drawable.settings);
+
+		MenuItem subMenuItem = subMenu.getItem();
+		subMenuItem.setIcon(R.drawable.ic_menu_32x32);
+		subMenuItem.setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
+		return true;
 	}
 
 	/**
-	 * Start text to speech
-	 */
-	private void startTts() {
-		mTts = new TextToSpeech(this, this);
-		Intent checkIntent = new Intent();
-		checkIntent.setAction(TextToSpeech.Engine.ACTION_CHECK_TTS_DATA);
-		startActivityForResult(checkIntent, RESULT_OK);
+	 * Event Handling for Individual menu item selected Identify single menu
+	 * item by it's id
+	 * */
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+		if (item.getItemId() != SUBMENU_MENU) {
+			mIsPlaying = mPlayer.isPlaying();
+			if (mIsPlaying) {
+				setMediaPause();
+			}
+		}
+
+		switch (item.getItemId()) {
+		// go to table of contents
+		case SUBMENU_TABLE_OF_CONTENTS:
+			pushToTableOfContents();
+			return true;
+			// go to simple mode
+		case SUBMENU_SIMPLE_MODE:
+			pushToSimpleMode();
+			return true;
+			// go to settings
+		case SUBMENU_SETTINGS:
+			pushToSettings();
+			return true;
+			// go to book marks
+		case SUBMENU_BOOKMARKS:
+			pushToBookmark();
+			return true;
+			// go to library
+		case SUBMENU_LIBRARY:
+			mIntentController.pushToLibraryIntent();
+			return true;
+			// go to search
+		case SUBMENU_SEARCH:
+			pushToDialogSearch();
+			return true;
+			// back to previous screen
+		case android.R.id.home:
+			onBackPressed();
+			return true;
+		default:
+			return super.onOptionsItemSelected(item);
+		}
 	}
 
 	/**
-	 * Set event for top buttons (table of contents, bookmark).
+	 * Push to settings.
 	 */
-	private void setEventForTopButtons() {
-		ImageView imgTableOfContents = (ImageView) this.findViewById(R.id.imgTableOfContents);
-		imgTableOfContents.setOnClickListener(imgTableOfContentsClick);
+	private void pushToSettings() {
+		if (mCurrent != null) {
+			updateCurrentInformation();
+		} else {
+			createCurrentInformation();
+		}
+		mIntentController.pushToDaisyReaderSettingIntent();
+	}
 
-		ImageView imgBookmark = (ImageView) this.findViewById(R.id.imgBookmark);
-		imgBookmark.setOnClickListener(imgBookmarkClick);
+	/**
+	 * Push to simple mode.
+	 */
+	private void pushToSimpleMode() {
+		if (mCurrent != null) {
+			updateCurrentInformation();
+		} else {
+			createCurrentInformation();
+		}
+		mIntentController.pushToDaisyEbookReaderSimpleModeIntent(getIntent().getStringExtra(
+				Constants.DAISY_PATH));
 	}
 
 	/**
@@ -308,40 +383,39 @@ public class DaisyEbookReaderVisualModeActivity extends Activity implements
 		}
 	};
 
-	private OnClickListener imgTableOfContentsClick = new OnClickListener() {
-
-		@Override
-		public void onClick(View v) {
-			mIsPlaying = mPlayer.isPlaying();
-			if (mIsPlaying) {
-				setMediaPause();
-			}
-			if (mCurrent != null) {
-				updateCurrentInformation();
-			} else {
-				createCurrentInformation();
-			}
-			mIntentController.pushToTableOfContentsIntent(mPath, mNavigatorOfTableContents,
-					getString(R.string.visual_mode));
+	/**
+	 * Push to table of contents.
+	 */
+	private void pushToTableOfContents() {
+		mIsPlaying = mPlayer.isPlaying();
+		if (mIsPlaying) {
+			setMediaPause();
 		}
-	};
-
-	private OnClickListener imgBookmarkClick = new OnClickListener() {
-		@Override
-		public void onClick(View v) {
-			mIsPlaying = mPlayer.isPlaying();
-			if (mIsPlaying) {
-				setMediaPause();
-			}
-			if (mCurrent != null) {
-				updateCurrentInformation();
-			} else {
-				createCurrentInformation();
-			}
-			mIntentController.pushToDaisyReaderBookmarkIntent(getBookmark(), getIntent()
-					.getStringExtra(Constants.DAISY_PATH));
+		if (mCurrent != null) {
+			updateCurrentInformation();
+		} else {
+			createCurrentInformation();
 		}
-	};
+		mIntentController.pushToTableOfContentsIntent(mPath, mNavigatorOfTableContents,
+				getString(R.string.visual_mode));
+	}
+
+	/**
+	 * Push to bookmark.
+	 */
+	private void pushToBookmark() {
+		mIsPlaying = mPlayer.isPlaying();
+		if (mIsPlaying) {
+			setMediaPause();
+		}
+		if (mCurrent != null) {
+			updateCurrentInformation();
+		} else {
+			createCurrentInformation();
+		}
+		mIntentController.pushToDaisyReaderBookmarkIntent(getBookmark(), getIntent()
+				.getStringExtra(Constants.DAISY_PATH));
+	}
 
 	/**
 	 * get Bookmark to support for function save or load bookmark
@@ -389,79 +463,6 @@ public class DaisyEbookReaderVisualModeActivity extends Activity implements
 			super.onBackPressed();
 		}
 
-	}
-
-	@Override
-	public boolean onCreateOptionsMenu(Menu menu) {
-		// Inflate the menu; this adds items to the action bar if it is present.
-		MenuInflater menuInflater = getMenuInflater();
-		menuInflater.inflate(R.layout.menu, menu);
-		return true;
-	}
-
-	/**
-	 * Event Handling for Individual menu item selected Identify single menu
-	 * item by it's id
-	 * */
-	@Override
-	public boolean onOptionsItemSelected(MenuItem item) {
-		mIsPlaying = mPlayer.isPlaying();
-		if (mIsPlaying) {
-			setMediaPause();
-		}
-		switch (item.getItemId()) {
-		// go to table of contents
-		case R.id.menu_table:
-			if (mCurrent != null) {
-				mCurrent.setFirstNext(false);
-				mCurrent.setFirstPrevious(false);
-				updateCurrentInformation();
-			} else {
-				createCurrentInformation();
-			}
-			mIntentController.pushToTableOfContentsIntent(
-					getIntent().getStringExtra(Constants.DAISY_PATH),
-					mNavigatorOfTableContents, getString(R.string.visual_mode));
-			return true;
-			// go to simple mode
-		case R.id.menu_simple:
-			if (mCurrent != null) {
-				updateCurrentInformation();
-			} else {
-				createCurrentInformation();
-			}
-			mIntentController.pushToDaisyEbookReaderSimpleModeIntent(getIntent().getStringExtra(
-					Constants.DAISY_PATH));
-			return true;
-			// go to settings
-		case R.id.menu_settings:
-			if (mCurrent != null) {
-				updateCurrentInformation();
-			} else {
-				createCurrentInformation();
-			}
-			mIntentController.pushToDaisyReaderSettingIntent();
-			return true;
-			// go to book marks
-		case R.id.menu_bookmarks:
-			if (mCurrent != null) {
-				updateCurrentInformation();
-			} else {
-				createCurrentInformation();
-			}
-			mIntentController.pushToDaisyReaderBookmarkIntent(getBookmark(), getIntent()
-					.getStringExtra(Constants.DAISY_PATH));
-			return true;
-			// go to library
-		case R.id.menu_library:
-			mIntentController.pushToLibraryIntent();
-			return true;
-		case R.id.menu_search:
-			pushToDialogSearch();
-			return true;
-		default:
-			return super.onOptionsItemSelected(item);
-		}
 	}
 
 	/**
@@ -540,9 +541,12 @@ public class DaisyEbookReaderVisualModeActivity extends Activity implements
 
 	@Override
 	protected void onDestroy() {
+		super.onDestroy();
 		try {
-			mTts.stop();
-			mTts.shutdown();
+			if (mTts != null) {
+				mTts.shutdown();
+			}
+
 		} catch (Exception e) {
 			PrivateException ex = new PrivateException(e, DaisyEbookReaderVisualModeActivity.this);
 			ex.writeLogException();
@@ -551,11 +555,12 @@ public class DaisyEbookReaderVisualModeActivity extends Activity implements
 			mPlayer.stop();
 		}
 		mHandler.removeCallbacks(mRunnalbe);
-		super.onDestroy();
+
 	}
 
 	@Override
 	protected void onResume() {
+		super.onResume();
 		mTts.speak(getString(R.string.title_activity_daisy_ebook_reader_visual_mode),
 				TextToSpeech.QUEUE_FLUSH, null);
 		if (mBook != null) {
@@ -563,7 +568,7 @@ public class DaisyEbookReaderVisualModeActivity extends Activity implements
 			setNightMode();
 			mNavigatorOfTableContents = new Navigator(mBook);
 		}
-		super.onResume();
+
 		handleCurrentInformation();
 	}
 
@@ -602,8 +607,7 @@ public class DaisyEbookReaderVisualModeActivity extends Activity implements
 			PrivateException ex = new PrivateException(e, DaisyEbookReaderVisualModeActivity.this);
 			ex.writeLogException();
 		}
-		mFontSize = mPreferences.getInt(Constants.FONT_SIZE,
-				Constants.FONTSIZE_DEFAULT);
+		mFontSize = mPreferences.getInt(Constants.FONT_SIZE, Constants.FONTSIZE_DEFAULT);
 		mContents.setTextSize(mFontSize);
 	}
 
@@ -622,13 +626,11 @@ public class DaisyEbookReaderVisualModeActivity extends Activity implements
 			mContents.setTextColor(textColor);
 
 			// apply background color
-			int backgroundColor = mPreferences.getInt(Constants.BACKGROUND_COLOR,
-					Color.BLACK);
+			int backgroundColor = mPreferences.getInt(Constants.BACKGROUND_COLOR, Color.BLACK);
 			mScrollView.setBackgroundColor(backgroundColor);
 
 			// apply highlight color
-			mHighlightColor = mPreferences.getInt(Constants.HIGHLIGHT_COLOR,
-					Color.YELLOW);
+			mHighlightColor = mPreferences.getInt(Constants.HIGHLIGHT_COLOR, Color.YELLOW);
 		}
 
 	}
@@ -1322,9 +1324,4 @@ public class DaisyEbookReaderVisualModeActivity extends Activity implements
 		}
 	};
 
-	@Override
-	public void onInit(int arg0) {
-		// TODO Must import because this activity implements
-		// TextToSpeech.OnInitListener
-	}
 }

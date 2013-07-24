@@ -6,28 +6,18 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 
-import org.androiddaisyreader.model.CurrentInformation;
 import org.androiddaisyreader.player.IntentController;
 import org.androiddaisyreader.service.DaisyEbookReaderService;
-import org.androiddaisyreader.sqlite.SQLiteCurrentInformationHelper;
 import org.androiddaisyreader.utils.Constants;
 
-import android.app.Activity;
-import android.content.ContentResolver;
+import android.content.BroadcastReceiver;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.content.res.AssetManager;
 import android.os.Bundle;
 import android.os.Environment;
 import android.os.SystemClock;
-import android.preference.PreferenceManager;
-import android.provider.Settings.System;
 import android.speech.tts.TextToSpeech;
 import android.view.View;
-import android.view.Window;
-import android.view.View.OnClickListener;
-import android.view.View.OnLongClickListener;
-import android.view.WindowManager.LayoutParams;
 import android.widget.Button;
 import android.widget.Toast;
 
@@ -38,25 +28,17 @@ import android.widget.Toast;
  * @date Jul 5, 2013
  */
 
-public class DaisyReaderLibraryActivity extends Activity implements OnClickListener,
-		OnLongClickListener, TextToSpeech.OnInitListener {
-	private TextToSpeech mTts;
+public class DaisyReaderLibraryActivity extends DaisyEbookReaderBaseActivity {
+
 	private long mLastPressTime = 0;
 	private boolean mIsExit = true;
+	BroadcastReceiver mSDCardStateChangeListener = null;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_library);
-		try {
-			Intent checkTTSIntent = new Intent();
-			checkTTSIntent.setAction(TextToSpeech.Engine.ACTION_CHECK_TTS_DATA);
-			startActivityForResult(checkTTSIntent, Constants.MY_DATA_CHECK_CODE);
-		} catch (Exception e) {
-			PrivateException ex = new PrivateException(e, DaisyReaderLibraryActivity.this);
-			ex.writeLogException();
-		}
-		mTts = new TextToSpeech(this, this);
+		
 		// set listener for view
 		findViewById(R.id.btnRecentBooks).setOnClickListener(this);
 		findViewById(R.id.btnScanBooks).setOnClickListener(this);
@@ -67,24 +49,12 @@ public class DaisyReaderLibraryActivity extends Activity implements OnClickListe
 		findViewById(R.id.btnDownloadBooks).setOnLongClickListener(this);
 
 		Constants.FOLDER_CONTAIN_METADATA = Environment.getExternalStorageDirectory().toString()
-				+ "/" + getString(R.string.app_name) + "/";
+				+ "/" + Constants.FOLDER_NAME + "/";
 		createFolderContainXml();
 		deleteCurrentInformation();
-	}
-
-	/**
-	 * Make sure TTS installed on your device.
-	 */
-	@Override
-	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-		if (requestCode == Constants.MY_DATA_CHECK_CODE) {
-			if (!(resultCode == TextToSpeech.Engine.CHECK_VOICE_DATA_PASS)) {
-				// missing data, install it
-				Intent installIntent = new Intent();
-				installIntent.setAction(TextToSpeech.Engine.ACTION_INSTALL_TTS_DATA);
-				startActivity(installIntent);
-			}
-		}
+		Intent serviceIntent = new Intent(DaisyReaderLibraryActivity.this,
+				DaisyEbookReaderService.class);
+		startService(serviceIntent);
 	}
 
 	/**
@@ -136,7 +106,7 @@ public class DaisyReaderLibraryActivity extends Activity implements OnClickListe
 
 	/**
 	 * Copy file.
-	 *
+	 * 
 	 * @param in the in
 	 * @param out the out
 	 * @throws IOException Signals that an I/O exception has occurred.
@@ -161,7 +131,8 @@ public class DaisyReaderLibraryActivity extends Activity implements OnClickListe
 	/**
 	 * Push to other screen.
 	 * 
-	 * @param activityID the activity id
+	 * @param activityID
+	 *            the activity id
 	 */
 	private void pushToScreen(int activityID) {
 		Intent intent = null;
@@ -179,18 +150,6 @@ public class DaisyReaderLibraryActivity extends Activity implements OnClickListe
 			break;
 		}
 		this.startActivity(intent);
-	}
-
-	/**
-	 * Delete current information.
-	 */
-	private void deleteCurrentInformation() {
-		SQLiteCurrentInformationHelper sql = new SQLiteCurrentInformationHelper(
-				DaisyReaderLibraryActivity.this);
-		CurrentInformation current = sql.getCurrentInformation();
-		if (current != null) {
-			sql.deleteCurrentInformation(current.getId());
-		}
 	}
 
 	@Override
@@ -212,6 +171,9 @@ public class DaisyReaderLibraryActivity extends Activity implements OnClickListe
 				&& mIsExit) {
 			moveTaskToBack(true);
 			mIsExit = false;
+			Intent serviceIntent = new Intent(DaisyReaderLibraryActivity.this,
+					DaisyEbookReaderService.class);
+			stopService(serviceIntent);
 		} else {
 			Toast.makeText(DaisyReaderLibraryActivity.this,
 					this.getString(R.string.message_exit_application), Toast.LENGTH_SHORT).show();
@@ -224,42 +186,28 @@ public class DaisyReaderLibraryActivity extends Activity implements OnClickListe
 
 	@Override
 	protected void onResume() {
+		super.onResume();
 		mTts.speak(getString(R.string.title_activity_daisy_reader_library),
 				TextToSpeech.QUEUE_FLUSH, null);
-		Window window = getWindow();
-		ContentResolver cResolver = getContentResolver();
-		int valueScreen = 0;
-		try {
-			SharedPreferences mPreferences = PreferenceManager
-					.getDefaultSharedPreferences(DaisyReaderLibraryActivity.this);
-			valueScreen = mPreferences.getInt(Constants.BRIGHTNESS,
-					System.getInt(cResolver, System.SCREEN_BRIGHTNESS));
-			LayoutParams layoutpars = window.getAttributes();
-			layoutpars.screenBrightness = valueScreen / (float) 255;
-			// apply attribute changes to this window
-			window.setAttributes(layoutpars);
-		} catch (Exception e) {
-			PrivateException ex = new PrivateException(e, DaisyReaderLibraryActivity.this);
-			ex.writeLogException();
-		}
-		super.onResume();
+
 		deleteCurrentInformation();
+
 	}
 
 	@Override
 	protected void onDestroy() {
+		super.onDestroy();
 		try {
-			mTts.stop();
-			mTts.shutdown();
+			if (mTts != null) {
+				if (mTts.isSpeaking()) {
+					mTts.stop();
+				}
+				mTts.shutdown();
+			}
 		} catch (Exception e) {
 			PrivateException ex = new PrivateException(e, DaisyReaderLibraryActivity.this);
 			ex.writeLogException();
 		}
-		super.onDestroy();
-	}
-
-	@Override
-	public void onInit(int arg0) {
 
 	}
 

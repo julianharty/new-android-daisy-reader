@@ -9,12 +9,12 @@ import org.androiddaisyreader.model.Daisy202Book;
 import org.androiddaisyreader.model.DaisyBook;
 import org.androiddaisyreader.utils.Constants;
 import org.androiddaisyreader.utils.DaisyBookUtil;
-
 import android.app.IntentService;
 import android.app.Service;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Environment;
-import android.widget.Toast;
+import android.preference.PreferenceManager;
 
 /**
  * The Class DaisyEbookReaderService.
@@ -22,15 +22,22 @@ import android.widget.Toast;
 public class DaisyEbookReaderService extends IntentService {
 
 	private MetaDataHandler mMetaData;
+	private SharedPreferences mPreferences;
+	private SharedPreferences.Editor mEditor;
+
 	private File mCurrentDirectory = Environment.getExternalStorageDirectory();
 
 	public DaisyEbookReaderService() {
-		super("DaisyEbookReaderService");
+		super(DaisyEbookReaderService.class.toString());
 	}
 
 	@Override
 	public void onCreate() {
 		mMetaData = new MetaDataHandler();
+		mPreferences = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+		mEditor = mPreferences.edit();
+		mEditor.putBoolean(Constants.SERVICE_DONE, false);
+		mEditor.commit();
 	}
 
 	@Override
@@ -44,12 +51,14 @@ public class DaisyEbookReaderService extends IntentService {
 
 	@Override
 	public int onStartCommand(Intent intent, int flags, int startId) {
-		Toast.makeText(getApplicationContext(), String.valueOf(hasStorage()), Toast.LENGTH_SHORT)
-				.show();
 		Runnable r = new Runnable() {
 			public void run() {
-				mMetaData.WriteDataToXmlFile(getData());
-				// stopSelf();
+				String localPath = Constants.FOLDER_CONTAIN_METADATA
+						+ Constants.META_DATA_SCAN_BOOK_FILE_NAME;
+				mMetaData.WriteDataToXmlFile(getData(), localPath);
+				mEditor.putBoolean(Constants.SERVICE_DONE, true);
+				mEditor.commit();
+				stopSelf();
 			}
 		};
 
@@ -106,18 +115,7 @@ public class DaisyEbookReaderService extends IntentService {
 		return filesResult;
 	}
 
-	private boolean hasStorage() {
-		// TODO: After fix the bug, add "if (VERBOSE)" before logging errors.
-		String state = Environment.getExternalStorageState();
-		if (Environment.MEDIA_MOUNTED.equals(state)) {
-			return true;
-		} else {
-			return false;
-		}
-	}
-
 	@Override
 	protected void onHandleIntent(Intent arg0) {
 	}
-
 }

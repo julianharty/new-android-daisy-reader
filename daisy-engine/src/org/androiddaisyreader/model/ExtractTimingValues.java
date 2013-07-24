@@ -57,7 +57,10 @@ public class ExtractTimingValues {
 	static int extractTimingAsMilliSeconds(String elementName, Attributes attributes) {
 		Double temp = extractTiming(elementName, attributes);
 		DecimalFormat milliseconds = new DecimalFormat("###.###");
-		String formattedDouble = milliseconds.format(temp);
+
+		// Added by LogiGear to fix bug NumberFormatException when user change
+		// location is VietNam
+		String formattedDouble = milliseconds.format(temp).replace(",", ".");
 		String[] values = formattedDouble.split("\\.");
 		
 		if (values.length > 2 || values.length == 0) {

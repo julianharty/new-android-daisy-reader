@@ -4,6 +4,7 @@
     android:layout_height="wrap_content"
     android:descendantFocusability="blocksDescendants"
     android:orientation="horizontal"
+    android:background="@drawable/selector_textview"
     android:paddingBottom="5dp"
     android:paddingTop="5dp" >
 

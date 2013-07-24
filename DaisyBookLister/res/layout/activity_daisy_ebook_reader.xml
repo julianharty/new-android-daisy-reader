@@ -9,6 +9,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/simpleMode"
+        android:gravity="center_vertical"
+        android:background="@drawable/selector_textview"
         android:layout_weight="1" >
 
         <TextView
@@ -46,6 +48,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content" 
         android:id="@+id/visualMode"
+        android:gravity="center_vertical"
+        android:background="@drawable/selector_textview"
         android:layout_weight="1">
 
         <TextView

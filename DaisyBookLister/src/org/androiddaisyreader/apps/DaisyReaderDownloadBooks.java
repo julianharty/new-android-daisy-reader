@@ -14,49 +14,39 @@ import org.androiddaisyreader.metadata.MetaDataHandler;
 import org.androiddaisyreader.model.DaisyBook;
 import org.androiddaisyreader.player.IntentController;
 import org.androiddaisyreader.sqlite.SQLiteDaisyBookHelper;
-import org.androiddaisyreader.utils.DaisyBookUtil;
 import org.androiddaisyreader.utils.Constants;
+import org.androiddaisyreader.utils.DaisyBookUtil;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
 import android.annotation.SuppressLint;
-import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
-import android.content.ContentResolver;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
-import android.preference.PreferenceManager;
-import android.provider.Settings.System;
 import android.speech.tts.TextToSpeech;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
-import android.view.View.OnClickListener;
-import android.view.Window;
-import android.view.WindowManager.LayoutParams;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.AdapterView.OnItemLongClickListener;
 import android.widget.EditText;
 import android.widget.ListView;
-import android.widget.TextView;
+
+import com.actionbarsherlock.view.MenuItem;
 
 /**
  * The Class DaisyReaderDownloadBooks.
  */
 @SuppressLint("NewApi")
-public class DaisyReaderDownloadBooks extends Activity implements OnClickListener,
-		TextToSpeech.OnInitListener {
+public class DaisyReaderDownloadBooks extends DaisyEbookReaderBaseActivity {
 
-	/** The m window. */
-	private Window mWindow;
 	private String mLink;
 	private String mWebsiteName;
 	private SQLiteDaisyBookHelper mSql;
@@ -70,27 +60,17 @@ public class DaisyReaderDownloadBooks extends Activity implements OnClickListene
 	private EditText mTextSearch;
 	public final static String mPath = Environment.getExternalStorageDirectory().toString()
 			+ Constants.FOLDER_DOWNLOADED + "/";
-	private TextToSpeech mTts;
 	private ProgressDialog mProgressDialog;
 	private AlertDialog alertDialog;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		requestWindowFeature(Window.FEATURE_CUSTOM_TITLE);
 		setContentView(R.layout.activity_download_books);
-		mWindow = getWindow();
-		mWindow.setFeatureInt(Window.FEATURE_CUSTOM_TITLE, R.layout.custom_navigation_bar);
-		startTts();
-		// initial back button
-		mTextSearch = (EditText) findViewById(R.id.edit_text_search);
-		findViewById(R.id.imgBack).setOnClickListener(this);
 
+		mTextSearch = (EditText) findViewById(R.id.edit_text_search);
 		mLink = getIntent().getStringExtra(Constants.LINK_WEBSITE);
 		mWebsiteName = getIntent().getStringExtra(Constants.NAME_WEBSITE);
-
-		// set title of this screen
-		setScreenTitle();
 
 		mSql = new SQLiteDaisyBookHelper(DaisyReaderDownloadBooks.this);
 		mSql.DeleteAllDaisyBook(Constants.TYPE_DOWNLOAD_BOOK);
@@ -101,27 +81,25 @@ public class DaisyReaderDownloadBooks extends Activity implements OnClickListene
 		listDownload.setAdapter(mDaisyBookAdapter);
 		listDownload.setOnItemClickListener(onItemClick);
 		listDownload.setOnItemLongClickListener(onItemLongClick);
-		handleSearchBook();
 		mListDaisyBookOriginal = new ArrayList<DaisyBook>(mlistDaisyBook);
+
+		getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+		getSupportActionBar().setTitle(mWebsiteName.length() != 0 ? mWebsiteName : "");
+
 	}
 
-	/**
-	 * Start text to speech
-	 */
-	private void startTts() {
-		mTts = new TextToSpeech(this, this);
-		Intent checkIntent = new Intent();
-		checkIntent.setAction(TextToSpeech.Engine.ACTION_CHECK_TTS_DATA);
-		startActivityForResult(checkIntent, RESULT_OK);
-	}
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+		switch (item.getItemId()) {
 
-	/**
-	 * Sets the screen title.
-	 */
-	private void setScreenTitle() {
-		TextView tvScreenTitle = (TextView) this.findViewById(R.id.screenTitle);
-		tvScreenTitle.setOnClickListener(this);
-		tvScreenTitle.setText(mWebsiteName.length() != 0 ? mWebsiteName : "");
+		case android.R.id.home:
+			backToTopScreen();
+			break;
+
+		default:
+			return super.onOptionsItemSelected(item);
+		}
+		return false;
 	}
 
 	/**
@@ -129,9 +107,8 @@ public class DaisyReaderDownloadBooks extends Activity implements OnClickListene
 	 */
 	private void createDownloadData() {
 		try {
-			InputStream databaseInputStream = new FileInputStream(
-					Constants.FOLDER_CONTAIN_METADATA
-							+ Constants.META_DATA_FILE_NAME);
+			InputStream databaseInputStream = new FileInputStream(Constants.FOLDER_CONTAIN_METADATA
+					+ Constants.META_DATA_FILE_NAME);
 			mMetadata = new MetaDataHandler();
 			NodeList nList = mMetadata.ReadDataDownloadFromXmlFile(databaseInputStream, mLink);
 			for (int temp = 0; temp < nList.getLength(); temp++) {
@@ -139,16 +116,15 @@ public class DaisyReaderDownloadBooks extends Activity implements OnClickListene
 				if (nNode.getNodeType() == Node.ELEMENT_NODE) {
 
 					Element eElement = (Element) nNode;
-					String author = eElement.getElementsByTagName(Constants.ATT_AUTHOR)
-							.item(0).getTextContent();
-					String publisher = eElement
-							.getElementsByTagName(Constants.ATT_PUBLISHER).item(0)
+					String author = eElement.getElementsByTagName(Constants.ATT_AUTHOR).item(0)
 							.getTextContent();
+					String publisher = eElement.getElementsByTagName(Constants.ATT_PUBLISHER)
+							.item(0).getTextContent();
 					String path = eElement.getAttribute(Constants.ATT_LINK);
-					String title = eElement.getElementsByTagName(Constants.ATT_TITLE)
-							.item(0).getTextContent();
-					String date = eElement.getElementsByTagName(Constants.ATT_DATE)
-							.item(0).getTextContent();
+					String title = eElement.getElementsByTagName(Constants.ATT_TITLE).item(0)
+							.getTextContent();
+					String date = eElement.getElementsByTagName(Constants.ATT_DATE).item(0)
+							.getTextContent();
 					DaisyBook daisyBook = new DaisyBook("", title, path, author, publisher, date, 1);
 					mSql.addDaisyBook(daisyBook, Constants.TYPE_DOWNLOAD_BOOK);
 				}
@@ -171,7 +147,8 @@ public class DaisyReaderDownloadBooks extends Activity implements OnClickListene
 
 		@Override
 		public boolean onItemLongClick(AdapterView<?> arg0, View arg1, int position, long arg3) {
-			boolean isConnected = DaisyBookUtil.getConnectivityStatus(DaisyReaderDownloadBooks.this) != Constants.TYPE_NOT_CONNECTED;
+			boolean isConnected = DaisyBookUtil
+					.getConnectivityStatus(DaisyReaderDownloadBooks.this) != Constants.TYPE_NOT_CONNECTED;
 			if (isConnected) {
 				if (checkFolderIsExist()) {
 					mDaisyBook = mlistDaisyBook.get(position);
@@ -209,31 +186,6 @@ public class DaisyReaderDownloadBooks extends Activity implements OnClickListene
 		return result;
 	}
 
-	@Override
-	public void onClick(View v) {
-		switch (v.getId()) {
-		case R.id.imgBack:
-			backToTopScreen();
-			break;
-		case R.id.screenTitle:
-			backToTopScreen();
-			break;
-		default:
-			break;
-		}
-
-	}
-
-	/**
-	 * Back to top screen.
-	 */
-	private void backToTopScreen() {
-		Intent intent = new Intent(this, DaisyReaderLibraryActivity.class);
-		intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-		// Removes other Activities from stack
-		startActivity(intent);
-	}
-
 	/**
 	 * handle search book when text changed.
 	 */
@@ -243,7 +195,8 @@ public class DaisyReaderDownloadBooks extends Activity implements OnClickListene
 			@Override
 			public void onTextChanged(CharSequence s, int start, int before, int count) {
 				if (mListDaisyBookOriginal.size() != 0) {
-					mlistDaisyBook = DaisyBookUtil.searchBookWithText(s, mlistDaisyBook, mListDaisyBookOriginal);
+					mlistDaisyBook = DaisyBookUtil.searchBookWithText(s, mlistDaisyBook,
+							mListDaisyBookOriginal);
 					mDaisyBookAdapter.notifyDataSetChanged();
 				}
 			}
@@ -400,40 +353,21 @@ public class DaisyReaderDownloadBooks extends Activity implements OnClickListene
 
 	@Override
 	protected void onResume() {
-		// set screen bright when user change it in setting
-		Window window = getWindow();
-		ContentResolver cResolver = getContentResolver();
-		int valueScreen = 0;
-		try {
-			SharedPreferences mPreferences = PreferenceManager
-					.getDefaultSharedPreferences(DaisyReaderDownloadBooks.this);
-			valueScreen = mPreferences.getInt(Constants.BRIGHTNESS,
-					System.getInt(cResolver, System.SCREEN_BRIGHTNESS));
-			LayoutParams layoutpars = window.getAttributes();
-			layoutpars.screenBrightness = valueScreen / (float) 255;
-			// apply attribute changes to this window
-			window.setAttributes(layoutpars);
-		} catch (Exception e) {
-			PrivateException ex = new PrivateException(e, DaisyReaderDownloadBooks.this);
-			ex.writeLogException();
-		}
 		super.onResume();
+		handleSearchBook();
 	}
 
 	@Override
 	protected void onDestroy() {
 		try {
-			mTts.stop();
-			mTts.shutdown();
+			if (mTts != null) {
+				mTts.shutdown();
+			}
 		} catch (Exception e) {
 			PrivateException ex = new PrivateException(e, DaisyReaderDownloadBooks.this);
 			ex.writeLogException();
 		}
 		super.onDestroy();
-	}
-
-	@Override
-	public void onInit(int status) {
 	}
 
 	/**

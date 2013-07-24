@@ -8,29 +8,23 @@ import org.androiddaisyreader.adapter.DaisyBookAdapter;
 import org.androiddaisyreader.model.DaisyBook;
 import org.androiddaisyreader.player.IntentController;
 import org.androiddaisyreader.sqlite.SQLiteDaisyBookHelper;
-import org.androiddaisyreader.utils.DaisyBookUtil;
 import org.androiddaisyreader.utils.Constants;
+import org.androiddaisyreader.utils.DaisyBookUtil;
 
-import android.app.Activity;
-import android.content.ContentResolver;
-import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
-import android.provider.Settings.System;
 import android.speech.tts.TextToSpeech;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
-import android.view.View.OnClickListener;
-import android.view.Window;
-import android.view.WindowManager.LayoutParams;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.AdapterView.OnItemLongClickListener;
 import android.widget.EditText;
 import android.widget.ListView;
-import android.widget.TextView;
+
+import com.actionbarsherlock.view.MenuItem;
 
 /**
  * The Class DaisyReaderRecentBooksActivity.
@@ -39,10 +33,8 @@ import android.widget.TextView;
  * @date Jul 5, 2013
  */
 
-public class DaisyReaderRecentBooksActivity extends Activity implements OnClickListener,
-		TextToSpeech.OnInitListener {
+public class DaisyReaderRecentBooksActivity extends DaisyEbookReaderBaseActivity {
 
-	private Window mWindow;
 	private ListView mListViewRecentBooks;
 	private EditText mTextSearch;
 	private SQLiteDaisyBookHelper mSql;
@@ -51,53 +43,55 @@ public class DaisyReaderRecentBooksActivity extends Activity implements OnClickL
 	private ArrayList<DaisyBook> mListRecentBookOriginal;
 	private int mNumberOfRecentBooks;
 	private SharedPreferences mPreferences;
-	private TextToSpeech mTts;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 
-		requestWindowFeature(Window.FEATURE_CUSTOM_TITLE);
 		setContentView(R.layout.activity_recent_books);
-		mWindow = getWindow();
-		mWindow.setFeatureInt(Window.FEATURE_CUSTOM_TITLE, R.layout.custom_navigation_bar);
+
+		getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+		// set title of this screen
+		getSupportActionBar().setTitle(R.string.recent_books);
 
 		mPreferences = PreferenceManager.getDefaultSharedPreferences(this);
 		mNumberOfRecentBooks = mPreferences.getInt(Constants.NUMBER_OF_RECENT_BOOKS,
 				Constants.NUMBER_OF_RECENTBOOK_DEFAULT);
-		startTts();
+
 		mListViewRecentBooks = (ListView) findViewById(R.id.list_view_recent_books);
 		mTextSearch = (EditText) findViewById(R.id.edit_text_search);
-
+		mTextSearch.clearFocus();
 		// init SQLite Recent Book
 		mSql = new SQLiteDaisyBookHelper(this);
 
-		// initial back button
-		findViewById(R.id.imgBack).setOnClickListener(this);
-
-		// set title of this screen
-		setScreenTitle();
-
 		mListViewRecentBooks.setOnItemClickListener(onItemBookClick);
 		mListViewRecentBooks.setOnItemLongClickListener(onItemBookLongClick);
+		deleteCurrentInformation();
 
-		// add listener search text changed
-		handleSearchBook();
 	}
 
-	/*
-	 * ======= /** Start text to speech
-	 */
-	private void startTts() {
-		mTts = new TextToSpeech(this, this);
-		Intent checkIntent = new Intent();
-		checkIntent.setAction(TextToSpeech.Engine.ACTION_CHECK_TTS_DATA);
-		startActivityForResult(checkIntent, RESULT_OK);
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+		switch (item.getItemId()) {
+
+		case android.R.id.home:
+			backToTopScreen();
+			break;
+
+		default:
+			return super.onOptionsItemSelected(item);
+		}
+		return false;
 	}
 
 	@Override
 	protected void onResume() {
 		super.onResume();
+		// add listener search text changed
+		handleSearchBook();
+		deleteCurrentInformation();
+		mTts.speak(getString(R.string.title_activity_daisy_reader_recent_book),
+				TextToSpeech.QUEUE_FLUSH, null);
 		mListRecentBooks = loadRecentBooks();
 		mListRecentBookOriginal = new ArrayList<DaisyBook>(loadRecentBooks());
 		mDaisyBookAdapter = new DaisyBookAdapter(DaisyReaderRecentBooksActivity.this,
@@ -105,46 +99,26 @@ public class DaisyReaderRecentBooksActivity extends Activity implements OnClickL
 
 		mListViewRecentBooks.setAdapter(mDaisyBookAdapter);
 
-		// set screen bright when user change it in setting
-		Window window = getWindow();
-		ContentResolver cResolver = getContentResolver();
-		int valueScreen = 0;
-		try {
-			SharedPreferences mPreferences = PreferenceManager
-					.getDefaultSharedPreferences(DaisyReaderRecentBooksActivity.this);
-			valueScreen = mPreferences.getInt(Constants.BRIGHTNESS,
-					System.getInt(cResolver, System.SCREEN_BRIGHTNESS));
-			LayoutParams layoutpars = window.getAttributes();
-			layoutpars.screenBrightness = valueScreen / (float) 255;
-			// apply attribute changes to this window
-			window.setAttributes(layoutpars);
-		} catch (Exception e) {
-			PrivateException ex = new PrivateException(e, DaisyReaderRecentBooksActivity.this);
-			ex.writeLogException();
-		}
-		super.onResume();
 	}
 
 	@Override
 	protected void onDestroy() {
+		super.onDestroy();
 		try {
-			mTts.stop();
-			mTts.shutdown();
+			if (mTts != null) {
+				mTts.shutdown();
+			}
 		} catch (Exception e) {
 			PrivateException ex = new PrivateException(e, DaisyReaderRecentBooksActivity.this);
 			ex.writeLogException();
 		}
-		super.onDestroy();
+
 	}
 
-	/**
-	 * Sets the screen title.
-	 */
-	private void setScreenTitle() {
-		TextView tvScreenTitle = (TextView) this.findViewById(R.id.screenTitle);
-		tvScreenTitle.setOnClickListener(this);
-		tvScreenTitle.setText(R.string.recent_books);
-
+	@Override
+	protected void onRestart() {
+		deleteCurrentInformation();
+		super.onRestart();
 	}
 
 	/**
@@ -188,7 +162,8 @@ public class DaisyReaderRecentBooksActivity extends Activity implements OnClickL
 			@Override
 			public void onTextChanged(CharSequence s, int start, int before, int count) {
 				if (mListRecentBookOriginal.size() != 0) {
-					mListRecentBooks = DaisyBookUtil.searchBookWithText(s, mListRecentBooks, mListRecentBookOriginal);
+					mListRecentBooks = DaisyBookUtil.searchBookWithText(s, mListRecentBooks,
+							mListRecentBookOriginal);
 					mDaisyBookAdapter.notifyDataSetChanged();
 				}
 			}
@@ -229,41 +204,12 @@ public class DaisyReaderRecentBooksActivity extends Activity implements OnClickL
 	/**
 	 * Item scan book click.
 	 * 
-	 * @param daisyBook the daisy book
+	 * @param daisyBook
+	 *            the daisy book
 	 */
 	private void itemScanBookClick(DaisyBook daisyBook) {
 		IntentController intentController = new IntentController(this);
 		intentController.pushToDaisyEbookReaderIntent(daisyBook.getPath());
-	}
-
-	@Override
-	public void onClick(View v) {
-		switch (v.getId()) {
-		case R.id.imgBack:
-			backToTopScreen();
-			break;
-		case R.id.screenTitle:
-			backToTopScreen();
-			break;
-		default:
-			break;
-		}
-
-	}
-
-	/**
-	 * Back to top screen.
-	 */
-	private void backToTopScreen() {
-		Intent intent = new Intent(this, DaisyReaderLibraryActivity.class);
-		intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP); 
-		// Removes other Activities from stack
-		startActivity(intent);
-	}
-
-	@Override
-	public void onInit(int status) {
-
 	}
 
 }

@@ -2,106 +2,40 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:gravity="center"
     android:orientation="vertical" >
 
-    <View
-        android:layout_width="wrap_content"
-        android:layout_height="1dp"
-        android:layout_margin="20dp"
-        android:background="#DCDCDC" />
-
-    <LinearLayout
-        android:id="@+id/view_recent_books"
+    <Button
+        android:id="@+id/btnRecentBooks"
         android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="20dp"
-        android:layout_marginRight="20dp"
-        android:orientation="horizontal" >
-
-        <ImageView
-            android:layout_width="64dp"
-            android:layout_height="64dp"
-            android:layout_gravity="center_vertical"
-            android:contentDescription="@string/logo_of_book"
-            android:src="@drawable/ic_recent" />
-
-        <Button
-            android:id="@+id/btnRecentBooks"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical"
-            android:layout_marginLeft="10dp"
-            android:textSize="20sp"
-            android:textStyle="bold"
-            android:text="@string/recent_books" />
-    </LinearLayout>
-
-    <View
-        android:layout_width="wrap_content"
-        android:layout_height="1dp"
+        android:layout_height="72dp"
+        android:layout_gravity="center"
         android:layout_margin="20dp"
-        android:background="#DCDCDC" />
+        android:drawableLeft="@drawable/ic_recent_48x48"
+        android:text="@string/recent_books"
+        android:textSize="20sp"
+        android:textStyle="bold" />
 
-    <LinearLayout
-        android:id="@+id/view_scan_books"
+    <Button
+        android:id="@+id/btnScanBooks"
         android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="20dp"
-        android:layout_marginRight="20dp"
-        android:orientation="horizontal" >
-
-        <ImageView
-            android:layout_width="64dp"
-            android:layout_height="64dp"
-            android:contentDescription="@string/logo_of_book"
-            android:src="@drawable/ic_scan_book" />
-
-        <Button
-            android:id="@+id/btnScanBooks"
-            android:layout_marginLeft="10dp"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical"
-            android:textSize="20sp"
-            android:textStyle="bold"
-            android:text="@string/scan_books" />
-    </LinearLayout>
-
-    <View
-        android:layout_width="wrap_content"
-        android:layout_height="1dp"
+        android:layout_height="72dp"
+        android:layout_gravity="center"
         android:layout_margin="20dp"
-        android:background="#DCDCDC" />
+        android:drawableLeft="@drawable/ic_scan_48x48"
+        android:text="@string/scan_books"
+        android:textSize="20sp"
+        android:textStyle="bold" />
 
-    <LinearLayout
-        android:id="@+id/view_download_books"
+    <Button
+        android:id="@+id/btnDownloadBooks"
         android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="20dp"
-        android:layout_marginRight="20dp"
-        android:orientation="horizontal" >
-
-        <ImageView
-            android:layout_width="64dp"
-            android:layout_height="64dp"
-            android:contentDescription="@string/logo_of_book"
-            android:src="@drawable/ic_download" />
-
-        <Button
-            android:id="@+id/btnDownloadBooks"
-            android:layout_width="fill_parent"
-            android:layout_marginLeft="10dp"
-            android:layout_gravity="center_vertical"
-            android:layout_height="wrap_content"
-            android:textSize="20sp"
-            android:textStyle="bold"
-            android:text="@string/download_books" />
-    </LinearLayout>
-
-    <View
-        android:layout_width="wrap_content"
-        android:layout_height="1dp"
+        android:layout_height="72dp"
+        android:layout_gravity="center"
         android:layout_margin="20dp"
-        android:background="#DCDCDC" />
+        android:drawableLeft="@drawable/ic_download_48x48"
+        android:text="@string/download_books"
+        android:textSize="20sp"
+        android:textStyle="bold" />
 
 </LinearLayout>

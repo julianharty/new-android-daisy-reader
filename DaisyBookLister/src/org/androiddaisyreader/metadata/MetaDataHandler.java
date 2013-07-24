@@ -1,6 +1,7 @@
 package org.androiddaisyreader.metadata;
 
 import java.io.File;
+import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
 
@@ -68,7 +69,28 @@ public class MetaDataHandler extends Activity {
 		return nList;
 	}
 
-	public void WriteDataToXmlFile(ArrayList<DaisyBook> daisybooks) {
+	public NodeList ReadDataScanFromXmlFile(InputStream databaseInputStream) {
+		NodeList nList = null;
+		try {
+			try {
+				DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
+				DocumentBuilder dBuilder;
+				dBuilder = dbFactory.newDocumentBuilder();
+				Document doc;
+				doc = dBuilder.parse(databaseInputStream);
+				doc.getDocumentElement().normalize();
+				nList = doc.getElementsByTagName(Constants.ATT_BOOK);
+			} catch (Exception e) {
+				PrivateException ex = new PrivateException(e, MetaDataHandler.this);
+				throw ex;
+			}
+		} catch (PrivateException e) {
+			e.writeLogException();
+		}
+		return nList;
+	}
+
+	public void WriteDataToXmlFile(ArrayList<DaisyBook> daisybooks, String localPath) {
 		try {
 			DocumentBuilderFactory docFactory = DocumentBuilderFactory.newInstance();
 			DocumentBuilder docBuilder = docFactory.newDocumentBuilder();
@@ -111,12 +133,15 @@ public class MetaDataHandler extends Activity {
 			TransformerFactory transformerFactory = TransformerFactory.newInstance();
 			Transformer transformer = transformerFactory.newTransformer();
 			DOMSource source = new DOMSource(doc);
-			String localPath = Constants.FOLDER_CONTAIN_METADATA
-					+ Constants.META_DATA_SCAN_BOOK_FILE_NAME;
-			StreamResult result = new StreamResult(new File(localPath));
-
+			File file = new File(localPath);
+			if (!file.exists()) {
+				file.createNewFile();
+			}
+			StreamResult result = new StreamResult(file);
 			transformer.transform(source, result);
 
+		} catch (IOException e) {
+			e.printStackTrace();
 		} catch (ParserConfigurationException pce) {
 			pce.printStackTrace();
 		} catch (TransformerException tfe) {

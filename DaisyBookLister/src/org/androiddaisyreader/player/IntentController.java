@@ -8,7 +8,7 @@ package org.androiddaisyreader.player;
 
 import java.util.ArrayList;
 
-import org.androiddaisyreader.apps.DaisyEbookReaderActivity;
+import org.androiddaisyreader.apps.DaisyEbookReaderModeChoiceActivity;
 import org.androiddaisyreader.apps.DaisyEbookReaderSimpleModeActivity;
 import org.androiddaisyreader.apps.DaisyEbookReaderVisualModeActivity;
 import org.androiddaisyreader.apps.DaisyReaderBookmarkActivity;
@@ -195,7 +195,7 @@ public class IntentController {
 	}
 
 	public void pushToDaisyEbookReaderIntent(String path) {
-		Intent i = new Intent(mContext, DaisyEbookReaderActivity.class);
+		Intent i = new Intent(mContext, DaisyEbookReaderModeChoiceActivity.class);
 		i.putExtra(Constants.DAISY_PATH, path);
 		mContext.startActivity(i);
 	}

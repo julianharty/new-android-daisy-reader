@@ -1,30 +1,20 @@
 package org.androiddaisyreader.apps;
 
+import org.androiddaisyreader.model.CurrentInformation;
+import org.androiddaisyreader.model.Daisy202Book;
+import org.androiddaisyreader.player.IntentController;
+import org.androiddaisyreader.sqlite.SQLiteCurrentInformationHelper;
+import org.androiddaisyreader.utils.Constants;
+import org.androiddaisyreader.utils.DaisyBookUtil;
+
 import android.os.Bundle;
-import android.preference.PreferenceManager;
-import android.provider.Settings.System;
 import android.speech.tts.TextToSpeech;
-import android.app.Activity;
-import android.content.ContentResolver;
-import android.content.Intent;
-import android.content.SharedPreferences;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.View.OnLongClickListener;
-import android.view.WindowManager.LayoutParams;
-import android.view.Window;
-import android.widget.ImageView;
 import android.widget.RelativeLayout;
-import android.widget.TextView;
 
-import org.androiddaisyreader.model.Bookmark;
-import org.androiddaisyreader.model.CurrentInformation;
-import org.androiddaisyreader.model.Daisy202Book;
-import org.androiddaisyreader.model.Navigator;
-import org.androiddaisyreader.player.IntentController;
-import org.androiddaisyreader.sqlite.SQLiteCurrentInformationHelper;
-import org.androiddaisyreader.utils.DaisyBookUtil;
-import org.androiddaisyreader.utils.Constants;
+import com.actionbarsherlock.view.MenuItem;
 
 /**
  * This activity contains two mode "simple mode" and "visual mode".
@@ -33,11 +23,9 @@ import org.androiddaisyreader.utils.Constants;
  * @date 2013.03.05
  */
 
-public class DaisyEbookReaderActivity extends Activity implements TextToSpeech.OnInitListener {
+public class DaisyEbookReaderModeChoiceActivity extends DaisyEbookReaderBaseActivity {
 	private IntentController mIntentController;
 	private String mPath;
-	private Window mWindow;
-	private TextToSpeech mTts;
 	private Daisy202Book mBook;
 	private SQLiteCurrentInformationHelper mSql;
 	private CurrentInformation mCurrent;
@@ -45,26 +33,35 @@ public class DaisyEbookReaderActivity extends Activity implements TextToSpeech.O
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		requestWindowFeature(Window.FEATURE_CUSTOM_TITLE);
 		setContentView(R.layout.activity_daisy_ebook_reader);
-		mWindow = getWindow();
-		mWindow.setFeatureInt(Window.FEATURE_CUSTOM_TITLE, R.layout.custom_title);
+
 		mSql = new SQLiteCurrentInformationHelper(getApplicationContext());
 		mIntentController = new IntentController(this);
-		startTts();
-		setBookTitle();
+
 		RelativeLayout simpleMode = (RelativeLayout) this.findViewById(R.id.simpleMode);
 		simpleMode.setOnClickListener(simpleModeClick);
 		simpleMode.setOnLongClickListener(simpleModeLongClick);
 		RelativeLayout visualMode = (RelativeLayout) this.findViewById(R.id.visualMode);
 		visualMode.setOnClickListener(visualModeClick);
 		visualMode.setOnLongClickListener(visualModeLongClick);
-		ImageView imgTableOfContents = (ImageView) this.findViewById(R.id.imgTableOfContents);
-		imgTableOfContents.setOnClickListener(imgTableOfContentsClick);
-		ImageView imgBookmarks = (ImageView) this.findViewById(R.id.imgBookmark);
-		imgBookmarks.setOnClickListener(imgBookmarkClick);
+
+		getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+		getSupportActionBar().setTitle(getBookTitle());
 	}
 
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+		switch (item.getItemId()) {
+		case android.R.id.home:
+			backToTopScreen();
+			break;
+		default:
+			return super.onOptionsItemSelected(item);
+		}
+		return false;
+	}
+
+	
 	@Override
 	protected void onStart() {
 		super.onStart();
@@ -88,21 +85,10 @@ public class DaisyEbookReaderActivity extends Activity implements TextToSpeech.O
 	}
 
 	/**
-	 * Start text to speech
+	 * get book title on the top activity
 	 */
-	private void startTts() {
-		mTts = new TextToSpeech(this, this);
-		Intent checkIntent = new Intent();
-		checkIntent.setAction(TextToSpeech.Engine.ACTION_CHECK_TTS_DATA);
-		startActivityForResult(checkIntent, RESULT_OK);
-	}
-
-	/**
-	 * Set book title on the top activity (between icon table of content and
-	 * bookmark
-	 */
-	private void setBookTitle() {
-		TextView tvBookTitle = (TextView) this.findViewById(R.id.bookTitle);
+	private String getBookTitle() {
+		String titleOfBook = "";
 		mPath = getIntent().getStringExtra(Constants.DAISY_PATH);
 		try {
 			try {
@@ -111,12 +97,12 @@ public class DaisyEbookReaderActivity extends Activity implements TextToSpeech.O
 				PrivateException ex = new PrivateException(e, getApplicationContext(), mPath);
 				throw ex;
 			}
-			tvBookTitle.setText(mBook.getTitle());
+			titleOfBook = mBook.getTitle() == null ? "" : mBook.getTitle();
 
 		} catch (PrivateException e) {
 			e.showDialogException(mIntentController);
 		}
-
+		return titleOfBook;
 	}
 
 	private OnClickListener simpleModeClick = new OnClickListener() {
@@ -152,27 +138,6 @@ public class DaisyEbookReaderActivity extends Activity implements TextToSpeech.O
 		}
 	};
 
-	private OnClickListener imgTableOfContentsClick = new OnClickListener() {
-		Navigator navigator;
-
-		@Override
-		public void onClick(View v) {
-			navigator = new Navigator(mBook);
-			mIntentController.pushToTableOfContentsIntent(mPath, navigator,
-					getString(R.string.visual_mode));
-		}
-	};
-
-	private OnClickListener imgBookmarkClick = new OnClickListener() {
-
-		@Override
-		public void onClick(View v) {
-			Bookmark bookmark = new Bookmark();
-			bookmark.setPath(mPath);
-			mIntentController.pushToDaisyReaderBookmarkIntent(bookmark, mPath);
-		}
-	};
-
 	@Override
 	public void onBackPressed() {
 		super.onBackPressed();
@@ -181,35 +146,21 @@ public class DaisyEbookReaderActivity extends Activity implements TextToSpeech.O
 
 	@Override
 	protected void onDestroy() {
+		super.onDestroy();
 		try {
-			mTts.stop();
-			mTts.shutdown();
+			if (mTts != null) {
+				mTts.shutdown();
+			}
 		} catch (Exception e) {
-			PrivateException ex = new PrivateException(e, DaisyEbookReaderActivity.this);
+			PrivateException ex = new PrivateException(e, DaisyEbookReaderModeChoiceActivity.this);
 			ex.writeLogException();
 		}
-		super.onDestroy();
 	}
 
 	@Override
 	protected void onResume() {
-		speakOut(Constants.READER_ACTIVITY);
-		ContentResolver cResolver = getContentResolver();
-		int valueScreen = 0;
-		try {
-			SharedPreferences mPreferences = PreferenceManager
-					.getDefaultSharedPreferences(getApplicationContext());
-			valueScreen = mPreferences.getInt(Constants.BRIGHTNESS,
-					System.getInt(cResolver, System.SCREEN_BRIGHTNESS));
-			LayoutParams layoutpars = mWindow.getAttributes();
-			layoutpars.screenBrightness = valueScreen / (float) 255;
-			// apply attribute changes to this window
-			mWindow.setAttributes(layoutpars);
-		} catch (Exception e) {
-			PrivateException ex = new PrivateException(e, DaisyEbookReaderActivity.this);
-			ex.writeLogException();
-		}
 		super.onResume();
+		speakOut(Constants.READER_ACTIVITY);
 	}
 
 	private void speakOut(int message) {
@@ -231,9 +182,4 @@ public class DaisyEbookReaderActivity extends Activity implements TextToSpeech.O
 		}
 	}
 
-	@Override
-	public void onInit(int status) {
-		// TODO Must import because this activity implements
-		// TextToSpeech.OnInitListener
-	}
 }

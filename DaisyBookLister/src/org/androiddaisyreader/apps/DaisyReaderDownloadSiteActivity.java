@@ -7,64 +7,57 @@ import org.androiddaisyreader.adapter.WebsiteAdapter;
 import org.androiddaisyreader.model.Website;
 import org.androiddaisyreader.utils.Constants;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.speech.tts.TextToSpeech;
 import android.view.View;
-import android.view.View.OnClickListener;
-import android.view.Window;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.AdapterView.OnItemLongClickListener;
 import android.widget.ListView;
-import android.widget.TextView;
+
+import com.actionbarsherlock.view.MenuItem;
 
 /**
  * The Class DaisyReaderDownloadSiteActivity.
  */
-public class DaisyReaderDownloadSiteActivity extends Activity implements OnClickListener,
-		TextToSpeech.OnInitListener {
+public class DaisyReaderDownloadSiteActivity extends DaisyEbookReaderBaseActivity {
 
-	private Window mWindow;
 	private ListView mListViewWebsite;
 	private List<Website> listWebsite;
 	private WebsiteAdapter websiteAdapter;
-	private TextToSpeech mTts;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 
-		requestWindowFeature(Window.FEATURE_CUSTOM_TITLE);
 		setContentView(R.layout.activity_download_site);
-		mWindow = getWindow();
-		mWindow.setFeatureInt(Window.FEATURE_CUSTOM_TITLE, R.layout.custom_navigation_bar);
-		startTts();
+		getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+		getSupportActionBar().setTitle(R.string.download_sites);
+
 		mListViewWebsite = (ListView) findViewById(R.id.list_view_website);
 		initListWebsite();
 		websiteAdapter = new WebsiteAdapter(listWebsite, getLayoutInflater());
 		mListViewWebsite.setAdapter(websiteAdapter);
 
-		// set listener back button
-		findViewById(R.id.imgBack).setOnClickListener(this);
-
 		// set listener while touch on website
 		mListViewWebsite.setOnItemClickListener(onItemWebsiteClick);
 		mListViewWebsite.setOnItemLongClickListener(onItemWebsiteLongClick);
 
-		// set title of this screen
-		setScreenTitle();
 	}
 
-	/**
-	 * Start text to speech
-	 */
-	private void startTts() {
-		mTts = new TextToSpeech(this, this);
-		Intent checkIntent = new Intent();
-		checkIntent.setAction(TextToSpeech.Engine.ACTION_CHECK_TTS_DATA);
-		startActivityForResult(checkIntent, RESULT_OK);
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+		switch (item.getItemId()) {
+
+		case android.R.id.home:
+			backToTopScreen();
+			break;
+
+		default:
+			return super.onOptionsItemSelected(item);
+		}
+		return false;
 	}
 
 	private OnItemClickListener onItemWebsiteClick = new OnItemClickListener() {
@@ -101,41 +94,6 @@ public class DaisyReaderDownloadSiteActivity extends Activity implements OnClick
 	}
 
 	/**
-	 * Sets the screen title.
-	 */
-	private void setScreenTitle() {
-		TextView tvScreenTitle = (TextView) this.findViewById(R.id.screenTitle);
-		tvScreenTitle.setOnClickListener(this);
-		tvScreenTitle.setText(R.string.download_sites);
-
-	}
-
-	@Override
-	public void onClick(View v) {
-		switch (v.getId()) {
-		case R.id.imgBack:
-			backToTopScreen();
-			break;
-		case R.id.screenTitle:
-			backToTopScreen();
-			break;
-		default:
-			break;
-		}
-
-	}
-
-	/**
-	 * Back to top screen.
-	 */
-	private void backToTopScreen() {
-		Intent intent = new Intent(this, DaisyReaderLibraryActivity.class);
-		intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-		// Removes other Activities from stack
-		startActivity(intent);
-	}
-
-	/**
 	 * Push to list book of website.
 	 */
 	private void pushToWebsite(String websiteURL, String websiteName) {
@@ -147,15 +105,17 @@ public class DaisyReaderDownloadSiteActivity extends Activity implements OnClick
 
 	@Override
 	protected void onResume() {
-		mTts.speak(getString(R.string.download_sites), TextToSpeech.QUEUE_FLUSH, null);
 		super.onResume();
+		mTts.speak(getString(R.string.download_sites), TextToSpeech.QUEUE_FLUSH, null);
+
 	}
 
 	@Override
 	protected void onDestroy() {
 		try {
-			mTts.stop();
-			mTts.shutdown();
+			if (mTts != null) {
+				mTts.shutdown();
+			}
 		} catch (Exception e) {
 			PrivateException ex = new PrivateException(e, DaisyReaderDownloadSiteActivity.this);
 			ex.writeLogException();
@@ -163,7 +123,4 @@ public class DaisyReaderDownloadSiteActivity extends Activity implements OnClick
 		super.onDestroy();
 	}
 
-	@Override
-	public void onInit(int status) {
-	}
 }

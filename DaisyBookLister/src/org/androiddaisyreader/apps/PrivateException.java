@@ -111,7 +111,10 @@ public class PrivateException extends Exception {
 			Log.i(mContext.getClass().toString(), TransformerException.class.toString());
 		} else if (ex instanceof IllegalArgumentException) {
 			Log.i(mContext.getClass().toString(), IllegalArgumentException.class.toString());
-		} else {
+		} else if (ex instanceof InterruptedException) {
+			Log.i(mContext.getClass().toString(), InterruptedException.class.toString());
+		}
+		else {
 			Log.i(mContext.getClass().toString(), Exception.class.toString());
 		}
 

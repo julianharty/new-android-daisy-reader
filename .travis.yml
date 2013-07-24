@@ -11,7 +11,7 @@ before_install:
   # Once we have downloaded the essential tools more targets are available for download, so go and get what we need.
   - android update sdk --filter android-8 --no-ui --force
   # now get a runtime environment, the latest revision of Android (4.2.2) should do.
-  - android update sdk --filter android-17,sysimg-17,tools,platform-tools,build-tools-17.0.0 --no-ui --force
-
+  - android update sdk --filter android-17,sysimg-17,tools,platform-tools,build-tools-17.0.0,extra-android-support --no-ui --force
+  - android update sdk --no-ui --force
 script: "./buildstuff.sh"
 

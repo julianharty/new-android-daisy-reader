@@ -15,8 +15,9 @@ before_install:
   - echo y | android update sdk --filter build-tools-18.0.0 --no-ui --force  
 before_script:
   - ls -la
+  - ls -la actionbarsherlock
   - ls -la android-sdk-linux
   - ls -la android-sdk-linux/platform-tools
-  - ls -la android-sdk-linux/build-tools/18.0.0/
+  - ls -laR android-sdk-linux/build-tools/
 script: "./buildstuff.sh"
 

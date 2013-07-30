@@ -12,7 +12,7 @@ before_install:
   - android update sdk --filter android-8 --no-ui --force
   # now get a runtime environment, the latest revision of Android (4.2.2) should do.
   - android update sdk --filter android-17,sysimg-17,tools,platform-tools,extra-android-support --no-ui --force
-  - echo y | android update sdk --filter build-tools-18.0.0 --no-ui --force  
+  - echo y | android update sdk --filter build-tools --no-ui --force  
 before_script:
   - ls -la
   - ls -la actionbarsherlock

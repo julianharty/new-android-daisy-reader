@@ -34,7 +34,6 @@ import android.os.Handler;
 import android.os.SystemClock;
 import android.preference.PreferenceManager;
 import android.provider.Settings.System;
-import android.speech.tts.TextToSpeech;
 import android.text.Layout;
 import android.text.Spannable;
 import android.text.SpannableString;
@@ -65,14 +64,6 @@ import com.google.common.base.Preconditions;
  */
 
 public class DaisyEbookReaderVisualModeActivity extends DaisyEbookReaderBaseActivity {
-
-	private static final int SUBMENU_MENU = 1;
-	private static final int SUBMENU_LIBRARY = 2;
-	private static final int SUBMENU_BOOKMARKS = 3;
-	private static final int SUBMENU_TABLE_OF_CONTENTS = 4;
-	private static final int SUBMENU_SIMPLE_MODE = 5;
-	private static final int SUBMENU_SEARCH = 6;
-	private static final int SUBMENU_SETTINGS = 7;
 
 	private boolean mIsFirstNext = false;
 	private boolean mIsFirstPrevious = true;
@@ -151,22 +142,25 @@ public class DaisyEbookReaderVisualModeActivity extends DaisyEbookReaderBaseActi
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
-		SubMenu subMenu = menu.addSubMenu(0, SUBMENU_MENU, 1, R.string.menu_title);
+		SubMenu subMenu = menu.addSubMenu(0, Constants.SUBMENU_MENU, 1, R.string.menu_title);
 
-		subMenu.add(0, SUBMENU_LIBRARY, 2, R.string.submenu_library).setIcon(R.drawable.library);
+		subMenu.add(0, Constants.SUBMENU_LIBRARY, 2, R.string.submenu_library).setIcon(
+				R.drawable.library);
 
-		subMenu.add(0, SUBMENU_BOOKMARKS, 3, R.string.submenu_bookmarks).setIcon(
+		subMenu.add(0, Constants.SUBMENU_BOOKMARKS, 3, R.string.submenu_bookmarks).setIcon(
 				R.drawable.bookmark);
 
-		subMenu.add(0, SUBMENU_TABLE_OF_CONTENTS, 4, R.string.submenu_table_of_contents).setIcon(
-				R.drawable.table_of_contents);
+		subMenu.add(0, Constants.SUBMENU_TABLE_OF_CONTENTS, 4, R.string.submenu_table_of_contents)
+				.setIcon(R.drawable.table_of_contents);
 
-		subMenu.add(0, SUBMENU_SIMPLE_MODE, 5, R.string.submenu_simple_mode).setIcon(
+		subMenu.add(0, Constants.SUBMENU_SIMPLE_MODE, 5, R.string.submenu_simple_mode).setIcon(
 				R.drawable.simple_mode);
 
-		subMenu.add(0, SUBMENU_SEARCH, 6, R.string.submenu_search).setIcon(R.drawable.search);
+		subMenu.add(0, Constants.SUBMENU_SEARCH, 6, R.string.submenu_search).setIcon(
+				R.drawable.search);
 
-		subMenu.add(0, SUBMENU_SETTINGS, 7, R.string.submenu_settings).setIcon(R.drawable.settings);
+		subMenu.add(0, Constants.SUBMENU_SETTINGS, 7, R.string.submenu_settings).setIcon(
+				R.drawable.settings);
 
 		MenuItem subMenuItem = subMenu.getItem();
 		subMenuItem.setIcon(R.drawable.ic_menu_32x32);
@@ -180,8 +174,11 @@ public class DaisyEbookReaderVisualModeActivity extends DaisyEbookReaderBaseActi
 	 * */
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
-		if (item.getItemId() != SUBMENU_MENU) {
+		if (item.getItemId() != Constants.SUBMENU_MENU) {
 			mIsPlaying = mPlayer.isPlaying();
+			if (mCurrent != null) {
+				mCurrent.setPlaying(mIsPlaying);
+			}
 			if (mIsPlaying) {
 				setMediaPause();
 			}
@@ -189,27 +186,27 @@ public class DaisyEbookReaderVisualModeActivity extends DaisyEbookReaderBaseActi
 
 		switch (item.getItemId()) {
 		// go to table of contents
-		case SUBMENU_TABLE_OF_CONTENTS:
+		case Constants.SUBMENU_TABLE_OF_CONTENTS:
 			pushToTableOfContents();
 			return true;
 			// go to simple mode
-		case SUBMENU_SIMPLE_MODE:
+		case Constants.SUBMENU_SIMPLE_MODE:
 			pushToSimpleMode();
 			return true;
 			// go to settings
-		case SUBMENU_SETTINGS:
+		case Constants.SUBMENU_SETTINGS:
 			pushToSettings();
 			return true;
 			// go to book marks
-		case SUBMENU_BOOKMARKS:
+		case Constants.SUBMENU_BOOKMARKS:
 			pushToBookmark();
 			return true;
 			// go to library
-		case SUBMENU_LIBRARY:
+		case Constants.SUBMENU_LIBRARY:
 			mIntentController.pushToLibraryIntent();
 			return true;
 			// go to search
-		case SUBMENU_SEARCH:
+		case Constants.SUBMENU_SEARCH:
 			pushToDialogSearch();
 			return true;
 			// back to previous screen
@@ -268,6 +265,12 @@ public class DaisyEbookReaderVisualModeActivity extends DaisyEbookReaderBaseActi
 	private void readBook() {
 		String section;
 		mCurrent = mSql.getCurrentInformation();
+		if (mCurrent != null
+				&& !mCurrent.getActivity().equals(
+						getString(R.string.title_activity_daisy_ebook_reader_simple_mode))) {
+			mCurrent.setAtTheEnd(false);
+			mSql.updateCurrentInformation(mCurrent);
+		}
 		if (mCurrent != null
 				&& !mCurrent.getActivity().equals(
 						getString(R.string.title_activity_daisy_ebook_reader_visual_mode))) {
@@ -387,10 +390,6 @@ public class DaisyEbookReaderVisualModeActivity extends DaisyEbookReaderBaseActi
 	 * Push to table of contents.
 	 */
 	private void pushToTableOfContents() {
-		mIsPlaying = mPlayer.isPlaying();
-		if (mIsPlaying) {
-			setMediaPause();
-		}
 		if (mCurrent != null) {
 			updateCurrentInformation();
 		} else {
@@ -404,10 +403,6 @@ public class DaisyEbookReaderVisualModeActivity extends DaisyEbookReaderBaseActi
 	 * Push to bookmark.
 	 */
 	private void pushToBookmark() {
-		mIsPlaying = mPlayer.isPlaying();
-		if (mIsPlaying) {
-			setMediaPause();
-		}
 		if (mCurrent != null) {
 			updateCurrentInformation();
 		} else {
@@ -437,9 +432,11 @@ public class DaisyEbookReaderVisualModeActivity extends DaisyEbookReaderBaseActi
 					break;
 				}
 			}
+
 			if (sentence.length() <= 0) {
 				sentence = mListStringText.get(i + 1);
 			}
+
 		}
 		Bookmark bookmark = new Bookmark(mPath, sentence, currentTime, mPositionSection, 0, "");
 		return bookmark;
@@ -561,8 +558,7 @@ public class DaisyEbookReaderVisualModeActivity extends DaisyEbookReaderBaseActi
 	@Override
 	protected void onResume() {
 		super.onResume();
-		mTts.speak(getString(R.string.title_activity_daisy_ebook_reader_visual_mode),
-				TextToSpeech.QUEUE_FLUSH, null);
+		speakText(getString(R.string.title_activity_daisy_ebook_reader_visual_mode));
 		if (mBook != null) {
 			getValueFromSetting();
 			setNightMode();
@@ -721,7 +717,7 @@ public class DaisyEbookReaderVisualModeActivity extends DaisyEbookReaderBaseActi
 			} catch (Exception e) {
 				PrivateException ex = new PrivateException(e,
 						DaisyEbookReaderVisualModeActivity.this);
-				ex.writeLogException();
+				ex.showDialogException(mIntentController);
 			}
 		}
 
@@ -816,7 +812,7 @@ public class DaisyEbookReaderVisualModeActivity extends DaisyEbookReaderBaseActi
 			}
 
 			if (mCurrent != null) {
-				mCurrent.setAtTheEnd(true);
+				mCurrent.setAtTheEnd(mIsEndOf);
 				mSql.updateCurrentInformation(mCurrent);
 			}
 

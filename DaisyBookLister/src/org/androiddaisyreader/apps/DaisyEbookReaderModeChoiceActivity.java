@@ -8,7 +8,6 @@ import org.androiddaisyreader.utils.Constants;
 import org.androiddaisyreader.utils.DaisyBookUtil;
 
 import android.os.Bundle;
-import android.speech.tts.TextToSpeech;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.View.OnLongClickListener;
@@ -166,16 +165,13 @@ public class DaisyEbookReaderModeChoiceActivity extends DaisyEbookReaderBaseActi
 	private void speakOut(int message) {
 		switch (message) {
 		case Constants.SIMPLE_MODE:
-			mTts.speak(getString(R.string.title_activity_daisy_ebook_reader_simple_mode),
-					TextToSpeech.QUEUE_FLUSH, null);
+			speakText(getString(R.string.title_activity_daisy_ebook_reader_simple_mode));
 			break;
 		case Constants.VISUAL_MODE:
-			mTts.speak(getString(R.string.title_activity_daisy_ebook_reader_visual_mode),
-					TextToSpeech.QUEUE_FLUSH, null);
+			speakText(getString(R.string.title_activity_daisy_ebook_reader_visual_mode));
 			break;
 		case Constants.READER_ACTIVITY:
-			mTts.speak(getString(R.string.title_activity_daisy_ebook_reader),
-					TextToSpeech.QUEUE_FLUSH, null);
+			speakText(getString(R.string.title_activity_daisy_ebook_reader));
 			break;
 		default:
 			break;

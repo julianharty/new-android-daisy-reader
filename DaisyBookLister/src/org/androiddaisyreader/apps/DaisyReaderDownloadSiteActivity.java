@@ -9,7 +9,6 @@ import org.androiddaisyreader.utils.Constants;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.speech.tts.TextToSpeech;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
@@ -64,7 +63,7 @@ public class DaisyReaderDownloadSiteActivity extends DaisyEbookReaderBaseActivit
 
 		@Override
 		public void onItemClick(AdapterView<?> arg0, View arg1, int arg2, long arg3) {
-			mTts.speak(listWebsite.get(arg2).getSiteName(), TextToSpeech.QUEUE_FLUSH, null);
+			speakText(listWebsite.get(arg2).getSiteName());
 		}
 	};
 
@@ -106,7 +105,7 @@ public class DaisyReaderDownloadSiteActivity extends DaisyEbookReaderBaseActivit
 	@Override
 	protected void onResume() {
 		super.onResume();
-		mTts.speak(getString(R.string.download_sites), TextToSpeech.QUEUE_FLUSH, null);
+		speakText(getString(R.string.download_sites));
 
 	}
 

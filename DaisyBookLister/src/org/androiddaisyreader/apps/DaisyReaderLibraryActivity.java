@@ -16,7 +16,6 @@ import android.content.res.AssetManager;
 import android.os.Bundle;
 import android.os.Environment;
 import android.os.SystemClock;
-import android.speech.tts.TextToSpeech;
 import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
@@ -38,7 +37,7 @@ public class DaisyReaderLibraryActivity extends DaisyEbookReaderBaseActivity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_library);
-		
+
 		// set listener for view
 		findViewById(R.id.btnRecentBooks).setOnClickListener(this);
 		findViewById(R.id.btnScanBooks).setOnClickListener(this);
@@ -52,6 +51,9 @@ public class DaisyReaderLibraryActivity extends DaisyEbookReaderBaseActivity {
 				+ "/" + Constants.FOLDER_NAME + "/";
 		createFolderContainXml();
 		deleteCurrentInformation();
+		getSupportActionBar().setDisplayHomeAsUpEnabled(false);
+		// set title of this screen
+		getSupportActionBar().setTitle(R.string.title_activity_daisy_reader_library);
 		Intent serviceIntent = new Intent(DaisyReaderLibraryActivity.this,
 				DaisyEbookReaderService.class);
 		startService(serviceIntent);
@@ -64,8 +66,10 @@ public class DaisyReaderLibraryActivity extends DaisyEbookReaderBaseActivity {
 		if (android.os.Environment.getExternalStorageState().equals(
 				android.os.Environment.MEDIA_MOUNTED)) {
 			File directory = new File(Constants.FOLDER_CONTAIN_METADATA);
-			// Create a File object for the parent directory
-			directory.mkdirs();
+			if (!directory.exists()) {
+				// Create a File object for the parent directory
+				directory.mkdirs();
+			}
 			// Then run the method to copy the file.
 			copyFileFromAssets();
 
@@ -124,15 +128,14 @@ public class DaisyReaderLibraryActivity extends DaisyEbookReaderBaseActivity {
 		if (v instanceof Button) {
 			Button button = (Button) v;
 			String buttonText = button.getText().toString();
-			mTts.speak(buttonText, TextToSpeech.QUEUE_FLUSH, null);
+			speakText(buttonText);
 		}
 	}
 
 	/**
 	 * Push to other screen.
 	 * 
-	 * @param activityID
-	 *            the activity id
+	 * @param activityID the activity id
 	 */
 	private void pushToScreen(int activityID) {
 		Intent intent = null;
@@ -177,8 +180,7 @@ public class DaisyReaderLibraryActivity extends DaisyEbookReaderBaseActivity {
 		} else {
 			Toast.makeText(DaisyReaderLibraryActivity.this,
 					this.getString(R.string.message_exit_application), Toast.LENGTH_SHORT).show();
-			mTts.speak(this.getString(R.string.message_exit_application), TextToSpeech.QUEUE_FLUSH,
-					null);
+			speakText(this.getString(R.string.message_exit_application));
 			mIsExit = true;
 		}
 		mLastPressTime = SystemClock.elapsedRealtime();
@@ -187,11 +189,11 @@ public class DaisyReaderLibraryActivity extends DaisyEbookReaderBaseActivity {
 	@Override
 	protected void onResume() {
 		super.onResume();
-		mTts.speak(getString(R.string.title_activity_daisy_reader_library),
-				TextToSpeech.QUEUE_FLUSH, null);
-
+		speakText(getString(R.string.title_activity_daisy_reader_library));
+		Constants.FOLDER_CONTAIN_METADATA = Environment.getExternalStorageDirectory().toString()
+				+ "/" + Constants.FOLDER_NAME + "/";
+		createFolderContainXml();
 		deleteCurrentInformation();
-
 	}
 
 	@Override

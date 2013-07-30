@@ -26,7 +26,6 @@ import org.androiddaisyreader.utils.DaisyBookUtil;
 import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.os.Handler;
-import android.speech.tts.TextToSpeech;
 import android.util.Log;
 import android.view.View;
 import android.widget.RelativeLayout;
@@ -116,6 +115,12 @@ public class DaisyEbookReaderSimpleModeActivity extends DaisyEbookReaderBaseActi
 		try {
 			String section;
 			mCurrent = mSql.getCurrentInformation();
+			if (mCurrent != null
+					&& !mCurrent.getActivity().equals(
+							getString(R.string.title_activity_daisy_ebook_reader_visual_mode))) {
+				mCurrent.setAtTheEnd(false);
+				mSql.updateCurrentInformation(mCurrent);
+			}
 			if (mCurrent != null
 					&& !mCurrent.getActivity().equals(
 							getString(R.string.title_activity_daisy_ebook_reader_simple_mode))) {
@@ -283,7 +288,7 @@ public class DaisyEbookReaderSimpleModeActivity extends DaisyEbookReaderBaseActi
 			ex.writeLogException();
 		}
 		mHandler.removeCallbacks(mRunnalbe);
-		
+
 	}
 
 	@Override
@@ -389,7 +394,7 @@ public class DaisyEbookReaderSimpleModeActivity extends DaisyEbookReaderBaseActi
 			} catch (Exception e) {
 				PrivateException ex = new PrivateException(e,
 						DaisyEbookReaderSimpleModeActivity.this);
-				ex.writeLogException();
+				ex.showDialogException(mIntentController);
 			}
 		}
 
@@ -465,7 +470,7 @@ public class DaisyEbookReaderSimpleModeActivity extends DaisyEbookReaderBaseActi
 				mIsEndOf = true;
 			}
 			if (mCurrent != null) {
-				mCurrent.setAtTheEnd(true);
+				mCurrent.setAtTheEnd(mIsEndOf);
 				mSql.updateCurrentInformation(mCurrent);
 			}
 		}
@@ -853,39 +858,37 @@ public class DaisyEbookReaderSimpleModeActivity extends DaisyEbookReaderBaseActi
 	private void speakOut(int message) {
 		switch (message) {
 		case Constants.ERROR_NO_AUDIO_FOUND:
-			mTts.speak(getString(R.string.error_no_audio_found), TextToSpeech.QUEUE_FLUSH, null);
+			speakText(getString(R.string.error_no_audio_found));
 			break;
 		case Constants.SIMPLE_MODE:
-			mTts.speak(getString(R.string.title_activity_daisy_ebook_reader_simple_mode),
-					TextToSpeech.QUEUE_FLUSH, null);
+			speakText(getString(R.string.title_activity_daisy_ebook_reader_simple_mode));
 			break;
 		case Constants.ERROR_WRONG_FORMAT_AUDIO:
-			mTts.speak(getString(R.string.error_wrong_format_audio), TextToSpeech.QUEUE_FLUSH, null);
+			speakText(getString(R.string.error_wrong_format_audio));
 			break;
 		case Constants.AT_THE_END:
-			mTts.speak(getString(R.string.atEnd) + mBook.getTitle(), TextToSpeech.QUEUE_FLUSH, null);
+			speakText(getString(R.string.atEnd) + mBook.getTitle());
 			break;
 		case Constants.AT_THE_BEGIN:
-			mTts.speak(getString(R.string.atBegin) + mBook.getTitle(), TextToSpeech.QUEUE_FLUSH,
-					null);
+			speakText(getString(R.string.atBegin) + mBook.getTitle());
 			break;
 		case Constants.NEXT_SECTION:
-			mTts.speak(getString(R.string.next_section), TextToSpeech.QUEUE_FLUSH, null);
+			speakText(getString(R.string.next_section));
 			break;
 		case Constants.PREVIOUS_SECTION:
-			mTts.speak(getString(R.string.previous_section), TextToSpeech.QUEUE_FLUSH, null);
+			speakText(getString(R.string.previous_section));
 			break;
 		case Constants.NEXT_SENTENCE:
-			mTts.speak(getString(R.string.next_sentence), TextToSpeech.QUEUE_FLUSH, null);
+			speakText(getString(R.string.next_sentence));
 			break;
 		case Constants.PREVIOUS_SENTENCE:
-			mTts.speak(getString(R.string.previous_sentence), TextToSpeech.QUEUE_FLUSH, null);
+			speakText(getString(R.string.previous_sentence));
 			break;
 		case Constants.PLAY:
-			mTts.speak(getString(R.string.play), TextToSpeech.QUEUE_FLUSH, null);
+			speakText(getString(R.string.play));
 			break;
 		case Constants.PAUSE:
-			mTts.speak(getString(R.string.pause), TextToSpeech.QUEUE_FLUSH, null);
+			speakText(getString(R.string.pause));
 			break;
 		default:
 			break;

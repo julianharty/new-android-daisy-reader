@@ -29,7 +29,6 @@ import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
-import android.speech.tts.TextToSpeech;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
@@ -139,7 +138,7 @@ public class DaisyReaderDownloadBooks extends DaisyEbookReaderBaseActivity {
 
 		@Override
 		public void onItemClick(AdapterView<?> arg0, View arg1, int arg2, long arg3) {
-			mTts.speak(mlistDaisyBook.get(arg2).getTitle(), TextToSpeech.QUEUE_FLUSH, null);
+			speakText(mlistDaisyBook.get(arg2).getTitle());
 		}
 	};
 

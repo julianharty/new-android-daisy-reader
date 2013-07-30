@@ -14,7 +14,6 @@ import org.androiddaisyreader.utils.DaisyBookUtil;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
-import android.speech.tts.TextToSpeech;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
@@ -102,7 +101,7 @@ public class DaisyReaderDownloadedBooks extends DaisyEbookReaderBaseActivity {
 
 		@Override
 		public void onItemClick(AdapterView<?> arg0, View arg1, int arg2, long arg3) {
-			mTts.speak(mlistDaisyBook.get(arg2).getTitle(), TextToSpeech.QUEUE_FLUSH, null);
+			speakText(mlistDaisyBook.get(arg2).getTitle());
 		}
 	};
 

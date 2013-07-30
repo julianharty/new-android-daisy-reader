@@ -14,7 +14,6 @@ import org.androiddaisyreader.utils.DaisyBookUtil;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
-import android.speech.tts.TextToSpeech;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
@@ -90,8 +89,7 @@ public class DaisyReaderRecentBooksActivity extends DaisyEbookReaderBaseActivity
 		// add listener search text changed
 		handleSearchBook();
 		deleteCurrentInformation();
-		mTts.speak(getString(R.string.title_activity_daisy_reader_recent_book),
-				TextToSpeech.QUEUE_FLUSH, null);
+		speakText(getString(R.string.title_activity_daisy_reader_recent_book));
 		mListRecentBooks = loadRecentBooks();
 		mListRecentBookOriginal = new ArrayList<DaisyBook>(loadRecentBooks());
 		mDaisyBookAdapter = new DaisyBookAdapter(DaisyReaderRecentBooksActivity.this,
@@ -197,7 +195,7 @@ public class DaisyReaderRecentBooksActivity extends DaisyEbookReaderBaseActivity
 
 		@Override
 		public void onItemClick(AdapterView<?> arg0, View arg1, int arg2, long arg3) {
-			mTts.speak(mListRecentBooks.get(arg2).getTitle(), TextToSpeech.QUEUE_FLUSH, null);
+			speakText(mListRecentBooks.get(arg2).getTitle());
 		}
 	};
 

@@ -10,7 +10,6 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.provider.Settings.System;
-import android.speech.tts.TextToSpeech;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.LayoutInflater;
@@ -260,8 +259,7 @@ public class DaisyReaderSettingActivity extends DaisyEbookReaderBaseActivity {
 	@Override
 	protected void onResume() {
 		super.onResume();
-		mTts.speak(getString(R.string.title_activity_daisy_reader_setting),
-				TextToSpeech.QUEUE_FLUSH, null);
+		speakText(getString(R.string.title_activity_daisy_reader_setting));
 	}
 
 	@Override

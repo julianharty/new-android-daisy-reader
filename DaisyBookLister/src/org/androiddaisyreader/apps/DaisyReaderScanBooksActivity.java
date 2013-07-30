@@ -19,12 +19,12 @@ import org.w3c.dom.NodeList;
 import android.annotation.SuppressLint;
 import android.app.ProgressDialog;
 import android.content.SharedPreferences;
+import android.content.res.Configuration;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.preference.PreferenceManager;
-import android.speech.tts.TextToSpeech;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
@@ -101,8 +101,8 @@ public class DaisyReaderScanBooksActivity extends DaisyEbookReaderBaseActivity {
 	@Override
 	protected void onResume() {
 		super.onResume();
-		mTts.speak(getString(R.string.title_activity_daisy_reader_scan_book),
-				TextToSpeech.QUEUE_FLUSH, null);
+		
+		speakText(getString(R.string.title_activity_daisy_reader_scan_book));
 		handleSearchBook();
 		deleteCurrentInformation();
 
@@ -125,7 +125,14 @@ public class DaisyReaderScanBooksActivity extends DaisyEbookReaderBaseActivity {
 		deleteCurrentInformation();
 		super.onRestart();
 	}
-
+	
+	@Override
+	public void onConfigurationChanged(Configuration newConfig) {
+		super.onConfigurationChanged(newConfig);
+		if (mListScanBook != null && mDaisyBookAdapter != null) {
+			mDaisyBookAdapter.notifyDataSetChanged();
+		}
+	}
 	/**
 	 * handle search book when text changed.
 	 */
@@ -194,7 +201,7 @@ public class DaisyReaderScanBooksActivity extends DaisyEbookReaderBaseActivity {
 
 		@Override
 		public void onItemClick(AdapterView<?> arg0, View arg1, int arg2, long arg3) {
-			mTts.speak(mListScanBook.get(arg2).getTitle(), TextToSpeech.QUEUE_FLUSH, null);
+			speakText(mListScanBook.get(arg2).getTitle());
 		}
 	};
 

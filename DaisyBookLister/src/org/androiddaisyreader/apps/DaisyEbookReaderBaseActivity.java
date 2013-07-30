@@ -1,12 +1,18 @@
 package org.androiddaisyreader.apps;
 
+import java.util.Locale;
+
 import org.androiddaisyreader.model.CurrentInformation;
 import org.androiddaisyreader.sqlite.SQLiteCurrentInformationHelper;
 import org.androiddaisyreader.utils.Constants;
 
+import android.annotation.SuppressLint;
+import android.app.KeyguardManager;
 import android.content.ContentResolver;
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.res.Configuration;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.provider.Settings.System;
@@ -30,6 +36,7 @@ public class DaisyEbookReaderBaseActivity extends SherlockActivity implements On
 		OnLongClickListener, TextToSpeech.OnInitListener {
 	protected TextToSpeech mTts;
 
+	@SuppressLint("NewApi")
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -64,7 +71,7 @@ public class DaisyEbookReaderBaseActivity extends SherlockActivity implements On
 
 	@Override
 	protected void onDestroy() {
-		
+
 		super.onDestroy();
 		try {
 			if (mTts != null) {
@@ -84,6 +91,7 @@ public class DaisyEbookReaderBaseActivity extends SherlockActivity implements On
 	 */
 	@Override
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+		super.onActivityResult(requestCode, resultCode, data);
 		if (requestCode == Constants.MY_DATA_CHECK_CODE) {
 			if (!(resultCode == TextToSpeech.Engine.CHECK_VOICE_DATA_PASS)) {
 				// missing data, install it
@@ -92,12 +100,14 @@ public class DaisyEbookReaderBaseActivity extends SherlockActivity implements On
 				startActivity(installIntent);
 			}
 		}
-		super.onActivityResult(requestCode, resultCode, data);
+		
 	}
 
 	@Override
 	public void onInit(int status) {
-		
+		if (status == TextToSpeech.SUCCESS) {
+			mTts.setLanguage(checkTTSSupportLanguage() ? Locale.getDefault() : Locale.US);
+		}
 	}
 
 	@Override
@@ -110,8 +120,9 @@ public class DaisyEbookReaderBaseActivity extends SherlockActivity implements On
 
 	}
 
-	/*
-	 * Start text to speech
+	
+	/**
+	 * Start TTS.
 	 */
 	private void startTts() {
 		if (mTts == null) {
@@ -119,6 +130,40 @@ public class DaisyEbookReaderBaseActivity extends SherlockActivity implements On
 			Intent checkIntent = new Intent();
 			checkIntent.setAction(TextToSpeech.Engine.ACTION_CHECK_TTS_DATA);
 			startActivityForResult(checkIntent, RESULT_OK);
+		}
+	}
+
+	/**
+	 * Check TTS support language.
+	 *
+	 * @return true, if locale is available and supported
+	 */
+	public boolean checkTTSSupportLanguage(){
+		Locale currentLocale = Locale.getDefault();
+		return mTts.isLanguageAvailable(currentLocale) == TextToSpeech.LANG_MISSING_DATA
+				|| mTts.isLanguageAvailable(currentLocale) == TextToSpeech.LANG_NOT_SUPPORTED ? false : true;
+	}
+	
+	
+	/**
+	 * Check keyguard screen is showing or in restricted key input mode .
+	 *
+	 * @return true, if in keyguard restricted input mode
+	 */
+	public boolean checkKeyguardMode(){
+		  getApplicationContext();
+		KeyguardManager kgMgr = (KeyguardManager) getSystemService(Context.KEYGUARD_SERVICE);
+		  return kgMgr.inKeyguardRestrictedInputMode();
+	}
+	
+	/**
+	 * Speak text.
+	 *
+	 * @param textToSpeech the text to speech
+	 */
+	public void speakText(String textToSpeech) {
+		if (checkTTSSupportLanguage() && !checkKeyguardMode()) {
+			mTts.speak(textToSpeech, TextToSpeech.QUEUE_FLUSH, null);
 		}
 	}
 
@@ -143,5 +188,19 @@ public class DaisyEbookReaderBaseActivity extends SherlockActivity implements On
 			sql.deleteCurrentInformation(current.getId());
 		}
 	}
-
+	
+	/**
+	 * Restart activity when changing configuration.
+	 */
+	private void restartActivity() {
+	    Intent intent = getIntent();
+	    finish();
+	    startActivity(intent);
+	}
+	
+	@Override
+	public void onConfigurationChanged(Configuration newConfig) {
+		super.onConfigurationChanged(newConfig);
+		restartActivity();
+	}
 }

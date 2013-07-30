@@ -12,7 +12,6 @@ import org.androiddaisyreader.utils.DaisyBookUtil;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.speech.tts.TextToSpeech;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
@@ -22,6 +21,7 @@ import android.widget.ListView;
 
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuItem;
+import com.actionbarsherlock.view.SubMenu;
 
 /**
  * This activity is table of contents. It will so structure of book.
@@ -60,27 +60,58 @@ public class DaisyReaderTableOfContentsActivity extends DaisyEbookReaderBaseActi
 		String targetActivity = getIntent().getStringExtra(Constants.TARGET_ACTIVITY);
 		// invisible button book mark when you go to bookmark from simple mode.
 		if (!targetActivity.equals(getString(R.string.simple_mode))) {
-			menu.add(0, 1, 1, R.string.bookmarks).setIcon(R.drawable.bookmark)
-					.setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
+			SubMenu subMenu = menu.addSubMenu(0, Constants.SUBMENU_MENU, 1, R.string.menu_title);
+
+			subMenu.add(0, Constants.SUBMENU_LIBRARY, 2, R.string.submenu_library).setIcon(R.drawable.library);
+
+			subMenu.add(0, Constants.SUBMENU_BOOKMARKS, 3, R.string.submenu_bookmarks).setIcon(
+					R.drawable.bookmark);
+
+			subMenu.add(0, Constants.SUBMENU_SIMPLE_MODE, 5, R.string.submenu_simple_mode).setIcon(
+					R.drawable.simple_mode);
+
+			subMenu.add(0, Constants.SUBMENU_SETTINGS, 7, R.string.submenu_settings).setIcon(R.drawable.settings);
+
+			MenuItem subMenuItem = subMenu.getItem();
+			subMenuItem.setIcon(R.drawable.ic_menu_32x32);
+			subMenuItem.setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
+			return true;
 		}
 
 		return true;
 	}
 
+	/**
+	 * Event Handling for Individual menu item selected Identify single menu
+	 * item by it's id
+	 * */
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
 		switch (item.getItemId()) {
+			// go to simple mode
+		case Constants.SUBMENU_SIMPLE_MODE:
+			mIntentController.pushToDaisyEbookReaderSimpleModeIntent(getIntent().getStringExtra(
+					Constants.DAISY_PATH));
+			return true;
+			// go to settings
+		case Constants.SUBMENU_SETTINGS:
+			mIntentController.pushToDaisyReaderSettingIntent();
+			return true;
+			// go to book marks
+		case Constants.SUBMENU_BOOKMARKS:
+			pushToBookmark();
+			return true;
+			// go to library
+		case Constants.SUBMENU_LIBRARY:
+			mIntentController.pushToLibraryIntent();
+			return true;
+			// back to previous screen
 		case android.R.id.home:
 			onBackPressed();
-			break;
-		case 1: // touch on bookmark icon
-			pushToBookmark();
-			break;
-
+			return true;
 		default:
 			return super.onOptionsItemSelected(item);
 		}
-		return false;
 	}
 
 	/**
@@ -127,14 +158,13 @@ public class DaisyReaderTableOfContentsActivity extends DaisyEbookReaderBaseActi
 	@Override
 	protected void onResume() {
 		super.onResume();
-		mTts.speak(getString(R.string.title_activity_daisy_reader_table_of_contents),
-				TextToSpeech.QUEUE_FLUSH, null);
+		speakText(getString(R.string.title_activity_daisy_reader_table_of_contents));
 	}
 
 	private OnItemClickListener itemContentsClick = new OnItemClickListener() {
 		@Override
 		public void onItemClick(AdapterView<?> arg0, View v, int position, long id) {
-			mTts.speak(mListResult.get(position).toString(), TextToSpeech.QUEUE_FLUSH, null);
+			speakText(mListResult.get(position).toString());
 		}
 	};
 
@@ -152,6 +182,7 @@ public class DaisyReaderTableOfContentsActivity extends DaisyEbookReaderBaseActi
 		Bookmark bookmark = new Bookmark();
 		bookmark.setPath(mPath);
 		mIntentController.pushToDaisyReaderBookmarkIntent(bookmark, mPath);
+		finish();
 	}
 
 	/**

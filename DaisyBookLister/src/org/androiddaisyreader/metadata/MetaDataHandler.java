@@ -28,6 +28,13 @@ import android.app.Activity;
 @SuppressLint("NewApi")
 public class MetaDataHandler extends Activity {
 
+	/**
+	 * Read data download from xml file.
+	 *
+	 * @param databaseInputStream the database input stream
+	 * @param link the link
+	 * @return the node list
+	 */
 	public NodeList ReadDataDownloadFromXmlFile(InputStream databaseInputStream, String link) {
 		NodeList nList = null;
 		try {
@@ -50,6 +57,13 @@ public class MetaDataHandler extends Activity {
 		return nList;
 	}
 
+	/**
+	 * Read data download from xml file.
+	 *
+	 * @param nodeList the node list
+	 * @param link the link
+	 * @return the node list
+	 */
 	private NodeList ReadDataDownloadFromXmlFile(NodeList nodeList, String link) {
 		NodeList nList = null;
 		for (int i = 0; i < nodeList.getLength(); i++) {
@@ -69,6 +83,12 @@ public class MetaDataHandler extends Activity {
 		return nList;
 	}
 
+	/**
+	 * Read data scan from xml file.
+	 *
+	 * @param databaseInputStream the database input stream
+	 * @return the node list
+	 */
 	public NodeList ReadDataScanFromXmlFile(InputStream databaseInputStream) {
 		NodeList nList = null;
 		try {
@@ -90,6 +110,12 @@ public class MetaDataHandler extends Activity {
 		return nList;
 	}
 
+	/**
+	 * Write data to xml file.
+	 *
+	 * @param daisybooks the daisybooks
+	 * @param localPath the local path
+	 */
 	public void WriteDataToXmlFile(ArrayList<DaisyBook> daisybooks, String localPath) {
 		try {
 			DocumentBuilderFactory docFactory = DocumentBuilderFactory.newInstance();

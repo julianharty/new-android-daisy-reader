@@ -14,12 +14,15 @@ before_install:
   - android update sdk --filter android-17,sysimg-17,tools,platform-tools,extra-android-support --no-ui --force
   - echo y | android update sdk --filter build-tools-18.0.1 --no-ui --force  
 before_script:
+  - pwd
   - ls -la
-  - ls -la actionbarsherlock
-  - ls -la android-sdk-linux
-  - ls -la android-sdk-linux/platform-tools
+  - ls -la  actionbarsherlock
+  - ls -la  android-sdk-linux
+  - ls -la  android-sdk-linux/platform-tools
   - ls -laR android-sdk-linux/build-tools/
+  - ls -laR android-sdk-linux/build-tools/18.0.1/
+  - ls -la  android-sdk-linux/build-tools/18.0.1/aapt
   # Just see if aapt can be run now it's been installed
-  - android-sdk-linux/build-tools/18.0.1/aapt
+  - ./android-sdk-linux/build-tools/18.0.1/aapt
 script: "./buildstuff.sh"
 

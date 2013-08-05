@@ -15,7 +15,6 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
-import android.widget.AdapterView.OnItemLongClickListener;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
@@ -48,7 +47,6 @@ public class DaisyReaderTableOfContentsActivity extends DaisyEbookReaderBaseActi
 		ListView listContent = (ListView) this.findViewById(R.id.listContent);
 		listContent.setAdapter(adapter);
 		listContent.setOnItemClickListener(itemContentsClick);
-		listContent.setOnItemLongClickListener(itemContentsLongClick);
 		mIntentController = new IntentController(this);
 
 		getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -164,15 +162,13 @@ public class DaisyReaderTableOfContentsActivity extends DaisyEbookReaderBaseActi
 	private OnItemClickListener itemContentsClick = new OnItemClickListener() {
 		@Override
 		public void onItemClick(AdapterView<?> arg0, View v, int position, long id) {
-			speakText(mListResult.get(position).toString());
+			boolean isDoubleTap = handleClickItem(position);
+			if (isDoubleTap) {
+				pushToDaisyEbookReaderModeIntent(position + 1);
+			}else{
+				speakTextOnHandler(mListResult.get(position).toString());
+			}	
 		}
-	};
-
-	private OnItemLongClickListener itemContentsLongClick = new OnItemLongClickListener() {
-		public boolean onItemLongClick(AdapterView<?> arg0, View v, int position, long id) {
-			pushToDaisyEbookReaderModeIntent(position + 1);
-			return false;
-		};
 	};
 
 	/**

@@ -3,6 +3,7 @@ package org.androiddaisyreader.adapter;
 import java.util.ArrayList;
 
 import org.androiddaisyreader.apps.DaisyEbookReaderVisualModeActivity;
+import org.androiddaisyreader.apps.DaisyReaderBookmarkActivity;
 import org.androiddaisyreader.apps.R;
 import org.androiddaisyreader.model.Bookmark;
 import org.androiddaisyreader.sqlite.SQLiteBookmarkHelper;
@@ -63,33 +64,20 @@ public class BookmarkListAdapter extends ArrayAdapter<Bookmark> {
 		mRbt.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				mBookmark = mListBookmark.get(position);
-				boolean isEmptyText = mBookmark.getTextShow().equals(
-						mContext.getString(R.string.empty_bookmark));
-				if (isEmptyText) {
-					mBookmark.setSort(mTotalNumberBookmark);
+				DaisyReaderBookmarkActivity activity = (DaisyReaderBookmarkActivity) mContext;
+				if (activity != null) {
+					boolean isDoubleTap = activity.handleClickItem(position);
+					if (isDoubleTap) {
+						handleTouchOnItem(position, v);
 				} else {
-					mBookmark.setSort(position);
-				}
 				if (position != mSelectedPosition && mSelectedRB != null) {
 					mSelectedRB.setChecked(false);
 				}
 				mSelectedPosition = position;
 				mSelectedRB = (RadioButton) v;
-				// Set enable for buttons
-				boolean onlyLoad = false;
-				boolean onlySave = false;
-				boolean loadAndSave = false;
-				if (mBookmark.getId() != null && mBookmarkTmp.getId() == null && !isEmptyText) {
-					onlyLoad = true;
-				} else if (mBookmark.getId() != null && mBookmarkTmp.getId() != null
-						&& !isEmptyText) {
-					loadAndSave = true;
-				} else if (mBookmark.getId() == null && mBookmarkTmp.getId() != null && isEmptyText) {
-					onlySave = true;
+						activity.speakTextOnHandler(mListBookmark.get(position).getTextShow());
+					}
 				}
-				pushToDialogOptions(mContext.getString(R.string.message_bookmark), onlyLoad,
-						onlySave, loadAndSave);
 			}
 		});
 		return mV;
@@ -191,5 +179,34 @@ public class BookmarkListAdapter extends ArrayAdapter<Bookmark> {
 		i.putExtra(Constants.DAISY_PATH, path);
 		i.putExtra(Constants.TIME, time);
 		mContext.startActivity(i);
+	}
+
+	private void handleTouchOnItem(final int position, View v) {
+		mBookmark = mListBookmark.get(position);
+		boolean isEmptyText = mBookmark.getTextShow().equals(
+				mContext.getString(R.string.empty_bookmark));
+		if (isEmptyText) {
+			mBookmark.setSort(mTotalNumberBookmark);
+		} else {
+			mBookmark.setSort(position);
+		}
+		if (position != mSelectedPosition && mSelectedRB != null) {
+			mSelectedRB.setChecked(false);
+		}
+		mSelectedPosition = position;
+		mSelectedRB = (RadioButton) v;
+		// Set enable for buttons
+		boolean onlyLoad = false;
+		boolean onlySave = false;
+		boolean loadAndSave = false;
+		if (mBookmark.getId() != null && mBookmarkTmp.getId() == null && !isEmptyText) {
+			onlyLoad = true;
+		} else if (mBookmark.getId() != null && mBookmarkTmp.getId() != null && !isEmptyText) {
+			loadAndSave = true;
+		} else if (mBookmark.getId() == null && mBookmarkTmp.getId() != null && isEmptyText) {
+			onlySave = true;
+		}
+		pushToDialogOptions(mContext.getString(R.string.message_bookmark), onlyLoad, onlySave,
+				loadAndSave);
 	}
 }

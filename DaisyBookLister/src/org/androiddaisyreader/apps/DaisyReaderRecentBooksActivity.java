@@ -11,6 +11,7 @@ import org.androiddaisyreader.sqlite.SQLiteDaisyBookHelper;
 import org.androiddaisyreader.utils.Constants;
 import org.androiddaisyreader.utils.DaisyBookUtil;
 
+import android.annotation.SuppressLint;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
@@ -19,7 +20,6 @@ import android.text.TextWatcher;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
-import android.widget.AdapterView.OnItemLongClickListener;
 import android.widget.EditText;
 import android.widget.ListView;
 
@@ -64,7 +64,6 @@ public class DaisyReaderRecentBooksActivity extends DaisyEbookReaderBaseActivity
 		mSql = new SQLiteDaisyBookHelper(this);
 
 		mListViewRecentBooks.setOnItemClickListener(onItemBookClick);
-		mListViewRecentBooks.setOnItemLongClickListener(onItemBookLongClick);
 		deleteCurrentInformation();
 
 	}
@@ -178,34 +177,30 @@ public class DaisyReaderRecentBooksActivity extends DaisyEbookReaderBaseActivity
 		});
 	}
 
-	/** The on item book long click. */
-	private OnItemLongClickListener onItemBookLongClick = new OnItemLongClickListener() {
-
-		@Override
-		public boolean onItemLongClick(AdapterView<?> arg0, View arg1, int arg2, long arg3) {
-			// push to reader activity
-			itemScanBookClick(mListRecentBooks.get(arg2));
-			return false;
-		}
-
-	};
-
 	/** The on item book click. */
 	private OnItemClickListener onItemBookClick = new OnItemClickListener() {
 
+		@SuppressLint("HandlerLeak")
 		@Override
 		public void onItemClick(AdapterView<?> arg0, View arg1, int arg2, long arg3) {
-			speakText(mListRecentBooks.get(arg2).getTitle());
+			final DaisyBook daisyBook = mListRecentBooks.get(arg2);
+			boolean isDoubleTap = handleClickItem(arg2);
+			if (isDoubleTap) {
+				itemRecentBookClick(daisyBook);
+			} else {
+				speakTextOnHandler(daisyBook.getTitle());
+
+			}
 		}
 	};
 
 	/**
-	 * Item scan book click.
+	 * Item recent book click.
 	 * 
 	 * @param daisyBook
 	 *            the daisy book
 	 */
-	private void itemScanBookClick(DaisyBook daisyBook) {
+	private void itemRecentBookClick(DaisyBook daisyBook) {
 		IntentController intentController = new IntentController(this);
 		intentController.pushToDaisyEbookReaderIntent(daisyBook.getPath());
 	}

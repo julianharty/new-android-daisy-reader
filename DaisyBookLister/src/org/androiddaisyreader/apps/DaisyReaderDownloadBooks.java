@@ -29,12 +29,12 @@ import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
+import android.os.StatFs;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
-import android.widget.AdapterView.OnItemLongClickListener;
 import android.widget.EditText;
 import android.widget.ListView;
 
@@ -79,7 +79,6 @@ public class DaisyReaderDownloadBooks extends DaisyEbookReaderBaseActivity {
 		ListView listDownload = (ListView) findViewById(R.id.list_view_download_books);
 		listDownload.setAdapter(mDaisyBookAdapter);
 		listDownload.setOnItemClickListener(onItemClick);
-		listDownload.setOnItemLongClickListener(onItemLongClick);
 		mListDaisyBookOriginal = new ArrayList<DaisyBook>(mlistDaisyBook);
 
 		getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -137,21 +136,24 @@ public class DaisyReaderDownloadBooks extends DaisyEbookReaderBaseActivity {
 	private OnItemClickListener onItemClick = new OnItemClickListener() {
 
 		@Override
-		public void onItemClick(AdapterView<?> arg0, View arg1, int arg2, long arg3) {
-			speakText(mlistDaisyBook.get(arg2).getTitle());
+		public void onItemClick(AdapterView<?> arg0, View arg1, int position, long arg3) {
+			final DaisyBook daisyBook = mlistDaisyBook.get(position);
+			boolean isDoubleTap = handleClickItem(position);
+			if (isDoubleTap) {
+				downloadABook(position);
+			} else {
+				speakTextOnHandler(daisyBook.getTitle());
+			}
 		}
 	};
 
-	private OnItemLongClickListener onItemLongClick = new OnItemLongClickListener() {
-
-		@Override
-		public boolean onItemLongClick(AdapterView<?> arg0, View arg1, int position, long arg3) {
-			boolean isConnected = DaisyBookUtil
-					.getConnectivityStatus(DaisyReaderDownloadBooks.this) != Constants.TYPE_NOT_CONNECTED;
-			if (isConnected) {
-				if (checkFolderIsExist()) {
-					mDaisyBook = mlistDaisyBook.get(position);
-					String params[] = { mDaisyBook.getPath() };
+	/**
+	 * Run asyn task.
+	 * 
+	 * @param params
+	 *            the params
+	 */
+	private void runAsynTask(String params[]) {
 					mTask = new DownloadFileFromURL();
 					if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
 						mTask.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, params);
@@ -159,16 +161,36 @@ public class DaisyReaderDownloadBooks extends DaisyEbookReaderBaseActivity {
 						mTask.execute(params);
 					}
 				}
-			} else {
-				IntentController intent = new IntentController(DaisyReaderDownloadBooks.this);
-				intent.pushToDialog(
-						DaisyReaderDownloadBooks.this.getString(R.string.error_connect_internet),
-						DaisyReaderDownloadBooks.this.getString(R.string.error_title),
-						R.drawable.error, false, false, null);
+
+	/**
+	 * Check storage.
+	 * 
+	 * @param link
+	 *            the link
+	 * @return true, if successful
+	 */
+	private int checkStorage(String link) {
+		int result = 0;
+		try {
+			java.net.URL url = new java.net.URL(link);
+			URLConnection conection = url.openConnection();
+			conection.connect();
+			int lenghtOfFile = conection.getContentLength();
+
+			StatFs statFs = new StatFs(Environment.getExternalStorageDirectory().getAbsolutePath());
+			long blockSize = statFs.getBlockSize();
+			long freeSize = statFs.getFreeBlocks() * blockSize;
+
+			if (freeSize > lenghtOfFile) {
+				result = 1;
 			}
-			return false;
+		} catch (Exception e) {
+			result = 2;
+			PrivateException ex = new PrivateException(e, DaisyReaderDownloadBooks.this);
+			ex.writeLogException();
+			}
+		return result;
 		}
-	};
 
 	/**
 	 * Create folder if not exists
@@ -399,5 +421,31 @@ public class DaisyReaderDownloadBooks extends DaisyEbookReaderBaseActivity {
 					}
 				});
 		alertDialog.show();
+	}
+
+	private void downloadABook(int position) {
+		boolean isConnected = DaisyBookUtil.getConnectivityStatus(DaisyReaderDownloadBooks.this) != Constants.TYPE_NOT_CONNECTED;
+		IntentController intent = new IntentController(DaisyReaderDownloadBooks.this);
+		if (isConnected) {
+			if (checkFolderIsExist()) {
+				mDaisyBook = mlistDaisyBook.get(position);
+				String link = mDaisyBook.getPath();
+
+				if (checkStorage(link) != 0) {
+					String params[] = { link };
+					runAsynTask(params);
+				} else {
+					intent.pushToDialog(DaisyReaderDownloadBooks.this
+							.getString(R.string.error_not_enough_space),
+							DaisyReaderDownloadBooks.this.getString(R.string.error_title),
+							R.drawable.error, false, false, null);
+				}
+			}
+		} else {
+			intent.pushToDialog(
+					DaisyReaderDownloadBooks.this.getString(R.string.error_connect_internet),
+					DaisyReaderDownloadBooks.this.getString(R.string.error_title),
+					R.drawable.error, false, false, null);
+		}
 	}
 }

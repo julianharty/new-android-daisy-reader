@@ -7,10 +7,10 @@ import org.androiddaisyreader.sqlite.SQLiteCurrentInformationHelper;
 import org.androiddaisyreader.utils.Constants;
 import org.androiddaisyreader.utils.DaisyBookUtil;
 
+import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.view.View.OnLongClickListener;
 import android.widget.RelativeLayout;
 
 import com.actionbarsherlock.view.MenuItem;
@@ -38,11 +38,9 @@ public class DaisyEbookReaderModeChoiceActivity extends DaisyEbookReaderBaseActi
 		mIntentController = new IntentController(this);
 
 		RelativeLayout simpleMode = (RelativeLayout) this.findViewById(R.id.simpleMode);
-		simpleMode.setOnClickListener(simpleModeClick);
-		simpleMode.setOnLongClickListener(simpleModeLongClick);
+		simpleMode.setOnClickListener(ModeClick);
 		RelativeLayout visualMode = (RelativeLayout) this.findViewById(R.id.visualMode);
-		visualMode.setOnClickListener(visualModeClick);
-		visualMode.setOnLongClickListener(visualModeLongClick);
+		visualMode.setOnClickListener(ModeClick);
 
 		getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 		getSupportActionBar().setTitle(getBookTitle());
@@ -60,7 +58,6 @@ public class DaisyEbookReaderModeChoiceActivity extends DaisyEbookReaderBaseActi
 		return false;
 	}
 
-	
 	@Override
 	protected void onStart() {
 		super.onStart();
@@ -104,36 +101,24 @@ public class DaisyEbookReaderModeChoiceActivity extends DaisyEbookReaderBaseActi
 		return titleOfBook;
 	}
 
-	private OnClickListener simpleModeClick = new OnClickListener() {
+	private OnClickListener ModeClick = new OnClickListener() {
+		@SuppressLint("HandlerLeak")
 		@Override
-		public void onClick(View v) {
-			speakOut(Constants.SIMPLE_MODE);
+		public void onClick(final View v) {
+			boolean isDoubleTap = handleClickItem(v.getId());
+			if (isDoubleTap) {
+				if (v.getId() == R.id.simpleMode) {
+					mIntentController.pushToDaisyEbookReaderSimpleModeIntent(mPath);
+				} else {
+					mIntentController.pushToDaisyEbookReaderVisualModeIntent(mPath);
 		}
-	};
-
-	private OnLongClickListener simpleModeLongClick = new OnLongClickListener() {
-
-		@Override
-		public boolean onLongClick(View v) {
-			mIntentController.pushToDaisyEbookReaderSimpleModeIntent(mPath);
-			return false;
+			} else {
+				if (v.getId() == R.id.simpleMode) {
+					speakTextOnHandler(getString(R.string.title_activity_daisy_ebook_reader_simple_mode));
+				} else {
+					speakTextOnHandler(getString(R.string.title_activity_daisy_ebook_reader_visual_mode));
 		}
-	};
-
-	private OnClickListener visualModeClick = new OnClickListener() {
-
-		@Override
-		public void onClick(View v) {
-			speakOut(Constants.VISUAL_MODE);
 		}
-	};
-
-	private OnLongClickListener visualModeLongClick = new OnLongClickListener() {
-
-		@Override
-		public boolean onLongClick(View v) {
-			mIntentController.pushToDaisyEbookReaderVisualModeIntent(mPath);
-			return false;
 		}
 	};
 
@@ -159,23 +144,7 @@ public class DaisyEbookReaderModeChoiceActivity extends DaisyEbookReaderBaseActi
 	@Override
 	protected void onResume() {
 		super.onResume();
-		speakOut(Constants.READER_ACTIVITY);
-	}
-
-	private void speakOut(int message) {
-		switch (message) {
-		case Constants.SIMPLE_MODE:
-			speakText(getString(R.string.title_activity_daisy_ebook_reader_simple_mode));
-			break;
-		case Constants.VISUAL_MODE:
-			speakText(getString(R.string.title_activity_daisy_ebook_reader_visual_mode));
-			break;
-		case Constants.READER_ACTIVITY:
 			speakText(getString(R.string.title_activity_daisy_ebook_reader));
-			break;
-		default:
-			break;
-		}
 	}
 
 }

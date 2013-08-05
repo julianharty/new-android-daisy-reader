@@ -30,7 +30,6 @@ import android.text.TextWatcher;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
-import android.widget.AdapterView.OnItemLongClickListener;
 import android.widget.EditText;
 import android.widget.ListView;
 
@@ -76,7 +75,6 @@ public class DaisyReaderScanBooksActivity extends DaisyEbookReaderBaseActivity {
 		mTextSearch = (EditText) findViewById(R.id.edit_text_search);
 		mlistViewScanBooks = (ListView) findViewById(R.id.list_view_scan_books);
 		mlistViewScanBooks.setOnItemClickListener(onItemBookClick);
-		mlistViewScanBooks.setOnItemLongClickListener(onItemBookLongClick);
 
 		mListScanBook = new ArrayList<DaisyBook>();
 		mMetadata = new MetaDataHandler();
@@ -87,7 +85,6 @@ public class DaisyReaderScanBooksActivity extends DaisyEbookReaderBaseActivity {
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
 		switch (item.getItemId()) {
-
 		case android.R.id.home:
 			backToTopScreen();
 			break;
@@ -182,26 +179,19 @@ public class DaisyReaderScanBooksActivity extends DaisyEbookReaderBaseActivity {
 
 	}
 
-	/** The on item book long click. */
-	private OnItemLongClickListener onItemBookLongClick = new OnItemLongClickListener() {
-
-		@Override
-		public boolean onItemLongClick(AdapterView<?> arg0, View arg1, int arg2, long arg3) {
-			addRecentBookToSQLite(mListScanBook.get(arg2));
-
-			// push to reader activity
-			itemScanBookClick(mListScanBook.get(arg2));
-			return false;
-		}
-
-	};
-
 	/** The on item book click. */
 	private OnItemClickListener onItemBookClick = new OnItemClickListener() {
 
 		@Override
 		public void onItemClick(AdapterView<?> arg0, View arg1, int arg2, long arg3) {
-			speakText(mListScanBook.get(arg2).getTitle());
+			final DaisyBook daisyBook = mListScanBook.get(arg2);
+			boolean isDoubleTap = handleClickItem(arg2);
+			if (isDoubleTap) {
+				addRecentBookToSQLite(mListScanBook.get(arg2));
+				itemScanBookClick(daisyBook);
+			}else{
+				speakTextOnHandler(daisyBook.getTitle());
+			}
 		}
 	};
 

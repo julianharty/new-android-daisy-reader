@@ -14,12 +14,13 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.preference.PreferenceManager;
 import android.provider.Settings.System;
 import android.speech.tts.TextToSpeech;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.view.View.OnLongClickListener;
 import android.view.Window;
 import android.view.WindowManager.LayoutParams;
 
@@ -32,10 +33,12 @@ import com.bugsense.trace.BugSenseHandler;
  * @date Jul 19, 2013
  */
 
-public class DaisyEbookReaderBaseActivity extends SherlockActivity implements OnClickListener,
-		OnLongClickListener, TextToSpeech.OnInitListener {
+public class DaisyEbookReaderBaseActivity extends SherlockActivity implements OnClickListener, TextToSpeech.OnInitListener {
 	protected TextToSpeech mTts;
-
+	protected static final long DOUBLE_PRESS_INTERVAL = 1000; // in millis
+	protected static long lastPressTime;
+	protected static int lastPositionClick = -1;
+	protected static boolean mHasDoubleClicked = false;
 	@SuppressLint("NewApi")
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -111,16 +114,10 @@ public class DaisyEbookReaderBaseActivity extends SherlockActivity implements On
 	}
 
 	@Override
-	public boolean onLongClick(View arg0) {
-		return false;
-	}
-
-	@Override
 	public void onClick(View arg0) {
 
 	}
 
-	
 	/**
 	 * Start TTS.
 	 */
@@ -141,9 +138,9 @@ public class DaisyEbookReaderBaseActivity extends SherlockActivity implements On
 	public boolean checkTTSSupportLanguage(){
 		Locale currentLocale = Locale.getDefault();
 		return mTts.isLanguageAvailable(currentLocale) == TextToSpeech.LANG_MISSING_DATA
-				|| mTts.isLanguageAvailable(currentLocale) == TextToSpeech.LANG_NOT_SUPPORTED ? false : true;
+				|| mTts.isLanguageAvailable(currentLocale) == TextToSpeech.LANG_NOT_SUPPORTED ? false
+				: true;
 	}
-	
 	
 	/**
 	 * Check keyguard screen is showing or in restricted key input mode .
@@ -165,6 +162,24 @@ public class DaisyEbookReaderBaseActivity extends SherlockActivity implements On
 		if (checkTTSSupportLanguage() && !checkKeyguardMode()) {
 			mTts.speak(textToSpeech, TextToSpeech.QUEUE_FLUSH, null);
 		}
+	}
+
+	/**
+	 * Speak text on handler.
+	 *
+	 * @param textToSpeech the text to speech
+	 */
+	@SuppressLint("HandlerLeak")
+	public void speakTextOnHandler(final String textToSpeech){
+		Handler myHandler = new Handler() {
+			public void handleMessage(Message m) {
+				if (!mHasDoubleClicked) {
+					speakText(textToSpeech);
+				}	
+			}
+		};
+		Message m = new Message();
+		myHandler.sendMessageDelayed(m, 500);
 	}
 
 	/**
@@ -202,5 +217,27 @@ public class DaisyEbookReaderBaseActivity extends SherlockActivity implements On
 	public void onConfigurationChanged(Configuration newConfig) {
 		super.onConfigurationChanged(newConfig);
 		restartActivity();
+	}
+	
+	/**
+	 * Handle click item is double tap or single tap
+	 *
+	 * @param position the position
+	 * @return true, if double tap on item
+	 */
+	public boolean handleClickItem(final int position) {
+		// Get current time in nano seconds.
+		long pressTime = java.lang.System.currentTimeMillis();
+
+		// If double click...
+		if (pressTime - lastPressTime <= DOUBLE_PRESS_INTERVAL && lastPositionClick == position) {
+			mHasDoubleClicked = true;
+		} else { // If not double click....
+			mHasDoubleClicked = false;
+		}
+		// record the last time the menu button was pressed.
+		lastPressTime = pressTime;
+		lastPositionClick = position;
+		return mHasDoubleClicked;
 	}
 }

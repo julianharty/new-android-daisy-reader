@@ -288,7 +288,6 @@ public class DaisyEbookReaderSimpleModeActivity extends DaisyEbookReaderBaseActi
 			ex.writeLogException();
 		}
 		mHandler.removeCallbacks(mRunnalbe);
-
 	}
 
 	@Override
@@ -300,7 +299,6 @@ public class DaisyEbookReaderSimpleModeActivity extends DaisyEbookReaderBaseActi
 		if (mBook != null) {
 			mNavigatorOfTableContents = new Navigator(mBook);
 		}
-
 	}
 
 	@Override
@@ -563,21 +561,18 @@ public class DaisyEbookReaderSimpleModeActivity extends DaisyEbookReaderBaseActi
 	 * Handle all gesture actions.
 	 */
 	private GestureListener gestureListener = new GestureListener() {
-		private long startTime;
 
 		@Override
 		public void onGestureStart(int g) {
-			startTime = java.lang.System.currentTimeMillis();
-			Log.i("GESTURE", "onGestureStart" + startTime);
 		}
 
 		@Override
 		public void onGestureFinish(int g) {
 			try {
-				long timeTaken = java.lang.System.currentTimeMillis() - startTime;
-				Log.i("GESTURE", "onGestureTimeTaken" + timeTaken);
-				// If user press and hold will go to table of contents.
-				if (timeTaken > 1000) {
+				// If user double tap will go to table of contents.
+				boolean isDoubleTap = handleClickItem(0);
+				if (isDoubleTap) {
+					Log.i("GESTURE", "Action: Double Tap");
 					mIsPlaying = mPlayer.isPlaying();
 					if (mIsPlaying) {
 						mPlayer.pause();

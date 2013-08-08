@@ -19,7 +19,6 @@ import android.text.TextWatcher;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
-import android.widget.AdapterView.OnItemLongClickListener;
 import android.widget.EditText;
 import android.widget.ListView;
 
@@ -61,7 +60,6 @@ public class DaisyReaderDownloadedBooks extends DaisyEbookReaderBaseActivity {
 		ListView listDownloaded = (ListView) findViewById(R.id.list_view_downloaded_books);
 		listDownloaded.setAdapter(mDaisyBookAdapter);
 		listDownloaded.setOnItemClickListener(onItemClick);
-		listDownloaded.setOnItemLongClickListener(onItemLongClick);
 		deleteCurrentInformation();
 		mListDaisyBookOriginal = new ArrayList<DaisyBook>(mlistDaisyBook);
 	}
@@ -102,14 +100,10 @@ public class DaisyReaderDownloadedBooks extends DaisyEbookReaderBaseActivity {
 		@Override
 		public void onItemClick(AdapterView<?> arg0, View arg1, int arg2, long arg3) {
 			speakText(mlistDaisyBook.get(arg2).getTitle());
-		}
-	};
 
-	private OnItemLongClickListener onItemLongClick = new OnItemLongClickListener() {
-
-		@Override
-		public boolean onItemLongClick(AdapterView<?> arg0, View arg1, int position, long arg3) {
-			DaisyBook daisyBook = mlistDaisyBook.get(position);
+			final DaisyBook daisyBook = mlistDaisyBook.get(arg2);
+			boolean isDoubleTap = handleClickItem(arg2);
+			if (isDoubleTap) {
 			// add to sqlite
 			addRecentBookToSQLite(daisyBook);
 
@@ -117,15 +111,16 @@ public class DaisyReaderDownloadedBooks extends DaisyEbookReaderBaseActivity {
 			IntentController intentController = new IntentController(
 					DaisyReaderDownloadedBooks.this);
 			intentController.pushToDaisyEbookReaderIntent(daisyBook.getPath());
-			return false;
+			}else{
+				speakTextOnHandler(daisyBook.getTitle());
+			}
 		}
 	};
 
 	/**
 	 * Adds the recent book to sql lite.
 	 * 
-	 * @param daisyBook
-	 *            the daisy book
+	 * @param daisyBook the daisy book
 	 */
 	private void addRecentBookToSQLite(DaisyBook daisyBook) {
 		if (mNumberOfRecentBooks > 0) {

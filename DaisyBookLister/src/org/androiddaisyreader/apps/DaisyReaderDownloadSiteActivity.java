@@ -12,7 +12,6 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
-import android.widget.AdapterView.OnItemLongClickListener;
 import android.widget.ListView;
 
 import com.actionbarsherlock.view.MenuItem;
@@ -41,7 +40,6 @@ public class DaisyReaderDownloadSiteActivity extends DaisyEbookReaderBaseActivit
 
 		// set listener while touch on website
 		mListViewWebsite.setOnItemClickListener(onItemWebsiteClick);
-		mListViewWebsite.setOnItemLongClickListener(onItemWebsiteLongClick);
 
 	}
 
@@ -63,17 +61,15 @@ public class DaisyReaderDownloadSiteActivity extends DaisyEbookReaderBaseActivit
 
 		@Override
 		public void onItemClick(AdapterView<?> arg0, View arg1, int arg2, long arg3) {
-			speakText(listWebsite.get(arg2).getSiteName());
+			Website website = listWebsite.get(arg2);
+			boolean isDoubleTap = handleClickItem(arg2);
+			if (isDoubleTap) {
+				String websiteUrl = website.getSiteURL();
+				String websiteName = website.getSiteName();
+				pushToWebsite(websiteUrl, websiteName);
+			} else {
+				speakTextOnHandler(website.getSiteName());
 		}
-	};
-
-	private OnItemLongClickListener onItemWebsiteLongClick = new OnItemLongClickListener() {
-		@Override
-		public boolean onItemLongClick(AdapterView<?> arg0, View arg1, int arg2, long arg3) {
-			String websiteUrl = listWebsite.get(arg2).getSiteURL();
-			String websiteName = listWebsite.get(arg2).getSiteName();
-			pushToWebsite(websiteUrl, websiteName);
-			return false;
 		}
 	};
 

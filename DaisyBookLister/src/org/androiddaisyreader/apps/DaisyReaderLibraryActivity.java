@@ -10,6 +10,7 @@ import org.androiddaisyreader.player.IntentController;
 import org.androiddaisyreader.service.DaisyEbookReaderService;
 import org.androiddaisyreader.utils.Constants;
 
+import android.annotation.SuppressLint;
 import android.content.BroadcastReceiver;
 import android.content.Intent;
 import android.content.res.AssetManager;
@@ -42,10 +43,6 @@ public class DaisyReaderLibraryActivity extends DaisyEbookReaderBaseActivity {
 		findViewById(R.id.btnRecentBooks).setOnClickListener(this);
 		findViewById(R.id.btnScanBooks).setOnClickListener(this);
 		findViewById(R.id.btnDownloadBooks).setOnClickListener(this);
-
-		findViewById(R.id.btnRecentBooks).setOnLongClickListener(this);
-		findViewById(R.id.btnScanBooks).setOnLongClickListener(this);
-		findViewById(R.id.btnDownloadBooks).setOnLongClickListener(this);
 
 		Constants.FOLDER_CONTAIN_METADATA = Environment.getExternalStorageDirectory().toString()
 				+ "/" + Constants.FOLDER_NAME + "/";
@@ -111,9 +108,12 @@ public class DaisyReaderLibraryActivity extends DaisyEbookReaderBaseActivity {
 	/**
 	 * Copy file.
 	 * 
-	 * @param in the in
-	 * @param out the out
-	 * @throws IOException Signals that an I/O exception has occurred.
+	 * @param in
+	 *            the in
+	 * @param out
+	 *            the out
+	 * @throws IOException
+	 *             Signals that an I/O exception has occurred.
 	 */
 	private void copyFile(InputStream in, OutputStream out) throws IOException {
 		byte[] buffer = new byte[1024];
@@ -123,19 +123,26 @@ public class DaisyReaderLibraryActivity extends DaisyEbookReaderBaseActivity {
 		}
 	}
 
+	@SuppressLint("HandlerLeak")
 	@Override
 	public void onClick(View v) {
 		if (v instanceof Button) {
 			Button button = (Button) v;
-			String buttonText = button.getText().toString();
-			speakText(buttonText);
+			final String buttonText = button.getText().toString();
+			boolean isDoubleTap = handleClickItem(v.getId());
+			if (isDoubleTap) {
+				pushToScreen(v.getId());
+			} else {
+				speakTextOnHandler(buttonText);
+			}
 		}
 	}
 
 	/**
 	 * Push to other screen.
 	 * 
-	 * @param activityID the activity id
+	 * @param activityID
+	 *            the activity id
 	 */
 	private void pushToScreen(int activityID) {
 		Intent intent = null;
@@ -153,12 +160,6 @@ public class DaisyReaderLibraryActivity extends DaisyEbookReaderBaseActivity {
 			break;
 		}
 		this.startActivity(intent);
-	}
-
-	@Override
-	public boolean onLongClick(View v) {
-		pushToScreen(v.getId());
-		return false;
 	}
 
 	@Override

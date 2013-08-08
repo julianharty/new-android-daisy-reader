@@ -25,21 +25,23 @@ import android.net.NetworkInfo;
  * @author LogiGear
  * @date Jul 15, 2013
  */
-public class DaisyBookUtil {
 
+public class DaisyBookUtil {
 	/**
 	 * Search book with text.
 	 * 
-	 * @param textSearch the text search
-	 * @param listBook the list recent books
-	 * @param listBookOriginal the list recent book original
+	 * @param textSearch
+	 *            the text search
+	 * @param listBook
+	 *            the list recent books
+	 * @param listBookOriginal
+	 *            the list recent book original
 	 */
 	public static ArrayList<DaisyBook> searchBookWithText(CharSequence textSearch,
 			ArrayList<DaisyBook> listBook, ArrayList<DaisyBook> listBookOriginal) {
 		listBook.clear();
 		for (int i = 0; i < listBookOriginal.size(); i++) {
-			if (listBookOriginal.get(i).getTitle().toString()
-					.toUpperCase(Locale.getDefault())
+			if (listBookOriginal.get(i).getTitle().toString().toUpperCase(Locale.getDefault())
 					.contains(textSearch.toString().toUpperCase(Locale.getDefault()))) {
 				listBook.add(listBookOriginal.get(i));
 			}
@@ -228,6 +230,15 @@ public class DaisyBookUtil {
 
 	private static ArrayList<String> sResult;
 
+	/**
+	 * Gets the daisy book.
+	 * 
+	 * @param path
+	 *            the path
+	 * @param isLoop
+	 *            the is loop
+	 * @return the daisy book
+	 */
 	public static ArrayList<String> getDaisyBook(File path, boolean isLoop) {
 		if (!isLoop) {
 			sResult = new ArrayList<String>();

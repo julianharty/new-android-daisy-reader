@@ -68,15 +68,17 @@ public class DaisyReaderBookmarkActivity extends DaisyEbookReaderBaseActivity {
 	public boolean onCreateOptionsMenu(Menu menu) {
 		SubMenu subMenu = menu.addSubMenu(0, Constants.SUBMENU_MENU, 1, R.string.menu_title);
 
-		subMenu.add(0, Constants.SUBMENU_LIBRARY, 2, R.string.submenu_library).setIcon(R.drawable.library);
+		subMenu.add(0, Constants.SUBMENU_LIBRARY, 2, R.string.submenu_library).setIcon(
+				R.drawable.library);
 
-		subMenu.add(0, Constants.SUBMENU_TABLE_OF_CONTENTS, 4, R.string.submenu_table_of_contents).setIcon(
-				R.drawable.table_of_contents);
+		subMenu.add(0, Constants.SUBMENU_TABLE_OF_CONTENTS, 4, R.string.submenu_table_of_contents)
+				.setIcon(R.drawable.table_of_contents);
 
 		subMenu.add(0, Constants.SUBMENU_SIMPLE_MODE, 5, R.string.submenu_simple_mode).setIcon(
 				R.drawable.simple_mode);
 
-		subMenu.add(0, Constants.SUBMENU_SETTINGS, 7, R.string.submenu_settings).setIcon(R.drawable.settings);
+		subMenu.add(0, Constants.SUBMENU_SETTINGS, 7, R.string.submenu_settings).setIcon(
+				R.drawable.settings);
 
 		MenuItem subMenuItem = subMenu.getItem();
 		subMenuItem.setIcon(R.drawable.ic_menu_32x32);

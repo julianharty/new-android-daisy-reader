@@ -107,6 +107,12 @@
 
         <service android:name="org.androiddaisyreader.service.DaisyEbookReaderService" >
         </service>
+        
+        <service android:name="org.openudid.OpenUDID_service" >
+            <intent-filter>
+                <action android:name="org.openudid.GETUDID" />
+            </intent-filter>
+        </service>
 
         <receiver android:name="org.androiddaisyreader.receiver.DaisyEbookReaderReceiver" >
             <intent-filter>

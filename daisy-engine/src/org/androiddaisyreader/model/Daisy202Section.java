@@ -6,7 +6,7 @@ import java.util.ArrayList;
 public class Daisy202Section extends Section {
 	
 
-	private Daisy202Section() {
+	public Daisy202Section() {
 		// Use the Builder... not me...
 	}
 	

@@ -150,23 +150,21 @@ public class DaisyReaderDownloadBooks extends DaisyEbookReaderBaseActivity {
 	/**
 	 * Run asyn task.
 	 * 
-	 * @param params
-	 *            the params
+	 * @param params the params
 	 */
 	private void runAsynTask(String params[]) {
-					mTask = new DownloadFileFromURL();
-					if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
-						mTask.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, params);
-					} else {
-						mTask.execute(params);
-					}
-				}
+		mTask = new DownloadFileFromURL();
+		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
+			mTask.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, params);
+		} else {
+			mTask.execute(params);
+		}
+	}
 
 	/**
 	 * Check storage.
 	 * 
-	 * @param link
-	 *            the link
+	 * @param link the link
 	 * @return true, if successful
 	 */
 	private int checkStorage(String link) {
@@ -188,9 +186,9 @@ public class DaisyReaderDownloadBooks extends DaisyEbookReaderBaseActivity {
 			result = 2;
 			PrivateException ex = new PrivateException(e, DaisyReaderDownloadBooks.this);
 			ex.writeLogException();
-			}
-		return result;
 		}
+		return result;
+	}
 
 	/**
 	 * Create folder if not exists

@@ -1,5 +1,6 @@
 package org.androiddaisyreader.apps;
 
+import org.androiddaisyreader.daisy30.Daisy30Book;
 import org.androiddaisyreader.model.CurrentInformation;
 import org.androiddaisyreader.model.Daisy202Book;
 import org.androiddaisyreader.player.IntentController;
@@ -25,7 +26,6 @@ import com.actionbarsherlock.view.MenuItem;
 public class DaisyEbookReaderModeChoiceActivity extends DaisyEbookReaderBaseActivity {
 	private IntentController mIntentController;
 	private String mPath;
-	private Daisy202Book mBook;
 	private SQLiteCurrentInformationHelper mSql;
 	private CurrentInformation mCurrent;
 
@@ -84,16 +84,23 @@ public class DaisyEbookReaderModeChoiceActivity extends DaisyEbookReaderBaseActi
 	 * get book title on the top activity
 	 */
 	private String getBookTitle() {
+		Daisy202Book daisy202Book;
+		Daisy30Book daisy30Book;
 		String titleOfBook = "";
 		mPath = getIntent().getStringExtra(Constants.DAISY_PATH);
 		try {
 			try {
-				mBook = DaisyBookUtil.getDaisy202Book(mPath);
+				if (DaisyBookUtil.findDaisyFormat(mPath) == Constants.DAISY_202_FORMAT) {
+					daisy202Book = DaisyBookUtil.getDaisy202Book(mPath);
+					titleOfBook = daisy202Book.getTitle() == null ? "" : daisy202Book.getTitle();
+				} else {
+					daisy30Book = DaisyBookUtil.getDaisy30Book(mPath);
+					titleOfBook = daisy30Book.getTitle() == null ? "" : daisy30Book.getTitle();
+				}
 			} catch (Exception e) {
 				PrivateException ex = new PrivateException(e, getApplicationContext(), mPath);
 				throw ex;
 			}
-			titleOfBook = mBook.getTitle() == null ? "" : mBook.getTitle();
 
 		} catch (PrivateException e) {
 			e.showDialogException(mIntentController);
@@ -111,14 +118,14 @@ public class DaisyEbookReaderModeChoiceActivity extends DaisyEbookReaderBaseActi
 					mIntentController.pushToDaisyEbookReaderSimpleModeIntent(mPath);
 				} else {
 					mIntentController.pushToDaisyEbookReaderVisualModeIntent(mPath);
-		}
+				}
 			} else {
 				if (v.getId() == R.id.simpleMode) {
 					speakTextOnHandler(getString(R.string.title_activity_daisy_ebook_reader_simple_mode));
 				} else {
 					speakTextOnHandler(getString(R.string.title_activity_daisy_ebook_reader_visual_mode));
-		}
-		}
+				}
+			}
 		}
 	};
 
@@ -144,7 +151,7 @@ public class DaisyEbookReaderModeChoiceActivity extends DaisyEbookReaderBaseActi
 	@Override
 	protected void onResume() {
 		super.onResume();
-			speakText(getString(R.string.title_activity_daisy_ebook_reader));
+		speakText(getString(R.string.title_activity_daisy_ebook_reader));
 	}
 
 }

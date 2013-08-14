@@ -60,7 +60,8 @@ public class DaisyReaderTableOfContentsActivity extends DaisyEbookReaderBaseActi
 		if (!targetActivity.equals(getString(R.string.simple_mode))) {
 			SubMenu subMenu = menu.addSubMenu(0, Constants.SUBMENU_MENU, 1, R.string.menu_title);
 
-			subMenu.add(0, Constants.SUBMENU_LIBRARY, 2, R.string.submenu_library).setIcon(R.drawable.library);
+			subMenu.add(0, Constants.SUBMENU_LIBRARY, 2, R.string.submenu_library).setIcon(
+					R.drawable.library);
 
 			subMenu.add(0, Constants.SUBMENU_BOOKMARKS, 3, R.string.submenu_bookmarks).setIcon(
 					R.drawable.bookmark);
@@ -68,7 +69,8 @@ public class DaisyReaderTableOfContentsActivity extends DaisyEbookReaderBaseActi
 			subMenu.add(0, Constants.SUBMENU_SIMPLE_MODE, 5, R.string.submenu_simple_mode).setIcon(
 					R.drawable.simple_mode);
 
-			subMenu.add(0, Constants.SUBMENU_SETTINGS, 7, R.string.submenu_settings).setIcon(R.drawable.settings);
+			subMenu.add(0, Constants.SUBMENU_SETTINGS, 7, R.string.submenu_settings).setIcon(
+					R.drawable.settings);
 
 			MenuItem subMenuItem = subMenu.getItem();
 			subMenuItem.setIcon(R.drawable.ic_menu_32x32);
@@ -86,7 +88,7 @@ public class DaisyReaderTableOfContentsActivity extends DaisyEbookReaderBaseActi
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
 		switch (item.getItemId()) {
-			// go to simple mode
+		// go to simple mode
 		case Constants.SUBMENU_SIMPLE_MODE:
 			mIntentController.pushToDaisyEbookReaderSimpleModeIntent(getIntent().getStringExtra(
 					Constants.DAISY_PATH));
@@ -122,7 +124,13 @@ public class DaisyReaderTableOfContentsActivity extends DaisyEbookReaderBaseActi
 		mPath = getIntent().getStringExtra(Constants.DAISY_PATH);
 		try {
 			try {
-				mBook = DaisyBookUtil.getDaisy202Book(mPath);
+				if (DaisyBookUtil.findDaisyFormat(mPath) == Constants.DAISY_202_FORMAT) {
+					mBook = DaisyBookUtil.getDaisy202Book(mPath);
+					titleOfBook = mBook.getTitle() == null ? "" : mBook.getTitle();
+				} else {
+					mBook = DaisyBookUtil.getDaisy30Book(mPath);
+					titleOfBook = mBook.getTitle() == null ? "" : mBook.getTitle();
+				}
 			} catch (Exception e) {
 				PrivateException ex = new PrivateException(e, getApplicationContext(), mPath);
 				throw ex;
@@ -165,9 +173,9 @@ public class DaisyReaderTableOfContentsActivity extends DaisyEbookReaderBaseActi
 			boolean isDoubleTap = handleClickItem(position);
 			if (isDoubleTap) {
 				pushToDaisyEbookReaderModeIntent(position + 1);
-			}else{
+			} else {
 				speakTextOnHandler(mListResult.get(position).toString());
-			}	
+			}
 		}
 	};
 

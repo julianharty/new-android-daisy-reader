@@ -20,7 +20,7 @@
     <string name="error_no_path_found">Not found %s on SD card. Please check again</string>
     <string name="error_wrong_format">The daisy book has the wrong format</string>
     <string name="error_wrong_format_audio">The audio files in this DAISY book are not supported by this application</string>
-    <string name="error_not_enough_space">The SD card doesn’t enough space to decompress the zip file</string>
+    <string name="error_not_enough_space">There is not enough available storage to download this book</string>
     <string name="error_no_audio_found">We cannot find the audio for the current chapter</string>
     <string name="error_no_text_found">We cannot find text for the current chapter</string>
     <string name="error_parse_file_ncc">Could not read the master file for this book %s</string>

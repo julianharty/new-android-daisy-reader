@@ -54,23 +54,32 @@ public class IntentController {
 	public void pushToTableOfContentsIntent(String path, Navigator navigator, String targetActivity) {
 		Intent i = new Intent(mContext, DaisyReaderTableOfContentsActivity.class);
 		ArrayList<String> listContents = new ArrayList<String>();
-		String chapter;
-		int numOfChapter = 0;
-		int numOfSection = 0;
 		while (navigator.hasNext()) {
 			Navigable n = navigator.next();
 			if (n instanceof Section) {
 				Section section = (Section) n;
-				if (section.getLevel() == 1) {
-					numOfSection = 0;
-					chapter = mContext.getString(R.string.chapter);
-					numOfChapter++;
-					listContents.add(String.format("%s %s: %s", chapter, numOfChapter,
-							section.getTitle()));
-				} else {
-					numOfSection++;
-					listContents
-							.add(String.format("\t \t %s: %s", numOfSection, section.getTitle()));
+				String title = section.getTitle().replace("\n", "");
+				switch (section.getLevel()) {
+				case 1:
+					listContents.add(section.getTitle());
+					break;
+				case 2:
+					listContents.add(String.format("\t %s", title));
+					break;
+				case 3:
+					listContents.add(String.format("\t \t %s", title));
+					break;
+				case 4:
+					listContents.add(String.format("\t \t \t %s", title));
+					break;
+				case 5:
+					listContents.add(String.format("\t \t \t \t %s", title));
+					break;
+				case 6:
+					listContents.add(String.format("\t \t \t \t \t %s", title));
+					break;
+				default:
+					break;
 				}
 			}
 		}
@@ -144,18 +153,12 @@ public class IntentController {
 	/**
 	 * Show dialog when application has error.
 	 * 
-	 * @param message
-	 *            : this will show for user
-	 * @param title
-	 *            : title of dialog
-	 * @param resId
-	 *            : icon message
-	 * @param isBack
-	 *            : previous screen before if true and otherwise.
-	 * @param isSpeak
-	 *            : application will speak.
-	 * @param tts
-	 *            : text to speech
+	 * @param message : this will show for user
+	 * @param title : title of dialog
+	 * @param resId : icon message
+	 * @param isBack : previous screen before if true and otherwise.
+	 * @param isSpeak : application will speak.
+	 * @param tts : text to speech
 	 */
 	@SuppressWarnings("deprecation")
 	public void pushToDialog(String message, String title, int resId, final boolean isBack,

@@ -18,6 +18,8 @@ import org.xml.sax.Attributes;
 public class ParserUtilitiesTest extends TestCase {
 	
 	private class TestAttributes implements Attributes {
+		protected String name = "";
+		protected String value;
 
 		public int getIndex(String qName) {
 			return 0;
@@ -67,27 +69,47 @@ public class ParserUtilitiesTest extends TestCase {
 			return null;
 		}
 		
+		/**
+		 * Adds an attribute to the class. Currently the name is ignored.
+		 * @param name
+		 * @param value
+		 * @return
+		 */
+		public boolean addAttribute(String name, String value) {
+			this.name = name;
+			this.value = value;
+			return true;
+		}
+		
 	};
 	
 	private class QNameAttributes extends TestAttributes {
-		private String qNameValue;
-		
-		private QNameAttributes() {};
-		QNameAttributes(String valueToReturn) {
-			qNameValue = valueToReturn;
-		}
 		
 		@Override
 		public String getQName(int index) {
-			return qNameValue;
+			return value;
 		}
+	}
 		
+	private class LocalNameAttributes extends TestAttributes {
+
+		@Override
+		public String getLocalName(int index) {
+			return value;
+		}
+
 	}
 	
+	public void testNameCanBeFoundFromLocalName() {
+		TestAttributes localNameImplementation = new LocalNameAttributes();
+		localNameImplementation.addAttribute("name", "value1");
+		assertEquals("value1", ParserUtilities.getValueForName("name", localNameImplementation));
+	}
+
 	public void testNameCanBeFoundFromLocalNameOrQname() {
-		Attributes qNameImplementation = new QNameAttributes("id");
-		
-		assertEquals("id", ParserUtilities.getValueForName("id", qNameImplementation));
+		TestAttributes qNameImplementation = new QNameAttributes();
+		qNameImplementation.addAttribute("any", "value2");
+		assertEquals("value2", ParserUtilities.getValueForName("id", qNameImplementation));
 	}
 
 }

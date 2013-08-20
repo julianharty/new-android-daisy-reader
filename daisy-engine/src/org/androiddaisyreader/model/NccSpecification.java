@@ -270,6 +270,11 @@ public class NccSpecification extends DefaultHandler {
 
 		for (int i = 0; i < attributes.getLength(); i++) {
 			String name = attributes.getLocalName(i);
+			if (name.length() == 0) {
+				name = attributes.getQName(i);
+				System.out.println("+=*=+ Diagnostics: getLocalName is empty, getQName = " + name);
+			}
+			
 			if (name.equalsIgnoreCase("name") || name.equalsIgnoreCase("Content-type")) {
 				metaName = attributes.getValue(i);
 			}
@@ -341,9 +346,7 @@ public class NccSpecification extends DefaultHandler {
 
 	public static Daisy202Book readFromFile(File file) throws IOException {
 		InputStream contents = new BufferedInputStream(new FileInputStream(file));
-		String encoding = obtainEncodingStringFromInputStream(contents);
-		encoding = mapUnsupportedEncoding(encoding);
-		return readFromStream(contents, encoding);
+		return readFromStream(contents);
 	}
 
 	public static Daisy202Book readFromStream(InputStream contents) throws IOException {

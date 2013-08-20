@@ -30,7 +30,7 @@ public class ParserUtilitiesTest extends TestCase {
 		}
 
 		public int getLength() {
-			return 0;
+			return 1;
 		}
 
 		public String getLocalName(int index) {
@@ -58,7 +58,7 @@ public class ParserUtilitiesTest extends TestCase {
 		}
 
 		public String getValue(int index) {
-			return null;
+			return value;
 		}
 
 		public String getValue(String qName) {
@@ -66,7 +66,7 @@ public class ParserUtilitiesTest extends TestCase {
 		}
 
 		public String getValue(String uri, String localName) {
-			return null;
+			return value;
 		}
 		
 		/**
@@ -87,7 +87,7 @@ public class ParserUtilitiesTest extends TestCase {
 		
 		@Override
 		public String getQName(int index) {
-			return value;
+			return name;
 		}
 	}
 		
@@ -95,7 +95,7 @@ public class ParserUtilitiesTest extends TestCase {
 
 		@Override
 		public String getLocalName(int index) {
-			return value;
+			return name;
 		}
 
 	}
@@ -108,7 +108,7 @@ public class ParserUtilitiesTest extends TestCase {
 
 	public void testNameCanBeFoundFromLocalNameOrQname() {
 		TestAttributes qNameImplementation = new QNameAttributes();
-		qNameImplementation.addAttribute("any", "value2");
+		qNameImplementation.addAttribute("id", "value2");
 		assertEquals("value2", ParserUtilities.getValueForName("id", qNameImplementation));
 	}
 

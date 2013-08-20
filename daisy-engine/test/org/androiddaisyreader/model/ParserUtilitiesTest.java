@@ -106,6 +106,11 @@ public class ParserUtilitiesTest extends TestCase {
 		assertEquals("value1", ParserUtilities.getValueForName("name", localNameImplementation));
 	}
 
+	public void testNameCanBeFoundFromQName() {
+		TestAttributes qNameImplementation = new QNameAttributes();
+		qNameImplementation.addAttribute("name", "value");
+		assertEquals("value", ParserUtilities.getValueForName("name", qNameImplementation));
+	}
 	public void testNameCanBeFoundFromLocalNameOrQname() {
 		TestAttributes qNameImplementation = new QNameAttributes();
 		qNameImplementation.addAttribute("id", "value2");

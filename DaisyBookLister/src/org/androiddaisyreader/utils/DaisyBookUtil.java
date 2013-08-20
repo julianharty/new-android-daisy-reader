@@ -9,6 +9,8 @@ import java.util.Locale;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipFile;
 
+import org.androiddaisyreader.daisy30.Daisy30Book;
+import org.androiddaisyreader.daisy30.OpfSpecification;
 import org.androiddaisyreader.model.BookContext;
 import org.androiddaisyreader.model.Daisy202Book;
 import org.androiddaisyreader.model.DaisyBook;
@@ -30,12 +32,9 @@ public class DaisyBookUtil {
 	/**
 	 * Search book with text.
 	 * 
-	 * @param textSearch
-	 *            the text search
-	 * @param listBook
-	 *            the list recent books
-	 * @param listBookOriginal
-	 *            the list recent book original
+	 * @param textSearch the text search
+	 * @param listBook the list recent books
+	 * @param listBookOriginal the list recent book original
 	 */
 	public static ArrayList<DaisyBook> searchBookWithText(CharSequence textSearch,
 			ArrayList<DaisyBook> listBook, ArrayList<DaisyBook> listBookOriginal) {
@@ -74,8 +73,7 @@ public class DaisyBookUtil {
 	 * Tests if the directory contains the essential root file for a Daisy book
 	 * Currently it's limited to checking for Daisy 2.02 books.
 	 * 
-	 * @param folder
-	 *            for the directory to check
+	 * @param folder for the directory to check
 	 * @return true if the directory is deemed to contain a Daisy Book, else
 	 *         false.
 	 */
@@ -99,11 +97,22 @@ public class DaisyBookUtil {
 		return result;
 	}
 
+	public static boolean folderContainsDaisy3Book(File folder) {
+		boolean result = false;
+		if (!folder.isDirectory()) {
+			result = false;
+		}
+		String fileName = getFileNameOpf(folder.getAbsolutePath());
+		if (fileName != "") {
+			result = true;
+		}
+		return result;
+	}
+
 	/**
 	 * Does the uri represent a DAISY 2.02 book?
 	 * 
-	 * @param uri
-	 *            textual identifier e.g. a filename or path
+	 * @param uri textual identifier e.g. a filename or path
 	 * @return true if the uri represents a DAISY 2.02 book, else false.
 	 */
 	public static boolean isDaisy2_02Book(String uri) throws IOException {
@@ -228,27 +237,51 @@ public class DaisyBookUtil {
 		return book;
 	}
 
+	public static Daisy30Book getDaisy30Book(String path) throws IOException {
+		InputStream contents;
+		Daisy30Book book = null;
+		String resourceFile = "";
+		resourceFile = getFileNameOpf(path);
+		BookContext bookContext = openBook(path + File.separator + resourceFile);
+		contents = bookContext.getResource(resourceFile);
+		book = OpfSpecification.readFromStream(contents, bookContext);
+		return book;
+	}
+
+	public static String getFileNameOpf(String path) {
+		String fileName = "";
+		File folder = new File(path);
+		if (folder.isDirectory()) {
+			File[] listOfFiles = folder.listFiles();
+
+			for (File file : listOfFiles) {
+				if (file.isFile() && file.getName().endsWith(".opf")) {
+					fileName = file.getName();
+					break;
+				}
+			}
+		}
+		return fileName;
+	}
+
 	private static ArrayList<String> sResult;
 
 	/**
 	 * Gets the daisy book.
-	 * 
-	 * @param path
-	 *            the path
-	 * @param isLoop
-	 *            the is loop
+	 * @param path the path
+	 * @param isLoop the is loop
 	 * @return the daisy book
 	 */
 	public static ArrayList<String> getDaisyBook(File path, boolean isLoop) {
 		if (!isLoop) {
 			sResult = new ArrayList<String>();
 		}
-		if (folderContainsDaisy2_02Book(path)) {
+		if (folderContainsDaisy2_02Book(path) || folderContainsDaisy3Book(path)) {
 			sResult.add(path.getAbsolutePath());
 		} else if (path.listFiles() != null) {
 			File[] files = path.listFiles();
 			for (File file : files) {
-				if (folderContainsDaisy2_02Book(file)) {
+				if (folderContainsDaisy2_02Book(file) || folderContainsDaisy3Book(file)) {
 					sResult.add(file.getAbsolutePath());
 				} else if (file.isDirectory()) {
 					getDaisyBook(file, true);
@@ -256,5 +289,16 @@ public class DaisyBookUtil {
 			}
 		}
 		return sResult;
+	}
+
+	public static int findDaisyFormat(String path) {
+		int result = 0;
+		File file = new File(path);
+		if (path.toLowerCase(Locale.getDefault()).contains(Constants.FILE_NCC_NAME_NOT_CAPS)) {
+			result = Constants.DAISY_202_FORMAT;
+		} else if (folderContainsDaisy3Book(file)) {
+			result = Constants.DAISY_30_FORMAT;
+		}
+		return result;
 	}
 }

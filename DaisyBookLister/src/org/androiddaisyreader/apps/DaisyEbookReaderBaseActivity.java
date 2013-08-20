@@ -1,10 +1,10 @@
 package org.androiddaisyreader.apps;
 
 import java.util.Locale;
-
 import org.androiddaisyreader.model.CurrentInformation;
 import org.androiddaisyreader.sqlite.SQLiteCurrentInformationHelper;
 import org.androiddaisyreader.utils.Constants;
+import org.androiddaisyreader.utils.Countly;
 
 import android.annotation.SuppressLint;
 import android.app.KeyguardManager;
@@ -33,17 +33,24 @@ import com.bugsense.trace.BugSenseHandler;
  * @date Jul 19, 2013
  */
 
-public class DaisyEbookReaderBaseActivity extends SherlockActivity implements OnClickListener, TextToSpeech.OnInitListener {
+public class DaisyEbookReaderBaseActivity extends SherlockActivity implements OnClickListener,
+		TextToSpeech.OnInitListener {
 	protected TextToSpeech mTts;
 	protected static final long DOUBLE_PRESS_INTERVAL = 1000; // in millis
 	protected static long lastPressTime;
 	protected static int lastPositionClick = -1;
 	protected static boolean mHasDoubleClicked = false;
+
 	@SuppressLint("NewApi")
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 
+		/**
+		 * You should use cloud.count.ly instead of YOUR_SERVER for the line
+		 * below if you are using Countly Cloud service
+		 */
+		Countly.sharedInstance().init(this, Constants.Countly_URL_SERVER, Constants.Countly_APP_KEY);
 		// start the session
 		BugSenseHandler.initAndStartSession(getApplicationContext(), Constants.BUGSENSE_API_KEY);
 
@@ -103,7 +110,7 @@ public class DaisyEbookReaderBaseActivity extends SherlockActivity implements On
 				startActivity(installIntent);
 			}
 		}
-		
+
 	}
 
 	@Override
@@ -132,31 +139,32 @@ public class DaisyEbookReaderBaseActivity extends SherlockActivity implements On
 
 	/**
 	 * Check TTS support language.
-	 *
+	 * 
 	 * @return true, if locale is available and supported
 	 */
-	public boolean checkTTSSupportLanguage(){
+	public boolean checkTTSSupportLanguage() {
 		Locale currentLocale = Locale.getDefault();
 		return mTts.isLanguageAvailable(currentLocale) == TextToSpeech.LANG_MISSING_DATA
 				|| mTts.isLanguageAvailable(currentLocale) == TextToSpeech.LANG_NOT_SUPPORTED ? false
 				: true;
 	}
-	
+
 	/**
 	 * Check keyguard screen is showing or in restricted key input mode .
-	 *
+	 * 
 	 * @return true, if in keyguard restricted input mode
 	 */
-	public boolean checkKeyguardMode(){
-		  getApplicationContext();
+	public boolean checkKeyguardMode() {
+		getApplicationContext();
 		KeyguardManager kgMgr = (KeyguardManager) getSystemService(Context.KEYGUARD_SERVICE);
-		  return kgMgr.inKeyguardRestrictedInputMode();
+		return kgMgr.inKeyguardRestrictedInputMode();
 	}
-	
+
 	/**
 	 * Speak text.
-	 *
-	 * @param textToSpeech the text to speech
+	 * 
+	 * @param textToSpeech
+	 *            the text to speech
 	 */
 	public void speakText(String textToSpeech) {
 		if (checkTTSSupportLanguage() && !checkKeyguardMode()) {
@@ -166,16 +174,17 @@ public class DaisyEbookReaderBaseActivity extends SherlockActivity implements On
 
 	/**
 	 * Speak text on handler.
-	 *
-	 * @param textToSpeech the text to speech
+	 * 
+	 * @param textToSpeech
+	 *            the text to speech
 	 */
 	@SuppressLint("HandlerLeak")
-	public void speakTextOnHandler(final String textToSpeech){
+	public void speakTextOnHandler(final String textToSpeech) {
 		Handler myHandler = new Handler() {
 			public void handleMessage(Message m) {
 				if (!mHasDoubleClicked) {
 					speakText(textToSpeech);
-				}	
+				}
 			}
 		};
 		Message m = new Message();
@@ -203,26 +212,27 @@ public class DaisyEbookReaderBaseActivity extends SherlockActivity implements On
 			sql.deleteCurrentInformation(current.getId());
 		}
 	}
-	
+
 	/**
 	 * Restart activity when changing configuration.
 	 */
 	private void restartActivity() {
-	    Intent intent = getIntent();
-	    finish();
-	    startActivity(intent);
+		Intent intent = getIntent();
+		finish();
+		startActivity(intent);
 	}
-	
+
 	@Override
 	public void onConfigurationChanged(Configuration newConfig) {
 		super.onConfigurationChanged(newConfig);
 		restartActivity();
 	}
-	
+
 	/**
 	 * Handle click item is double tap or single tap
-	 *
-	 * @param position the position
+	 * 
+	 * @param position
+	 *            the position
 	 * @return true, if double tap on item
 	 */
 	public boolean handleClickItem(final int position) {
@@ -240,4 +250,18 @@ public class DaisyEbookReaderBaseActivity extends SherlockActivity implements On
 		lastPositionClick = position;
 		return mHasDoubleClicked;
 	}
+	
+    @Override
+    protected void onStart()
+    {
+    	super.onStart();
+        Countly.sharedInstance().onStart();
+    }
+
+    @Override
+    protected void onStop()
+    {
+        Countly.sharedInstance().onStop();
+    	super.onStop();
+    }
 }

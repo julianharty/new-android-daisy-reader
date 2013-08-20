@@ -8,6 +8,8 @@ package org.androiddaisyreader.utils;
 
 public class Constants {
 	public static String BUGSENSE_API_KEY = "cdc7bdaf";
+	public static String Countly_APP_KEY = "95e39510858637ad9477871f296a7991db8e1d37";
+	public static String Countly_URL_SERVER = "https://cloud.count.ly";
 	public static int MY_DATA_CHECK_CODE = 1234;
 	public static String NUMBER_OF_RECENT_BOOKS = "numberOfRecentBooks";
 	public static String NUMBER_OF_BOOKMARKS = "numberOfBookmarks";
@@ -44,6 +46,8 @@ public class Constants {
 	public static int TIME_WAIT_FOR_CLICK_SECTION = 2000;
 	public static int TIME_WAIT_FOR_CLICK_SENTENCE = 300;
 	public static int TIME_WAIT_TO_EXIT_APPLICATION = 2300;
+	public static int DAISY_202_FORMAT = 2;
+	public static int DAISY_30_FORMAT = 3;
 	
 	public static final int SUBMENU_MENU = 1;
 	public static final int SUBMENU_LIBRARY = 2;

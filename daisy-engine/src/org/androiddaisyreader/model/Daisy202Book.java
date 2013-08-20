@@ -50,7 +50,7 @@ public class Daisy202Book extends Book {
 		}
 	}
 
-	private Daisy202Book() {
+	public Daisy202Book() {
 		super();
 	}
 

@@ -3,7 +3,7 @@ FAILED=0
 sudo mkdir /sdcard
 sudo chmod 777 /sdcard
 cd ./daisy-engine
-ant clean jar sources-jar
+ant clean jar build-and-test
 if [ "$?" = 1 ]; then
     echo "daisy-engine build failed!"
     FAILED=1

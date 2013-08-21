@@ -1,4 +1,4 @@
-package org.androiddaisyreader.apps.util;
+package org.androiddaisyreader.test.util;
 
 import java.util.ArrayList;
 import org.androiddaisyreader.model.DaisyBook;
@@ -42,9 +42,8 @@ public class DaisyBookUtilTest extends AndroidTestCase {
 		RenamingDelegatingContext context = new RenamingDelegatingContext(getContext(), "");
 		mContext = context;
 		helper = new SQLiteDaisyBookHelper(context);
-
 	}
-	
+
 	/**
 	 * Test search book by title contains in list book.
 	 */
@@ -54,10 +53,10 @@ public class DaisyBookUtilTest extends AndroidTestCase {
 		searchBookWithText(Constants.TYPE_SCAN_BOOK);
 		searchBookWithText(Constants.TYPE_DOWNLOADED_BOOK);
 	}
-	
+
 	/**
 	 * Search book with text.
-	 *
+	 * 
 	 * @param type the (download, recent, scan, downloaded)
 	 */
 	private void searchBookWithText(String type) {
@@ -69,7 +68,7 @@ public class DaisyBookUtilTest extends AndroidTestCase {
 				arrDaisyBookOriginal);
 		assertTrue(arrResult.size() == 2);
 	}
-	
+
 	/**
 	 * Test search book by title is not contain in list book.
 	 */
@@ -82,7 +81,7 @@ public class DaisyBookUtilTest extends AndroidTestCase {
 
 	/**
 	 * Search book with text no contain.
-	 *
+	 * 
 	 * @param type the (download, recent, scan, downloaded)
 	 */
 	private void searchBookWithTextNoContain(String type) {
@@ -97,7 +96,7 @@ public class DaisyBookUtilTest extends AndroidTestCase {
 
 	/**
 	 * Prepare data to test.
-	 *
+	 * 
 	 * @param type the (download, recent, scan, downloaded)
 	 */
 	private void prepareDataToTest(String type) {
@@ -110,7 +109,7 @@ public class DaisyBookUtilTest extends AndroidTestCase {
 
 	/**
 	 * Adds the daisy book to database.
-	 *
+	 * 
 	 * @param type the (download, recent, scan, downloaded)
 	 * @param title the title
 	 */

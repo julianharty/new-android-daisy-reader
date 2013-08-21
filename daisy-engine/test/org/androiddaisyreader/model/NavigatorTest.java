@@ -120,7 +120,7 @@ public class NavigatorTest extends TestCase {
 	 * -in-disguise?
 	 * TODO(20130813) jharty: fix the problems related to this failing test.
 	 */
-	public void failingtestSmilFilenamesAreCaptured() {
+	public void testSmilFilenamesAreCaptured() {
 		Navigable n = null;
 		String smilFilename = null;
 		while (navigator.hasNext()) {

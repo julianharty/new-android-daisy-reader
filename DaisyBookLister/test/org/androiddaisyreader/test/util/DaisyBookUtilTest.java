@@ -42,61 +42,58 @@ public class DaisyBookUtilTest extends AndroidTestCase {
 		RenamingDelegatingContext context = new RenamingDelegatingContext(getContext(), "");
 		mContext = context;
 		helper = new SQLiteDaisyBookHelper(context);
-	}
 
+	}
+	
 	/**
 	 * Test search book by title contains in list book.
 	 */
-	public void testSearchBookWithText() {
-		searchBookWithText(Constants.TYPE_DOWNLOAD_BOOK);
-		searchBookWithText(Constants.TYPE_RECENT_BOOK);
-		searchBookWithText(Constants.TYPE_SCAN_BOOK);
-		searchBookWithText(Constants.TYPE_DOWNLOADED_BOOK);
-	}
-
-	/**
-	 * Search book with text.
-	 * 
-	 * @param type the (download, recent, scan, downloaded)
-	 */
-	private void searchBookWithText(String type) {
-		prepareDataToTest(type);
-		ArrayList<DaisyBook> arrDaisyBook = helper.getAllDaisyBook(type);
+	public void testSearchBookReturnTrueIfSearchCorrectly() {
+		prepareDataToTest(Constants.TYPE_DOWNLOAD_BOOK);
+		ArrayList<DaisyBook> arrDaisyBook = helper.getAllDaisyBook(Constants.TYPE_DOWNLOAD_BOOK);
 		assertTrue(arrDaisyBook.size() == 5);
 		ArrayList<DaisyBook> arrDaisyBookOriginal = new ArrayList<DaisyBook>(arrDaisyBook);
 		ArrayList<DaisyBook> arrResult = DaisyBookUtil.searchBookWithText("a", arrDaisyBook,
 				arrDaisyBookOriginal);
 		assertTrue(arrResult.size() == 2);
 	}
+	
+	public void testSearchBookReturnFalseIfSearchInCorrectly() {
+		prepareDataToTest(Constants.TYPE_DOWNLOAD_BOOK);
+		ArrayList<DaisyBook> arrDaisyBook = helper.getAllDaisyBook(Constants.TYPE_DOWNLOAD_BOOK);
+		assertTrue(arrDaisyBook.size() == 5);
+		ArrayList<DaisyBook> arrDaisyBookOriginal = new ArrayList<DaisyBook>(arrDaisyBook);
+		ArrayList<DaisyBook> arrResult = DaisyBookUtil.searchBookWithText("a", arrDaisyBook,
+				arrDaisyBookOriginal);
+		assertFalse(arrResult.size() != 2);
+	}
 
 	/**
 	 * Test search book by title is not contain in list book.
 	 */
-	public void testSearchBookWithTextNoContain() {
-		searchBookWithTextNoContain(Constants.TYPE_DOWNLOAD_BOOK);
-		searchBookWithTextNoContain(Constants.TYPE_RECENT_BOOK);
-		searchBookWithTextNoContain(Constants.TYPE_SCAN_BOOK);
-		searchBookWithTextNoContain(Constants.TYPE_DOWNLOADED_BOOK);
-	}
-
-	/**
-	 * Search book with text no contain.
-	 * 
-	 * @param type the (download, recent, scan, downloaded)
-	 */
-	private void searchBookWithTextNoContain(String type) {
-		prepareDataToTest(type);
-		ArrayList<DaisyBook> arrDaisyBook = helper.getAllDaisyBook(type);
+	public void testSearchBookReturnTrueWhenNoContainTextAndResultCorrectly() {
+		prepareDataToTest(Constants.TYPE_DOWNLOAD_BOOK);
+		ArrayList<DaisyBook> arrDaisyBook = helper.getAllDaisyBook(Constants.TYPE_DOWNLOAD_BOOK);
 		assertTrue(arrDaisyBook.size() == 5);
 		ArrayList<DaisyBook> arrDaisyBookOriginal = new ArrayList<DaisyBook>(arrDaisyBook);
 		ArrayList<DaisyBook> arrResult = DaisyBookUtil.searchBookWithText("a3", arrDaisyBook,
 				arrDaisyBookOriginal);
 		assertTrue(arrResult.size() == 0);
 	}
+	
+	public void testSearchBookReturnTrueWhenNoContainTextAndResultInCorrectly() {
+		prepareDataToTest(Constants.TYPE_DOWNLOAD_BOOK);
+		ArrayList<DaisyBook> arrDaisyBook = helper.getAllDaisyBook(Constants.TYPE_DOWNLOAD_BOOK);
+		assertTrue(arrDaisyBook.size() == 5);
+		ArrayList<DaisyBook> arrDaisyBookOriginal = new ArrayList<DaisyBook>(arrDaisyBook);
+		ArrayList<DaisyBook> arrResult = DaisyBookUtil.searchBookWithText("a3", arrDaisyBook,
+				arrDaisyBookOriginal);
+		assertFalse(arrResult.size() != 0);
+	}
 
 	/**
 	 * Prepare data to test.
-	 * 
+	 *
 	 * @param type the (download, recent, scan, downloaded)
 	 */
 	private void prepareDataToTest(String type) {
@@ -109,7 +106,7 @@ public class DaisyBookUtilTest extends AndroidTestCase {
 
 	/**
 	 * Adds the daisy book to database.
-	 * 
+	 *
 	 * @param type the (download, recent, scan, downloaded)
 	 * @param title the title
 	 */

@@ -30,7 +30,7 @@ public class XmlSpecification extends DefaultHandler {
 	}
 
 	private enum Element {
-		H1, H2, H3, H4, H5, H6, SENT;
+		H1, H2, H3, H4, H5, H6, SENT, LEVEL1, LEVEL2, LEVEL3, LEVEL4, LEVEL5, LEVEL6;
 		@Override
 		public String toString() {
 			return this.name().toLowerCase();
@@ -48,12 +48,12 @@ public class XmlSpecification extends DefaultHandler {
 	private static Map<Element, Integer> levelMap = new HashMap<Element, Integer>(
 			NUM_LEVELS_AVAILABLE_IN_DAISY202);
 	static {
-		levelMap.put(Element.H1, 1);
-		levelMap.put(Element.H2, 2);
-		levelMap.put(Element.H3, 3);
-		levelMap.put(Element.H4, 4);
-		levelMap.put(Element.H5, 5);
-		levelMap.put(Element.H6, 6);
+		levelMap.put(Element.LEVEL1, 1);
+		levelMap.put(Element.LEVEL2, 2);
+		levelMap.put(Element.LEVEL3, 3);
+		levelMap.put(Element.LEVEL4, 4);
+		levelMap.put(Element.LEVEL5, 5);
+		levelMap.put(Element.LEVEL6, 6);
 	}
 
 	@Override
@@ -64,6 +64,14 @@ public class XmlSpecification extends DefaultHandler {
 		}
 
 		switch (current) {
+		case LEVEL1:
+		case LEVEL2:
+		case LEVEL3:
+		case LEVEL4:
+		case LEVEL5:
+		case LEVEL6:
+			handleStartOfHeading(current, attributes);
+			break;
 		case H1:
 		case H2:
 		case H3:
@@ -71,7 +79,7 @@ public class XmlSpecification extends DefaultHandler {
 		case H5:
 		case H6:
 			buffer.setLength(0);
-			handleStartOfHeading(current, attributes);
+			addSmilHref(attributes);
 			break;
 		case SENT:
 			handleStartOfSend(current, attributes);
@@ -85,10 +93,14 @@ public class XmlSpecification extends DefaultHandler {
 	private void handleStartOfHeading(Element heading, Attributes attributes) {
 		String id = getId(attributes);
 		int level = levelMap.get(heading);
-		String smilHref = getSmilHref(attributes);
 		model = new XmlModel();
 		model.setId(id);
 		model.setLevel(level);
+
+	}
+
+	private void addSmilHref(Attributes attributes) {
+		String smilHref = getSmilHref(attributes);
 		model.setSmilHref(smilHref);
 	}
 
@@ -98,7 +110,7 @@ public class XmlSpecification extends DefaultHandler {
 			model.setId(getId(attributes));
 		}
 	}
-	
+
 	private String getId(Attributes attributes) {
 		return ParserUtilities.getValueForName("id", attributes);
 	}
@@ -129,19 +141,31 @@ public class XmlSpecification extends DefaultHandler {
 		case H4:
 		case H5:
 		case H6:
-			handleEndOfHeading(current);
+			addText();
+			break;
+		case LEVEL1:
+		case LEVEL2:
+		case LEVEL3:
+		case LEVEL4:
+		case LEVEL5:
+		case LEVEL6:
+			handleEndOfHeading();
 			break;
 		default:
 			break;
 		}
 	}
 
-	public void handleEndOfHeading(Element current) {
+	private void addText() {
 		model.setText(buffer.toString());
 		listModel.add(model);
 	}
 
-	public ArrayList<XmlModel> build() {
+	private void handleEndOfHeading() {
+		//listModel.add(model);
+	}
+
+	private ArrayList<XmlModel> build() {
 		return listModel;
 	}
 

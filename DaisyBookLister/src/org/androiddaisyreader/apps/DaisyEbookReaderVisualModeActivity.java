@@ -141,7 +141,6 @@ public class DaisyEbookReaderVisualModeActivity extends DaisyEbookReaderBaseActi
 					String.format(getString(R.string.error_no_path_found), mPath),
 					getString(R.string.error_title), R.drawable.error, true, false, null);
 		}
-
 	}
 
 	@Override
@@ -245,6 +244,7 @@ public class DaisyEbookReaderVisualModeActivity extends DaisyEbookReaderBaseActi
 		}
 		mIntentController.pushToDaisyEbookReaderSimpleModeIntent(getIntent().getStringExtra(
 				Constants.DAISY_PATH));
+		finish();
 	}
 
 	/**
@@ -462,7 +462,7 @@ public class DaisyEbookReaderVisualModeActivity extends DaisyEbookReaderBaseActi
 				updateCurrentInformation();
 			}
 			finish();
-		} else { 
+		} else {
 			super.onBackPressed();
 		}
 
@@ -646,38 +646,80 @@ public class DaisyEbookReaderVisualModeActivity extends DaisyEbookReaderBaseActi
 			}
 		}
 	};
+	List<String> listId;
 
 	/**
-	 * open book from path
+	 * open book from path.
 	 */
 	private void openBook() {
-		InputStream contents;
+		if (isFormat202) {
+			openBook202();
+		} else {
+			openBook30();
+		}
+		mAndroidAudioPlayer = new AndroidAudioPlayer(mBookContext);
+		mAndroidAudioPlayer.addCallbackListener(audioCallbackListener);
+		mAudioPlayer = new AudioPlayerController(mAndroidAudioPlayer);
+		mPlayer = mAndroidAudioPlayer.getCurrentPlayer();
+		// get all navigator of book to push to table of contents.
+		mNavigatorOfTableContents = new Navigator(mBook);
+		mNavigator = mNavigatorOfTableContents;
+		if (!isFormat202) {
+			Navigator temp = new Navigator(mBook);
+			listId = new ArrayList<String>();
+			while (temp.hasNext()) {
+				Section n = (Section) temp.next();
+				listId.add(splitHref(n.getHref())[1]);
+			}
+		}
+	}
+
+	/**
+	 * Split href.
+	 * 
+	 * @param href the href
+	 * @return the string[]
+	 */
+	private String[] splitHref(String href) {
+		return href.split("#");
+	}
+
+	/**
+	 * Open Daisy book with format 2.02.
+	 */
+	private void openBook202() {
 		try {
 			try {
-
-				if (isFormat202) {
-					mBookContext = DaisyBookUtil.openBook(mPath);
-					contents = mBookContext.getResource(Constants.FILE_NCC_NAME_NOT_CAPS);
-					mBook = NccSpecification.readFromStream(contents);
-					if (!mBook.hasTotalTime()) {
-						mIntentController.pushToDialog(
-								getString(R.string.error_wrong_format_audio),
-								getString(R.string.error_title), R.drawable.error, false, false,
-								null);
-					}
-				} else {
-					String opfName = DaisyBookUtil.getFileNameOpf(mPath);
-					mBookContext = DaisyBookUtil.openBook(mPath + File.separator + opfName);
-					contents = mBookContext.getResource(opfName);
-					mBook = OpfSpecification.readFromStream(contents, mBookContext);
+				InputStream contents;
+				mBookContext = DaisyBookUtil.openBook(mPath);
+				contents = mBookContext.getResource(Constants.FILE_NCC_NAME_NOT_CAPS);
+				mBook = NccSpecification.readFromStream(contents);
+				if (!mBook.hasTotalTime()) {
+					mIntentController.pushToDialog(getString(R.string.error_wrong_format_audio),
+							getString(R.string.error_title), R.drawable.error, false, false, null);
 				}
-				mAndroidAudioPlayer = new AndroidAudioPlayer(mBookContext);
-				mAndroidAudioPlayer.addCallbackListener(audioCallbackListener);
-				mAudioPlayer = new AudioPlayerController(mAndroidAudioPlayer);
-				mPlayer = mAndroidAudioPlayer.getCurrentPlayer();
-				// get all navigator of book to push to table of contents.
-				mNavigatorOfTableContents = new Navigator(mBook);
-				mNavigator = mNavigatorOfTableContents;
+
+			} catch (Exception e) {
+				PrivateException ex = new PrivateException(e,
+						DaisyEbookReaderVisualModeActivity.this, mPath);
+				throw ex;
+			}
+		} catch (PrivateException e) {
+			e.showDialogException(mIntentController);
+		}
+	}
+
+	/**
+	 * Open Daisy book with format 3.0.
+	 */
+	private void openBook30() {
+		try {
+			try {
+				InputStream contents;
+				String opfName = DaisyBookUtil.getFileNameOpf(mPath);
+				mBookContext = DaisyBookUtil.openBook(mPath + File.separator + opfName);
+				contents = mBookContext.getResource(opfName);
+				mBook = OpfSpecification.readFromStream(contents, mBookContext);
 
 			} catch (Exception e) {
 				PrivateException ex = new PrivateException(e,
@@ -706,15 +748,33 @@ public class DaisyEbookReaderVisualModeActivity extends DaisyEbookReaderBaseActi
 					setMediaPause();
 					mIsFound = true;
 				}
+				Part[] parts = null;
 				Daisy202Section currentSection = null;
 				if (isFormat202) {
 					currentSection = new Daisy202Section.Builder().setHref(section.getHref())
 							.setContext(mBookContext).build();
+					parts = currentSection.getParts();
 				} else {
+					boolean isCurrentPart = false;
 					currentSection = new Daisy30Section.Builder().setHref(section.getHref())
 							.setContext(mBookContext).build();
+					Part[] tempParts = currentSection.getParts();
+					List<Part> listPart = new ArrayList<Part>();
+					for (Part part : tempParts) {
+						if (part.getId().equals(listId.get(mPositionSection - 1))) {
+							isCurrentPart = true;
+						}
+						if (isCurrentPart) {
+							if (!part.getId().equals(listId.get(mPositionSection))) {
+								listPart.add(part);
+							} else {
+								break;
+							}
+						}
+					}
+					parts = listPart.toArray(new Part[0]);
+
 				}
-				Part[] parts = currentSection.getParts();
 				getSnippetsOfCurrentSection(parts);
 				getAudioElementsOfCurrentSection(parts);
 				// seek to time when user loading from book mark.
@@ -798,13 +858,13 @@ public class DaisyEbookReaderVisualModeActivity extends DaisyEbookReaderBaseActi
 		 */
 		private void getAudioElementsOfCurrentSection(Part[] parts) {
 			try {
-				StringBuilder audioListings = new StringBuilder();
+				//StringBuilder audioListings = new StringBuilder();
 				for (Part part : parts) {
 					for (Audio audioSegment : part.getAudioElements()) {
 						mAudioPlayer.playFileSegment(audioSegment);
-						audioListings.append(audioSegment.getAudioFilename() + ", "
-								+ audioSegment.getClipBegin() + ":" + audioSegment.getClipEnd()
-								+ "\n");
+//						audioListings.append(audioSegment.getAudioFilename() + ", "
+//								+ audioSegment.getClipBegin() + ":" + audioSegment.getClipEnd()
+//								+ "\n");
 					}
 				}
 			} catch (Exception e) {

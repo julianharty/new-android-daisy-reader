@@ -253,11 +253,12 @@ public class DaisyBookUtil {
 		File folder = new File(path);
 		if (folder.isDirectory()) {
 			File[] listOfFiles = folder.listFiles();
-
-			for (File file : listOfFiles) {
-				if (file.isFile() && file.getName().endsWith(".opf")) {
-					fileName = file.getName();
-					break;
+			if (listOfFiles != null) {
+				for (File file : listOfFiles) {
+					if (file.isFile() && file.getName().endsWith(".opf")) {
+						fileName = file.getName();
+						break;
+					}
 				}
 			}
 		}
@@ -268,6 +269,7 @@ public class DaisyBookUtil {
 
 	/**
 	 * Gets the daisy book.
+	 * 
 	 * @param path the path
 	 * @param isLoop the is loop
 	 * @return the daisy book

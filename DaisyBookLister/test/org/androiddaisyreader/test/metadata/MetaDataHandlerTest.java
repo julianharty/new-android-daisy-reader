@@ -1,4 +1,4 @@
-package org.androiddaisyreader.apps.metadata;
+package org.androiddaisyreader.test.metadata;
 
 import java.io.File;
 import java.io.FileInputStream;

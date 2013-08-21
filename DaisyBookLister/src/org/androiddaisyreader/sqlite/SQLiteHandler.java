@@ -73,7 +73,7 @@ public class SQLiteHandler extends SQLiteOpenHelper {
 
 		String sqlCreateTableDaisyBook = "create table " + TABLE_NAME_DAISY_BOOK + "("
 				+ ID_KEY_DAISY_BOOK + " text primary key," + PATH_KEY_DAISY_BOOK + " text,"
-				+ TITLE_KEY_DAISY_BOOK + " text," + AUTHOR_KEY_DAISY_BOOK + " text,"
+				+ TITLE_KEY_DAISY_BOOK + " text NOT NULL," + AUTHOR_KEY_DAISY_BOOK + " text,"
 				+ PUBLISHER_KEY_DAISY_BOOK + " text," + TYPE_OF_METADATA_DAISY_BOOK + " text,"
 				+ DATE_DAISY_BOOK + " text," + SORT_KEY_RECENT_BOOKS + " integer " + ")";
 		db.execSQL(sqlCreateTableDaisyBook);

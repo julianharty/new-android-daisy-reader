@@ -21,6 +21,9 @@ public class MetaDataHandlerTest extends TestCase {
 		DocumentBuilderFactory docFactory = DocumentBuilderFactory.newInstance();
 		DocumentBuilder docBuilder = docFactory.newDocumentBuilder();
 		Document doc = docBuilder.newDocument();
+		
+		// The following fails with a NPE when run as an Android Test Case BUT
+		// passes when run in J2SE 6 on my workstation.
 		Text temp = doc.createTextNode(null);
 		
 		// If we get this far then we know we can create the text node.

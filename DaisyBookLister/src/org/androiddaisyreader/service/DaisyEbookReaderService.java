@@ -139,7 +139,6 @@ public class DaisyEbookReaderService extends IntentService {
 		}
 		daisyBook = new DaisyBook("", daisy202.getTitle(), result, daisy202.getAuthor(),
 				daisy202.getPublisher(), sDate, 1);
-		daisy30.getPublisher(), sDate, 1);
 		return daisyBook;
 	}
 

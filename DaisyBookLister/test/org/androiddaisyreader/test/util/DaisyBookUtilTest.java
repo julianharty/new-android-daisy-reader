@@ -1,6 +1,8 @@
 package org.androiddaisyreader.test.util;
 
+import java.io.File;
 import java.util.ArrayList;
+
 import org.androiddaisyreader.model.DaisyBook;
 import org.androiddaisyreader.sqlite.SQLiteDaisyBookHelper;
 import org.androiddaisyreader.utils.Constants;
@@ -15,6 +17,9 @@ import android.test.RenamingDelegatingContext;
  * The Class DaisyBookUtilTest.
  */
 public class DaisyBookUtilTest extends AndroidTestCase {
+	
+	private static final String PATH_EBOOK_202 = "/storage/sdcard0/light-man/light-man";
+	
 	/** The Constant TITLE_DAISY_BOOK. */
 	private static final String TITLE_DAISY_BOOK = "title";
 
@@ -118,7 +123,28 @@ public class DaisyBookUtilTest extends AndroidTestCase {
 		boolean isOK = helper.addDaisyBook(daisyBook, type);
 		assertTrue(isOK);
 	}
-
+	
+	public void testDaisyFormat202(){
+		File daisyPath = new File(PATH_EBOOK_202);
+		String pathNCC = PATH_EBOOK_202 + File.separator
+				+ DaisyBookUtil.getNccFileName(daisyPath);
+		int result = DaisyBookUtil.findDaisyFormat(pathNCC);
+		assertEquals("Expected Daisy format 202", Constants.DAISY_202_FORMAT, result);
+	}
+	
+	public void testFolderContainsDaisy202ReturnTrueWhenPathCorrectly(){
+		File folder = new File(PATH_EBOOK_202);
+		boolean result = DaisyBookUtil.folderContainsDaisy2_02Book(folder);
+		assertTrue(result);
+		
+	}
+	
+	public void testFolderContainsDaisy202ReturnFalseWhenPathInCorrectly(){
+		File folder = new File("wrong path");
+		boolean result = DaisyBookUtil.folderContainsDaisy2_02Book(folder);
+		assertFalse(result);
+		
+	}
 	@Override
 	protected void tearDown() throws Exception {
 		helper.close();

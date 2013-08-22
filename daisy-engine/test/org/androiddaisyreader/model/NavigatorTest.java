@@ -109,16 +109,8 @@ public class NavigatorTest extends TestCase {
 	}
 	
 	/**
-	 * This test fails on travis-ci 
-	 * 
-	 * I have commented it out to diagnose the cause.
-	 * - Either the other tests will fail (unexpected)
-	 * - Or they'll pass :)
-	 * I'll then investigate why they fail on travis-ci when the content is
-	 * generated in code (so no external files to consider). I also want to
-	 * improve the quality of this test, so perhaps the failure is a blessing-
-	 * -in-disguise?
-	 * TODO(20130813) jharty: fix the problems related to this failing test.
+	 * TODO 20130822 (jharty): improve the quality of this test.
+	 * Now this test passes on travis-ci it's time to improve the assertions.
 	 */
 	public void testSmilFilenamesAreCaptured() {
 		Navigable n = null;

@@ -88,16 +88,18 @@ public class DaisyEbookReaderService extends IntentService {
 							Daisy202Book mBook202 = null;
 							Daisy30Book mBook30 = null;
 							if (!daisyPath.getAbsolutePath().endsWith(Constants.SUFFIX_ZIP_FILE)) {
+								DaisyBook daisyBook;
 								if (DaisyBookUtil.getNccFileName(daisyPath) != null) {
 									result = result + File.separator
 											+ DaisyBookUtil.getNccFileName(daisyPath);
 									mBook202 = DaisyBookUtil.getDaisy202Book(result);
+									 daisyBook = getDataFromDaisyBook(mBook202, result);
 								} else {
 									mBook30 = DaisyBookUtil.getDaisy30Book(result);
+									 daisyBook = getDataFromDaisyBook(mBook30, result);
 								}
+								filesResult.add(daisyBook);
 							}
-							DaisyBook daisyBook = getDataFromDaisyBook(mBook202, mBook30, result);
-							filesResult.add(daisyBook);
 
 						} catch (Exception e) {
 							PrivateException ex = new PrivateException(e,
@@ -114,25 +116,30 @@ public class DaisyEbookReaderService extends IntentService {
 		return filesResult;
 	}
 
-	private DaisyBook getDataFromDaisyBook(Daisy202Book daisy202, Daisy30Book daisy30, String result) {
+	private DaisyBook getDataFromDaisyBook(Daisy30Book daisy30, String result) {
 		DaisyBook daisyBook = null;
-		if (daisy202 != null) {
-			Date date = daisy202.getDate();
-			String sDate = "";
-			if (date != null) {
-				sDate = String.format(("%tB %te, %tY %n"), date, date, date, date);
-			}
-			daisyBook = new DaisyBook("", daisy202.getTitle(), result, daisy202.getAuthor(),
-					daisy202.getPublisher(), sDate, 1);
-		} else {
-			Date date = daisy30.getDate();
-			String sDate = "";
-			if (date != null) {
-				sDate = String.format(("%tB %te, %tY %n"), date, date, date, date);
-			}
-			daisyBook = new DaisyBook("", daisy30.getTitle(), result, daisy30.getAuthor(),
-					daisy30.getPublisher(), sDate, 1);
+
+		Date date = daisy30.getDate();
+		String sDate = "";
+		if (date != null) {
+			sDate = String.format(("%tB %te, %tY %n"), date, date, date, date);
 		}
+		daisyBook = new DaisyBook("", daisy30.getTitle(), result, daisy30.getAuthor(),
+				daisy30.getPublisher(), sDate, 1);
+		return daisyBook;
+	}
+	
+	private DaisyBook getDataFromDaisyBook(Daisy202Book daisy202, String result) {
+		DaisyBook daisyBook = null;
+
+		Date date = daisy202.getDate();
+		String sDate = "";
+		if (date != null) {
+			sDate = String.format(("%tB %te, %tY %n"), date, date, date, date);
+		}
+		daisyBook = new DaisyBook("", daisy202.getTitle(), result, daisy202.getAuthor(),
+				daisy202.getPublisher(), sDate, 1);
+		daisy30.getPublisher(), sDate, 1);
 		return daisyBook;
 	}
 

@@ -120,10 +120,7 @@ public class DaisyEbookReaderService extends IntentService {
 		DaisyBook daisyBook = null;
 
 		Date date = daisy30.getDate();
-		String sDate = "";
-		if (date != null) {
-			sDate = String.format(("%tB %te, %tY %n"), date, date, date, date);
-		}
+		String sDate = formatDateOrReturnEmptyString(date);
 		daisyBook = new DaisyBook("", daisy30.getTitle(), result, daisy30.getAuthor(),
 				daisy30.getPublisher(), sDate, 1);
 		return daisyBook;
@@ -133,13 +130,18 @@ public class DaisyEbookReaderService extends IntentService {
 		DaisyBook daisyBook = null;
 
 		Date date = daisy202.getDate();
+		String sDate = formatDateOrReturnEmptyString(date);
+		daisyBook = new DaisyBook("", daisy202.getTitle(), result, daisy202.getAuthor(),
+				daisy202.getPublisher(), sDate, 1);
+		return daisyBook;
+	}
+
+	private String formatDateOrReturnEmptyString(Date date) {
 		String sDate = "";
 		if (date != null) {
 			sDate = String.format(("%tB %te, %tY %n"), date, date, date, date);
 		}
-		daisyBook = new DaisyBook("", daisy202.getTitle(), result, daisy202.getAuthor(),
-				daisy202.getPublisher(), sDate, 1);
-		return daisyBook;
+		return sDate;
 	}
 
 	@Override

@@ -11,10 +11,15 @@
 # generated files
 bin/
 gen/
+daisy-reader/bin/
+daisy-reader/gen/
+DaisyBookLister/bin/
+DaisyBookLister/gen/
 
 # Local configuration file (sdk path, etc)
 local.properties
 
 # Eclipse project files
 .classpath
+.classpath.macbook
 .project

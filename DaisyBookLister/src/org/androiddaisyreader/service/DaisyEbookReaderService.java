@@ -85,18 +85,17 @@ public class DaisyEbookReaderService extends IntentService {
 					for (String result : listResult) {
 						try {
 							File daisyPath = new File(result);
-							Daisy202Book mBook202 = null;
-							Daisy30Book mBook30 = null;
 							if (!daisyPath.getAbsolutePath().endsWith(Constants.SUFFIX_ZIP_FILE)) {
 								DaisyBook daisyBook;
 								if (DaisyBookUtil.getNccFileName(daisyPath) != null) {
+									// We think we have a DAISY 2.02 book as these include an NCC file.
 									result = result + File.separator
 											+ DaisyBookUtil.getNccFileName(daisyPath);
-									mBook202 = DaisyBookUtil.getDaisy202Book(result);
-									 daisyBook = getDataFromDaisyBook(mBook202, result);
+									Daisy202Book mBook202 = DaisyBookUtil.getDaisy202Book(result);
+									daisyBook = getDataFromDaisyBook(mBook202, result);
 								} else {
-									mBook30 = DaisyBookUtil.getDaisy30Book(result);
-									 daisyBook = getDataFromDaisyBook(mBook30, result);
+									Daisy30Book mBook30 = DaisyBookUtil.getDaisy30Book(result);
+									daisyBook = getDataFromDaisyBook(mBook30, result);
 								}
 								filesResult.add(daisyBook);
 							}

@@ -45,8 +45,8 @@ public class ExtractTimingValues30 {
 	}
 
 	private static double parseToMiliseconds(String hours, String minutes, String seconds) {
-		double result = (Double.parseDouble(hours) * 1000 * 60 * 60)
-				+ (Double.parseDouble(minutes) * 1000 * 60) + Double.parseDouble(seconds);
+		double result = (Double.parseDouble(hours) * 60 * 60)
+				+ (Double.parseDouble(minutes) * 60) + Double.parseDouble(seconds);
 		return result;
 	}
 

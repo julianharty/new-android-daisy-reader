@@ -85,10 +85,11 @@ public class DaisyEbookReaderService extends IntentService {
 					for (String result : listResult) {
 						try {
 							File daisyPath = new File(result);
+							DaisyBook daisyBook;
 							if (!daisyPath.getAbsolutePath().endsWith(Constants.SUFFIX_ZIP_FILE)) {
-								DaisyBook daisyBook;
 								if (DaisyBookUtil.getNccFileName(daisyPath) != null) {
-									// We think we have a DAISY 2.02 book as these include an NCC file.
+									// We think we have a DAISY 2.02 book as
+									// these include an NCC file.
 									result = result + File.separator
 											+ DaisyBookUtil.getNccFileName(daisyPath);
 									Daisy202Book mBook202 = DaisyBookUtil.getDaisy202Book(result);
@@ -97,8 +98,17 @@ public class DaisyEbookReaderService extends IntentService {
 									Daisy30Book mBook30 = DaisyBookUtil.getDaisy30Book(result);
 									daisyBook = getDataFromDaisyBook(mBook30, result);
 								}
-								filesResult.add(daisyBook);
+							} else {
+								Daisy202Book mBook202 = DaisyBookUtil.getDaisy202Book(result);
+
+								if (mBook202 == null) {
+									Daisy30Book mBook30 = DaisyBookUtil.getDaisy30Book(result);
+									daisyBook = getDataFromDaisyBook(mBook30, result);
+								} else {
+									daisyBook = getDataFromDaisyBook(mBook202, result);
+								}
 							}
+							filesResult.add(daisyBook);
 
 						} catch (Exception e) {
 							PrivateException ex = new PrivateException(e,
@@ -115,6 +125,13 @@ public class DaisyEbookReaderService extends IntentService {
 		return filesResult;
 	}
 
+	/**
+	 * Gets the data from daisy book.
+	 * 
+	 * @param daisy30 the daisy30
+	 * @param result the result
+	 * @return the data from daisy book
+	 */
 	private DaisyBook getDataFromDaisyBook(Daisy30Book daisy30, String result) {
 		DaisyBook daisyBook = null;
 
@@ -124,7 +141,14 @@ public class DaisyEbookReaderService extends IntentService {
 				daisy30.getPublisher(), sDate, 1);
 		return daisyBook;
 	}
-	
+
+	/**
+	 * Gets the data from daisy book.
+	 * 
+	 * @param daisy202 the daisy202
+	 * @param result the result
+	 * @return the data from daisy book
+	 */
 	private DaisyBook getDataFromDaisyBook(Daisy202Book daisy202, String result) {
 		DaisyBook daisyBook = null;
 
@@ -135,6 +159,12 @@ public class DaisyEbookReaderService extends IntentService {
 		return daisyBook;
 	}
 
+	/**
+	 * Format date or return empty string.
+	 * 
+	 * @param date the date
+	 * @return the string
+	 */
 	private String formatDateOrReturnEmptyString(Date date) {
 		String sDate = "";
 		if (date != null) {

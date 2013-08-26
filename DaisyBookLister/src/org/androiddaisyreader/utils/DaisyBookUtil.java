@@ -97,12 +97,15 @@ public class DaisyBookUtil {
 		return result;
 	}
 
-	public static boolean folderContainsDaisy3Book(File folder) {
+	public static boolean folderContainsDaisy30Book(File folder) {
 		boolean result = false;
 		if (!folder.isDirectory()) {
 			result = false;
 		}
-		String fileName = getFileNameOpf(folder.getAbsolutePath());
+		String fileName = getOpfFileName(folder.getAbsolutePath());
+		if (folder.getAbsolutePath().endsWith(".zip")) {
+			fileName = getOpfFileNameInZipFolder(folder.getAbsolutePath());
+		}
 		if (fileName != "") {
 			result = true;
 		}
@@ -151,6 +154,30 @@ public class DaisyBookUtil {
 			e.printStackTrace();
 		}
 		return false;
+	}
+
+	/**
+	 * Gets the opf file name in zip folder.
+	 * 
+	 * @param path the path
+	 * @return the opf file name in zip folder
+	 */
+	public static String getOpfFileNameInZipFolder(String path) {
+		String result = "";
+		ZipEntry entry;
+		try {
+			ZipFile zipContents = new ZipFile(path);
+			Enumeration<? extends ZipEntry> e = zipContents.entries();
+			while (e.hasMoreElements()) {
+				entry = (ZipEntry) e.nextElement();
+				if (entry.getName().endsWith(".opf")) {
+					result = entry.getName();
+				}
+			}
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		return result;
 	}
 
 	/**
@@ -233,22 +260,31 @@ public class DaisyBookUtil {
 		Daisy202Book book = null;
 		BookContext bookContext = openBook(path);
 		contents = bookContext.getResource(Constants.FILE_NCC_NAME_NOT_CAPS);
+		if (contents == null) {
+			return null;
+		}
 		book = NccSpecification.readFromStream(contents);
 		return book;
 	}
 
 	public static Daisy30Book getDaisy30Book(String path) throws IOException {
-		InputStream contents;
+		InputStream contents = null;
 		Daisy30Book book = null;
-		String resourceFile = "";
-		resourceFile = getFileNameOpf(path);
-		BookContext bookContext = openBook(path + File.separator + resourceFile);
-		contents = bookContext.getResource(resourceFile);
+		String filename = "";
+		BookContext bookContext = null;
+		if (path.endsWith(".zip")) {
+			bookContext = openBook(path);
+			contents = bookContext.getResource(getOpfFileNameInZipFolder(path));
+		} else {
+			filename = path + File.separator + getOpfFileName(path);
+			bookContext = openBook(filename);
+			contents = bookContext.getResource(getOpfFileName(path));
+		}
 		book = OpfSpecification.readFromStream(contents, bookContext);
 		return book;
 	}
 
-	public static String getFileNameOpf(String path) {
+	public static String getOpfFileName(String path) {
 		String fileName = "";
 		File folder = new File(path);
 		if (folder.isDirectory()) {
@@ -278,12 +314,12 @@ public class DaisyBookUtil {
 		if (!isLoop) {
 			sResult = new ArrayList<String>();
 		}
-		if (folderContainsDaisy2_02Book(path) || folderContainsDaisy3Book(path)) {
+		if (folderContainsDaisy2_02Book(path) || folderContainsDaisy30Book(path)) {
 			sResult.add(path.getAbsolutePath());
 		} else if (path.listFiles() != null) {
 			File[] files = path.listFiles();
 			for (File file : files) {
-				if (folderContainsDaisy2_02Book(file) || folderContainsDaisy3Book(file)) {
+				if (folderContainsDaisy2_02Book(file) || folderContainsDaisy30Book(file)) {
 					sResult.add(file.getAbsolutePath());
 				} else if (file.isDirectory()) {
 					getDaisyBook(file, true);
@@ -298,7 +334,7 @@ public class DaisyBookUtil {
 		File file = new File(path);
 		if (path.toLowerCase(Locale.getDefault()).contains(Constants.FILE_NCC_NAME_NOT_CAPS)) {
 			result = Constants.DAISY_202_FORMAT;
-		} else if (folderContainsDaisy3Book(file)) {
+		} else if (folderContainsDaisy30Book(file)) {
 			result = Constants.DAISY_30_FORMAT;
 		}
 		return result;

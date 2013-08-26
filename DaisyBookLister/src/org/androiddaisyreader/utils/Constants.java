@@ -98,6 +98,7 @@ public class Constants {
 	public final static String FOLDER_DOWNLOADED = "/download";
 	public static String FOLDER_NAME = "dataDaisyBooks";
 	public static String FOLDER_CONTAIN_METADATA = "";
+	public static String DAISY_TEMP_MP3 = "daisyTemp.mp3";
 
 	public final static int TYPE_WIFI = 1;
 	public final static int TYPE_MOBILE = 2;

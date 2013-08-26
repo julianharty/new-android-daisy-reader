@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.UUID;
 
 import org.androiddaisyreader.adapter.BookmarkListAdapter;
+import org.androiddaisyreader.daisy30.Daisy30Book;
 import org.androiddaisyreader.model.Bookmark;
 import org.androiddaisyreader.model.Daisy202Book;
 import org.androiddaisyreader.model.Navigator;
@@ -40,7 +41,6 @@ public class DaisyReaderBookmarkActivity extends DaisyEbookReaderBaseActivity {
 	private String mPath;
 	private SharedPreferences mPreferences;
 	private IntentController mIntentController;
-	private Daisy202Book mBook;
 	private LoadingData mLoadingData;
 
 	@Override
@@ -53,7 +53,6 @@ public class DaisyReaderBookmarkActivity extends DaisyEbookReaderBaseActivity {
 
 		mListBookmark = (ListView) this.findViewById(R.id.listBookmark);
 		mPath = getIntent().getStringExtra(Constants.DAISY_PATH);
-
 		createNewBookmark();
 		SQLiteBookmarkHelper mSql = new SQLiteBookmarkHelper(DaisyReaderBookmarkActivity.this);
 		mListItems = new ArrayList<Bookmark>();
@@ -84,7 +83,7 @@ public class DaisyReaderBookmarkActivity extends DaisyEbookReaderBaseActivity {
 		subMenuItem.setIcon(R.drawable.ic_menu_32x32);
 		subMenuItem.setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
 		return true;
-		}
+	}
 
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
@@ -116,17 +115,23 @@ public class DaisyReaderBookmarkActivity extends DaisyEbookReaderBaseActivity {
 	}
 
 	private String getBookTitle() {
+		Daisy202Book daisy202Book;
+		Daisy30Book daisy30Book;
 		String titleOfBook = "";
 		mPath = getIntent().getStringExtra(Constants.DAISY_PATH);
 		try {
 			try {
-				mBook = DaisyBookUtil.getDaisy202Book(mPath);
+				if (DaisyBookUtil.findDaisyFormat(mPath) == Constants.DAISY_202_FORMAT) {
+					daisy202Book = DaisyBookUtil.getDaisy202Book(mPath);
+					titleOfBook = daisy202Book.getTitle() == null ? "" : daisy202Book.getTitle();
+				} else {
+					daisy30Book = DaisyBookUtil.getDaisy30Book(mPath);
+					titleOfBook = daisy30Book.getTitle() == null ? "" : daisy30Book.getTitle();
+				}
 			} catch (Exception e) {
 				PrivateException ex = new PrivateException(e, getApplicationContext(), mPath);
 				throw ex;
 			}
-			titleOfBook = mBook.getTitle() == null ? "" : mBook.getTitle();
-
 		} catch (PrivateException e) {
 			e.showDialogException(mIntentController);
 		}

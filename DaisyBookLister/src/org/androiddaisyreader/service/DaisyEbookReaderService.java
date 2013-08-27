@@ -5,10 +5,9 @@ import java.util.ArrayList;
 import java.util.Date;
 
 import org.androiddaisyreader.apps.PrivateException;
-import org.androiddaisyreader.daisy30.Daisy30Book;
 import org.androiddaisyreader.metadata.MetaDataHandler;
-import org.androiddaisyreader.model.Daisy202Book;
 import org.androiddaisyreader.model.DaisyBook;
+import org.androiddaisyreader.model.DaisyBookInfo;
 import org.androiddaisyreader.utils.Constants;
 import org.androiddaisyreader.utils.DaisyBookUtil;
 import android.app.IntentService;
@@ -74,8 +73,8 @@ public class DaisyEbookReaderService extends IntentService {
 	 * 
 	 * @return the data
 	 */
-	private ArrayList<DaisyBook> getData() {
-		ArrayList<DaisyBook> filesResult = new ArrayList<DaisyBook>();
+	private ArrayList<DaisyBookInfo> getData() {
+		ArrayList<DaisyBookInfo> filesResult = new ArrayList<DaisyBookInfo>();
 		File[] files = mCurrentDirectory.listFiles();
 		try {
 			if (files != null) {
@@ -85,28 +84,27 @@ public class DaisyEbookReaderService extends IntentService {
 					for (String result : listResult) {
 						try {
 							File daisyPath = new File(result);
-							DaisyBook daisyBook;
+							DaisyBookInfo daisyBook;
+							DaisyBook mBook202 = null;
+							// Check zip files.
 							if (!daisyPath.getAbsolutePath().endsWith(Constants.SUFFIX_ZIP_FILE)) {
 								if (DaisyBookUtil.getNccFileName(daisyPath) != null) {
 									// We think we have a DAISY 2.02 book as
 									// these include an NCC file.
 									result = result + File.separator
 											+ DaisyBookUtil.getNccFileName(daisyPath);
-									Daisy202Book mBook202 = DaisyBookUtil.getDaisy202Book(result);
-									daisyBook = getDataFromDaisyBook(mBook202, result);
-								} else {
-									Daisy30Book mBook30 = DaisyBookUtil.getDaisy30Book(result);
-									daisyBook = getDataFromDaisyBook(mBook30, result);
+									mBook202 = DaisyBookUtil.getDaisy202Book(result);
 								}
 							} else {
-								Daisy202Book mBook202 = DaisyBookUtil.getDaisy202Book(result);
-
-								if (mBook202 == null) {
-									Daisy30Book mBook30 = DaisyBookUtil.getDaisy30Book(result);
-									daisyBook = getDataFromDaisyBook(mBook30, result);
-								} else {
-									daisyBook = getDataFromDaisyBook(mBook202, result);
-								}
+								mBook202 = DaisyBookUtil.getDaisy202Book(result);
+							}
+							// If book is not daisy 2.02, go to function daisy
+							// 3.0 to read it.
+							if (mBook202 == null) {
+								DaisyBook mBook30 = DaisyBookUtil.getDaisy30Book(result);
+								daisyBook = getDataFromDaisyBook(mBook30, result);
+							} else {
+								daisyBook = getDataFromDaisyBook(mBook202, result);
 							}
 							filesResult.add(daisyBook);
 
@@ -126,38 +124,40 @@ public class DaisyEbookReaderService extends IntentService {
 	}
 
 	/**
-	 * Gets the data from daisy book.
+	 * Gets the data from daisy30 book.
 	 * 
 	 * @param daisy30 the daisy30
 	 * @param result the result
 	 * @return the data from daisy book
 	 */
-	private DaisyBook getDataFromDaisyBook(Daisy30Book daisy30, String result) {
-		DaisyBook daisyBook = null;
+	private DaisyBookInfo getDataFromDaisyBook(DaisyBook daisybook, String result) {
+		DaisyBookInfo daisyBook = null;
 
-		Date date = daisy30.getDate();
+		Date date = daisybook.getDate();
 		String sDate = formatDateOrReturnEmptyString(date);
-		daisyBook = new DaisyBook("", daisy30.getTitle(), result, daisy30.getAuthor(),
-				daisy30.getPublisher(), sDate, 1);
+		daisyBook = new DaisyBookInfo("", daisybook.getTitle(), result, daisybook.getAuthor(),
+				daisybook.getPublisher(), sDate, 1);
 		return daisyBook;
 	}
 
-	/**
-	 * Gets the data from daisy book.
-	 * 
-	 * @param daisy202 the daisy202
-	 * @param result the result
-	 * @return the data from daisy book
-	 */
-	private DaisyBook getDataFromDaisyBook(Daisy202Book daisy202, String result) {
-		DaisyBook daisyBook = null;
-
-		Date date = daisy202.getDate();
-		String sDate = formatDateOrReturnEmptyString(date);
-		daisyBook = new DaisyBook("", daisy202.getTitle(), result, daisy202.getAuthor(),
-				daisy202.getPublisher(), sDate, 1);
-		return daisyBook;
-	}
+	// /**
+	// * Gets the data from daisy202 book.
+	// *
+	// * @param daisy202 the daisy202
+	// * @param result the result
+	// * @return the data from daisy book
+	// */
+	// private DaisyBookInfo getDataFromDaisyBook(DaisyBook daisy202, String
+	// result) {
+	// DaisyBookInfo daisyBook = null;
+	//
+	// Date date = daisy202.getDate();
+	// String sDate = formatDateOrReturnEmptyString(date);
+	// daisyBook = new DaisyBookInfo("", daisy202.getTitle(), result,
+	// daisy202.getAuthor(),
+	// daisy202.getPublisher(), sDate, 1);
+	// return daisyBook;
+	// }
 
 	/**
 	 * Format date or return empty string.

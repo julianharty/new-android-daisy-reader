@@ -3,7 +3,7 @@ package org.androiddaisyreader.adapter;
 import java.util.ArrayList;
 
 import org.androiddaisyreader.apps.R;
-import org.androiddaisyreader.model.DaisyBook;
+import org.androiddaisyreader.model.DaisyBookInfo;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -12,11 +12,11 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
-public class DaisyBookAdapter extends ArrayAdapter<DaisyBook> {
-	private ArrayList<DaisyBook> mListDaisyBook;
+public class DaisyBookAdapter extends ArrayAdapter<DaisyBookInfo> {
+	private ArrayList<DaisyBookInfo> mListDaisyBook;
 	private LayoutInflater mVi;
 
-	public DaisyBookAdapter(Context context, ArrayList<DaisyBook> listDaisyBook) {
+	public DaisyBookAdapter(Context context, ArrayList<DaisyBookInfo> listDaisyBook) {
 		super(context, 0, listDaisyBook);
 		this.mListDaisyBook = listDaisyBook;
 		mVi = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
@@ -41,7 +41,7 @@ public class DaisyBookAdapter extends ArrayAdapter<DaisyBook> {
 			item = (ViewItem) convertView.getTag();
 		}
 
-		DaisyBook curDaisyBook = mListDaisyBook.get(position);
+		DaisyBookInfo curDaisyBook = mListDaisyBook.get(position);
 
 		String title = curDaisyBook.getTitle();
 		if (title != null && title.length() != 0) {

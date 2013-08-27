@@ -15,7 +15,7 @@ import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
 
 import org.androiddaisyreader.apps.PrivateException;
-import org.androiddaisyreader.model.DaisyBook;
+import org.androiddaisyreader.model.DaisyBookInfo;
 import org.androiddaisyreader.utils.Constants;
 import org.w3c.dom.Attr;
 import org.w3c.dom.Document;
@@ -116,7 +116,7 @@ public class MetaDataHandler extends Activity {
 	 * @param daisybooks the daisybooks
 	 * @param localPath the local path
 	 */
-	public void WriteDataToXmlFile(ArrayList<DaisyBook> daisybooks, String localPath) {
+	public void WriteDataToXmlFile(ArrayList<DaisyBookInfo> daisybooks, String localPath) {
 		try {
 			DocumentBuilderFactory docFactory = DocumentBuilderFactory.newInstance();
 			DocumentBuilder docBuilder = docFactory.newDocumentBuilder();
@@ -124,7 +124,7 @@ public class MetaDataHandler extends Activity {
 			Element bookElement = doc.createElement(Constants.ATT_BOOKS);
 			doc.appendChild(bookElement);
 			// root elements
-			for (DaisyBook daisybook : daisybooks) {
+			for (DaisyBookInfo daisybook : daisybooks) {
 				Element book = doc.createElement(Constants.ATT_BOOK);
 				bookElement.appendChild(book);
 

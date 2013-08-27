@@ -9,14 +9,12 @@ import java.util.Locale;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipFile;
 
-import org.androiddaisyreader.daisy30.Daisy30Book;
-import org.androiddaisyreader.daisy30.OpfSpecification;
 import org.androiddaisyreader.model.BookContext;
-import org.androiddaisyreader.model.Daisy202Book;
 import org.androiddaisyreader.model.DaisyBook;
+import org.androiddaisyreader.model.DaisyBookInfo;
 import org.androiddaisyreader.model.FileSystemContext;
 import org.androiddaisyreader.model.NccSpecification;
-import org.androiddaisyreader.model.Section;
+import org.androiddaisyreader.model.OpfSpecification;
 import org.androiddaisyreader.model.ZippedBookContext;
 
 import android.content.Context;
@@ -36,8 +34,8 @@ public class DaisyBookUtil {
 	 * @param listBook the list recent books
 	 * @param listBookOriginal the list recent book original
 	 */
-	public static ArrayList<DaisyBook> searchBookWithText(CharSequence textSearch,
-			ArrayList<DaisyBook> listBook, ArrayList<DaisyBook> listBookOriginal) {
+	public static ArrayList<DaisyBookInfo> searchBookWithText(CharSequence textSearch,
+			ArrayList<DaisyBookInfo> listBook, ArrayList<DaisyBookInfo> listBookOriginal) {
 		listBook.clear();
 		for (int i = 0; i < listBookOriginal.size(); i++) {
 			if (listBookOriginal.get(i).getTitle().toString().toUpperCase(Locale.getDefault())
@@ -62,7 +60,6 @@ public class DaisyBookUtil {
 		if (null != activeNetwork) {
 			if (activeNetwork.getType() == ConnectivityManager.TYPE_WIFI)
 				return Constants.TYPE_WIFI;
-
 			if (activeNetwork.getType() == ConnectivityManager.TYPE_MOBILE)
 				return Constants.TYPE_MOBILE;
 		}
@@ -97,6 +94,12 @@ public class DaisyBookUtil {
 		return result;
 	}
 
+	/**
+	 * Does the folder represent a DAISY 3.0 book?
+	 * 
+	 * @param folder the folder
+	 * @return true, if successful
+	 */
 	public static boolean folderContainsDaisy30Book(File folder) {
 		boolean result = false;
 		if (!folder.isDirectory()) {
@@ -106,31 +109,10 @@ public class DaisyBookUtil {
 		if (folder.getAbsolutePath().endsWith(".zip")) {
 			fileName = getOpfFileNameInZipFolder(folder.getAbsolutePath());
 		}
-		if (fileName != "") {
+		if (fileName != null) {
 			result = true;
 		}
 		return result;
-	}
-
-	/**
-	 * Does the uri represent a DAISY 2.02 book?
-	 * 
-	 * @param uri textual identifier e.g. a filename or path
-	 * @return true if the uri represents a DAISY 2.02 book, else false.
-	 */
-	public static boolean isDaisy2_02Book(String uri) throws IOException {
-		try {
-			ArrayList<String> temp = getContents(uri);
-			if (temp != null) {
-				temp = null;
-				return true;
-			}
-		} catch (NullPointerException npe) {
-			// TODO 20130318 (jharty) For now we will simply skip the error
-			// and assume it's not a DAISY book.
-			// e.g. .android_secure isn't a DAISY book
-		}
-		return false;
 	}
 
 	/**
@@ -229,35 +211,14 @@ public class DaisyBookUtil {
 	}
 
 	/**
-	 * get contents of book from path.
-	 * 
-	 * @param path
-	 * @return ArrayList<String>
-	 */
-	public static ArrayList<String> getContents(String path) throws IOException {
-		String chapter = "Chapter";
-		Daisy202Book book = getDaisy202Book(path);
-		Object[] sections = null;
-		if (book != null)
-			sections = book.getChildren().toArray();
-		ArrayList<String> listResult = new ArrayList<String>();
-		for (int i = 0; i < sections.length; i++) {
-			Section section = (Section) sections[i];
-			int numOfChapter = i + 1;
-			listResult.add(String.format("%s %s: %s", chapter, numOfChapter, section.getTitle()));
-		}
-		return listResult;
-	}
-
-	/**
 	 * open book from path
 	 * 
 	 * @param path
 	 * @return Daisy202Book
 	 */
-	public static Daisy202Book getDaisy202Book(String path) throws IOException {
+	public static DaisyBook getDaisy202Book(String path) throws IOException {
 		InputStream contents;
-		Daisy202Book book = null;
+		DaisyBook book = null;
 		BookContext bookContext = openBook(path);
 		contents = bookContext.getResource(Constants.FILE_NCC_NAME_NOT_CAPS);
 		if (contents == null) {
@@ -267,9 +228,16 @@ public class DaisyBookUtil {
 		return book;
 	}
 
-	public static Daisy30Book getDaisy30Book(String path) throws IOException {
+	/**
+	 * Gets the daisy30 book.
+	 * 
+	 * @param path the path
+	 * @return the daisy30 book
+	 * @throws IOException Signals that an I/O exception has occurred.
+	 */
+	public static DaisyBook getDaisy30Book(String path) throws IOException {
 		InputStream contents = null;
-		Daisy30Book book = null;
+		DaisyBook book = null;
 		String filename = "";
 		BookContext bookContext = null;
 		if (path.endsWith(".zip")) {
@@ -280,12 +248,21 @@ public class DaisyBookUtil {
 			bookContext = openBook(filename);
 			contents = bookContext.getResource(getOpfFileName(path));
 		}
+		if (contents == null) {
+			return null;
+		}
 		book = OpfSpecification.readFromStream(contents, bookContext);
 		return book;
 	}
 
+	/**
+	 * Gets the opf file name.
+	 *
+	 * @param path the folder contains file opf.
+	 * @return the opf file name
+	 */
 	public static String getOpfFileName(String path) {
-		String fileName = "";
+		String fileName = null;
 		File folder = new File(path);
 		if (folder.isDirectory()) {
 			File[] listOfFiles = folder.listFiles();
@@ -329,6 +306,12 @@ public class DaisyBookUtil {
 		return sResult;
 	}
 
+	/**
+	 * Find daisy format.
+	 *
+	 * @param path the path
+	 * @return the int
+	 */
 	public static int findDaisyFormat(String path) {
 		int result = 0;
 		File file = new File(path);

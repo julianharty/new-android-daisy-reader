@@ -194,6 +194,7 @@ public class IntentController {
 	 */
 	public void pushToLibraryIntent() {
 		Intent i = new Intent(mContext, DaisyReaderLibraryActivity.class);
+		i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 		mContext.startActivity(i);
 	}
 

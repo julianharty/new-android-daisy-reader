@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.UUID;
 
 import org.androiddaisyreader.apps.PrivateException;
-import org.androiddaisyreader.model.DaisyBook;
+import org.androiddaisyreader.model.DaisyBookInfo;
 
 import android.content.ContentValues;
 import android.content.Context;
@@ -22,9 +22,9 @@ public class SQLiteDaisyBookHelper extends SQLiteHandler {
 	/**
 	 * Add a record to DaisyBook table
 	 * 
-	 * @param DaisyBook
+	 * @param DaisyBookInfo
 	 */
-	public boolean addDaisyBook(DaisyBook daisyBook, String type) {
+	public boolean addDaisyBook(DaisyBookInfo daisyBook, String type) {
 
 		boolean result = false;
 		ContentValues mValue = new ContentValues();
@@ -56,8 +56,8 @@ public class SQLiteDaisyBookHelper extends SQLiteHandler {
 	 * 
 	 * @return
 	 */
-	public ArrayList<DaisyBook> getAllDaisyBook(String type) {
-		ArrayList<DaisyBook> arrDaisyBook = new ArrayList<DaisyBook>();
+	public ArrayList<DaisyBookInfo> getAllDaisyBook(String type) {
+		ArrayList<DaisyBookInfo> arrDaisyBook = new ArrayList<DaisyBookInfo>();
 		try {
 			SQLiteDatabase mdb = getReadableDatabase();
 			Cursor mCursor = mdb.query(TABLE_NAME_DAISY_BOOK, new String[] { ID_KEY_DAISY_BOOK,
@@ -79,7 +79,7 @@ public class SQLiteDaisyBookHelper extends SQLiteHandler {
 					int sort = Integer.valueOf(mCursor.getString(mCursor
 							.getColumnIndex(SORT_KEY_DAISY_BOOK)));
 					// Add to ArrayList
-					arrDaisyBook.add(new DaisyBook(id, title, path, author, publisher, date, sort));
+					arrDaisyBook.add(new DaisyBookInfo(id, title, path, author, publisher, date, sort));
 				} while (mCursor.moveToNext());
 			}
 			mCursor.close();
@@ -91,8 +91,8 @@ public class SQLiteDaisyBookHelper extends SQLiteHandler {
 		return arrDaisyBook;
 	}
 
-	public DaisyBook getDaisyBookByTitle(String title, String type) {
-		DaisyBook daisyBook = null;
+	public DaisyBookInfo getDaisyBookByTitle(String title, String type) {
+		DaisyBookInfo daisyBook = null;
 		try {
 			SQLiteDatabase mdb = getReadableDatabase();
 			Cursor mCursor = mdb.query(TABLE_NAME_DAISY_BOOK, new String[] { ID_KEY_DAISY_BOOK,
@@ -112,7 +112,7 @@ public class SQLiteDaisyBookHelper extends SQLiteHandler {
 				String date = mCursor.getString(mCursor.getColumnIndex(DATE_DAISY_BOOK));
 				int sort = Integer.valueOf(mCursor.getString(mCursor
 						.getColumnIndex(SORT_KEY_DAISY_BOOK)));
-				daisyBook = new DaisyBook(id, titleBook, path, author, publisher, date, sort);
+				daisyBook = new DaisyBookInfo(id, titleBook, path, author, publisher, date, sort);
 			}
 			mCursor.close();
 			mdb.close();

@@ -3,7 +3,7 @@ package org.androiddaisyreader.sqlite;
 import java.util.ArrayList;
 
 import org.androiddaisyreader.apps.PrivateException;
-import org.androiddaisyreader.model.DaisyBook;
+import org.androiddaisyreader.model.DaisyBookInfo;
 
 import android.content.ContentValues;
 import android.content.Context;
@@ -31,7 +31,7 @@ public class SQLiteRecentBookHelper extends SQLiteHandler {
 	 * 
 	 * @param recentBooks
 	 */
-	public void addRecentBook(DaisyBook recentBooks) {
+	public void addRecentBook(DaisyBookInfo recentBooks) {
 
 		ContentValues mValue = new ContentValues();
 
@@ -54,7 +54,7 @@ public class SQLiteRecentBookHelper extends SQLiteHandler {
 	 * 
 	 * @param recentBooks
 	 */
-	public void deleteRecentBook(DaisyBook recentBooks) {
+	public void deleteRecentBook(DaisyBookInfo recentBooks) {
 
 		try {
 			SQLiteDatabase mdb = getWritableDatabase();
@@ -73,7 +73,7 @@ public class SQLiteRecentBookHelper extends SQLiteHandler {
 	 * 
 	 * @param recentBooks
 	 */
-	public void updateRecentBook(DaisyBook recentBooks) {
+	public void updateRecentBook(DaisyBookInfo recentBooks) {
 
 		ContentValues mValue = new ContentValues();
 		mValue.put(SORT_KEY_RECENT_BOOKS, recentBooks.getSort());
@@ -95,8 +95,8 @@ public class SQLiteRecentBookHelper extends SQLiteHandler {
 	 * @param name
 	 * @return
 	 */
-	public DaisyBook getInfoRecentBook(String name) {
-		DaisyBook mRecentBooks = null;
+	public DaisyBookInfo getInfoRecentBook(String name) {
+		DaisyBookInfo mRecentBooks = null;
 		try {
 			SQLiteDatabase mdb = getReadableDatabase();
 			Cursor mCursor = mdb.query(TABLE_NAME_RECENT_BOOKS, new String[] {
@@ -109,7 +109,7 @@ public class SQLiteRecentBookHelper extends SQLiteHandler {
 				String path = mCursor.getString(mCursor.getColumnIndex(PATH_KEY_RECENT_BOOKS));
 				int sort = Integer.valueOf(mCursor.getString(mCursor
 						.getColumnIndex(SORT_KEY_RECENT_BOOKS)));
-				mRecentBooks = new DaisyBook("", valueName, path, "author", "publisher", "date",
+				mRecentBooks = new DaisyBookInfo("", valueName, path, "author", "publisher", "date",
 						sort);
 			}
 			mCursor.close();
@@ -126,8 +126,8 @@ public class SQLiteRecentBookHelper extends SQLiteHandler {
 	 * 
 	 * @return
 	 */
-	public ArrayList<DaisyBook> getAllRecentBooks() {
-		ArrayList<DaisyBook> arrRecentBooks = new ArrayList<DaisyBook>();
+	public ArrayList<DaisyBookInfo> getAllRecentBooks() {
+		ArrayList<DaisyBookInfo> arrRecentBooks = new ArrayList<DaisyBookInfo>();
 		try {
 			SQLiteDatabase mdb = getReadableDatabase();
 			String sql = "SELECT * FROM " + TABLE_NAME_RECENT_BOOKS + " ORDER BY "
@@ -142,7 +142,7 @@ public class SQLiteRecentBookHelper extends SQLiteHandler {
 					int sort = Integer.valueOf(mCursor.getString(mCursor
 							.getColumnIndex(SORT_KEY_RECENT_BOOKS)));
 					// Add to ArrayList
-					arrRecentBooks.add(new DaisyBook("", valueName, path, "author", "publisher",
+					arrRecentBooks.add(new DaisyBookInfo("", valueName, path, "author", "publisher",
 							"date", sort));
 				} while (mCursor.moveToNext());
 			}

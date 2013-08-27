@@ -7,7 +7,7 @@ import java.io.IOException;
 import java.io.InputStream;
 
 import org.androiddaisyreader.model.BookContext;
-import org.androiddaisyreader.model.Daisy202Book;
+import org.androiddaisyreader.model.DaisyBook;
 import org.androiddaisyreader.model.FileSystemContext;
 import org.androiddaisyreader.model.Navigator;
 import org.androiddaisyreader.model.NccSpecification;
@@ -42,7 +42,7 @@ public class ProcessDaisy202Book {
 		contents = bookContext.getResource("ncc.html");
 		
 		encoding = obtainEncodingStringFromInputStream(contents);
-		Daisy202Book book = NccSpecification.readFromStream(contents);
+		DaisyBook book = NccSpecification.readFromStream(contents);
 		System.out.println("Book: " + book.getTitle() + ", encoding: " + encoding);
 		Navigator navigator = new Navigator(book);
 		while (navigator.hasNext()) {

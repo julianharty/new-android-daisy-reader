@@ -21,6 +21,7 @@ public class ExtractTimingValuesTest extends TestCase {
 	private static final String NUMBER_WITHOUT_DECIMAL_POINT = "npt=10s";
 	private static final String CDATA = "CDATA";
 	private static final String CLIP_BEGIN = "clip-begin";
+	private static final int DAISYFORMAT202 = 202;
 	private AttributesImpl attributes;
 	protected void setUp() {
 		attributes = new AttributesImpl();
@@ -28,38 +29,38 @@ public class ExtractTimingValuesTest extends TestCase {
 	}
 	public void testValidTiming() {
 		attributes.addAttribute("", CLIP_BEGIN, "", CDATA, "npt=12.345s");
-		int result = ExtractTimingValues.extractTimingAsMilliSeconds(CLIP_BEGIN, attributes);
+		int result = ExtractTimingValues.extractTimingAsMilliSeconds(CLIP_BEGIN, attributes, DAISYFORMAT202);
 		assertEquals("Expected the extracted timing should match", 12345, result);
 	}
 	
 	public void testLargeValidTiming() {
 		attributes.addAttribute("", CLIP_BEGIN, "", CDATA, "npt=123456.789s");
-		int result = ExtractTimingValues.extractTimingAsMilliSeconds(CLIP_BEGIN, attributes);
+		int result = ExtractTimingValues.extractTimingAsMilliSeconds(CLIP_BEGIN, attributes, DAISYFORMAT202);
 		assertEquals("Expected the extracted timing should match", 123456789, result);
 	}
 	
 	public void testNumberWithOneDecimalPlace() {
 		attributes.addAttribute("", CLIP_BEGIN, "", CDATA, "npt=456.7s");
-		int result = ExtractTimingValues.extractTimingAsMilliSeconds(CLIP_BEGIN, attributes);
+		int result = ExtractTimingValues.extractTimingAsMilliSeconds(CLIP_BEGIN, attributes, DAISYFORMAT202);
 		assertEquals("Expected the extracted timing should match", 456700, result);
 	}
 
 	public void testNumberWithTwoDecimalPlaces() {
 		attributes.addAttribute("", CLIP_BEGIN, "", CDATA, "npt=456.89s");
-		int result = ExtractTimingValues.extractTimingAsMilliSeconds(CLIP_BEGIN, attributes);
+		int result = ExtractTimingValues.extractTimingAsMilliSeconds(CLIP_BEGIN, attributes, DAISYFORMAT202);
 		assertEquals("Expected the extracted timing should match", 456890, result);
 	}
 
 	public void testNumberWithFourDecimalPlacesIsTrimmedToThree() {
 		attributes.addAttribute("", CLIP_BEGIN, "", CDATA, "npt=456.1234s");
-		int result = ExtractTimingValues.extractTimingAsMilliSeconds(CLIP_BEGIN, attributes);
+		int result = ExtractTimingValues.extractTimingAsMilliSeconds(CLIP_BEGIN, attributes, DAISYFORMAT202);
 		assertEquals("Expected the extracted timing should match", 456123, result);
 	}
 	
 	public void testInvalidFormatRaisesNFE() {
 		attributes.addAttribute("", CLIP_BEGIN, "", CDATA, INVALID_NUMBER_WITH_2_DECIMAL_POINTS);
 		try {
-			int result = ExtractTimingValues.extractTimingAsMilliSeconds(CLIP_BEGIN, attributes);
+			int result = ExtractTimingValues.extractTimingAsMilliSeconds(CLIP_BEGIN, attributes, DAISYFORMAT202);
 			fail("Expected a NumberFormatException for a number with 2 decimal points. Number = "
 					+ INVALID_NUMBER_WITH_2_DECIMAL_POINTS);
 		} catch (NumberFormatException nfe) {
@@ -78,7 +79,7 @@ public class ExtractTimingValuesTest extends TestCase {
 	 */
 	public void testNumberWithoutDecimal () {
 		attributes.addAttribute("", CLIP_BEGIN, "", CDATA, NUMBER_WITHOUT_DECIMAL_POINT);
-		int result = ExtractTimingValues.extractTimingAsMilliSeconds(CLIP_BEGIN, attributes);
+		int result = ExtractTimingValues.extractTimingAsMilliSeconds(CLIP_BEGIN, attributes, DAISYFORMAT202);
 		assertEquals("Number without a decimal point should be accepted.", 10000, result);
 	}
 }

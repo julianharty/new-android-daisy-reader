@@ -58,7 +58,7 @@ public class NavigatorTest extends TestCase {
 	}
 	
 	public void testNavigationOfComplexDaisy202BookStructure() throws NotImplementedException, IOException {
-		Daisy202Book book = createDaisy202Structure(SECTIONS_FOR_COMPLEX_NCC);
+		DaisyBook book = createDaisy202Structure(SECTIONS_FOR_COMPLEX_NCC);
 		
 		Navigator navigator = new Navigator(book);
 		navigator.gotoStartOfContent();
@@ -75,7 +75,7 @@ public class NavigatorTest extends TestCase {
 	}
 
 	public void testForwardAndBackwardNavigationOfComplexDaisy202BookStructure() throws NotImplementedException, IOException {
-		Daisy202Book book = createDaisy202Structure(SECTIONS_FOR_COMPLEX_NCC);
+		DaisyBook book = createDaisy202Structure(SECTIONS_FOR_COMPLEX_NCC);
 		
 		Navigator localNavigator = new Navigator(book);
 		localNavigator.gotoStartOfContent();
@@ -108,16 +108,12 @@ public class NavigatorTest extends TestCase {
 		}
 	}
 	
-	/**
-	 * TODO 20130822 (jharty): improve the quality of this test.
-	 * Now this test passes on travis-ci it's time to improve the assertions.
-	 */
 	public void testSmilFilenamesAreCaptured() {
 		Navigable n = null;
 		String smilFilename = null;
 		while (navigator.hasNext()) {
 			n = navigator.next();
-			smilFilename = ((Daisy202Section)n).getSmilFilename();
+			smilFilename = ((DaisySection)n).getSmilFilename();
 			System.out.println(smilFilename);
 			assertNotNull("", smilFilename);
 		}
@@ -147,7 +143,7 @@ public class NavigatorTest extends TestCase {
 	 * @throws NotImplementedException
 	 * @throws IOException
 	 */
-	Daisy202Book createDaisy202Structure(String structure) throws NotImplementedException,
+	DaisyBook createDaisy202Structure(String structure) throws NotImplementedException,
 			IOException {
 		ByteArrayOutputStream out = new ByteArrayOutputStream();
 		CreateDaisy202Book eBookContents = new CreateDaisy202Book(out);
@@ -158,7 +154,7 @@ public class NavigatorTest extends TestCase {
 		eBookContents.addTheseLevels(structure);
 		eBookContents.writeEndOfDocument();
 		ByteArrayInputStream bookContents = new ByteArrayInputStream(out.toByteArray());
-		Daisy202Book book = NccSpecification.readFromStream(bookContents);
+		DaisyBook book = NccSpecification.readFromStream(bookContents);
 		return book;
 	}
 }

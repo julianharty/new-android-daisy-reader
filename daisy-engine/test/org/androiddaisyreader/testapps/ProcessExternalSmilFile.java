@@ -1,5 +1,4 @@
 package org.androiddaisyreader.testapps;
-
 import java.io.File;
 import java.io.IOException;
 
@@ -8,10 +7,9 @@ import org.androiddaisyreader.controller.AudioPlayerController;
 import org.androiddaisyreader.mock.MockAndroidAudioPlayer;
 import org.androiddaisyreader.model.Audio;
 import org.androiddaisyreader.model.BookContext;
-import org.androiddaisyreader.model.Daisy202Section;
+import org.androiddaisyreader.model.DaisySection;
 import org.androiddaisyreader.model.FileSystemContext;
 import org.androiddaisyreader.model.Part;
-
 public class ProcessExternalSmilFile {
 
 	/**
@@ -46,14 +44,14 @@ public class ProcessExternalSmilFile {
 		// that expects a Smil formatted href. 
 		final String fakeHref = file.getName() + "#fake_id";
 		
-		Daisy202Section section = new Daisy202Section.Builder()
+		DaisySection section = new DaisySection.Builder()
 			.setHref(fakeHref)
 			.setContext(bookContext)
 			.build();
 		
 		file = null;
-
-		for (Part part : section.getParts()) {
+		boolean isDaisyFormat202 = true;
+		for (Part part : section.getParts(isDaisyFormat202)) {
 			for (int j = 0; j < part.getSnippets().size(); j++) {
 
 				String text = part.getSnippets().get(j).getText();

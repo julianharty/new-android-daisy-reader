@@ -4,9 +4,8 @@ import java.util.ArrayList;
 import java.util.UUID;
 
 import org.androiddaisyreader.adapter.BookmarkListAdapter;
-import org.androiddaisyreader.daisy30.Daisy30Book;
 import org.androiddaisyreader.model.Bookmark;
-import org.androiddaisyreader.model.Daisy202Book;
+import org.androiddaisyreader.model.DaisyBook;
 import org.androiddaisyreader.model.Navigator;
 import org.androiddaisyreader.player.IntentController;
 import org.androiddaisyreader.sqlite.SQLiteBookmarkHelper;
@@ -115,18 +114,17 @@ public class DaisyReaderBookmarkActivity extends DaisyEbookReaderBaseActivity {
 	}
 
 	private String getBookTitle() {
-		Daisy202Book daisy202Book;
-		Daisy30Book daisy30Book;
+		DaisyBook daisyBook;
 		String titleOfBook = "";
 		mPath = getIntent().getStringExtra(Constants.DAISY_PATH);
 		try {
 			try {
 				if (DaisyBookUtil.findDaisyFormat(mPath) == Constants.DAISY_202_FORMAT) {
-					daisy202Book = DaisyBookUtil.getDaisy202Book(mPath);
-					titleOfBook = daisy202Book.getTitle() == null ? "" : daisy202Book.getTitle();
+					daisyBook = DaisyBookUtil.getDaisy202Book(mPath);
+					titleOfBook = daisyBook.getTitle() == null ? "" : daisyBook.getTitle();
 				} else {
-					daisy30Book = DaisyBookUtil.getDaisy30Book(mPath);
-					titleOfBook = daisy30Book.getTitle() == null ? "" : daisy30Book.getTitle();
+					daisyBook = DaisyBookUtil.getDaisy30Book(mPath);
+					titleOfBook = daisyBook.getTitle() == null ? "" : daisyBook.getTitle();
 				}
 			} catch (Exception e) {
 				PrivateException ex = new PrivateException(e, getApplicationContext(), mPath);
@@ -163,7 +161,7 @@ public class DaisyReaderBookmarkActivity extends DaisyEbookReaderBaseActivity {
 		Navigator navigator;
 		try {
 			try {
-				Daisy202Book mBook = DaisyBookUtil.getDaisy202Book(mPath);
+				DaisyBook mBook = DaisyBookUtil.getDaisy202Book(mPath);
 				navigator = new Navigator(mBook);
 				mIntentController.pushToTableOfContentsIntent(mPath, navigator,
 						getString(R.string.visual_mode));

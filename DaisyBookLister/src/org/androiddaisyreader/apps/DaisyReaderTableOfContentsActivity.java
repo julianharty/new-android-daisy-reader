@@ -4,7 +4,7 @@ import java.util.ArrayList;
 
 import org.androiddaisyreader.model.Bookmark;
 import org.androiddaisyreader.model.CurrentInformation;
-import org.androiddaisyreader.model.Daisy202Book;
+import org.androiddaisyreader.model.DaisyBook;
 import org.androiddaisyreader.player.IntentController;
 import org.androiddaisyreader.sqlite.SQLiteCurrentInformationHelper;
 import org.androiddaisyreader.utils.Constants;
@@ -33,7 +33,7 @@ public class DaisyReaderTableOfContentsActivity extends DaisyEbookReaderBaseActi
 	private ArrayList<String> mListResult;
 	private String mPath;
 	private IntentController mIntentController;
-	Daisy202Book mBook;
+	DaisyBook mBook;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -202,12 +202,14 @@ public class DaisyReaderTableOfContentsActivity extends DaisyEbookReaderBaseActi
 		CurrentInformation current = sql.getCurrentInformation();
 		if (targetActivity.equals(getString(R.string.simple_mode))) {
 			i = new Intent(this, DaisyEbookReaderSimpleModeActivity.class);
+			i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 			if (current != null) {
 				current.setActivity(getString(R.string.title_activity_daisy_ebook_reader_simple_mode));
 				sql.updateCurrentInformation(current);
 			}
 		} else if (targetActivity.equals(getString(R.string.visual_mode))) {
 			i = new Intent(this, DaisyEbookReaderVisualModeActivity.class);
+			i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 			if (current != null) {
 				current.setActivity(getString(R.string.title_activity_daisy_ebook_reader_visual_mode));
 				sql.updateCurrentInformation(current);

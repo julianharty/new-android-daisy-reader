@@ -11,7 +11,7 @@ import java.util.ArrayList;
 
 import org.androiddaisyreader.adapter.DaisyBookAdapter;
 import org.androiddaisyreader.metadata.MetaDataHandler;
-import org.androiddaisyreader.model.DaisyBook;
+import org.androiddaisyreader.model.DaisyBookInfo;
 import org.androiddaisyreader.player.IntentController;
 import org.androiddaisyreader.sqlite.SQLiteDaisyBookHelper;
 import org.androiddaisyreader.utils.Constants;
@@ -53,9 +53,9 @@ public class DaisyReaderDownloadBooks extends DaisyEbookReaderBaseActivity {
 	private MetaDataHandler mMetadata;
 	public String mName;
 	private DownloadFileFromURL mTask;
-	private ArrayList<DaisyBook> mlistDaisyBook;
-	private ArrayList<DaisyBook> mListDaisyBookOriginal;
-	private DaisyBook mDaisyBook;
+	private ArrayList<DaisyBookInfo> mlistDaisyBook;
+	private ArrayList<DaisyBookInfo> mListDaisyBookOriginal;
+	private DaisyBookInfo mDaisyBook;
 	private EditText mTextSearch;
 	public final static String mPath = Environment.getExternalStorageDirectory().toString()
 			+ Constants.FOLDER_DOWNLOADED + "/";
@@ -79,7 +79,7 @@ public class DaisyReaderDownloadBooks extends DaisyEbookReaderBaseActivity {
 		ListView listDownload = (ListView) findViewById(R.id.list_view_download_books);
 		listDownload.setAdapter(mDaisyBookAdapter);
 		listDownload.setOnItemClickListener(onItemClick);
-		mListDaisyBookOriginal = new ArrayList<DaisyBook>(mlistDaisyBook);
+		mListDaisyBookOriginal = new ArrayList<DaisyBookInfo>(mlistDaisyBook);
 
 		getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 		getSupportActionBar().setTitle(mWebsiteName.length() != 0 ? mWebsiteName : "");
@@ -123,7 +123,7 @@ public class DaisyReaderDownloadBooks extends DaisyEbookReaderBaseActivity {
 							.getTextContent();
 					String date = eElement.getElementsByTagName(Constants.ATT_DATE).item(0)
 							.getTextContent();
-					DaisyBook daisyBook = new DaisyBook("", title, path, author, publisher, date, 1);
+					DaisyBookInfo daisyBook = new DaisyBookInfo("", title, path, author, publisher, date, 1);
 					mSql.addDaisyBook(daisyBook, Constants.TYPE_DOWNLOAD_BOOK);
 				}
 			}
@@ -137,7 +137,7 @@ public class DaisyReaderDownloadBooks extends DaisyEbookReaderBaseActivity {
 
 		@Override
 		public void onItemClick(AdapterView<?> arg0, View arg1, int position, long arg3) {
-			final DaisyBook daisyBook = mlistDaisyBook.get(position);
+			final DaisyBookInfo daisyBook = mlistDaisyBook.get(position);
 			boolean isDoubleTap = handleClickItem(position);
 			if (isDoubleTap) {
 				downloadABook(position);
@@ -342,7 +342,7 @@ public class DaisyReaderDownloadBooks extends DaisyEbookReaderBaseActivity {
 			mProgressDialog.dismiss();
 			try {
 				if (result == true) {
-					DaisyBook daisyBook = new DaisyBook();
+					DaisyBookInfo daisyBook = new DaisyBookInfo();
 					daisyBook.setAuthor(mDaisyBook.getAuthor());
 					daisyBook.setDate(mDaisyBook.getDate());
 					daisyBook.setPath(mPath + mName);

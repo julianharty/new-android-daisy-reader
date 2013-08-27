@@ -8,17 +8,16 @@ import java.util.UUID;
 
 import org.androiddaisyreader.AudioCallbackListener;
 import org.androiddaisyreader.controller.AudioPlayerController;
-import org.androiddaisyreader.daisy30.Daisy30Section;
-import org.androiddaisyreader.daisy30.OpfSpecification;
 import org.androiddaisyreader.model.Audio;
 import org.androiddaisyreader.model.BookContext;
 import org.androiddaisyreader.model.Bookmark;
 import org.androiddaisyreader.model.CurrentInformation;
-import org.androiddaisyreader.model.Daisy202Book;
-import org.androiddaisyreader.model.Daisy202Section;
+import org.androiddaisyreader.model.DaisyBook;
+import org.androiddaisyreader.model.DaisySection;
 import org.androiddaisyreader.model.Navigable;
 import org.androiddaisyreader.model.Navigator;
 import org.androiddaisyreader.model.NccSpecification;
+import org.androiddaisyreader.model.OpfSpecification;
 import org.androiddaisyreader.model.Part;
 import org.androiddaisyreader.model.Section;
 import org.androiddaisyreader.player.AndroidAudioPlayer;
@@ -71,7 +70,7 @@ public class DaisyEbookReaderVisualModeActivity extends DaisyEbookReaderBaseActi
 	private boolean mIsFirstNext = false;
 	private boolean mIsFirstPrevious = true;
 	private BookContext mBookContext;
-	private Daisy202Book mBook;
+	private DaisyBook mBook;
 	private Navigator mNavigator;
 	private Navigator mNavigatorOfTableContents;
 	private NavigationListener mNavigationListener = new NavigationListener();
@@ -444,7 +443,6 @@ public class DaisyEbookReaderVisualModeActivity extends DaisyEbookReaderBaseActi
 			} else if (sentence.length() <= 0) {
 				sentence = " ";
 			}
-
 		}
 		Bookmark bookmark = new Bookmark(mPath, sentence, currentTime, mPositionSection, 0, "");
 		return bookmark;
@@ -530,12 +528,10 @@ public class DaisyEbookReaderVisualModeActivity extends DaisyEbookReaderBaseActi
 						if (ofe == -1)
 							break;
 						else {
-
 							WordtoSpan.setSpan(new BackgroundColorSpan(mHighlightColor), ofe, ofe
 									+ ett.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
 							mContents.setText(WordtoSpan, TextView.BufferType.SPANNABLE);
 						}
-
 					}
 				}
 				dialog.dismiss();
@@ -770,37 +766,10 @@ public class DaisyEbookReaderVisualModeActivity extends DaisyEbookReaderBaseActi
 					setMediaPause();
 					mIsFound = true;
 				}
-				Part[] parts = null;
-				Daisy202Section currentSection = null;
 				if (isFormat202) {
-					currentSection = new Daisy202Section.Builder().setHref(section.getHref())
-							.setContext(mBookContext).build();
-					parts = currentSection.getParts();
-					getSnippetsOfCurrentSection(parts);
-					getAudioElementsOfCurrentSectionForDaisy202(parts);
+					getSnippetAndAudioForDaisy202(section);
 				} else {
-					boolean isCurrentPart = false;
-					currentSection = new Daisy30Section.Builder().setHref(section.getHref())
-							.setContext(mBookContext).build();
-					Part[] tempParts = currentSection.getParts();
-					List<Part> listPart = new ArrayList<Part>();
-					for (Part part : tempParts) {
-						if (part.getId().equals(listId.get(mPositionSection - 1))) {
-							isCurrentPart = true;
-						}
-						if (isCurrentPart) {
-							if (listId.size() == mPositionSection) {
-								listPart.add(part);
-							} else if (!part.getId().equals(listId.get(mPositionSection))) {
-								listPart.add(part);
-							} else {
-								break;
-							}
-						}
-					}
-					parts = listPart.toArray(new Part[0]);
-					getSnippetsOfCurrentSection(parts);
-					getAudioElementsOfCurrentSectionForDaisy30(parts);
+					getSnippetAndAudioForDaisy30(section);
 				}
 
 				// seek to time when user loading from book mark.
@@ -825,6 +794,53 @@ public class DaisyEbookReaderVisualModeActivity extends DaisyEbookReaderBaseActi
 						DaisyEbookReaderVisualModeActivity.this);
 				ex.showDialogException(mIntentController);
 			}
+		}
+
+		/**
+		 * Gets the snippet and audio for daisy202.
+		 *
+		 * @param section the section
+		 */
+		private void getSnippetAndAudioForDaisy202(Section section) {
+			Part[] parts = null;
+			DaisySection currentSection = null;
+			currentSection = new DaisySection.Builder().setHref(section.getHref())
+					.setContext(mBookContext).build();
+			parts = currentSection.getParts(isFormat202);
+			getSnippetsOfCurrentSection(parts);
+			getAudioElementsOfCurrentSectionForDaisy202(parts);
+		}
+
+		/**
+		 * Gets the snippet and audio for daisy30.
+		 *
+		 * @param section the section
+		 */
+		private void getSnippetAndAudioForDaisy30(Section section) {
+			Part[] parts = null;
+			DaisySection currentSection = null;
+			boolean isCurrentPart = false;
+			currentSection = new DaisySection.Builder().setHref(section.getHref())
+					.setContext(mBookContext).build();
+			Part[] tempParts = currentSection.getParts(isFormat202);
+			List<Part> listPart = new ArrayList<Part>();
+			for (Part part : tempParts) {
+				if (part.getId().equals(listId.get(mPositionSection - 1))) {
+					isCurrentPart = true;
+				}
+				if (isCurrentPart) {
+					if (listId.size() == mPositionSection) {
+						listPart.add(part);
+					} else if (!part.getId().equals(listId.get(mPositionSection))) {
+						listPart.add(part);
+					} else {
+						break;
+					}
+				}
+			}
+			parts = listPart.toArray(new Part[0]);
+			getSnippetsOfCurrentSection(parts);
+			getAudioElementsOfCurrentSectionForDaisy30(parts);
 		}
 
 		/**

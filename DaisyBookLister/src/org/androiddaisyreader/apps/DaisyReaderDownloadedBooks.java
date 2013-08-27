@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.androiddaisyreader.adapter.DaisyBookAdapter;
-import org.androiddaisyreader.model.DaisyBook;
+import org.androiddaisyreader.model.DaisyBookInfo;
 import org.androiddaisyreader.player.IntentController;
 import org.androiddaisyreader.sqlite.SQLiteDaisyBookHelper;
 import org.androiddaisyreader.utils.Constants;
@@ -32,8 +32,8 @@ import com.actionbarsherlock.view.MenuItem;
 public class DaisyReaderDownloadedBooks extends DaisyEbookReaderBaseActivity {
 
 	private SQLiteDaisyBookHelper mSql;
-	private ArrayList<DaisyBook> mlistDaisyBook;
-	private ArrayList<DaisyBook> mListDaisyBookOriginal;
+	private ArrayList<DaisyBookInfo> mlistDaisyBook;
+	private ArrayList<DaisyBookInfo> mListDaisyBookOriginal;
 	private DaisyBookAdapter mDaisyBookAdapter;
 	private EditText mTextSearch;
 	private int mNumberOfRecentBooks;
@@ -61,7 +61,7 @@ public class DaisyReaderDownloadedBooks extends DaisyEbookReaderBaseActivity {
 		listDownloaded.setAdapter(mDaisyBookAdapter);
 		listDownloaded.setOnItemClickListener(onItemClick);
 		deleteCurrentInformation();
-		mListDaisyBookOriginal = new ArrayList<DaisyBook>(mlistDaisyBook);
+		mListDaisyBookOriginal = new ArrayList<DaisyBookInfo>(mlistDaisyBook);
 	}
 
 	@Override
@@ -83,10 +83,10 @@ public class DaisyReaderDownloadedBooks extends DaisyEbookReaderBaseActivity {
 	 * 
 	 * @return List daisy book
 	 */
-	private ArrayList<DaisyBook> getActualDownloadedBooks() {
-		ArrayList<DaisyBook> actualDownloadedBooks = new ArrayList<DaisyBook>();
-		ArrayList<DaisyBook> listBooks = mSql.getAllDaisyBook(Constants.TYPE_DOWNLOADED_BOOK);
-		for (DaisyBook book : listBooks) {
+	private ArrayList<DaisyBookInfo> getActualDownloadedBooks() {
+		ArrayList<DaisyBookInfo> actualDownloadedBooks = new ArrayList<DaisyBookInfo>();
+		ArrayList<DaisyBookInfo> listBooks = mSql.getAllDaisyBook(Constants.TYPE_DOWNLOADED_BOOK);
+		for (DaisyBookInfo book : listBooks) {
 			File file = new File(book.getPath());
 			if (file.exists()) {
 				actualDownloadedBooks.add(book);
@@ -100,17 +100,17 @@ public class DaisyReaderDownloadedBooks extends DaisyEbookReaderBaseActivity {
 		@Override
 		public void onItemClick(AdapterView<?> arg0, View arg1, int arg2, long arg3) {
 			speakText(mlistDaisyBook.get(arg2).getTitle());
-
-			final DaisyBook daisyBook = mlistDaisyBook.get(arg2);
+			
+			final DaisyBookInfo daisyBook = mlistDaisyBook.get(arg2);
 			boolean isDoubleTap = handleClickItem(arg2);
 			if (isDoubleTap) {
-			// add to sqlite
-			addRecentBookToSQLite(daisyBook);
+				// add to sqlite
+				addRecentBookToSQLite(daisyBook);
 
-			// push to reader activity
-			IntentController intentController = new IntentController(
-					DaisyReaderDownloadedBooks.this);
-			intentController.pushToDaisyEbookReaderIntent(daisyBook.getPath());
+				// push to reader activity
+				IntentController intentController = new IntentController(
+						DaisyReaderDownloadedBooks.this);
+				intentController.pushToDaisyEbookReaderIntent(daisyBook.getPath());
 			}else{
 				speakTextOnHandler(daisyBook.getTitle());
 			}
@@ -122,10 +122,10 @@ public class DaisyReaderDownloadedBooks extends DaisyEbookReaderBaseActivity {
 	 * 
 	 * @param daisyBook the daisy book
 	 */
-	private void addRecentBookToSQLite(DaisyBook daisyBook) {
+	private void addRecentBookToSQLite(DaisyBookInfo daisyBook) {
 		if (mNumberOfRecentBooks > 0) {
 			int lastestIdRecentBooks = 0;
-			List<DaisyBook> recentBooks = mSql.getAllDaisyBook(Constants.TYPE_RECENT_BOOK);
+			List<DaisyBookInfo> recentBooks = mSql.getAllDaisyBook(Constants.TYPE_RECENT_BOOK);
 			if (recentBooks.size() > 0) {
 				lastestIdRecentBooks = recentBooks.get(0).getSort();
 			}

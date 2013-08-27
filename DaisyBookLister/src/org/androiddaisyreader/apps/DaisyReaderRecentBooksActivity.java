@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.androiddaisyreader.adapter.DaisyBookAdapter;
-import org.androiddaisyreader.model.DaisyBook;
+import org.androiddaisyreader.model.DaisyBookInfo;
 import org.androiddaisyreader.player.IntentController;
 import org.androiddaisyreader.sqlite.SQLiteDaisyBookHelper;
 import org.androiddaisyreader.utils.Constants;
@@ -38,8 +38,8 @@ public class DaisyReaderRecentBooksActivity extends DaisyEbookReaderBaseActivity
 	private EditText mTextSearch;
 	private SQLiteDaisyBookHelper mSql;
 	private DaisyBookAdapter mDaisyBookAdapter;
-	private ArrayList<DaisyBook> mListRecentBooks;
-	private ArrayList<DaisyBook> mListRecentBookOriginal;
+	private ArrayList<DaisyBookInfo> mListRecentBooks;
+	private ArrayList<DaisyBookInfo> mListRecentBookOriginal;
 	private int mNumberOfRecentBooks;
 	private SharedPreferences mPreferences;
 
@@ -60,6 +60,7 @@ public class DaisyReaderRecentBooksActivity extends DaisyEbookReaderBaseActivity
 		mListViewRecentBooks = (ListView) findViewById(R.id.list_view_recent_books);
 		mTextSearch = (EditText) findViewById(R.id.edit_text_search);
 		mTextSearch.clearFocus();
+		
 		// init SQLite Recent Book
 		mSql = new SQLiteDaisyBookHelper(this);
 
@@ -90,7 +91,7 @@ public class DaisyReaderRecentBooksActivity extends DaisyEbookReaderBaseActivity
 		deleteCurrentInformation();
 		speakText(getString(R.string.title_activity_daisy_reader_recent_book));
 		mListRecentBooks = loadRecentBooks();
-		mListRecentBookOriginal = new ArrayList<DaisyBook>(loadRecentBooks());
+		mListRecentBookOriginal = new ArrayList<DaisyBookInfo>(loadRecentBooks());
 		mDaisyBookAdapter = new DaisyBookAdapter(DaisyReaderRecentBooksActivity.this,
 				mListRecentBooks);
 
@@ -123,16 +124,16 @@ public class DaisyReaderRecentBooksActivity extends DaisyEbookReaderBaseActivity
 	 * 
 	 * @return the array list recent books
 	 */
-	private ArrayList<DaisyBook> loadRecentBooks() {
-		ArrayList<DaisyBook> daisyBookList = new ArrayList<DaisyBook>();
+	private ArrayList<DaisyBookInfo> loadRecentBooks() {
+		ArrayList<DaisyBookInfo> daisyBookList = new ArrayList<DaisyBookInfo>();
 		// get all recent books from sqlite.
-		List<DaisyBook> recentBooks = mSql.getAllDaisyBook(Constants.TYPE_RECENT_BOOK);
+		List<DaisyBookInfo> recentBooks = mSql.getAllDaisyBook(Constants.TYPE_RECENT_BOOK);
 		// if size of recent books > number of recent books in setting.
 		int sizeOfRecentBooks = recentBooks.size();
 		if (sizeOfRecentBooks >= mNumberOfRecentBooks) {
 			// get all items from 0 to number of recent books
 			for (int i = 0; i < mNumberOfRecentBooks; i++) {
-				DaisyBook re = recentBooks.get(i);
+				DaisyBookInfo re = recentBooks.get(i);
 				File f = new File(re.getPath());
 				if (f.exists()) {
 					daisyBookList.add(re);
@@ -140,7 +141,7 @@ public class DaisyReaderRecentBooksActivity extends DaisyEbookReaderBaseActivity
 			}
 		} else {
 			for (int i = 0; i < sizeOfRecentBooks; i++) {
-				DaisyBook re = recentBooks.get(i);
+				DaisyBookInfo re = recentBooks.get(i);
 				File f = new File(re.getPath());
 				if (f.exists()) {
 					daisyBookList.add(re);
@@ -183,7 +184,7 @@ public class DaisyReaderRecentBooksActivity extends DaisyEbookReaderBaseActivity
 		@SuppressLint("HandlerLeak")
 		@Override
 		public void onItemClick(AdapterView<?> arg0, View arg1, int arg2, long arg3) {
-			final DaisyBook daisyBook = mListRecentBooks.get(arg2);
+			final DaisyBookInfo daisyBook = mListRecentBooks.get(arg2);
 			boolean isDoubleTap = handleClickItem(arg2);
 			if (isDoubleTap) {
 				itemRecentBookClick(daisyBook);
@@ -200,7 +201,7 @@ public class DaisyReaderRecentBooksActivity extends DaisyEbookReaderBaseActivity
 	 * @param daisyBook
 	 *            the daisy book
 	 */
-	private void itemRecentBookClick(DaisyBook daisyBook) {
+	private void itemRecentBookClick(DaisyBookInfo daisyBook) {
 		IntentController intentController = new IntentController(this);
 		intentController.pushToDaisyEbookReaderIntent(daisyBook.getPath());
 	}

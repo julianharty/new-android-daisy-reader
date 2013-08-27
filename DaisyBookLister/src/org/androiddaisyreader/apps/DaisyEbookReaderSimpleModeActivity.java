@@ -8,16 +8,15 @@ import java.util.UUID;
 
 import org.androiddaisyreader.AudioCallbackListener;
 import org.androiddaisyreader.controller.AudioPlayerController;
-import org.androiddaisyreader.daisy30.Daisy30Section;
-import org.androiddaisyreader.daisy30.OpfSpecification;
 import org.androiddaisyreader.model.Audio;
 import org.androiddaisyreader.model.BookContext;
 import org.androiddaisyreader.model.CurrentInformation;
-import org.androiddaisyreader.model.Daisy202Book;
-import org.androiddaisyreader.model.Daisy202Section;
+import org.androiddaisyreader.model.DaisyBook;
+import org.androiddaisyreader.model.DaisySection;
 import org.androiddaisyreader.model.Navigable;
 import org.androiddaisyreader.model.Navigator;
 import org.androiddaisyreader.model.NccSpecification;
+import org.androiddaisyreader.model.OpfSpecification;
 import org.androiddaisyreader.model.Part;
 import org.androiddaisyreader.model.Section;
 import org.androiddaisyreader.player.AndroidAudioPlayer;
@@ -49,7 +48,7 @@ public class DaisyEbookReaderSimpleModeActivity extends DaisyEbookReaderBaseActi
 	private boolean mIsFirstNext = false;
 	private boolean mIsFirstPrevious = true;
 	private BookContext mBookContext;
-	private Daisy202Book mBook;
+	private DaisyBook mBook;
 	private Navigator mNavigator;
 	private Navigator mNavigatorOfTableContents;
 	private NavigationListener mNavigationListener;
@@ -448,18 +447,18 @@ public class DaisyEbookReaderSimpleModeActivity extends DaisyEbookReaderBaseActi
 		public void onNext(Section section) {
 			try {
 				Part[] parts = null;
-				Daisy202Section currentSection = null;
+				DaisySection currentSection = null;
 				if (isFormat202) {
-					currentSection = new Daisy202Section.Builder().setHref(section.getHref())
+					currentSection = new DaisySection.Builder().setHref(section.getHref())
 							.setContext(mBookContext).build();
-					parts = currentSection.getParts();
+					parts = currentSection.getParts(isFormat202);
 					getSnippetsOfCurrentSection(parts);
 					getAudioElementsOfCurrentSectionForDaisy202(parts);
 				} else {
 					boolean isCurrentPart = false;
-					currentSection = new Daisy30Section.Builder().setHref(section.getHref())
+					currentSection = new DaisySection.Builder().setHref(section.getHref())
 							.setContext(mBookContext).build();
-					Part[] tempParts = currentSection.getParts();
+					Part[] tempParts = currentSection.getParts(isFormat202);
 					List<Part> listPart = new ArrayList<Part>();
 					for (Part part : tempParts) {
 						if (part.getId().equals(listId.get(mPositionSection - 1))) {

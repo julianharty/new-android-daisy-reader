@@ -7,7 +7,7 @@ import java.util.List;
 
 import org.androiddaisyreader.adapter.DaisyBookAdapter;
 import org.androiddaisyreader.metadata.MetaDataHandler;
-import org.androiddaisyreader.model.DaisyBook;
+import org.androiddaisyreader.model.DaisyBookInfo;
 import org.androiddaisyreader.player.IntentController;
 import org.androiddaisyreader.sqlite.SQLiteDaisyBookHelper;
 import org.androiddaisyreader.utils.Constants;
@@ -47,8 +47,8 @@ public class DaisyReaderScanBooksActivity extends DaisyEbookReaderBaseActivity {
 
 	private ListView mlistViewScanBooks;
 	private ProgressDialog mProgressDialog;
-	private ArrayList<DaisyBook> mListScanBook;
-	private ArrayList<DaisyBook> mListDaisyBookOriginal;
+	private ArrayList<DaisyBookInfo> mListScanBook;
+	private ArrayList<DaisyBookInfo> mListDaisyBookOriginal;
 	private DaisyBookAdapter mDaisyBookAdapter;
 	private int mNumberOfRecentBooks;
 	private SharedPreferences mPreferences;
@@ -75,8 +75,8 @@ public class DaisyReaderScanBooksActivity extends DaisyEbookReaderBaseActivity {
 		mTextSearch = (EditText) findViewById(R.id.edit_text_search);
 		mlistViewScanBooks = (ListView) findViewById(R.id.list_view_scan_books);
 		mlistViewScanBooks.setOnItemClickListener(onItemBookClick);
-
-		mListScanBook = new ArrayList<DaisyBook>();
+		
+		mListScanBook = new ArrayList<DaisyBookInfo>();
 		mMetadata = new MetaDataHandler();
 		deleteCurrentInformation();
 		loadScanBooks();
@@ -184,7 +184,7 @@ public class DaisyReaderScanBooksActivity extends DaisyEbookReaderBaseActivity {
 
 		@Override
 		public void onItemClick(AdapterView<?> arg0, View arg1, int arg2, long arg3) {
-			final DaisyBook daisyBook = mListScanBook.get(arg2);
+			final DaisyBookInfo daisyBook = mListScanBook.get(arg2);
 			boolean isDoubleTap = handleClickItem(arg2);
 			if (isDoubleTap) {
 				addRecentBookToSQLite(mListScanBook.get(arg2));
@@ -201,10 +201,10 @@ public class DaisyReaderScanBooksActivity extends DaisyEbookReaderBaseActivity {
 	 * @param daisyBook
 	 *            the daisy book
 	 */
-	private void addRecentBookToSQLite(DaisyBook daisyBook) {
+	private void addRecentBookToSQLite(DaisyBookInfo daisyBook) {
 		if (mNumberOfRecentBooks > 0) {
 			int lastestIdRecentBooks = 0;
-			List<DaisyBook> recentBooks = mSql.getAllDaisyBook(Constants.TYPE_RECENT_BOOK);
+			List<DaisyBookInfo> recentBooks = mSql.getAllDaisyBook(Constants.TYPE_RECENT_BOOK);
 			if (recentBooks.size() > 0) {
 				lastestIdRecentBooks = recentBooks.get(0).getSort();
 			}
@@ -223,7 +223,7 @@ public class DaisyReaderScanBooksActivity extends DaisyEbookReaderBaseActivity {
 	 * @param daisyBook
 	 *            the daisy book
 	 */
-	private void itemScanBookClick(DaisyBook daisyBook) {
+	private void itemScanBookClick(DaisyBookInfo daisyBook) {
 		IntentController intentController = new IntentController(this);
 		intentController.pushToDaisyEbookReaderIntent(daisyBook.getPath());
 	}
@@ -234,14 +234,14 @@ public class DaisyReaderScanBooksActivity extends DaisyEbookReaderBaseActivity {
 	 * @author nguyen.le
 	 * 
 	 */
-	class LoadingData extends AsyncTask<Void, Void, ArrayList<DaisyBook>> {
+	class LoadingData extends AsyncTask<Void, Void, ArrayList<DaisyBookInfo>> {
 
 		/** The list files. */
 		List<String> listFiles;
 
 		@Override
-		protected ArrayList<DaisyBook> doInBackground(Void... params) {
-			ArrayList<DaisyBook> filesResult = new ArrayList<DaisyBook>();
+		protected ArrayList<DaisyBookInfo> doInBackground(Void... params) {
+			ArrayList<DaisyBookInfo> filesResult = new ArrayList<DaisyBookInfo>();
 			try {
 				while (!mPreferences.getBoolean(Constants.SERVICE_DONE, false)) {
 					Thread.sleep(1000);
@@ -266,7 +266,7 @@ public class DaisyReaderScanBooksActivity extends DaisyEbookReaderBaseActivity {
 									.item(0).getTextContent();
 							String date = eElement.getElementsByTagName(Constants.ATT_DATE).item(0)
 									.getTextContent();
-							DaisyBook daisyBook = new DaisyBook("", title, path, author, publisher,
+							DaisyBookInfo daisyBook = new DaisyBookInfo("", title, path, author, publisher,
 									date, 1);
 							filesResult.add(daisyBook);
 						}
@@ -280,10 +280,10 @@ public class DaisyReaderScanBooksActivity extends DaisyEbookReaderBaseActivity {
 		}
 
 		@Override
-		protected void onPostExecute(ArrayList<DaisyBook> result) {
+		protected void onPostExecute(ArrayList<DaisyBookInfo> result) {
 			if (result != null) {
 				mListScanBook = result;
-				mListDaisyBookOriginal = new ArrayList<DaisyBook>(result);
+				mListDaisyBookOriginal = new ArrayList<DaisyBookInfo>(result);
 				mDaisyBookAdapter = new DaisyBookAdapter(DaisyReaderScanBooksActivity.this,
 						mListScanBook);
 

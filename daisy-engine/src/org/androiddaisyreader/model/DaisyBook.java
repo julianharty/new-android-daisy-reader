@@ -1,81 +1,65 @@
 package org.androiddaisyreader.model;
 
-public class DaisyBook {
-	private String id;
-	private String title;
-	private String path;
-	private String author;
-	private String publisher;
-	private String date;
-	private int sort;
+import java.util.Collections;
+import java.util.Date;
+import java.util.List;
 
-	public String getId() {
-		return id;
-	}
+public class DaisyBook extends Book {
+	private Date date;
 
-	public void setId(String id) {
-		this.id = id;
-	}
-	public String getTitle() {
-		return title;
-	}
+	public static class Builder {
+		private DaisyBook book = new DaisyBook();
 
-	public void setTitle(String title) {
-		this.title = title;
-	}
+		public Builder addSection(Section section) {
+			book.sections.add(section);
+			return this;
+		}
 
-	public String getPath() {
-		return path;
-	}
+		public Builder setDate(Date date) {
+			book.date = date;
+			return this;
+		}
 
-	public void setPath(String path) {
-		this.path = path;
-	}
+		public Builder setTitle(String content) {
+			// TODO 20120124 (jharty): consider cleaning up the content.
+			book.title = content.trim();
+			return this;
+		}
 
-	public int getSort() {
-		return sort;
-	}
+		// Added by Logigear to resolve case: the daisy book is not audio.
+		// Date: Jun-13-2013
+		public Builder setTotalTime(String totalTime) {
+			book.totalTime = totalTime.trim();
+			return this;
+		}
 
-	public void setSort(int sort) {
-		this.sort = sort;
-	}
+		public Builder setCreator(String creator) {
+			book.author = creator;
+			return this;
+		}
+		
+		public Builder setPublisher(String publisher)
+		{
+			book.publisher = publisher;
+			return this;
+		}
 
-	public String getAuthor() {
-		return author;
-	}
-
-	public void setAuthor(String author) {
-		this.author = author;
-	}
-
-	public String getPublisher() {
-		return publisher;
-	}
-
-	public void setPublisher(String publisher) {
-		this.publisher = publisher;
-	}
-	
-	public String getDate() {
-		return date;
-	}
-
-	public void setDate(String date) {
-		this.date = date;
-	}
-	
-	public DaisyBook(String id, String title, String path, String author, String publisher, String date, int sort) {
-		this.id = id;
-		this.title = title;
-		this.path = path;
-		this.author = author;
-		this.publisher = publisher;
-		this.sort = sort;
-		this.date = date;
+		public DaisyBook build() {
+			book.sections = Collections.unmodifiableList(book.sections);
+			return book;
+		}
 	}
 
 	public DaisyBook() {
+		super();
 	}
 
+	public List<? extends Navigable> getChildren() {
+		return sections;
+	}
+
+	public Date getDate() {
+		return date;
+	}
 
 }

@@ -18,7 +18,7 @@ import java.util.Stack;
 
 import javax.xml.parsers.SAXParserFactory;
 
-import org.androiddaisyreader.model.Daisy202Section.Builder;
+import org.androiddaisyreader.model.DaisySection.Builder;
 import org.xml.sax.Attributes;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
@@ -47,12 +47,12 @@ import org.xml.sax.helpers.DefaultHandler;
  */
 public class NccSpecification extends DefaultHandler {
 	private Element current;
-	private Stack<Daisy202Section.Builder> headingStack = new Stack<Daisy202Section.Builder>();
+	private Stack<DaisySection.Builder> headingStack = new Stack<DaisySection.Builder>();
 	// TODO 20120124 (jharty):replace with something that doesn't use Vector
 	private StringBuilder buffer = new StringBuilder();
 	private static Integer NUM_LEVELS_AVAILABLE_IN_DAISY202 = 6;
 
-	Daisy202Book.Builder bookBuilder = new Daisy202Book.Builder();
+	DaisyBook.Builder bookBuilder = new DaisyBook.Builder();
 	private String href;
 
 	private enum Element {
@@ -177,7 +177,7 @@ public class NccSpecification extends DefaultHandler {
 
 	private void handleStartOfHeading(Element heading, Attributes attributes) {
 		// Create the new header
-		Daisy202Section.Builder builder = new Daisy202Section.Builder();
+		DaisySection.Builder builder = new DaisySection.Builder();
 		builder.setId(getId(attributes));
 		builder.setLevel(levelMap.get(heading));
 
@@ -200,7 +200,7 @@ public class NccSpecification extends DefaultHandler {
 	}
 
 	private void attachSectionToParent() {
-		Daisy202Section.Builder sibblingBuilder = headingStack.pop();
+		DaisySection.Builder sibblingBuilder = headingStack.pop();
 		Section sibbling = sibblingBuilder.build();
 		if (headingStack.empty()) {
 			bookBuilder.addSection(sibbling);
@@ -270,10 +270,6 @@ public class NccSpecification extends DefaultHandler {
 
 		for (int i = 0; i < attributes.getLength(); i++) {
 			String name = attributes.getLocalName(i);
-			if (name.length() == 0) {
-				name = attributes.getQName(i);
-			}
-			
 			if (name.equalsIgnoreCase("name") || name.equalsIgnoreCase("Content-type")) {
 				metaName = attributes.getValue(i);
 			}
@@ -339,23 +335,25 @@ public class NccSpecification extends DefaultHandler {
 
 	}
 
-	public Daisy202Book build() {
+	public DaisyBook build() {
 		return bookBuilder.build();
 	}
 
-	public static Daisy202Book readFromFile(File file) throws IOException {
+	public static DaisyBook readFromFile(File file) throws IOException {
 		InputStream contents = new BufferedInputStream(new FileInputStream(file));
-		return readFromStream(contents);
+		String encoding = obtainEncodingStringFromInputStream(contents);
+		encoding = mapUnsupportedEncoding(encoding);
+		return readFromStream(contents, encoding);
 	}
 
-	public static Daisy202Book readFromStream(InputStream contents) throws IOException {
+	public static DaisyBook readFromStream(InputStream contents) throws IOException {
 		String encoding = obtainEncodingStringFromInputStream(contents);
 		encoding = mapUnsupportedEncoding(encoding);
 		return readFromStream(contents, encoding);
 
 	}
 
-	public static Daisy202Book readFromStream(InputStream contents, String encoding)
+	public static DaisyBook readFromStream(InputStream contents, String encoding)
 			throws IOException {
 		SAXParserFactory factory = SAXParserFactory.newInstance();
 		NccSpecification specification = new NccSpecification();

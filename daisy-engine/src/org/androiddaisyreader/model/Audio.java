@@ -29,6 +29,10 @@ public class Audio {
 		this.clipEnd = clipEnd;
 	}
 	
+	public void setAudioFileName(String name) {
+		this.audioFilename = name;
+	}
+
 	/**
 	 * @return the name of the file containing the recorded audio.
 	 */

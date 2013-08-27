@@ -12,7 +12,7 @@ import java.util.ArrayList;
 import org.androiddaisyreader.apps.PrivateException;
 import org.androiddaisyreader.apps.R;
 import org.androiddaisyreader.metadata.MetaDataHandler;
-import org.androiddaisyreader.model.DaisyBook;
+import org.androiddaisyreader.model.DaisyBookInfo;
 import org.androiddaisyreader.utils.Constants;
 import org.w3c.dom.NodeList;
 
@@ -104,11 +104,11 @@ public class MetaDataHandlerTest extends AndroidTestCase {
 		}
 	}
 
-	private ArrayList<DaisyBook> createDataForScanBook(int number) {
-		ArrayList<DaisyBook> list = new ArrayList<DaisyBook>();
+	private ArrayList<DaisyBookInfo> createDataForScanBook(int number) {
+		ArrayList<DaisyBookInfo> list = new ArrayList<DaisyBookInfo>();
 		// initial new daisy book
 		for (int i = 0; i < number; i++) {
-			DaisyBook daisyBook = new DaisyBook("", TITLE_DAISY_BOOK + String.valueOf(i),
+			DaisyBookInfo daisyBook = new DaisyBookInfo("", TITLE_DAISY_BOOK + String.valueOf(i),
 					PATH_DAISY_BOOK, AUTHOR_DAISY_BOOK, PUBLISHER_DAISY_BOOK, DATE_DAISY_BOOK,
 					SORT_DAISY_BOOK);
 			list.add(daisyBook);
@@ -166,7 +166,7 @@ public class MetaDataHandlerTest extends AndroidTestCase {
 		String localPath = Constants.FOLDER_CONTAIN_METADATA
 				+ Constants.META_DATA_SCAN_BOOK_FILE_NAME;
 		MetaDataHandler metadata = new MetaDataHandler();
-		ArrayList<DaisyBook> list = createDataForScanBook(5);
+		ArrayList<DaisyBookInfo> list = createDataForScanBook(5);
 		assertTrue(list.size() > 0);
 		metadata.WriteDataToXmlFile(list, localPath);
 		File file = new File(localPath);
@@ -183,7 +183,7 @@ public class MetaDataHandlerTest extends AndroidTestCase {
 		String localPath = Constants.FOLDER_CONTAIN_METADATA
 				+ Constants.META_DATA_SCAN_BOOK_FILE_NAME;
 		MetaDataHandler metadata = new MetaDataHandler();
-		ArrayList<DaisyBook> list = createDataForScanBook(5);
+		ArrayList<DaisyBookInfo> list = createDataForScanBook(5);
 		assertTrue(list.size() > 0);
 		metadata.WriteDataToXmlFile(list, localPath);
 

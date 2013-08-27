@@ -3,7 +3,7 @@ package org.androiddaisyreader.test.util;
 import java.io.File;
 import java.util.ArrayList;
 
-import org.androiddaisyreader.model.DaisyBook;
+import org.androiddaisyreader.model.DaisyBookInfo;
 import org.androiddaisyreader.sqlite.SQLiteDaisyBookHelper;
 import org.androiddaisyreader.utils.Constants;
 import org.androiddaisyreader.utils.DaisyBookUtil;
@@ -55,20 +55,20 @@ public class DaisyBookUtilTest extends AndroidTestCase {
 	 */
 	public void testSearchBookReturnTrueIfSearchCorrectly() {
 		prepareDataToTest(Constants.TYPE_DOWNLOAD_BOOK);
-		ArrayList<DaisyBook> arrDaisyBook = helper.getAllDaisyBook(Constants.TYPE_DOWNLOAD_BOOK);
+		ArrayList<DaisyBookInfo> arrDaisyBook = helper.getAllDaisyBook(Constants.TYPE_DOWNLOAD_BOOK);
 		assertTrue(arrDaisyBook.size() == 5);
-		ArrayList<DaisyBook> arrDaisyBookOriginal = new ArrayList<DaisyBook>(arrDaisyBook);
-		ArrayList<DaisyBook> arrResult = DaisyBookUtil.searchBookWithText("a", arrDaisyBook,
+		ArrayList<DaisyBookInfo> arrDaisyBookOriginal = new ArrayList<DaisyBookInfo>(arrDaisyBook);
+		ArrayList<DaisyBookInfo> arrResult = DaisyBookUtil.searchBookWithText("a", arrDaisyBook,
 				arrDaisyBookOriginal);
 		assertTrue(arrResult.size() == 2);
 	}
 	
 	public void testSearchBookReturnFalseIfSearchInCorrectly() {
 		prepareDataToTest(Constants.TYPE_DOWNLOAD_BOOK);
-		ArrayList<DaisyBook> arrDaisyBook = helper.getAllDaisyBook(Constants.TYPE_DOWNLOAD_BOOK);
+		ArrayList<DaisyBookInfo> arrDaisyBook = helper.getAllDaisyBook(Constants.TYPE_DOWNLOAD_BOOK);
 		assertTrue(arrDaisyBook.size() == 5);
-		ArrayList<DaisyBook> arrDaisyBookOriginal = new ArrayList<DaisyBook>(arrDaisyBook);
-		ArrayList<DaisyBook> arrResult = DaisyBookUtil.searchBookWithText("a", arrDaisyBook,
+		ArrayList<DaisyBookInfo> arrDaisyBookOriginal = new ArrayList<DaisyBookInfo>(arrDaisyBook);
+		ArrayList<DaisyBookInfo> arrResult = DaisyBookUtil.searchBookWithText("a", arrDaisyBook,
 				arrDaisyBookOriginal);
 		assertFalse(arrResult.size() != 2);
 	}
@@ -78,20 +78,20 @@ public class DaisyBookUtilTest extends AndroidTestCase {
 	 */
 	public void testSearchBookReturnTrueWhenNoContainTextAndResultCorrectly() {
 		prepareDataToTest(Constants.TYPE_DOWNLOAD_BOOK);
-		ArrayList<DaisyBook> arrDaisyBook = helper.getAllDaisyBook(Constants.TYPE_DOWNLOAD_BOOK);
+		ArrayList<DaisyBookInfo> arrDaisyBook = helper.getAllDaisyBook(Constants.TYPE_DOWNLOAD_BOOK);
 		assertTrue(arrDaisyBook.size() == 5);
-		ArrayList<DaisyBook> arrDaisyBookOriginal = new ArrayList<DaisyBook>(arrDaisyBook);
-		ArrayList<DaisyBook> arrResult = DaisyBookUtil.searchBookWithText("a3", arrDaisyBook,
+		ArrayList<DaisyBookInfo> arrDaisyBookOriginal = new ArrayList<DaisyBookInfo>(arrDaisyBook);
+		ArrayList<DaisyBookInfo> arrResult = DaisyBookUtil.searchBookWithText("a3", arrDaisyBook,
 				arrDaisyBookOriginal);
 		assertTrue(arrResult.size() == 0);
 	}
 	
 	public void testSearchBookReturnTrueWhenNoContainTextAndResultInCorrectly() {
 		prepareDataToTest(Constants.TYPE_DOWNLOAD_BOOK);
-		ArrayList<DaisyBook> arrDaisyBook = helper.getAllDaisyBook(Constants.TYPE_DOWNLOAD_BOOK);
+		ArrayList<DaisyBookInfo> arrDaisyBook = helper.getAllDaisyBook(Constants.TYPE_DOWNLOAD_BOOK);
 		assertTrue(arrDaisyBook.size() == 5);
-		ArrayList<DaisyBook> arrDaisyBookOriginal = new ArrayList<DaisyBook>(arrDaisyBook);
-		ArrayList<DaisyBook> arrResult = DaisyBookUtil.searchBookWithText("a3", arrDaisyBook,
+		ArrayList<DaisyBookInfo> arrDaisyBookOriginal = new ArrayList<DaisyBookInfo>(arrDaisyBook);
+		ArrayList<DaisyBookInfo> arrResult = DaisyBookUtil.searchBookWithText("a3", arrDaisyBook,
 				arrDaisyBookOriginal);
 		assertFalse(arrResult.size() != 0);
 	}
@@ -117,7 +117,7 @@ public class DaisyBookUtilTest extends AndroidTestCase {
 	 */
 	private void addDaisyBookToDatabase(String type, String title) {
 		// initial new daisy book
-		DaisyBook daisyBook = new DaisyBook("", title, PATH_DAISY_BOOK, AUTHOR_DAISY_BOOK,
+		DaisyBookInfo daisyBook = new DaisyBookInfo("", title, PATH_DAISY_BOOK, AUTHOR_DAISY_BOOK,
 				PUBLISHER_DAISY_BOOK, DATE_DAISY_BOOK, SORT_DAISY_BOOK);
 		// add daisy book to local db
 		boolean isOK = helper.addDaisyBook(daisyBook, type);

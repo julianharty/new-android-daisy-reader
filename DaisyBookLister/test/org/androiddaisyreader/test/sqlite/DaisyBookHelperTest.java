@@ -2,7 +2,7 @@ package org.androiddaisyreader.test.sqlite;
 
 import java.util.ArrayList;
 
-import org.androiddaisyreader.model.DaisyBook;
+import org.androiddaisyreader.model.DaisyBookInfo;
 import org.androiddaisyreader.sqlite.SQLiteDaisyBookHelper;
 import org.androiddaisyreader.utils.Constants;
 
@@ -57,7 +57,7 @@ public class DaisyBookHelperTest extends AndroidTestCase {
 	
 	public void testAddDaisyBookToDatabaseReturnFalseWhenTitleIsNull(){
 		// initial new daisy book
-				DaisyBook daisyBook = new DaisyBook("", null, PATH_DAISY_BOOK,
+				DaisyBookInfo daisyBook = new DaisyBookInfo("", null, PATH_DAISY_BOOK,
 						AUTHOR_DAISY_BOOK, PUBLISHER_DAISY_BOOK, DATE_DAISY_BOOK, SORT_DAISY_BOOK);
 				// add daisy book to local db
 				boolean result = helper.addDaisyBook(daisyBook, Constants.TYPE_DOWNLOAD_BOOK);
@@ -72,7 +72,7 @@ public class DaisyBookHelperTest extends AndroidTestCase {
 	 */
 	public void addDaisyBookValidToDatabase(String type) {
 		// initial new daisy book
-		DaisyBook daisyBook = new DaisyBook("", TITLE_DAISY_BOOK, PATH_DAISY_BOOK,
+		DaisyBookInfo daisyBook = new DaisyBookInfo("", TITLE_DAISY_BOOK, PATH_DAISY_BOOK,
 				AUTHOR_DAISY_BOOK, PUBLISHER_DAISY_BOOK, DATE_DAISY_BOOK, SORT_DAISY_BOOK);
 		// add daisy book to local db
 		boolean isOK = helper.addDaisyBook(daisyBook, type);
@@ -91,7 +91,7 @@ public class DaisyBookHelperTest extends AndroidTestCase {
 	
 	public void testDaisyBookReturnFalseWhenTypeIsWrong() {
 		addDaisyBookValidToDatabase("type1");
-		ArrayList<DaisyBook> arrDaisyBook = helper.getAllDaisyBook("type2");
+		ArrayList<DaisyBookInfo> arrDaisyBook = helper.getAllDaisyBook("type2");
 		assertFalse(arrDaisyBook.size() != 0);
 	}
 	
@@ -104,7 +104,7 @@ public class DaisyBookHelperTest extends AndroidTestCase {
 	 */
 	public void getAllDaisyBook(String type) {
 		addDaisyBookValidToDatabase(type);
-		ArrayList<DaisyBook> arrDaisyBook = helper.getAllDaisyBook(type);
+		ArrayList<DaisyBookInfo> arrDaisyBook = helper.getAllDaisyBook(type);
 		assertTrue(arrDaisyBook != null);
 	}
 
@@ -134,7 +134,7 @@ public class DaisyBookHelperTest extends AndroidTestCase {
 		addDaisyBookValidToDatabase(type);
 		boolean result = helper.DeleteAllDaisyBook(type);
 		assertTrue(result);
-		ArrayList<DaisyBook> arrDaisyBook = helper.getAllDaisyBook(type);
+		ArrayList<DaisyBookInfo> arrDaisyBook = helper.getAllDaisyBook(type);
 		assertFalse(arrDaisyBook.size() > 0);
 	}
 
@@ -188,7 +188,7 @@ public class DaisyBookHelperTest extends AndroidTestCase {
 	 */
 	public void getDaisyBookByTitle(String type) {
 		addDaisyBookValidToDatabase(type);
-		DaisyBook daisyBook = helper.getDaisyBookByTitle(TITLE_DAISY_BOOK, type);
+		DaisyBookInfo daisyBook = helper.getDaisyBookByTitle(TITLE_DAISY_BOOK, type);
 		assertTrue(daisyBook != null);
 	}
 

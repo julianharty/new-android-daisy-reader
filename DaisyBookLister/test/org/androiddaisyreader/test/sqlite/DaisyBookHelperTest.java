@@ -55,6 +55,9 @@ public class DaisyBookHelperTest extends AndroidTestCase {
 		addDaisyBookValidToDatabase(Constants.TYPE_DOWNLOADED_BOOK);
 	}
 	
+	/**
+	 * Test add daisy book to database return false when title is null.
+	 */
 	public void testAddDaisyBookToDatabaseReturnFalseWhenTitleIsNull(){
 		// initial new daisy book
 				DaisyBookInfo daisyBook = new DaisyBookInfo("", null, PATH_DAISY_BOOK,
@@ -87,12 +90,6 @@ public class DaisyBookHelperTest extends AndroidTestCase {
 		getAllDaisyBook(Constants.TYPE_RECENT_BOOK);
 		getAllDaisyBook(Constants.TYPE_SCAN_BOOK);
 		getAllDaisyBook(Constants.TYPE_DOWNLOADED_BOOK);
-	}
-	
-	public void testDaisyBookReturnFalseWhenTypeIsWrong() {
-		addDaisyBookValidToDatabase("type1");
-		ArrayList<DaisyBookInfo> arrDaisyBook = helper.getAllDaisyBook("type2");
-		assertFalse(arrDaisyBook.size() != 0);
 	}
 	
 	/**

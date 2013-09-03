@@ -63,20 +63,10 @@ public class DaisyBookUtilTest extends AndroidTestCase {
 		assertTrue(arrResult.size() == 2);
 	}
 	
-	public void testSearchBookReturnFalseIfSearchInCorrectly() {
-		prepareDataToTest(Constants.TYPE_DOWNLOAD_BOOK);
-		ArrayList<DaisyBookInfo> arrDaisyBook = helper.getAllDaisyBook(Constants.TYPE_DOWNLOAD_BOOK);
-		assertTrue(arrDaisyBook.size() == 5);
-		ArrayList<DaisyBookInfo> arrDaisyBookOriginal = new ArrayList<DaisyBookInfo>(arrDaisyBook);
-		ArrayList<DaisyBookInfo> arrResult = DaisyBookUtil.searchBookWithText("a", arrDaisyBook,
-				arrDaisyBookOriginal);
-		assertFalse(arrResult.size() != 2);
-	}
-
 	/**
 	 * Test search book by title is not contain in list book.
 	 */
-	public void testSearchBookReturnTrueWhenNoContainTextAndResultCorrectly() {
+	public void testSearchBookReturnTrueWhenNoContainText() {
 		prepareDataToTest(Constants.TYPE_DOWNLOAD_BOOK);
 		ArrayList<DaisyBookInfo> arrDaisyBook = helper.getAllDaisyBook(Constants.TYPE_DOWNLOAD_BOOK);
 		assertTrue(arrDaisyBook.size() == 5);
@@ -86,16 +76,6 @@ public class DaisyBookUtilTest extends AndroidTestCase {
 		assertTrue(arrResult.size() == 0);
 	}
 	
-	public void testSearchBookReturnTrueWhenNoContainTextAndResultInCorrectly() {
-		prepareDataToTest(Constants.TYPE_DOWNLOAD_BOOK);
-		ArrayList<DaisyBookInfo> arrDaisyBook = helper.getAllDaisyBook(Constants.TYPE_DOWNLOAD_BOOK);
-		assertTrue(arrDaisyBook.size() == 5);
-		ArrayList<DaisyBookInfo> arrDaisyBookOriginal = new ArrayList<DaisyBookInfo>(arrDaisyBook);
-		ArrayList<DaisyBookInfo> arrResult = DaisyBookUtil.searchBookWithText("a3", arrDaisyBook,
-				arrDaisyBookOriginal);
-		assertFalse(arrResult.size() != 0);
-	}
-
 	/**
 	 * Prepare data to test.
 	 *

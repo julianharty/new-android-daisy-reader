@@ -77,20 +77,29 @@ public class DaisyBookUtil {
 
 	public static boolean folderContainsDaisy2_02Book(File folder) {
 		boolean result = false;
-		if (!folder.isDirectory()) {
-			result = false;
-		}
-		if (new File(folder, Constants.FILE_NCC_NAME_NOT_CAPS).exists()) {
-			result = true;
-		}
-		// Minor hack to cope with the potential of ALL CAPS filename, as per
-		// http://www.daisy.org/z3986/specifications/daisy_202.html#ncc
-		if (new File(folder, Constants.FILE_NCC_NAME_CAPS).exists()) {
-			result = true;
-		}
 		if (folder.getAbsolutePath().endsWith(".zip")) {
 			result = zipFileContainsDaisy2_02Book(folder.getAbsolutePath());
+		} else {
+
+			if (!folder.isDirectory()) {
+				result = false;
+			}
+
+			if (folder.getAbsolutePath().contains(Constants.FILE_NCC_NAME_NOT_CAPS)) {
+				result = true;
+			}
+
+			if (new File(folder, Constants.FILE_NCC_NAME_NOT_CAPS).exists()) {
+				result = true;
+			}
+			// Minor hack to cope with the potential of ALL CAPS filename, as
+			// per
+			// http://www.daisy.org/z3986/specifications/daisy_202.html#ncc
+			if (new File(folder, Constants.FILE_NCC_NAME_CAPS).exists()) {
+				result = true;
+			}
 		}
+
 		return result;
 	}
 
@@ -257,7 +266,7 @@ public class DaisyBookUtil {
 
 	/**
 	 * Gets the opf file name.
-	 *
+	 * 
 	 * @param path the folder contains file opf.
 	 * @return the opf file name
 	 */
@@ -308,14 +317,14 @@ public class DaisyBookUtil {
 
 	/**
 	 * Find daisy format.
-	 *
+	 * 
 	 * @param path the path
 	 * @return the int
 	 */
 	public static int findDaisyFormat(String path) {
 		int result = 0;
 		File file = new File(path);
-		if (path.toLowerCase(Locale.getDefault()).contains(Constants.FILE_NCC_NAME_NOT_CAPS)) {
+		if (folderContainsDaisy2_02Book(new File(path))) {
 			result = Constants.DAISY_202_FORMAT;
 		} else if (folderContainsDaisy30Book(file)) {
 			result = Constants.DAISY_30_FORMAT;

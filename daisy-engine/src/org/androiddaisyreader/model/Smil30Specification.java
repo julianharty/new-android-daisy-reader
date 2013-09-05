@@ -28,6 +28,9 @@ public class Smil30Specification extends DefaultHandler {
 	private BookContext context;
 
 	boolean handlingPar = false;
+	boolean isProdNote = false;
+	private String textProdNote = null;
+	private String idPrevious = null;
 
 	private String currentContentsFilename;
 	private Document doc;
@@ -106,7 +109,9 @@ public class Smil30Specification extends DefaultHandler {
 			addPartToSection();
 			break;
 		case SEQ:
-			// do nothing
+			if (isProdNote) {
+				isProdNote = false;
+			}
 			break;
 		case AUDIO:
 		case TEXT:
@@ -161,9 +166,14 @@ public class Smil30Specification extends DefaultHandler {
 	}
 
 	private void handlePar(Attributes attributes) {
+		//addPart();
 		newPart();
 		String id = ParserUtilities.getValueForName("id", attributes);
 		partBuilder.setId(id);
+
+		if (getClass(attributes).equals("prodnote")) {
+			isProdNote = true;
+		}
 	}
 
 	private void newPart() {
@@ -201,8 +211,16 @@ public class Smil30Specification extends DefaultHandler {
 				throw new RuntimeException("TODO fix me", ioe);
 			}
 		}
-
-		partBuilder.addSnippet(new DaisySnippet(doc, id));
+		if (!isProdNote) {
+			if (textProdNote != null) {
+				doc.getElementById(idPrevious).appendText(" " + textProdNote);
+				textProdNote = null;
+			}
+			idPrevious = id;
+			partBuilder.addSnippet(new DaisySnippet(doc, id));
+		} else {
+			textProdNote = doc.getElementById(id).text();
+		}
 	}
 
 	private void recordUnhandledElement(Element element, Attributes attributes) {
@@ -252,6 +270,10 @@ public class Smil30Specification extends DefaultHandler {
 		default:
 			break;
 		}
+	}
+
+	private String getClass(Attributes attributes) {
+		return ParserUtilities.getValueForName("class", attributes);
 	}
 
 	private enum Element {

@@ -49,10 +49,10 @@ public class DaisyBookHelperTest extends AndroidTestCase {
 	 * Test adding a daisy book into local db (with type is 'download').
 	 */
 	public void testAddDaisyBookToDatabaseReturnTrueWhenAllConventionsMet() {
-		addDaisyBookValidToDatabase(Constants.TYPE_DOWNLOAD_BOOK);
-		addDaisyBookValidToDatabase(Constants.TYPE_RECENT_BOOK);
-		addDaisyBookValidToDatabase(Constants.TYPE_SCAN_BOOK);
-		addDaisyBookValidToDatabase(Constants.TYPE_DOWNLOADED_BOOK);
+		assertEquals(addDaisyBookValidToDatabase(Constants.TYPE_DOWNLOAD_BOOK), true);
+		assertEquals(addDaisyBookValidToDatabase(Constants.TYPE_RECENT_BOOK), true);
+		assertEquals(addDaisyBookValidToDatabase(Constants.TYPE_SCAN_BOOK), true);
+		assertEquals(addDaisyBookValidToDatabase(Constants.TYPE_DOWNLOADED_BOOK), true);
 	}
 	
 	/**
@@ -60,8 +60,8 @@ public class DaisyBookHelperTest extends AndroidTestCase {
 	 */
 	public void testAddDaisyBookToDatabaseReturnFalseWhenTitleIsNull(){
 		// initial new daisy book
-				DaisyBookInfo daisyBook = new DaisyBookInfo("", null, PATH_DAISY_BOOK,
-						AUTHOR_DAISY_BOOK, PUBLISHER_DAISY_BOOK, DATE_DAISY_BOOK, SORT_DAISY_BOOK);
+		DaisyBookInfo daisyBook = new DaisyBookInfo("", null, PATH_DAISY_BOOK, AUTHOR_DAISY_BOOK,
+				PUBLISHER_DAISY_BOOK, DATE_DAISY_BOOK, SORT_DAISY_BOOK);
 				// add daisy book to local db
 				boolean result = helper.addDaisyBook(daisyBook, Constants.TYPE_DOWNLOAD_BOOK);
 				assertFalse(result);
@@ -70,26 +70,30 @@ public class DaisyBookHelperTest extends AndroidTestCase {
 	/**
 	 * Adds the daisy book to database.
 	 * 
-	 * @param type
-	 *            the book (download, recent, scan, downloaded)
+	 * @param type the book (download, recent, scan, downloaded)
+	 * @return true, if successful
 	 */
-	public void addDaisyBookValidToDatabase(String type) {
+	public boolean addDaisyBookValidToDatabase(String type) {
 		// initial new daisy book
 		DaisyBookInfo daisyBook = new DaisyBookInfo("", TITLE_DAISY_BOOK, PATH_DAISY_BOOK,
 				AUTHOR_DAISY_BOOK, PUBLISHER_DAISY_BOOK, DATE_DAISY_BOOK, SORT_DAISY_BOOK);
 		// add daisy book to local db
-		boolean isOK = helper.addDaisyBook(daisyBook, type);
-		assertTrue(isOK);
+		return helper.addDaisyBook(daisyBook, type);
 	}
 
 	/**
 	 * Test get all daisy book from local db.
 	 */
 	public void testDaisyBookReturnTrueWhenTypeIsCorrect() {
-		getAllDaisyBook(Constants.TYPE_DOWNLOAD_BOOK);
-		getAllDaisyBook(Constants.TYPE_RECENT_BOOK);
-		getAllDaisyBook(Constants.TYPE_SCAN_BOOK);
-		getAllDaisyBook(Constants.TYPE_DOWNLOADED_BOOK);
+		//exercise
+		ArrayList<DaisyBookInfo> daisyInfoList = getAllDaisyBook(Constants.TYPE_DOWNLOAD_BOOK);
+		DaisyBookInfo daisyInfo = daisyInfoList.get(0);
+		//verify
+		assertNotNull(daisyInfo);
+		assertEquals("title", daisyInfo.getTitle(), TITLE_DAISY_BOOK);
+		assertEquals("author", daisyInfo.getAuthor(), AUTHOR_DAISY_BOOK);
+		assertEquals("publisher", daisyInfo.getPublisher(), PUBLISHER_DAISY_BOOK);
+		assertEquals("date", daisyInfo.getDate(), DATE_DAISY_BOOK);
 	}
 	
 	/**
@@ -99,22 +103,26 @@ public class DaisyBookHelperTest extends AndroidTestCase {
 	 *            the (download, recent, scan, downloaded)
 	 * @return the all daisy book
 	 */
-	public void getAllDaisyBook(String type) {
+	public ArrayList<DaisyBookInfo> getAllDaisyBook(String type) {
 		addDaisyBookValidToDatabase(type);
 		ArrayList<DaisyBookInfo> arrDaisyBook = helper.getAllDaisyBook(type);
-		assertTrue(arrDaisyBook != null);
+		return arrDaisyBook;
 	}
 
 	/**
 	 * Test delete all daisy book from local db.
 	 */
 	public void testDeleteDaisyBookReturnTrueWhenTypeIsCorrect() {
-		deleteDaisyBook(Constants.TYPE_DOWNLOAD_BOOK);
-		deleteDaisyBook(Constants.TYPE_RECENT_BOOK);
-		deleteDaisyBook(Constants.TYPE_SCAN_BOOK);
-		deleteDaisyBook(Constants.TYPE_DOWNLOADED_BOOK);
+		addDaisyBookValidToDatabase(Constants.TYPE_DOWNLOAD_BOOK);
+		boolean result = helper.DeleteAllDaisyBook(Constants.TYPE_DOWNLOAD_BOOK);
+		assertTrue(result);
+		ArrayList<DaisyBookInfo> arrDaisyBook = helper.getAllDaisyBook(Constants.TYPE_DOWNLOAD_BOOK);
+		assertFalse(arrDaisyBook.size() > 0);
 	}
 
+	/**
+	 * Test delete daisy book return false when type is wrong.
+	 */
 	public void testDeleteDaisyBookReturnFalseWhenTypeIsWrong() {
 		addDaisyBookValidToDatabase("download");
 		boolean result = helper.DeleteAllDaisyBook("delete");
@@ -122,45 +130,21 @@ public class DaisyBookHelperTest extends AndroidTestCase {
 	}
 	
 	/**
-	 * Delete daisy book.
-	 * 
-	 * @param type
-	 *            the (download, recent, scan, downloaded)
+	 * Test record exist return true when exist.
 	 */
-	public void deleteDaisyBook(String type) {
-		addDaisyBookValidToDatabase(type);
-		boolean result = helper.DeleteAllDaisyBook(type);
+	public void testValidReturnTrueWhenRecordExist() {
+		addDaisyBookValidToDatabase(Constants.TYPE_DOWNLOAD_BOOK);
+		boolean result = helper.isExists(TITLE_DAISY_BOOK, Constants.TYPE_DOWNLOAD_BOOK);
 		assertTrue(result);
-		ArrayList<DaisyBookInfo> arrDaisyBook = helper.getAllDaisyBook(type);
-		assertFalse(arrDaisyBook.size() > 0);
 	}
 
 	/**
-	 * Test record exist.
+	 * Test valid return false when record not exist.
 	 */
-	public void testValidReturnTrueWhenRecordExist() {
-		recordExist(Constants.TYPE_DOWNLOAD_BOOK);
-		recordExist(Constants.TYPE_RECENT_BOOK);
-		recordExist(Constants.TYPE_SCAN_BOOK);
-		recordExist(Constants.TYPE_DOWNLOADED_BOOK);
-	}
-	
 	public void testValidReturnFalseWhenRecordNotExist() {
 		addDaisyBookValidToDatabase("type1");
 		boolean result = helper.isExists(TITLE_DAISY_BOOK, "type2");
 		assertFalse(result);
-	}
-
-	/**
-	 * Record exist.
-	 * 
-	 * @param type
-	 *            the (download, recent, scan, downloaded)
-	 */
-	public void recordExist(String type) {
-		addDaisyBookValidToDatabase(type);
-		boolean result = helper.isExists(TITLE_DAISY_BOOK, type);
-		assertTrue(result);
 	}
 
 	/**
@@ -169,23 +153,9 @@ public class DaisyBookHelperTest extends AndroidTestCase {
 	 * @param type
 	 *            the (download, recent, scan, downloaded)
 	 */
-	public void testGetDaisyBookByTitle(String type) {
-		getDaisyBookByTitle(Constants.TYPE_DOWNLOAD_BOOK);
-		getDaisyBookByTitle(Constants.TYPE_RECENT_BOOK);
-		getDaisyBookByTitle(Constants.TYPE_SCAN_BOOK);
-		getDaisyBookByTitle(Constants.TYPE_DOWNLOADED_BOOK);
-	}
-
-	/**
-	 * Gets the daisy book by title.
-	 * 
-	 * @param type
-	 *            the (download, recent, scan, downloaded)
-	 * @return the daisy book by title
-	 */
-	public void getDaisyBookByTitle(String type) {
-		addDaisyBookValidToDatabase(type);
-		DaisyBookInfo daisyBook = helper.getDaisyBookByTitle(TITLE_DAISY_BOOK, type);
+	public void testGetDaisyBookByTitle() {
+		addDaisyBookValidToDatabase(Constants.TYPE_DOWNLOAD_BOOK);
+		DaisyBookInfo daisyBook = helper.getDaisyBookByTitle(TITLE_DAISY_BOOK, Constants.TYPE_DOWNLOAD_BOOK);
 		assertTrue(daisyBook != null);
 	}
 
@@ -194,5 +164,4 @@ public class DaisyBookHelperTest extends AndroidTestCase {
 		helper.close();
 		super.tearDown();
 	}
-
 }

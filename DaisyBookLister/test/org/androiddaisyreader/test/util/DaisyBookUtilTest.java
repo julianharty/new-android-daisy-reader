@@ -18,7 +18,7 @@ import android.test.RenamingDelegatingContext;
  */
 public class DaisyBookUtilTest extends AndroidTestCase {
 	
-	private static final String PATH_EBOOK_202 = "/storage/sdcard0/light-man/light-man";
+	private static final String PATH_EBOOK_202 = "/storage/sdcard0/minidaisyaudiobook/minidaisyaudiobook";
 	
 	/** The Constant TITLE_DAISY_BOOK. */
 	private static final String TITLE_DAISY_BOOK = "title";
@@ -66,7 +66,7 @@ public class DaisyBookUtilTest extends AndroidTestCase {
 	/**
 	 * Test search book by title is not contain in list book.
 	 */
-	public void testSearchBookReturnTrueWhenNoContainText() {
+	public void testSearchBookWhenNoContainText() {
 		prepareDataToTest(Constants.TYPE_DOWNLOAD_BOOK);
 		ArrayList<DaisyBookInfo> arrDaisyBook = helper.getAllDaisyBook(Constants.TYPE_DOWNLOAD_BOOK);
 		assertTrue(arrDaisyBook.size() == 5);
@@ -104,7 +104,10 @@ public class DaisyBookUtilTest extends AndroidTestCase {
 		assertTrue(isOK);
 	}
 	
-	public void testDaisyFormat202(){
+	/**
+	 * Test check ebook is daisy format202.
+	 */
+	public void testCheckEBookIsDaisyFormat202(){
 		File daisyPath = new File(PATH_EBOOK_202);
 		String pathNCC = PATH_EBOOK_202 + File.separator
 				+ DaisyBookUtil.getNccFileName(daisyPath);
@@ -112,19 +115,24 @@ public class DaisyBookUtilTest extends AndroidTestCase {
 		assertEquals("Expected Daisy format 202", Constants.DAISY_202_FORMAT, result);
 	}
 	
+	/**
+	 * Test folder contains daisy202 return true when path correctly.
+	 */
 	public void testFolderContainsDaisy202ReturnTrueWhenPathCorrectly(){
 		File folder = new File(PATH_EBOOK_202);
 		boolean result = DaisyBookUtil.folderContainsDaisy2_02Book(folder);
 		assertTrue(result);
-		
 	}
 	
+	/**
+	 * Test folder contains daisy202 return false when path in correctly.
+	 */
 	public void testFolderContainsDaisy202ReturnFalseWhenPathInCorrectly(){
 		File folder = new File("wrong path");
 		boolean result = DaisyBookUtil.folderContainsDaisy2_02Book(folder);
 		assertFalse(result);
-		
 	}
+		
 	@Override
 	protected void tearDown() throws Exception {
 		helper.close();

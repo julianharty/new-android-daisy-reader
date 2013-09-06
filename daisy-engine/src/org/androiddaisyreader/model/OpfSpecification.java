@@ -278,14 +278,6 @@ public class OpfSpecification extends DefaultHandler {
 		return bookBuilder.build();
 	}
 
-	// public static Daisy30Book readFromFile(File file) throws IOException {
-	// InputStream contents = new BufferedInputStream(new
-	// FileInputStream(file));
-	// String encoding = obtainEncodingStringFromInputStream(contents);
-	// encoding = mapUnsupportedEncoding(encoding);
-	// return readFromStream(contents, encoding);
-	// }
-
 	public static DaisyBook readFromStream(InputStream contents, BookContext bookContext)
 			throws IOException {
 		String encoding = obtainEncodingStringFromInputStream(contents);

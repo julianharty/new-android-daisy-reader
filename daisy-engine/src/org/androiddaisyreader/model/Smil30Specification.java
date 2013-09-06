@@ -166,12 +166,11 @@ public class Smil30Specification extends DefaultHandler {
 	}
 
 	private void handlePar(Attributes attributes) {
-		//addPart();
 		newPart();
 		String id = ParserUtilities.getValueForName("id", attributes);
 		partBuilder.setId(id);
 
-		if (getClass(attributes).equals("prodnote")) {
+		if (getClass(attributes) != null && getClass(attributes).equals("prodnote")) {
 			isProdNote = true;
 		}
 	}

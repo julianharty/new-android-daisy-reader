@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE package
+  PUBLIC "+//ISBN 0-9673008-1-9//DTD OEB 1.2 Package//EN" "http://openebook.org/dtds/oeb-1.2/oebpkg12.dtd">
+<package xmlns="http://openebook.org/namespaces/oeb-package/1.0/" unique-identifier="uid">
+	  <metadata>
+	
+		    <dc-metadata xmlns:dc="http://purl.org/dc/elements/1.1/"
+                   xmlns:oebpackage="http://openebook.org/namespaces/oeb-package/1.0/">
+			      <dc:Format>ANSI/NISO Z39.86-2005</dc:Format>
+		       <dc:Language>en-IN</dc:Language>
+         <dc:Date>2009-04-26</dc:Date>
+         <dc:Creator>WikiHow</dc:Creator>
+         <dc:Publisher>DAISY India</dc:Publisher>
+         <dc:Title>Mini daisy 3</dc:Title>
+         <dc:Subject>A Short Manual for Disaster Management</dc:Subject>
+         <dc:Identifier>5078727220897727718</dc:Identifier>
+         <dc:Identifier id="uid">AUTO-UID-4767990567747899000</dc:Identifier>
+      </dc-metadata>
+	
+		    <x-metadata>
+			      <meta content="audioFullText" name="dtb:multimediaType"/>
+			      <meta content="DAISY Pipeline Narrator" name="dtb:narrator"/>
+		       <meta content="0:50:27.083" name="dtb:totalTime"/>
+         <meta content="audio,text,image" name="dtb:multimediaContent"/>
+      </x-metadata>
+	
+	  </metadata>
+	
+	  <manifest>
+	     <item href="speechgen0001.smil" id="smil-1" media-type="application/smil"/>
+      <item href="speechgen0002.smil" id="smil-2" media-type="application/smil"/>
+      <item href="speechgen0003.smil" id="smil-3" media-type="application/smil"/>
+      <item href="AreYouReadyV3.xml" id="opf-81" media-type="application/x-dtbook+xml"/>
+   </manifest>
+	
+	  <spine>
+	     <itemref idref="smil-1"/>
+      <itemref idref="smil-2"/>
+      <itemref idref="smil-3"/>
+   </spine>
+
+</package>

@@ -30,19 +30,23 @@ public class SampleContentDaisy30 {
 			+ "</manifest>" 
 			+ "</package>";
 	
-	public final static String SMIL_FILE_WITH_SINGLE_ITEM = "<?xml version=\"1.0\" encoding=\"utf-8\"?>"
-			+ "<smil xmlns=\"http://www.w3.org/2001/SMIL20/\" xml:lang=\"en\">"
-			+ "body"
-			+ "<seq id=\"baseseq\" dur=\"18:46.534\">"
-			+
-			
-			"</seq>"
-			+ "</body>"
-			+ "<par  id=\"ghGen2\" class=\"doctitle\">"
-			+ "<text src=\"\" />"
-			+ "</par>"
-			+ "<par  id=\"gh_pageRef1\" customTest=\"pagenum\" class=\"pagenum\">"
-			+ "<text src=\"\" /> "
-			+ "<audio src=\"audio/Page01.mp3\" clipBegin=\"00:00.00\" clipEnd=\"00:02.119\" />"
-			+ "</par>" + "</seq>" + "</smil>";
+	public final static String SMIL_FILE_WITH_SINGLE_ITEM = "<smil xmlns=\"http://www.w3.org/2001/SMIL20/\">" +
+			"<head>" +
+			"<meta content=\"AUTO-UID-4767990567747899000\" name=\"dtb:uid\" />" +
+			"<meta content=\"TPB Narrator\" name=\"dtb:generator\" />" +
+			"<meta content=\"0:00:00\" name=\"dtb:totalElapsedTime\" />" +
+			"</head>" +
+			"<body>" +
+			"<seq dur=\"0:00:04.878\" fill=\"remove\" id=\"mseq\">" +
+			"<par id=\"tcp1\">" +
+			"<text id=\"text1\" src=\"AreYouReadyV3.xml#dtb1\" />" +
+			"<audio clipBegin=\"0:00:00\" clipEnd=\"0:00:02.029\" src=\"speechgen0001.mp3\" />" +
+			"</par>" +
+			"<par id=\"tcp2\">" +
+			"<text id=\"text2\" src=\"AreYouReadyV3.xml#dtb2\" />" +
+			"<audio clipBegin=\"0:00:02.029\" clipEnd=\"0:00:04.878\" src=\"speechgen0001.mp3\" />" +
+			"</par>" +
+			"</seq>" +
+			"</body>" +
+			"</smil>";
 }

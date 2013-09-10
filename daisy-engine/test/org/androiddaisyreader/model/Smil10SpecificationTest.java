@@ -27,6 +27,7 @@ public class Smil10SpecificationTest extends TestCase {
 		"<meta name=\"dc:format\" content=\"Daisy 2.02\" />" +
 		"</head>" +
 		"<body>";
+	
 	private static final String SMIL10PROLOGUE = 
 		"</body>" +
 		"</smil>";

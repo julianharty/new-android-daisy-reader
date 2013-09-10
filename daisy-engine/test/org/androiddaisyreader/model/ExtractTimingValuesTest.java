@@ -123,7 +123,6 @@ public class ExtractTimingValuesTest extends TestCase {
 			fail("Expected a NumberFormatException for a number with 2 decimal points. Number = "
 					+ "01:01:04.10.0");
 		} catch (NumberFormatException e) {
-			// TODO: handle exception
 		}
 	}
 }

@@ -18,23 +18,29 @@ public class OpfSpecificationTest extends TestCase {
 		super.setUp();
 	}
 
-	public void testUsingValidSampleContent() throws IOException {
+	@SuppressWarnings("deprecation")
+	public void testUsingValidSampleContentDaisy30() throws IOException {
 		ByteArrayInputStream content = new ByteArrayInputStream(
 				(SampleContentDaisy30.simpleValidOpf).getBytes());
 		// This testcase must get title of daisybook, so we don't need bookcontext.
 		DaisyBook daisybook = OpfSpecification.readFromStream(content, null);
 		assertEquals("The Code Talkers", daisybook.getTitle());
+		assertEquals("Gretchen McBride", daisybook.getAuthor());
+		assertEquals("Pearson Scott Foresman", daisybook.getPublisher());
 		assertEquals(new Date(2008 - 1900, 5 - 1, 9), daisybook.getDate());
 	}
 	
+	@SuppressWarnings("deprecation")
 	public void testReadFromPath() throws IOException {
 		BookContext bookContext = openBook();
 		InputStream contents = bookContext.getResource(OPF_NAME);
 		DaisyBook daisyBook = OpfSpecification.readFromStream(contents, bookContext);
-		assertEquals(1, daisyBook.sections.size());
-		assertEquals(1, daisyBook.getChildren().size());
+		assertEquals(2, daisyBook.sections.size());
+		assertEquals(2, daisyBook.getChildren().size());
 		assertEquals("Mini daisy 3", daisyBook.getTitle());
-		
+		assertEquals("WikiHow", daisyBook.getAuthor());
+		assertEquals("DAISY India", daisyBook.getPublisher());
+		assertEquals(new Date(2009 - 1900, 4 - 1, 26), daisyBook.getDate());
 	}
 	
 	private BookContext openBook(){

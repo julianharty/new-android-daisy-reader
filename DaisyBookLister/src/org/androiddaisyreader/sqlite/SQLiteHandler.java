@@ -10,6 +10,7 @@ public class SQLiteHandler extends SQLiteOpenHelper {
 
 	public static final String TABLE_NAME_BOOKMARK = "Bookmarks";
 	public static final String ID_KEY_BOOKMARK = "_id";
+	public static final String AUDIO_FILE_NAME_KEY_BOOKMARK = "_audio_file_name";
 	public static final String PATH_KEY_BOOKMARK = "_path";
 	public static final String TEXT_KEY_BOOKMARK = "_text";
 	public static final String TIME_KEY_BOOKMARK = "_time";
@@ -44,15 +45,16 @@ public class SQLiteHandler extends SQLiteOpenHelper {
 	public static final String SORT_KEY_DAISY_BOOK = "_sort";
 
 	public SQLiteHandler(Context context) {
-		super(context, DATABASE_NAME, null, 1);
+		super(context, DATABASE_NAME, null, 2);
 	}
 
 	@Override
 	public void onCreate(SQLiteDatabase db) {
 		String sqlCreateTableBookmark = "create table " + TABLE_NAME_BOOKMARK + "("
-				+ ID_KEY_BOOKMARK + " text primary key," + PATH_KEY_BOOKMARK + " text,"
-				+ TEXT_KEY_BOOKMARK + " text," + TIME_KEY_BOOKMARK + " integer,"
-				+ SECTION_KEY_BOOKMARK + " integer," + SORT_KEY_BOOKMARK + " integer " + ")";
+				+ ID_KEY_BOOKMARK + " text primary key," + AUDIO_FILE_NAME_KEY_BOOKMARK + " text,"
+				+ PATH_KEY_BOOKMARK + " text," + TEXT_KEY_BOOKMARK + " text," + TIME_KEY_BOOKMARK
+				+ " integer," + SECTION_KEY_BOOKMARK + " integer," + SORT_KEY_BOOKMARK
+				+ " integer " + ")";
 		db.execSQL(sqlCreateTableBookmark);
 
 		String sqlCreateTableCurrentInformation = "create table " + TABLE_NAME_CURRENT_INFORMATION

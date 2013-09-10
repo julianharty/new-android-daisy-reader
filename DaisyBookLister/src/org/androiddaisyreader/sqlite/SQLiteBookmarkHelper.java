@@ -32,6 +32,7 @@ public class SQLiteBookmarkHelper extends SQLiteHandler {
 	 */
 	public void addBookmark(Bookmark bookmark) {
 		ContentValues mValue = new ContentValues();
+		mValue.put(AUDIO_FILE_NAME_KEY_BOOKMARK, bookmark.getAudioFileName());
 		mValue.put(PATH_KEY_BOOKMARK, bookmark.getPath());
 		mValue.put(TEXT_KEY_BOOKMARK, bookmark.getText());
 		mValue.put(TIME_KEY_BOOKMARK, bookmark.getTime());
@@ -72,6 +73,7 @@ public class SQLiteBookmarkHelper extends SQLiteHandler {
 	 */
 	public void updateBookmark(Bookmark bookmark) {
 		ContentValues mValue = new ContentValues();
+		mValue.put(AUDIO_FILE_NAME_KEY_BOOKMARK, bookmark.getAudioFileName());
 		mValue.put(PATH_KEY_BOOKMARK, bookmark.getPath());
 		mValue.put(TEXT_KEY_BOOKMARK, bookmark.getText());
 		mValue.put(TIME_KEY_BOOKMARK, bookmark.getTime());
@@ -99,13 +101,15 @@ public class SQLiteBookmarkHelper extends SQLiteHandler {
 		Bookmark bookmark = null;
 		try {
 			SQLiteDatabase mdb = getReadableDatabase();
-			Cursor mCursor = mdb.query(TABLE_NAME_BOOKMARK, new String[] { PATH_KEY_BOOKMARK,
-					TEXT_KEY_BOOKMARK, TIME_KEY_BOOKMARK, SECTION_KEY_BOOKMARK, SORT_KEY_BOOKMARK,
-					ID_KEY_BOOKMARK }, ID_KEY_BOOKMARK + "=?", new String[] { id }, null, null,
-					null);
+			Cursor mCursor = mdb.query(TABLE_NAME_BOOKMARK, new String[] {
+					AUDIO_FILE_NAME_KEY_BOOKMARK, PATH_KEY_BOOKMARK, TEXT_KEY_BOOKMARK,
+					TIME_KEY_BOOKMARK, SECTION_KEY_BOOKMARK, SORT_KEY_BOOKMARK, ID_KEY_BOOKMARK },
+					ID_KEY_BOOKMARK + "=?", new String[] { id }, null, null, null);
 			// Check data null or empty
 			if (mCursor != null && mCursor.getCount() > 0) {
 				mCursor.moveToFirst();
+				String audioFileName = mCursor.getString(mCursor
+						.getColumnIndex(AUDIO_FILE_NAME_KEY_BOOKMARK));
 				String path = mCursor.getString(mCursor.getColumnIndex(PATH_KEY_BOOKMARK));
 				String text = mCursor.getString(mCursor.getColumnIndex(TEXT_KEY_BOOKMARK));
 				int time = Integer.valueOf(mCursor.getString(mCursor
@@ -115,7 +119,7 @@ public class SQLiteBookmarkHelper extends SQLiteHandler {
 				int sort = Integer.valueOf(mCursor.getString(mCursor
 						.getColumnIndex(SORT_KEY_BOOKMARK)));
 				String valueId = mCursor.getString(mCursor.getColumnIndex(ID_KEY_BOOKMARK));
-				bookmark = new Bookmark(path, text, time, section, sort, valueId);
+				bookmark = new Bookmark(audioFileName, path, text, time, section, sort, valueId);
 			}
 			mCursor.close();
 			mdb.close();
@@ -138,12 +142,14 @@ public class SQLiteBookmarkHelper extends SQLiteHandler {
 		ArrayList<Bookmark> arrBookmark = new ArrayList<Bookmark>();
 		try {
 			SQLiteDatabase mdb = getReadableDatabase();
-			Cursor mCursor = mdb.query(TABLE_NAME_BOOKMARK, new String[] { PATH_KEY_BOOKMARK,
+			Cursor mCursor = mdb.query(TABLE_NAME_BOOKMARK, new String[] { AUDIO_FILE_NAME_KEY_BOOKMARK, PATH_KEY_BOOKMARK,
 					TEXT_KEY_BOOKMARK, TIME_KEY_BOOKMARK, SECTION_KEY_BOOKMARK, SORT_KEY_BOOKMARK,
 					ID_KEY_BOOKMARK }, PATH_KEY_BOOKMARK + "=?", new String[] { path }, null, null,
 					SORT_KEY_BOOKMARK);
 			if (mCursor.moveToFirst()) {
 				do {
+					String audioFileName = mCursor.getString(mCursor
+							.getColumnIndex(AUDIO_FILE_NAME_KEY_BOOKMARK));
 					String valuePath = mCursor.getString(mCursor.getColumnIndex(PATH_KEY_BOOKMARK));
 					String text = mCursor.getString(mCursor.getColumnIndex(TEXT_KEY_BOOKMARK));
 					int time = Integer.valueOf(mCursor.getString(mCursor
@@ -154,7 +160,7 @@ public class SQLiteBookmarkHelper extends SQLiteHandler {
 							.getColumnIndex(SORT_KEY_BOOKMARK)));
 					String valueId = mCursor.getString(mCursor.getColumnIndex(ID_KEY_BOOKMARK));
 					// Add to ArrayList
-					arrBookmark.add(new Bookmark(valuePath, text, time, section, sort, valueId));
+					arrBookmark.add(new Bookmark(audioFileName, valuePath, text, time, section, sort, valueId));
 				} while (mCursor.moveToNext());
 			}
 			mCursor.close();

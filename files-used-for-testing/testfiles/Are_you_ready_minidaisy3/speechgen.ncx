@@ -1,0 +1,427 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE ncx
+  PUBLIC "-//NISO//DTD ncx 2005-1//EN" "http://www.daisy.org/z3986/2005/ncx-2005-1.dtd">
+<ncx xmlns="http://www.daisy.org/z3986/2005/ncx/" version="2005-1" xml:lang="en-IN">
+	  <head>
+		    <meta content="AUTO-UID-4767990567747899000" name="dtb:uid"/>
+		    <meta content="3" name="dtb:depth"/>
+		
+		    <meta content="TPB Narrator" name="dtb:generator"/>
+		    <meta content="20" name="dtb:totalPageCount"/>
+		    <meta content="20" name="dtb:maxPageNumber"/>
+	     <smilCustomTest bookStruct="PAGE_NUMBER" defaultState="false" id="pagenum" override="visible"/>
+   </head>
+  
+	  <docTitle>
+	     <text>Mini daisy 3</text>
+      <audio clipBegin="0:00:00" clipEnd="0:00:02.029" src="speechgen0001.mp3"/>
+   </docTitle>
+  
+	  <docAuthor>
+	     <text>WikiHow</text>
+      <audio clipBegin="0:00:02.029" clipEnd="0:00:04.878" src="speechgen0001.mp3"/>
+   </docAuthor>
+	
+	  <navMap id="navMap">
+      <navPoint class="h1" id="ncx-1" playOrder="1">
+         <navLabel>
+            <text>A SHORT MANUAL ON DISASTER PREPAREDNESS
+</text>
+            <audio clipBegin="0:00:00" clipEnd="0:00:05.939" src="speechgen0002.mp3"/>
+         </navLabel>
+         <content src="speechgen0002.smil#tcp3"/>
+         <navPoint class="h2" id="ncx-3" playOrder="3">
+            <navLabel>
+               <text>CONTENTS
+</text>
+               <audio clipBegin="0:00:00" clipEnd="0:00:04.065" src="speechgen0003.mp3"/>
+            </navLabel>
+            <content src="speechgen0003.smil#tcp13"/>
+         </navPoint>
+         <navPoint class="h2" id="ncx-5" playOrder="5">
+            <navLabel>
+               <text>1. How to Make a Disaster Plan for Your Family</text>
+               <audio clipBegin="0:00:00" clipEnd="0:00:04.624" src="speechgen0004.mp3"/>
+            </navLabel>
+            <content src="speechgen0004.smil#tcp31"/>
+            <navPoint class="h3" id="ncx-6" playOrder="6">
+               <navLabel>
+                  <text>Steps
+</text>
+                  <audio clipBegin="0:00:00" clipEnd="0:00:03.911" src="speechgen0005.mp3"/>
+               </navLabel>
+               <content src="speechgen0005.smil#tcp36"/>
+            </navPoint>
+            <navPoint class="h3" id="ncx-8" playOrder="8">
+               <navLabel>
+                  <text>Tips
+</text>
+                  <audio clipBegin="0:00:00" clipEnd="0:00:03.757" src="speechgen0006.mp3"/>
+               </navLabel>
+               <content src="speechgen0006.smil#tcp83"/>
+            </navPoint>
+            <navPoint class="h3" id="ncx-10" playOrder="10">
+               <navLabel>
+                  <text>Warnings
+</text>
+                  <audio clipBegin="0:00:00" clipEnd="0:00:03.940" src="speechgen0007.mp3"/>
+               </navLabel>
+               <content src="speechgen0007.smil#tcp101"/>
+            </navPoint>
+         </navPoint>
+         <navPoint class="h2" id="ncx-12" playOrder="12">
+            <navLabel>
+               <text>2. How to Create a Home First Aid Kit</text>
+               <audio clipBegin="0:00:00" clipEnd="0:00:03.999" src="speechgen0008.mp3"/>
+            </navLabel>
+            <content src="speechgen0008.smil#tcp105"/>
+            <navPoint class="h3" id="ncx-13" playOrder="13">
+               <navLabel>
+                  <text>Steps
+</text>
+                  <audio clipBegin="0:00:00" clipEnd="0:00:03.911" src="speechgen0009.mp3"/>
+               </navLabel>
+               <content src="speechgen0009.smil#tcp110"/>
+            </navPoint>
+            <navPoint class="h3" id="ncx-15" playOrder="15">
+               <navLabel>
+                  <text>Tips
+</text>
+                  <audio clipBegin="0:00:00" clipEnd="0:00:03.757" src="speechgen0010.mp3"/>
+               </navLabel>
+               <content src="speechgen0010.smil#tcp140"/>
+            </navPoint>
+            <navPoint class="h3" id="ncx-17" playOrder="17">
+               <navLabel>
+                  <text>Warnings
+</text>
+                  <audio clipBegin="0:00:00" clipEnd="0:00:03.940" src="speechgen0011.mp3"/>
+               </navLabel>
+               <content src="speechgen0011.smil#tcp150"/>
+            </navPoint>
+         </navPoint>
+         <navPoint class="h2" id="ncx-19" playOrder="19">
+            <navLabel>
+               <text>3. How to Administer Adult CPR (Cardiopulmonary Resuscitation)</text>
+               <audio clipBegin="0:00:00" clipEnd="0:00:06.982" src="speechgen0012.mp3"/>
+            </navLabel>
+            <content src="speechgen0012.smil#tcp157"/>
+            <navPoint class="h3" id="ncx-20" playOrder="20">
+               <navLabel>
+                  <text>Steps
+</text>
+                  <audio clipBegin="0:00:00" clipEnd="0:00:03.918" src="speechgen0013.mp3"/>
+               </navLabel>
+               <content src="speechgen0013.smil#tcp166"/>
+            </navPoint>
+            <navPoint class="h3" id="ncx-22" playOrder="22">
+               <navLabel>
+                  <text>Tips
+</text>
+                  <audio clipBegin="0:00:00" clipEnd="0:00:03.757" src="speechgen0014.mp3"/>
+               </navLabel>
+               <content src="speechgen0014.smil#tcp215"/>
+            </navPoint>
+            <navPoint class="h3" id="ncx-23" playOrder="23">
+               <navLabel>
+                  <text>Warnings
+</text>
+                  <audio clipBegin="0:00:00" clipEnd="0:00:03.940" src="speechgen0015.mp3"/>
+               </navLabel>
+               <content src="speechgen0015.smil#tcp224"/>
+            </navPoint>
+         </navPoint>
+         <navPoint class="h2" id="ncx-25" playOrder="25">
+            <navLabel>
+               <text>4. How to Pack an Emergency Kit for the House</text>
+               <audio clipBegin="0:00:00" clipEnd="0:00:04.676" src="speechgen0016.mp3"/>
+            </navLabel>
+            <content src="speechgen0016.smil#tcp236"/>
+            <navPoint class="h3" id="ncx-26" playOrder="26">
+               <navLabel>
+                  <text>Steps</text>
+                  <audio clipBegin="0:00:00" clipEnd="0:00:03.911" src="speechgen0017.mp3"/>
+               </navLabel>
+               <content src="speechgen0017.smil#tcp242"/>
+            </navPoint>
+            <navPoint class="h3" id="ncx-29" playOrder="29">
+               <navLabel>
+                  <text>Tips
+</text>
+                  <audio clipBegin="0:00:00" clipEnd="0:00:03.764" src="speechgen0018.mp3"/>
+               </navLabel>
+               <content src="speechgen0018.smil#tcp316"/>
+            </navPoint>
+            <navPoint class="h3" id="ncx-32" playOrder="32">
+               <navLabel>
+                  <text>Warnings
+</text>
+                  <audio clipBegin="0:00:00" clipEnd="0:00:03.933" src="speechgen0019.mp3"/>
+               </navLabel>
+               <content src="speechgen0019.smil#tcp358"/>
+            </navPoint>
+            <navPoint class="h3" id="ncx-33" playOrder="33">
+               <navLabel>
+                  <text>Things You'll Need
+</text>
+                  <audio clipBegin="0:00:00" clipEnd="0:00:04.359" src="speechgen0020.mp3"/>
+               </navLabel>
+               <content src="speechgen0020.smil#tcp363"/>
+            </navPoint>
+            <navPoint class="h3" id="ncx-35" playOrder="35">
+               <navLabel>
+                  <text>Other Items to Consider
+</text>
+                  <audio clipBegin="0:00:00" clipEnd="0:00:04.734" src="speechgen0021.mp3"/>
+               </navLabel>
+               <content src="speechgen0021.smil#tcp393"/>
+            </navPoint>
+         </navPoint>
+         <navPoint class="h2" id="ncx-37" playOrder="37">
+            <navLabel>
+               <text>5. How to Avoid Danger During Civil Unrest</text>
+               <audio clipBegin="0:00:00" clipEnd="0:00:04.631" src="speechgen0022.mp3"/>
+            </navLabel>
+            <content src="speechgen0022.smil#tcp406"/>
+            <navPoint class="h3" id="ncx-38" playOrder="38">
+               <navLabel>
+                  <text>Steps
+</text>
+                  <audio clipBegin="0:00:00" clipEnd="0:00:03.918" src="speechgen0023.mp3"/>
+               </navLabel>
+               <content src="speechgen0023.smil#tcp411"/>
+            </navPoint>
+            <navPoint class="h3" id="ncx-40" playOrder="40">
+               <navLabel>
+                  <text>Tips
+</text>
+                  <audio clipBegin="0:00:00" clipEnd="0:00:03.757" src="speechgen0024.mp3"/>
+               </navLabel>
+               <content src="speechgen0024.smil#tcp437"/>
+            </navPoint>
+            <navPoint class="h3" id="ncx-41" playOrder="41">
+               <navLabel>
+                  <text>Warnings
+</text>
+                  <audio clipBegin="0:00:00" clipEnd="0:00:03.940" src="speechgen0025.mp3"/>
+               </navLabel>
+               <content src="speechgen0025.smil#tcp447"/>
+            </navPoint>
+         </navPoint>
+         <navPoint class="h2" id="ncx-43" playOrder="43">
+            <navLabel>
+               <text>6. How to Be Safe During a Landslide</text>
+               <audio clipBegin="0:00:00" clipEnd="0:00:04.322" src="speechgen0026.mp3"/>
+            </navLabel>
+            <content src="speechgen0026.smil#tcp453"/>
+            <navPoint class="h3" id="ncx-44" playOrder="44">
+               <navLabel>
+                  <text>Steps
+</text>
+                  <audio clipBegin="0:00:00" clipEnd="0:00:03.918" src="speechgen0027.mp3"/>
+               </navLabel>
+               <content src="speechgen0027.smil#tcp458"/>
+            </navPoint>
+            <navPoint class="h3" id="ncx-45" playOrder="45">
+               <navLabel>
+                  <text>Tips
+</text>
+                  <audio clipBegin="0:00:00" clipEnd="0:00:03.757" src="speechgen0028.mp3"/>
+               </navLabel>
+               <content src="speechgen0028.smil#tcp477"/>
+            </navPoint>
+            <navPoint class="h3" id="ncx-46" playOrder="46">
+               <navLabel>
+                  <text>Warnings
+</text>
+                  <audio clipBegin="0:00:00" clipEnd="0:00:03.933" src="speechgen0029.mp3"/>
+               </navLabel>
+               <content src="speechgen0029.smil#tcp481"/>
+            </navPoint>
+         </navPoint>
+         <navPoint class="h2" id="ncx-48" playOrder="48">
+            <navLabel>
+               <text>7. How to React During an Earthquake</text>
+               <audio clipBegin="0:00:00" clipEnd="0:00:04.220" src="speechgen0030.mp3"/>
+            </navLabel>
+            <content src="speechgen0030.smil#tcp485"/>
+            <navPoint class="h3" id="ncx-49" playOrder="49">
+               <navLabel>
+                  <text>Steps
+</text>
+                  <audio clipBegin="0:00:00" clipEnd="0:00:03.918" src="speechgen0031.mp3"/>
+               </navLabel>
+               <content src="speechgen0031.smil#tcp490"/>
+            </navPoint>
+            <navPoint class="h3" id="ncx-51" playOrder="51">
+               <navLabel>
+                  <text>Tips
+</text>
+                  <audio clipBegin="0:00:00" clipEnd="0:00:03.764" src="speechgen0032.mp3"/>
+               </navLabel>
+               <content src="speechgen0032.smil#tcp534"/>
+            </navPoint>
+            <navPoint class="h3" id="ncx-52" playOrder="52">
+               <navLabel>
+                  <text>Warnings
+</text>
+                  <audio clipBegin="0:00:00" clipEnd="0:00:03.933" src="speechgen0033.mp3"/>
+               </navLabel>
+               <content src="speechgen0033.smil#tcp557"/>
+            </navPoint>
+            <navPoint class="h3" id="ncx-53" playOrder="53">
+               <navLabel>
+                  <text>Things You'll Need
+</text>
+                  <audio clipBegin="0:00:00" clipEnd="0:00:04.367" src="speechgen0034.mp3"/>
+               </navLabel>
+               <content src="speechgen0034.smil#tcp563"/>
+            </navPoint>
+         </navPoint>
+      </navPoint>
+   </navMap>
+	
+	  <pageList id="page">
+      <pageTarget class="pagenum" id="ncx-2" playOrder="2" type="normal" value="1">
+         <navLabel>
+            <text>1</text>
+            <audio clipBegin="0:00:34.218" clipEnd="0:00:35.388" src="speechgen0002.mp3"/>
+         </navLabel>
+         <content src="speechgen0002.smil#tcp12"/>
+      </pageTarget>
+      <pageTarget class="pagenum" id="ncx-4" playOrder="4" type="normal" value="2">
+         <navLabel>
+            <text>2</text>
+            <audio clipBegin="0:00:43.751" clipEnd="0:00:46.958" src="speechgen0003.mp3"/>
+         </navLabel>
+         <content src="speechgen0003.smil#tcp30"/>
+      </pageTarget>
+      <pageTarget class="pagenum" id="ncx-7" playOrder="7" type="normal" value="3">
+         <navLabel>
+            <text>3</text>
+            <audio clipBegin="0:02:43.650" clipEnd="0:02:45.201" src="speechgen0005.mp3"/>
+         </navLabel>
+         <content src="speechgen0005.smil#tcp59"/>
+      </pageTarget>
+      <pageTarget class="pagenum" id="ncx-9" playOrder="9" type="normal" value="4">
+         <navLabel>
+            <text>4</text>
+            <audio clipBegin="0:00:55.901" clipEnd="0:00:57.152" src="speechgen0006.mp3"/>
+         </navLabel>
+         <content src="speechgen0006.smil#tcp90"/>
+      </pageTarget>
+      <pageTarget class="pagenum" id="ncx-11" playOrder="11" type="normal" value="5">
+         <navLabel>
+            <text>5</text>
+            <audio clipBegin="0:00:13.605" clipEnd="0:00:16.988" src="speechgen0007.mp3"/>
+         </navLabel>
+         <content src="speechgen0007.smil#tcp104"/>
+      </pageTarget>
+      <pageTarget class="pagenum" id="ncx-14" playOrder="14" type="normal" value="6">
+         <navLabel>
+            <text>6</text>
+            <audio clipBegin="0:01:59.420" clipEnd="0:02:00.715" src="speechgen0009.mp3"/>
+         </navLabel>
+         <content src="speechgen0009.smil#tcp135"/>
+      </pageTarget>
+      <pageTarget class="pagenum" id="ncx-16" playOrder="16" type="normal" value="7">
+         <navLabel>
+            <text>7</text>
+            <audio clipBegin="0:00:41.169" clipEnd="0:00:42.464" src="speechgen0010.mp3"/>
+         </navLabel>
+         <content src="speechgen0010.smil#tcp149"/>
+      </pageTarget>
+      <pageTarget class="pagenum" id="ncx-18" playOrder="18" type="normal" value="8">
+         <navLabel>
+            <text>8</text>
+            <audio clipBegin="0:00:37.903" clipEnd="0:00:41.051" src="speechgen0011.mp3"/>
+         </navLabel>
+         <content src="speechgen0011.smil#tcp156"/>
+      </pageTarget>
+      <pageTarget class="pagenum" id="ncx-21" playOrder="21" type="normal" value="9">
+         <navLabel>
+            <text>9</text>
+            <audio clipBegin="0:04:37.619" clipEnd="0:04:38.980" src="speechgen0013.mp3"/>
+         </navLabel>
+         <content src="speechgen0013.smil#tcp214"/>
+      </pageTarget>
+      <pageTarget class="pagenum" id="ncx-24" playOrder="24" type="normal" value="10">
+         <navLabel>
+            <text>10</text>
+            <audio clipBegin="0:01:09.357" clipEnd="0:01:12.630" src="speechgen0015.mp3"/>
+         </navLabel>
+         <content src="speechgen0015.smil#tcp235"/>
+      </pageTarget>
+      <pageTarget class="pagenum" id="ncx-27" playOrder="27" type="normal" value="11">
+         <navLabel>
+            <text>11</text>
+            <audio clipBegin="0:02:09.859" clipEnd="0:02:11.461" src="speechgen0017.mp3"/>
+         </navLabel>
+         <content src="speechgen0017.smil#tcp265"/>
+      </pageTarget>
+      <pageTarget class="pagenum" id="ncx-28" playOrder="28" type="normal" value="12">
+         <navLabel>
+            <text>12</text>
+            <audio clipBegin="0:04:15.007" clipEnd="0:04:16.683" src="speechgen0017.mp3"/>
+         </navLabel>
+         <content src="speechgen0017.smil#tcp293"/>
+      </pageTarget>
+      <pageTarget class="pagenum" id="ncx-30" playOrder="30" type="normal" value="13">
+         <navLabel>
+            <text>13</text>
+            <audio clipBegin="0:00:56.012" clipEnd="0:00:57.879" src="speechgen0018.mp3"/>
+         </navLabel>
+         <content src="speechgen0018.smil#tcp327"/>
+      </pageTarget>
+      <pageTarget class="pagenum" id="ncx-31" playOrder="31" type="normal" value="14">
+         <navLabel>
+            <text>14</text>
+            <audio clipBegin="0:03:21.256" clipEnd="0:03:22.823" src="speechgen0018.mp3"/>
+         </navLabel>
+         <content src="speechgen0018.smil#tcp357"/>
+      </pageTarget>
+      <pageTarget class="pagenum" id="ncx-34" playOrder="34" type="normal" value="15">
+         <navLabel>
+            <text>15</text>
+            <audio clipBegin="0:03:03.559" clipEnd="0:03:05.045" src="speechgen0020.mp3"/>
+         </navLabel>
+         <content src="speechgen0020.smil#tcp392"/>
+      </pageTarget>
+      <pageTarget class="pagenum" id="ncx-36" playOrder="36" type="normal" value="16">
+         <navLabel>
+            <text>16</text>
+            <audio clipBegin="0:01:10.259" clipEnd="0:01:13.870" src="speechgen0021.mp3"/>
+         </navLabel>
+         <content src="speechgen0021.smil#tcp405"/>
+      </pageTarget>
+      <pageTarget class="pagenum" id="ncx-39" playOrder="39" type="normal" value="17">
+         <navLabel>
+            <text>17</text>
+            <audio clipBegin="0:02:58.397" clipEnd="0:03:00.059" src="speechgen0023.mp3"/>
+         </navLabel>
+         <content src="speechgen0023.smil#tcp436"/>
+      </pageTarget>
+      <pageTarget class="pagenum" id="ncx-42" playOrder="42" type="normal" value="18">
+         <navLabel>
+            <text>18</text>
+            <audio clipBegin="0:00:28.213" clipEnd="0:00:31.647" src="speechgen0025.mp3"/>
+         </navLabel>
+         <content src="speechgen0025.smil#tcp452"/>
+      </pageTarget>
+      <pageTarget class="pagenum" id="ncx-47" playOrder="47" type="normal" value="19">
+         <navLabel>
+            <text>19</text>
+            <audio clipBegin="0:00:11.357" clipEnd="0:00:14.894" src="speechgen0029.mp3"/>
+         </navLabel>
+         <content src="speechgen0029.smil#tcp484"/>
+      </pageTarget>
+      <pageTarget class="pagenum" id="ncx-50" playOrder="50" type="normal" value="20">
+         <navLabel>
+            <text>20</text>
+            <audio clipBegin="0:03:38.131" clipEnd="0:03:39.396" src="speechgen0031.mp3"/>
+         </navLabel>
+         <content src="speechgen0031.smil#tcp533"/>
+      </pageTarget>
+   </pageList>
+  
+</ncx>

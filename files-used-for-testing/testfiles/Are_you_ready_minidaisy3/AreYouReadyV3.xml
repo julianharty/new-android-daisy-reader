@@ -1,0 +1,165 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE dtbook PUBLIC "-//NISO//DTD dtbook 2005-3//EN" "http://www.daisy.org/z3986/2005/dtbook-2005-3.dtd">
+<?xml-stylesheet href="dtbookbasic.css" type="text/css"?>
+<dtbook xmlns="http://www.daisy.org/z3986/2005/dtbook/" version="2005-3" xml:lang="en-IN">
+   <head>
+      <meta content="1.0" name="dt:version" />
+      <meta name="dtb:uid" content="AUTO-UID-4767990567747899000" />
+      <meta content="Mini daisy 3" name="dc:Title" />
+      <meta content="WikiHow" name="dc:Creator" />
+      <meta content="2009-04-26" name="dc:Date" />
+      <meta content="DAISY India" name="dc:Publisher" />
+      <meta name="dc:Subject" content="A Short Manual for Disaster Management" />
+      <meta content="5078727220897727718" name="dc:Identifier" />
+      <meta name="dc:Language" content="en-IN" />
+   </head>
+   <book showin="blp">
+      <frontmatter>
+         <doctitle id="dtb1" smilref="speechgen0001.smil#tcp1">ARE YOU READY?</doctitle>
+         <docauthor id="dtb2" smilref="speechgen0001.smil#tcp2">WikiHow</docauthor>
+      </frontmatter>
+      <bodymatter id="bodymatter_0001">
+         <level1>
+            <h1 id="dtb3" smilref="speechgen0002.smil#tcp3">A SHORT MANUAL ON DISASTER PREPAREDNESS</h1>
+            <blockquote id="dtb4" smilref="speechgen0002.smil#tcs1">
+               <p>
+                  <sent id="dtb5" smilref="speechgen0002.smil#tcp4">"Articles provided by wikiHow, a wiki building the world's largest, highest quality how-to manual.</sent>
+                  <sent smilref="speechgen0002.smil#tcp5" id="dtb6">Please edit these article and find author credits at wikiHow.com.</sent>
+                  <sent smilref="speechgen0002.smil#tcp6" id="dtb7">Content on wikiHow can be shared under a Creative Commons License."</sent>
+               </p>
+            </blockquote>
+            <p>
+               <imggroup>
+                  <img id="rId51" src="image1.jpg" alt="WikiHow Logo" smilref="speechgen0002.smil#tcp7" />
+               </imggroup>
+            </p>
+            <p>
+               <imggroup>
+                  <img smilref="speechgen0002.smil#tcp8" alt="Creative Commons logo" id="rId62" src="image2.jpg" />
+               </imggroup>
+            </p>
+            <p smilref="speechgen0002.smil#tcp9" id="dtb8">Compiled by</p>
+            <author id="dtb9" smilref="speechgen0002.smil#tcp10" xml:lang="en-IN">Prashant Ranjan Verma</author>
+            <p smilref="speechgen0002.smil#tcp11" id="dtb10">www.daisyindia.org</p>
+            <pagenum id="page1" page="normal" smilref="speechgen0002.smil#tcp12">1</pagenum>
+            <level2>
+               <h2 id="dtb11" smilref="speechgen0003.smil#tcp13">CONTENTS</h2>
+               <table border="1" id="dtb12" smilref="speechgen0003.smil#tcs2">
+                  <col align="right" span="1" />
+                  <tbody>
+                     <tr id="dtb13" smilref="speechgen0003.smil#tcs3">
+                        <td rowspan="1" colspan="1">
+                           <p id="dtb14" smilref="speechgen0003.smil#tcp14">Chapter</p>
+                        </td>
+                        <td colspan="1" rowspan="1">
+                           <p id="dtb15" smilref="speechgen0003.smil#tcp15">Page</p>
+                        </td>
+                     </tr>
+                     <tr id="dtb16" smilref="speechgen0003.smil#tcs4">
+                        <td colspan="1" rowspan="1">
+                           <p>
+                              <sent>
+                                 <strong smilref="speechgen0003.smil#tcp16" id="dtb17">1. How to Make a Disaster Plan for Your Family</strong>
+                              </sent>
+                           </p>
+                        </td>
+                        <td rowspan="1" colspan="1">
+                           <p>
+                              <strong id="dtb18" smilref="speechgen0003.smil#tcp17">3</strong>
+                           </p>
+                        </td>
+                     </tr>
+                     <tr id="dtb19" smilref="speechgen0003.smil#tcs5">
+                        <td colspan="1" rowspan="1">
+                           <p>
+                              <sent>
+                                 <strong id="dtb20" smilref="speechgen0003.smil#tcp18">2. How to Create a Home First Aid Kit</strong>
+                              </sent>
+                           </p>
+                        </td>
+                        <td colspan="1" rowspan="1">
+                           <p>
+                              <strong id="dtb21" smilref="speechgen0003.smil#tcp19">6</strong>
+                           </p>
+                        </td>
+                     </tr>
+                     <tr id="dtb22" smilref="speechgen0003.smil#tcs6">
+                        <td rowspan="1" colspan="1">
+                           <p>
+                              <sent>
+                                 <strong id="dtb23" smilref="speechgen0003.smil#tcp20">3. How to Administer Adult CPR (Cardiopulmonary Resuscitation)</strong>
+                              </sent>
+                           </p>
+                        </td>
+                        <td rowspan="1" colspan="1">
+                           <p>
+                              <strong id="dtb24" smilref="speechgen0003.smil#tcp21">9</strong>
+                           </p>
+                        </td>
+                     </tr>
+                     <tr smilref="speechgen0003.smil#tcs7" id="dtb25">
+                        <td colspan="1" rowspan="1">
+                           <p>
+                              <sent>
+                                 <strong smilref="speechgen0003.smil#tcp22" id="dtb26">4. How to Pack an Emergency Kit for the House</strong>
+                              </sent>
+                           </p>
+                        </td>
+                        <td rowspan="1" colspan="1">
+                           <p>
+                              <strong smilref="speechgen0003.smil#tcp23" id="dtb27">11</strong>
+                           </p>
+                        </td>
+                     </tr>
+                     <tr smilref="speechgen0003.smil#tcs8" id="dtb28">
+                        <td colspan="1" rowspan="1">
+                           <p>
+                              <sent>
+                                 <strong smilref="speechgen0003.smil#tcp24" id="dtb29">5. How to Avoid Danger During Civil Unrest</strong>
+                              </sent>
+                           </p>
+                        </td>
+                        <td rowspan="1" colspan="1">
+                           <p>
+                              <strong id="dtb30" smilref="speechgen0003.smil#tcp25">17</strong>
+                           </p>
+                        </td>
+                     </tr>
+                     <tr id="dtb31" smilref="speechgen0003.smil#tcs9">
+                        <td colspan="1" rowspan="1">
+                           <p>
+                              <sent>
+                                 <strong smilref="speechgen0003.smil#tcp26" id="dtb32">6. How to Be Safe During a Landslide</strong>
+                              </sent>
+                           </p>
+                        </td>
+                        <td rowspan="1" colspan="1">
+                           <p>
+                              <strong id="dtb33" smilref="speechgen0003.smil#tcp27">18</strong>
+                           </p>
+                        </td>
+                     </tr>
+                     <tr id="dtb34" smilref="speechgen0003.smil#tcs10">
+                        <td rowspan="1" colspan="1">
+                           <p>
+                              <sent>
+                                 <strong>
+                                    <em id="dtb35" smilref="speechgen0003.smil#tcp28">7. How to React During an Earthquake</em>
+                                 </strong>
+                              </sent>
+                           </p>
+                        </td>
+                        <td rowspan="1" colspan="1">
+                           <p>
+                              <strong smilref="speechgen0003.smil#tcp29" id="dtb36">19</strong>
+                           </p>
+                        </td>
+                     </tr>
+                  </tbody>
+               </table>
+               <pagenum id="page2" page="normal" smilref="speechgen0003.smil#tcp30">2</pagenum>
+            </level2>
+           </level1>
+      </bodymatter>
+   </book>
+</dtbook>

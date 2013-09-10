@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE smil
+  PUBLIC "-//NISO//DTD dtbsmil 2005-2//EN" "http://www.daisy.org/z3986/2005/dtbsmil-2005-2.dtd">
+<smil xmlns="http://www.w3.org/2001/SMIL20/">
+	  <head>
+		    <meta content="AUTO-UID-4767990567747899000" name="dtb:uid"/>
+		    <meta content="TPB Narrator" name="dtb:generator"/>
+		    <meta content="0:00:00" name="dtb:totalElapsedTime"/>
+		
+	  </head>
+	  <body>
+		    <seq dur="0:00:04.878" fill="remove" id="mseq">
+		       <par id="tcp1">
+            <text id="text1" src="AreYouReadyV3.xml#dtb1"/>
+            <audio clipBegin="0:00:00" clipEnd="0:00:02.029" src="speechgen0001.mp3"/>
+         </par>
+         <par id="tcp2">
+            <text id="text2" src="AreYouReadyV3.xml#dtb2"/>
+            <audio clipBegin="0:00:02.029" clipEnd="0:00:04.878" src="speechgen0001.mp3"/>
+         </par>
+      </seq>
+	  </body>
+</smil>

@@ -143,9 +143,11 @@ public class DaisyReaderBookmarkActivity extends DaisyEbookReaderBaseActivity {
 		// create a bookmark
 		try {
 			mBookmark = new Bookmark();
+			String audioFileName = getIntent().getStringExtra(Constants.AUDIO_FILE_NAME);
 			String sentence = getIntent().getStringExtra(Constants.SENTENCE);
 			String section = getIntent().getStringExtra(Constants.SECTION);
 			String time = getIntent().getStringExtra(Constants.TIME);
+			mBookmark.setAudioFileName(audioFileName);
 			mBookmark.setPath(mPath);
 			mBookmark.setText(sentence);
 			mBookmark.setTime(Integer.valueOf(time));

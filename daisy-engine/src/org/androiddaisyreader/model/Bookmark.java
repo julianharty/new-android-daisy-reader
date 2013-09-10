@@ -8,6 +8,7 @@ public class Bookmark {
 	private String id;
 	private int sort;
 	private String textShow;
+	private String audioFileName;
 
 	public String getPath() {
 		return path;
@@ -64,8 +65,18 @@ public class Bookmark {
 	public void setTextShow(String textShow) {
 		this.textShow = textShow;
 	}
+	
 
-	public Bookmark(String path, String text, int time, int section, int sort, String id) {
+	public String getAudioFileName() {
+		return audioFileName;
+	}
+
+	public void setAudioFileName(String audioFileName) {
+		this.audioFileName = audioFileName;
+	}
+	
+	public Bookmark(String audioFileName, String path, String text, int time, int section, int sort, String id) {
+		this.audioFileName = audioFileName;
 		this.path = path;
 		this.text = text;
 		this.time = time;

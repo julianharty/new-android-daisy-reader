@@ -21,12 +21,19 @@ public class ExtractTimingValuesTest extends TestCase {
 	private static final String NUMBER_WITHOUT_DECIMAL_POINT = "npt=10s";
 	private static final String CDATA = "CDATA";
 	private static final String CLIP_BEGIN = "clip-begin";
+	private static final String CLIP_BEGIN30 = "clipBegin";
+	
 	private static final int DAISYFORMAT202 = 202;
+	private static final int DAISYFORMAT30 = 30;
+	
 	private AttributesImpl attributes;
 	protected void setUp() {
 		attributes = new AttributesImpl();
 		
 	}
+	
+	//Test valid timing for daisy 202
+	
 	public void testValidTiming() {
 		attributes.addAttribute("", CLIP_BEGIN, "", CDATA, "npt=12.345s");
 		int result = ExtractTimingValues.extractTimingAsMilliSeconds(CLIP_BEGIN, attributes, DAISYFORMAT202);
@@ -81,5 +88,41 @@ public class ExtractTimingValuesTest extends TestCase {
 		attributes.addAttribute("", CLIP_BEGIN, "", CDATA, NUMBER_WITHOUT_DECIMAL_POINT);
 		int result = ExtractTimingValues.extractTimingAsMilliSeconds(CLIP_BEGIN, attributes, DAISYFORMAT202);
 		assertEquals("Number without a decimal point should be accepted.", 10000, result);
+	}
+	
+	//Test valid timing for daisy 30
+	
+	public void testNumberWithMilliseconds() {
+		attributes.addAttribute("", CLIP_BEGIN30, "", CDATA, "00:00.00");
+		int result = ExtractTimingValues.extractTimingAsMilliSeconds(CLIP_BEGIN30, attributes, DAISYFORMAT30);
+		assertEquals("Expected the extracted timing should match", 0, result);
+	}
+	
+	public void testNumberWithMilliseconds1() {
+		attributes.addAttribute("", CLIP_BEGIN30, "", CDATA, "00:01.610");
+		int result = ExtractTimingValues.extractTimingAsMilliSeconds(CLIP_BEGIN30, attributes, DAISYFORMAT30);
+		assertEquals("Expected the extracted timing should match", 1610, result);
+	}
+	
+	public void testNumberWithBothMinutesAndMilliseconds() {
+		attributes.addAttribute("", CLIP_BEGIN30, "", CDATA, "01:14.133");
+		int result = ExtractTimingValues.extractTimingAsMilliSeconds(CLIP_BEGIN30, attributes, DAISYFORMAT30);
+		assertEquals("Expected the extracted timing should match", 74133, result);
+	}
+	
+	public void testNumberWithFullFormat() {
+		attributes.addAttribute("", CLIP_BEGIN30, "", CDATA, "01:01:04.100");
+		int result = ExtractTimingValues.extractTimingAsMilliSeconds(CLIP_BEGIN30, attributes, DAISYFORMAT30);
+		assertEquals("Expected the extracted timing should match", 3664100, result);
+	}
+	
+	public void testNumberWithInvalidFormat() {
+		attributes.addAttribute("", CLIP_BEGIN30, "", CDATA, "01:01:04.10.0");
+		try {
+			int result = ExtractTimingValues.extractTimingAsMilliSeconds(CLIP_BEGIN30, attributes, DAISYFORMAT30);
+			fail("Expected a NumberFormatException for a number with 2 decimal points. Number = "
+					+ "01:01:04.10.0");
+		} catch (NumberFormatException e) {
+		}
 	}
 }

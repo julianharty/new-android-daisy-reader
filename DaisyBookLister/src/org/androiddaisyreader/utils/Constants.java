@@ -17,6 +17,7 @@ public class Constants {
 	public static String LIST_CONTENTS = "listContents";
 	public static String POSITION_SECTION = "positionSection";
 	public static String POSITION_SENTENCE = "positionSentence";
+	public static String AUDIO_FILE_NAME = "audioFileName";
 	public static String TARGET_ACTIVITY = "targetActivity";
 	public static String BOOK = "book";
 	public static String SENTENCE = "sentence";

@@ -61,7 +61,8 @@ public final class XmlUtilities {
 	 * @param bis file to parse
 	 * @return the encoding if we are able to extract and parse it, else the
 	 * default value expected by the expat parser, i.e. "UTF-8"
-	 * @throws IOException if there is a problem reading from the file.
+	 * @throws {@link IOException} if there is a problem reading from the file.
+	 * @throws {@link IllegalArgumentException} if the InputStream does not support mark and reset.
 	 */
 	public static String obtainEncodingStringFromInputStream(InputStream bis) throws IOException {
 		String encoding = "UTF-8";

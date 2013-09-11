@@ -17,6 +17,7 @@ public class XmlUtilitiesTest extends TestCase {
 	
 	public void testResettableInputStreamReturnsEncoding() throws IOException {
 		try {
+			@SuppressWarnings("unused")
 			String dontCare = XmlUtilities.obtainEncodingStringFromInputStream(null);
 		} catch (NullPointerException npe) {
 			// pass
@@ -24,6 +25,7 @@ public class XmlUtilitiesTest extends TestCase {
 	}
 
 	public void testCorrectExceptionThrownWhenInappropriateInputStreamUsed() throws IOException {
+		// Create a local instance of InputStream that doesn't support mark or reset.
 		InputStream bis = new InputStream() {
 
 			@Override
@@ -33,6 +35,7 @@ public class XmlUtilitiesTest extends TestCase {
 
 		};
 		try {
+			@SuppressWarnings("unused")
 			String dontCare = XmlUtilities.obtainEncodingStringFromInputStream(bis);
 			fail ("Expected an IllegalArgumentException to be thrown.");
 		} catch (IllegalArgumentException iae) {

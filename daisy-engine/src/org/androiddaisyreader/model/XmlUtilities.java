@@ -70,12 +70,13 @@ public final class XmlUtilities {
 			throw new IllegalArgumentException(
 					"Error in the program, InputStream needs to support markSupported()");
 		}
-		String line = null;
+		
 		// read the first line after setting the mark, then reset
 		// before calling the parser.
 		bis.mark(ENOUGH);
 		DataInputStream dis = new DataInputStream(bis);
-		line = dis.readLine();
+		
+		String line = dis.readLine();
 		line = line.replace("'", "\"");
 		if (line.matches(XML_FIRST_LINE_REGEX)) {
 			encoding = extractEncoding(line);

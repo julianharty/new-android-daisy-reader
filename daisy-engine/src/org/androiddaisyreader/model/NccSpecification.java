@@ -340,7 +340,7 @@ public class NccSpecification extends DefaultHandler {
 	}
 
 	public static DaisyBook readFromFile(File file) throws IOException {
-		InputStream contents = new BufferedInputStream(new FileInputStream(file));
+		BufferedInputStream contents = new BufferedInputStream(new FileInputStream(file));
 		return readFromStream(contents);
 	}
 

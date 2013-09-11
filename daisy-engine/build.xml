@@ -60,7 +60,8 @@
   <javac srcdir="test" destdir="${test.classes.dir}"
     debug="on" debuglevel="lines,vars,source"
     target="1.5" source="1.5"
-     >
+    encoding="cp1252"
+  >
   <classpath refid="test.compile.classpath" />
   </javac>
 </target>

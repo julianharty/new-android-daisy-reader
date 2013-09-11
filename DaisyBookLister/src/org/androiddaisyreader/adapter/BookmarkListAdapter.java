@@ -145,8 +145,8 @@ public class BookmarkListAdapter extends ArrayAdapter<Bookmark> {
 		alertDialog.setButton(AlertDialog.BUTTON_NEUTRAL,
 				mContext.getString(R.string.load_bookmark), new DialogInterface.OnClickListener() {
 					public void onClick(DialogInterface dialog, int id) {
-						pushToDaisyEbookReaderVisualModeIntent(mPath, mBookmark.getSection(),
-								mBookmark.getTime());
+						pushToDaisyEbookReaderVisualModeIntent(mBookmark.getAudioFileName(), mPath,
+								mBookmark.getSection(), mBookmark.getTime());
 					}
 				});
 	}
@@ -173,8 +173,9 @@ public class BookmarkListAdapter extends ArrayAdapter<Bookmark> {
 	 * @param section
 	 * @param time
 	 */
-	private void pushToDaisyEbookReaderVisualModeIntent(String path, int section, int time) {
+	private void pushToDaisyEbookReaderVisualModeIntent(String audioFileName, String path, int section, int time) {
 		Intent i = new Intent(mContext, DaisyEbookReaderVisualModeActivity.class);
+		i.putExtra(Constants.AUDIO_FILE_NAME, String.valueOf(audioFileName));
 		i.putExtra(Constants.POSITION_SECTION, String.valueOf(section));
 		i.putExtra(Constants.DAISY_PATH, path);
 		i.putExtra(Constants.TIME, time);

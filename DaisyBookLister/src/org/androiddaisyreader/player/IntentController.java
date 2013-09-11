@@ -100,6 +100,7 @@ public class IntentController {
 		Intent i = new Intent(mContext, DaisyReaderBookmarkActivity.class);
 		i.putExtra(Constants.DAISY_PATH, path);
 		if (bookmark.getText() != null) {
+			i.putExtra(Constants.AUDIO_FILE_NAME, bookmark.getAudioFileName());
 			i.putExtra(Constants.SENTENCE, bookmark.getText());
 			i.putExtra(Constants.TIME, String.valueOf(bookmark.getTime()));
 			i.putExtra(Constants.SECTION, String.valueOf(bookmark.getSection()));

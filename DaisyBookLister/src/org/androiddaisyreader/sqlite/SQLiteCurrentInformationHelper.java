@@ -26,6 +26,7 @@ public class SQLiteCurrentInformationHelper extends SQLiteHandler {
 	public void addCurrentInformation(CurrentInformation current) {
 
 		ContentValues mValue = new ContentValues();
+		mValue.put(AUDIO_NAME_KEY_CURRENT_INFORMATION, current.getAudioName());
 		mValue.put(PATH_KEY_CURRENT_INFORMATION, current.getPath());
 		mValue.put(TIME_KEY_CURRENT_INFORMATION, current.getTime());
 		mValue.put(SECTION_KEY_CURRENT_INFORMATION, current.getSection());
@@ -72,6 +73,7 @@ public class SQLiteCurrentInformationHelper extends SQLiteHandler {
 	 */
 	public void updateCurrentInformation(CurrentInformation current) {
 		ContentValues mValue = new ContentValues();
+		mValue.put(AUDIO_NAME_KEY_CURRENT_INFORMATION, current.getAudioName());
 		mValue.put(PATH_KEY_CURRENT_INFORMATION, current.getPath());
 		mValue.put(TIME_KEY_CURRENT_INFORMATION, current.getTime());
 		mValue.put(SECTION_KEY_CURRENT_INFORMATION, current.getSection());
@@ -104,14 +106,16 @@ public class SQLiteCurrentInformationHelper extends SQLiteHandler {
 		try {
 			SQLiteDatabase mdb = getReadableDatabase();
 			Cursor mCursor = mdb.query(TABLE_NAME_CURRENT_INFORMATION, new String[] {
-					PATH_KEY_CURRENT_INFORMATION, SECTION_KEY_CURRENT_INFORMATION,
-					TIME_KEY_CURRENT_INFORMATION, PLAYING_KEY_CURRENT_INFORMATION,
-					SENTENCE_KEY_CURRENT_INFORMATION, ACTIVITY_KEY_CURRENT_INFORMATION,
-					ID_KEY_CURRENT_INFORMATION, FIRST_NEXT_KEY_CURRENT_INFORMATION,
-					FIRST_PREVIOUS_KEY_CURRENT_INFORMATION, AT_THE_END_KEY_CURRENT_INFORMATION },
-					null, null, null, null, null);
+					AUDIO_NAME_KEY_CURRENT_INFORMATION, PATH_KEY_CURRENT_INFORMATION,
+					SECTION_KEY_CURRENT_INFORMATION, TIME_KEY_CURRENT_INFORMATION,
+					PLAYING_KEY_CURRENT_INFORMATION, SENTENCE_KEY_CURRENT_INFORMATION,
+					ACTIVITY_KEY_CURRENT_INFORMATION, ID_KEY_CURRENT_INFORMATION,
+					FIRST_NEXT_KEY_CURRENT_INFORMATION, FIRST_PREVIOUS_KEY_CURRENT_INFORMATION,
+					AT_THE_END_KEY_CURRENT_INFORMATION }, null, null, null, null, null);
 			if (mCursor != null && mCursor.getCount() > 0) {
 				mCursor.moveToFirst();
+				String audioName = mCursor.getString(mCursor
+						.getColumnIndex(AUDIO_NAME_KEY_CURRENT_INFORMATION));
 				String path = mCursor.getString(mCursor
 						.getColumnIndex(PATH_KEY_CURRENT_INFORMATION));
 				int section = Integer.valueOf(mCursor.getString(mCursor
@@ -135,8 +139,8 @@ public class SQLiteCurrentInformationHelper extends SQLiteHandler {
 				boolean atTheEnd = mCursor.getString(
 						mCursor.getColumnIndex(AT_THE_END_KEY_CURRENT_INFORMATION)).contains(
 						valueOfTrue);
-				current = new CurrentInformation(path, section, time, playing, sentence, activity,
-						id, firstNext, firstPrevious, atTheEnd);
+				current = new CurrentInformation(audioName, path, section, time, playing, sentence,
+						activity, id, firstNext, firstPrevious, atTheEnd);
 			}
 			mCursor.close();
 			mdb.close();

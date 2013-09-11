@@ -19,6 +19,7 @@ public class SQLiteHandler extends SQLiteOpenHelper {
 
 	public static final String TABLE_NAME_CURRENT_INFORMATION = "CurrentInformation";
 	public static final String ID_KEY_CURRENT_INFORMATION = "_id";
+	public static final String AUDIO_NAME_KEY_CURRENT_INFORMATION = "_audio_name";
 	public static final String PATH_KEY_CURRENT_INFORMATION = "_path";
 	public static final String TIME_KEY_CURRENT_INFORMATION = "_time";
 	public static final String SECTION_KEY_CURRENT_INFORMATION = "_section";
@@ -45,7 +46,7 @@ public class SQLiteHandler extends SQLiteOpenHelper {
 	public static final String SORT_KEY_DAISY_BOOK = "_sort";
 
 	public SQLiteHandler(Context context) {
-		super(context, DATABASE_NAME, null, 2);
+		super(context, DATABASE_NAME, null, 1);
 	}
 
 	@Override
@@ -59,12 +60,12 @@ public class SQLiteHandler extends SQLiteOpenHelper {
 
 		String sqlCreateTableCurrentInformation = "create table " + TABLE_NAME_CURRENT_INFORMATION
 				+ "(" + ID_KEY_CURRENT_INFORMATION + " text primary key,"
-				+ PATH_KEY_CURRENT_INFORMATION + " text," + TIME_KEY_CURRENT_INFORMATION
-				+ " integer," + SECTION_KEY_CURRENT_INFORMATION + " integer,"
-				+ PLAYING_KEY_CURRENT_INFORMATION + " boolean," + SENTENCE_KEY_CURRENT_INFORMATION
-				+ " integer," + ACTIVITY_KEY_CURRENT_INFORMATION + " text,"
-				+ FIRST_NEXT_KEY_CURRENT_INFORMATION + " boolean,"
-				+ FIRST_PREVIOUS_KEY_CURRENT_INFORMATION + " boolean,"
+				+ AUDIO_NAME_KEY_CURRENT_INFORMATION + " text," + PATH_KEY_CURRENT_INFORMATION
+				+ " text," + TIME_KEY_CURRENT_INFORMATION + " integer,"
+				+ SECTION_KEY_CURRENT_INFORMATION + " integer," + PLAYING_KEY_CURRENT_INFORMATION
+				+ " boolean," + SENTENCE_KEY_CURRENT_INFORMATION + " integer,"
+				+ ACTIVITY_KEY_CURRENT_INFORMATION + " text," + FIRST_NEXT_KEY_CURRENT_INFORMATION
+				+ " boolean," + FIRST_PREVIOUS_KEY_CURRENT_INFORMATION + " boolean,"
 				+ AT_THE_END_KEY_CURRENT_INFORMATION + " text " + ")";
 		db.execSQL(sqlCreateTableCurrentInformation);
 

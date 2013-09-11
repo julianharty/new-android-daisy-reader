@@ -65,19 +65,21 @@ public final class XmlUtilities {
 	 */
 	public static String obtainEncodingStringFromInputStream(InputStream bis) throws IOException {
 		String encoding = "UTF-8";
-		if (bis.markSupported()) {
-			String line = null;
-			// read the first line after setting the mark, then reset
-			// before calling the parser.
-			bis.mark(ENOUGH);
-			DataInputStream dis = new DataInputStream(bis);
-			line = dis.readLine();
-			line = line.replace("'", "\"");
-			if (line.matches(XML_FIRST_LINE_REGEX)) {
-				encoding = extractEncoding(line);
-			}
-			bis.reset();
+		if (!bis.markSupported()) {
+			throw new IllegalArgumentException(
+					"Error in the program, InputStream needs to support markSupported()");
 		}
+		String line = null;
+		// read the first line after setting the mark, then reset
+		// before calling the parser.
+		bis.mark(ENOUGH);
+		DataInputStream dis = new DataInputStream(bis);
+		line = dis.readLine();
+		line = line.replace("'", "\"");
+		if (line.matches(XML_FIRST_LINE_REGEX)) {
+			encoding = extractEncoding(line);
+		}
+		bis.reset();
 		return encoding;
 	}
 	

@@ -1,6 +1,7 @@
 package org.androiddaisyreader.model;
 
 import java.io.IOException;
+import java.io.InputStream;
 
 import junit.framework.TestCase;
 
@@ -22,4 +23,20 @@ public class XmlUtilitiesTest extends TestCase {
 		}
 	}
 
+	public void testCorrectExceptionThrownWhenInappropriateInputStreamUsed() throws IOException {
+		InputStream bis = new InputStream() {
+
+			@Override
+			public int read() throws IOException {
+				return 0;
+			}
+
+		};
+		try {
+			String dontCare = XmlUtilities.obtainEncodingStringFromInputStream(bis);
+			fail ("Expected an IllegalArgumentException to be thrown.");
+		} catch (IllegalArgumentException iae) {
+			// pass
+		}
+	}
 }

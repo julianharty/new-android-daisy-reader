@@ -28,6 +28,7 @@
     <string name="error_cannot_dowload">The download is not successfully, please try it again</string>
     <string name="error_unknown_host">Please check the host name again</string>
     <string name="error_file_not_found">The download file is invalid, please check again</string>
+    <string name="error_save_bookmark">We cannot save bookmark at the end of %s</string>
     <string name="empty_bookmark">Empty</string>
     <string name="fontSize">Font Size: </string>
     <string name="load_bookmark">Load</string>

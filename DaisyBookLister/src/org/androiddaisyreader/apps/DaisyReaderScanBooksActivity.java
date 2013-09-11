@@ -138,7 +138,7 @@ public class DaisyReaderScanBooksActivity extends DaisyEbookReaderBaseActivity {
 
 			@Override
 			public void onTextChanged(CharSequence s, int start, int before, int count) {
-				if (mListDaisyBookOriginal.size() != 0) {
+				if (mListDaisyBookOriginal != null && mListDaisyBookOriginal.size() != 0) {
 					mListScanBook = DaisyBookUtil.searchBookWithText(s, mListScanBook,
 							mListDaisyBookOriginal);
 					mDaisyBookAdapter.notifyDataSetChanged();

@@ -159,7 +159,7 @@ public class DaisyReaderRecentBooksActivity extends DaisyEbookReaderBaseActivity
 
 			@Override
 			public void onTextChanged(CharSequence s, int start, int before, int count) {
-				if (mListRecentBookOriginal.size() != 0) {
+				if (mListRecentBookOriginal != null && mListRecentBookOriginal.size() != 0) {
 					mListRecentBooks = DaisyBookUtil.searchBookWithText(s, mListRecentBooks,
 							mListRecentBookOriginal);
 					mDaisyBookAdapter.notifyDataSetChanged();

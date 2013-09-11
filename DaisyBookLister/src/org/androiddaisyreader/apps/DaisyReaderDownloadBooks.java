@@ -213,7 +213,7 @@ public class DaisyReaderDownloadBooks extends DaisyEbookReaderBaseActivity {
 
 			@Override
 			public void onTextChanged(CharSequence s, int start, int before, int count) {
-				if (mListDaisyBookOriginal.size() != 0) {
+				if (mListDaisyBookOriginal != null && mListDaisyBookOriginal.size() != 0) {
 					mlistDaisyBook = DaisyBookUtil.searchBookWithText(s, mlistDaisyBook,
 							mListDaisyBookOriginal);
 					mDaisyBookAdapter.notifyDataSetChanged();

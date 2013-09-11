@@ -134,7 +134,8 @@ public class MetaDataHandler extends Activity {
 
 				// title elements
 				Element eTitle = doc.createElement(Constants.ATT_TITLE);
-				eTitle.appendChild(doc.createTextNode(daisybook.getTitle()));
+				String title = daisybook.getTitle() != null ? daisybook.getTitle() : "";
+				eTitle.appendChild(doc.createTextNode(title));
 				book.appendChild(eTitle);
 
 				// author elements

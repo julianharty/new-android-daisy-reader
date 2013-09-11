@@ -270,12 +270,11 @@ public class NccSpecification extends DefaultHandler {
 
 		for (int i = 0; i < attributes.getLength(); i++) {
 			String name = attributes.getLocalName(i);
-			// The following code should fix the failure in travis-ci.
-			// I don't know why it was missing from the codebase.
-			// I'll remove the sysout once the test passes in travis-ci
+			// The following code fixes the failure in travis-ci. Newer parsers
+			// don't return data for getLocalName. Instead they return the 
+			// Qualified Name. 
             if (name.length() == 0) {
                 name = attributes.getQName(i);
-                System.out.println("+=*=+ Diagnostics: getLocalName is empty, getQName = " + name);
             }
             
 			if (name.equalsIgnoreCase("name") || name.equalsIgnoreCase("Content-type")) {

@@ -137,7 +137,7 @@ public class OpfSpecification extends DefaultHandler {
 
 	private void handleItemOfHeading(Attributes attributes) {
 		String href = getHref(attributes);
-		if (href.endsWith("xml")) {
+		if (href.endsWith("xml") && bookBuilder != null) {
 			InputStream contents;
 			try {
 				contents = bookContext.getResource(href);

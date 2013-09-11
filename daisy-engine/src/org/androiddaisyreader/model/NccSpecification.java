@@ -347,8 +347,10 @@ public class NccSpecification extends DefaultHandler {
 	}
 
 	public static DaisyBook readFromFile(File file) throws IOException {
-		BufferedInputStream contents = new BufferedInputStream(new FileInputStream(file));
-		return readFromStream(contents);
+		InputStream contents = new BufferedInputStream(new FileInputStream(file));
+		String encoding = obtainEncodingStringFromInputStream(contents);
+		encoding = mapUnsupportedEncoding(encoding);
+		return readFromStream(contents, encoding);
 	}
 
 	public static DaisyBook readFromStream(InputStream contents) throws IOException {

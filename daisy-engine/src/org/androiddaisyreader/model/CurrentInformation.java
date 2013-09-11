@@ -1,6 +1,7 @@
 package org.androiddaisyreader.model;
 
 public class CurrentInformation {
+	private String audioName;
 	private String path;
 	private int section;
 	private int time;
@@ -92,8 +93,17 @@ public class CurrentInformation {
 		this.atTheEnd = atTheEnd;
 	}
 
-	public CurrentInformation(String path, int section, int time, boolean playing, int sentence,
+	public String getAudioName() {
+		return audioName;
+	}
+
+	public void setAudioName(String audioName) {
+		this.audioName = audioName;
+	}
+
+	public CurrentInformation(String audioName, String path, int section, int time, boolean playing, int sentence,
 			String activity, String id, boolean firstNext, boolean firstPrevious, boolean atTheEnd) {
+		this.audioName = audioName;
 		this.path = path;
 		this.section = section;
 		this.time = time;

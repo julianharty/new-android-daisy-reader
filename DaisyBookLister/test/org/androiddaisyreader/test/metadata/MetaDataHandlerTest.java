@@ -167,7 +167,7 @@ public class MetaDataHandlerTest extends AndroidTestCase {
 				+ Constants.META_DATA_SCAN_BOOK_FILE_NAME;
 		MetaDataHandler metadata = new MetaDataHandler();
 		ArrayList<DaisyBookInfo> list = createDataForScanBook(5);
-		assertTrue(list.size() > 0);
+		assertTrue(list.size() ==  5);
 		metadata.WriteDataToXmlFile(list, localPath);
 		File file = new File(localPath);
 		assertTrue(file.length() > 0);

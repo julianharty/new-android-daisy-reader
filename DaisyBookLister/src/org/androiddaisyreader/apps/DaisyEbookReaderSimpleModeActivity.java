@@ -64,6 +64,7 @@ public class DaisyEbookReaderSimpleModeActivity extends DaisyEbookReaderBaseActi
 	private ArrayList<Integer> mListTimeBegin;
 	private IntentController mIntentController;
 	private String mTime;
+	private String mAudioFileName;
 	private int mPositionSentence = 0;
 	private boolean mIsRunable = true;
 	private Runnable mRunnalbe;
@@ -137,6 +138,7 @@ public class DaisyEbookReaderSimpleModeActivity extends DaisyEbookReaderBaseActi
 							getString(R.string.title_activity_daisy_ebook_reader_simple_mode))) {
 				section = String.valueOf(mCurrent.getSection());
 				mTime = String.valueOf(mCurrent.getTime());
+				mAudioFileName = mCurrent.getAudioName();
 				mPositionSentence = 0;
 				mCurrent.setActivity(getString(R.string.title_activity_daisy_ebook_reader_simple_mode));
 				mSql.updateCurrentInformation(mCurrent);
@@ -149,6 +151,32 @@ public class DaisyEbookReaderSimpleModeActivity extends DaisyEbookReaderBaseActi
 				Navigable n = getNavigable(countLoop);
 				if (n instanceof Section) {
 					mNavigationListener.onNext((Section) n);
+				}
+				// Bookmark for daisy 3.0
+				if (!isFormat202) {
+					for (int i = 0; i < listAudio.size(); i++) {
+						Audio audio = listAudio.get(i);
+						if (audio.getAudioFilename().equals(mAudioFileName)) {
+							countAudio = i;
+							mAudioPlayer.playFileSegment(audio);
+							break;
+						}
+					}
+					// seek to time when user loading from book mark.
+					if (mTime != null) {
+						mPlayer.seekTo(Integer.valueOf(mTime));
+						mTime = null;
+					}
+
+					// get status of audio
+					if (mCurrent != null) {
+						mSql.updateCurrentInformation(mCurrent);
+						if (mCurrent.getPlaying()) {
+							setMediaPlay();
+						} else {
+							setMediaPause();
+						}
+					}
 				}
 			} else {
 				// if user do not load from table of contents, play reading book
@@ -175,7 +203,7 @@ public class DaisyEbookReaderSimpleModeActivity extends DaisyEbookReaderBaseActi
 			n = nextSectionByCountLoop(countLoop);
 		}
 		// case 2: variable > 0, user want to go to sentence.
-		else if (countLoop == 0) {
+		else if (countLoop == 0 && isFormat202) {
 			mPlayer.seekTo(Integer.valueOf(mTime));
 			mTime = null;
 		}
@@ -202,7 +230,6 @@ public class DaisyEbookReaderSimpleModeActivity extends DaisyEbookReaderBaseActi
 				n = mNavigator.next();
 				mIsFirstPrevious = true;
 				mIsFirstNext = false;
-				;
 			}
 			mPositionSection += 1;
 		}
@@ -259,6 +286,11 @@ public class DaisyEbookReaderSimpleModeActivity extends DaisyEbookReaderBaseActi
 		// create a current information
 		CurrentInformation current = new CurrentInformation();
 		try {
+			if (isFormat202) {
+				current.setAudioName("");
+			} else {
+				current.setAudioName(listAudio.get(countAudio).getAudioFilename());
+			}
 			current.setPath(getIntent().getStringExtra(Constants.DAISY_PATH));
 			current.setSection(mPositionSection);
 			current.setTime(mPlayer.getCurrentPosition());
@@ -278,6 +310,11 @@ public class DaisyEbookReaderSimpleModeActivity extends DaisyEbookReaderBaseActi
 	 * Update current information.
 	 */
 	private void updateCurrentInformation() {
+		if (isFormat202) {
+			mCurrent.setAudioName("");
+		} else {
+			mCurrent.setAudioName(listAudio.get(countAudio).getAudioFilename());
+		}
 		mCurrent.setPlaying(mIsPlaying);
 		mCurrent.setTime(mPlayer.getCurrentPosition());
 		mCurrent.setSection(mPositionSection);
@@ -337,7 +374,6 @@ public class DaisyEbookReaderSimpleModeActivity extends DaisyEbookReaderBaseActi
 				countAudio = countAudio + 1;
 				mAudioPlayer.playFileSegment(listAudio.get(countAudio));
 			} else if (!mIsEndOf && mIsFound) {
-				clearAudioCount();
 				mController.next();
 			}
 		}
@@ -378,16 +414,6 @@ public class DaisyEbookReaderSimpleModeActivity extends DaisyEbookReaderBaseActi
 	 */
 	private String[] splitHref(String href) {
 		return href.split("#");
-	}
-
-	/**
-	 * Clear audio count.
-	 */
-	private void clearAudioCount() {
-		countAudio = 0;
-		if (listAudio != null) {
-			listAudio.clear();
-		}
 	}
 
 	/**
@@ -458,9 +484,11 @@ public class DaisyEbookReaderSimpleModeActivity extends DaisyEbookReaderBaseActi
 				}
 				// seek to time when user change from visual mode
 				if (mListTimeEnd.size() > 0) {
-					if (mTime != null) {
-						mPlayer.seekTo(Integer.valueOf(mTime));
-						mTime = null;
+					if (isFormat202) {
+						if (mTime != null) {
+							mPlayer.seekTo(Integer.valueOf(mTime));
+							mTime = null;
+						}
 					}
 					if (mCurrent != null) {
 						mSql.updateCurrentInformation(mCurrent);
@@ -615,6 +643,7 @@ public class DaisyEbookReaderSimpleModeActivity extends DaisyEbookReaderBaseActi
 			try {
 				String audiFileName = "";
 				listAudio = new ArrayList<Audio>();
+				countAudio = 0;
 				for (Part part : parts) {
 					if (part.getAudioElements().size() > 0) {
 						Audio audioSegment = part.getAudioElements().get(0);
@@ -753,10 +782,6 @@ public class DaisyEbookReaderSimpleModeActivity extends DaisyEbookReaderBaseActi
 				boolean isDoubleTap = handleClickItem(0);
 				if (isDoubleTap) {
 					Log.i("GESTURE", "Action: Double Tap");
-					mIsPlaying = mPlayer.isPlaying();
-					if (mIsPlaying) {
-						mPlayer.pause();
-					}
 					if (mCurrent != null) {
 						updateCurrentInformation();
 					} else {
@@ -874,6 +899,8 @@ public class DaisyEbookReaderSimpleModeActivity extends DaisyEbookReaderBaseActi
 			boolean isBreak = false;
 			int currentTimeBegin = mListTimeBegin.get(mPositionSentence + 1);
 			int currentTimeEnd = mListTimeEnd.get(mPositionSentence + 1);
+			// Find and play the next audio (If daisy book has many audio files
+			// on 1 chapter).
 			for (Entry<String, List<Integer>> entry : mHashMapBegin.entrySet()) {
 				List<Integer> listValue = entry.getValue();
 				if (!isBreak) {
@@ -908,9 +935,8 @@ public class DaisyEbookReaderSimpleModeActivity extends DaisyEbookReaderBaseActi
 	 */
 	private void nextSection() {
 		boolean isPlaying = mPlayer.isPlaying();
-		clearAudioCount();
 		mController.next();
-		if (!isPlaying) {
+		if (!isPlaying && !mIsEndOf) {
 			setMediaPause();
 		}
 	}
@@ -944,7 +970,7 @@ public class DaisyEbookReaderSimpleModeActivity extends DaisyEbookReaderBaseActi
 	private void previousSentenceDaisy202() {
 		// this case for user press previous sentence at the begin of
 		// book.
-		if (!mNavigator.hasPrevious() && mPositionSentence == 0) {
+		if (mPositionSection == 1 && mPositionSentence == 0) {
 			mNavigationListener.atBeginOfBook();
 		}
 		// this case for user press previous sentence at the end of
@@ -985,7 +1011,7 @@ public class DaisyEbookReaderSimpleModeActivity extends DaisyEbookReaderBaseActi
 	 */
 	private void previousSentenceDaisy30() {
 		// this case for user press previous sentence at the begin of book.
-		if (!mNavigator.hasPrevious() && mPositionSentence == 0) {
+		if (mPositionSection == 1 && mPositionSentence == 0) {
 			mNavigationListener.atBeginOfBook();
 		}
 		// this case for user press previous sentence at the end of book.
@@ -1011,6 +1037,8 @@ public class DaisyEbookReaderSimpleModeActivity extends DaisyEbookReaderBaseActi
 			boolean isBreak = false;
 			int currentTimeBegin = mListTimeBegin.get(mPositionSentence - 1);
 			int currentTimeEnd = mListTimeEnd.get(mPositionSentence - 1);
+			// Find and play the next audio (If daisy book has many audio files
+			// on 1 chapter).
 			for (Entry<String, List<Integer>> entry : mHashMapBegin.entrySet()) {
 				List<Integer> listValue = entry.getValue();
 				if (!isBreak) {
@@ -1057,7 +1085,6 @@ public class DaisyEbookReaderSimpleModeActivity extends DaisyEbookReaderBaseActi
 			mCurrent.setAtTheEnd(false);
 			mSql.updateCurrentInformation(mCurrent);
 		}
-		clearAudioCount();
 		mController.previous();
 		if (!isPlaying) {
 			setMediaPause();
@@ -1102,7 +1129,8 @@ public class DaisyEbookReaderSimpleModeActivity extends DaisyEbookReaderBaseActi
 	 * Toggles the Media Player between Play and Pause states.
 	 */
 	private void togglePlay() {
-		if (mPlayer.isPlaying()) {
+		mIsPlaying = mPlayer.isPlaying();
+		if (mIsPlaying) {
 			setMediaPause();
 			speakOut(Constants.PAUSE);
 		} else {
@@ -1136,7 +1164,11 @@ public class DaisyEbookReaderSimpleModeActivity extends DaisyEbookReaderBaseActi
 									&& currentPosition < mListTimeEnd.get(i)) {
 								mPositionSentence = i;
 								break;
-							} else if (mPositionSentence + 1 >= sizeOfStringText) {
+							}
+							// This case for daisy 3.0. Some audio files won't
+							// play until it finish, it was splitted and move to
+							// the next chapter
+							else if (mPositionSentence + 1 >= sizeOfStringText && !mIsEndOf) {
 								nextSection();
 							}
 						}

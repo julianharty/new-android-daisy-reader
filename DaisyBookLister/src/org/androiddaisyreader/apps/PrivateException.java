@@ -1,5 +1,6 @@
 package org.androiddaisyreader.apps;
 
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.net.SocketException;
@@ -29,7 +30,7 @@ public class PrivateException extends Exception {
 	// constructor without parameters
 	public Exception ex = new Exception();
 	private Context mContext;
-	private String mNameFolder;
+	private String path;
 
 	public PrivateException(Exception ex, Context context) {
 		this.ex = ex;
@@ -39,20 +40,13 @@ public class PrivateException extends Exception {
 	public PrivateException(Exception ex, Context context, String path) {
 		this.ex = ex;
 		this.mContext = context;
-		this.mNameFolder = getNameFolder(path);
-	}
-
-	private String getNameFolder(String path) {
-		String nameFolder = "";
-		String names[] = path.split("/");
-		if (names.length > 1) {
-			if (path.contains(Constants.SUFFIX_ZIP_FILE)) {
-				nameFolder = "\"" + names[names.length - 1] + "\"";
-			} else {
-				nameFolder = "\"" + names[names.length - 2] + "\"";
-			}
+		if (path.contains(Constants.FILE_NCC_NAME_NOT_CAPS)) {
+			this.path = path.replace(Constants.FILE_NCC_NAME_NOT_CAPS, "");
+		} else if (path.contains(Constants.FILE_NCC_NAME_CAPS)) {
+			this.path = path.replace(Constants.FILE_NCC_NAME_CAPS, "");
+		} else {
+			this.path = path;
 		}
-		return nameFolder;
 	}
 
 	/**
@@ -61,13 +55,14 @@ public class PrivateException extends Exception {
 	 * @param intent
 	 */
 	public void showDialogException(IntentController intent) {
-		if (ex instanceof IOException) {
+		boolean isExists = new File(path).exists();
+		if (ex instanceof IOException && isExists) {
 			intent.pushToDialog(
-					String.format(mContext.getString(R.string.error_parse_file_ncc), mNameFolder),
+					String.format(mContext.getString(R.string.error_parse_file_ncc), path),
 					mContext.getString(R.string.error_title), R.drawable.error, true, false, null);
-		} else if (ex instanceof IllegalStateException) {
+		} else if (ex instanceof IllegalStateException || !isExists) {
 			intent.pushToDialog(
-					String.format(mContext.getString(R.string.error_no_path_found), mNameFolder),
+					String.format(mContext.getString(R.string.error_no_path_found), path),
 					mContext.getString(R.string.error_title), R.drawable.error, true, false, null);
 		} else if (ex instanceof NullPointerException) {
 			intent.pushToDialog(mContext.getString(R.string.error_wrong_format),
@@ -80,7 +75,7 @@ public class PrivateException extends Exception {
 					mContext.getString(R.string.error_title), R.drawable.error, false, false, null);
 		} else {
 			intent.pushToDialog(
-					String.format(mContext.getString(R.string.error_parse_file_ncc), mNameFolder),
+					String.format(mContext.getString(R.string.error_parse_file_ncc), path),
 					mContext.getString(R.string.error_title), R.drawable.error, true, false, null);
 		}
 	}
@@ -113,8 +108,7 @@ public class PrivateException extends Exception {
 			Log.i(mContext.getClass().toString(), IllegalArgumentException.class.toString());
 		} else if (ex instanceof InterruptedException) {
 			Log.i(mContext.getClass().toString(), InterruptedException.class.toString());
-		}
-		else {
+		} else {
 			Log.i(mContext.getClass().toString(), Exception.class.toString());
 		}
 

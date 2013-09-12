@@ -7,10 +7,12 @@ import java.util.List;
 import org.androiddaisyreader.adapter.DaisyBookAdapter;
 import org.androiddaisyreader.model.DaisyBookInfo;
 import org.androiddaisyreader.player.IntentController;
+import org.androiddaisyreader.service.DaisyEbookReaderService;
 import org.androiddaisyreader.sqlite.SQLiteDaisyBookHelper;
 import org.androiddaisyreader.utils.Constants;
 import org.androiddaisyreader.utils.DaisyBookUtil;
 
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
@@ -62,6 +64,10 @@ public class DaisyReaderDownloadedBooks extends DaisyEbookReaderBaseActivity {
 		listDownloaded.setOnItemClickListener(onItemClick);
 		deleteCurrentInformation();
 		mListDaisyBookOriginal = new ArrayList<DaisyBookInfo>(mlistDaisyBook);
+		// start service application when download completed
+		Intent serviceIntent = new Intent(DaisyReaderDownloadedBooks.this,
+				DaisyEbookReaderService.class);
+		startService(serviceIntent);
 	}
 
 	@Override
@@ -100,7 +106,7 @@ public class DaisyReaderDownloadedBooks extends DaisyEbookReaderBaseActivity {
 		@Override
 		public void onItemClick(AdapterView<?> arg0, View arg1, int arg2, long arg3) {
 			speakText(mlistDaisyBook.get(arg2).getTitle());
-			
+
 			final DaisyBookInfo daisyBook = mlistDaisyBook.get(arg2);
 			boolean isDoubleTap = handleClickItem(arg2);
 			if (isDoubleTap) {
@@ -111,7 +117,7 @@ public class DaisyReaderDownloadedBooks extends DaisyEbookReaderBaseActivity {
 				IntentController intentController = new IntentController(
 						DaisyReaderDownloadedBooks.this);
 				intentController.pushToDaisyEbookReaderIntent(daisyBook.getPath());
-			}else{
+			} else {
 				speakTextOnHandler(daisyBook.getTitle());
 			}
 		}

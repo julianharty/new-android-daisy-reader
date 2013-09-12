@@ -6,7 +6,7 @@
 
     <RadioButton
         android:id="@+id/itemBookmark"
-        android:layout_width="318dp"
+        android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:focusable="false"
         android:focusableInTouchMode="false"

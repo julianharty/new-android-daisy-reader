@@ -140,24 +140,6 @@ public class DaisyEbookReaderService extends IntentService {
 		return daisyBook;
 	}
 
-	// /**
-	// * Gets the data from daisy202 book.
-	// *
-	// * @param daisy202 the daisy202
-	// * @param result the result
-	// * @return the data from daisy book
-	// */
-	// private DaisyBookInfo getDataFromDaisyBook(DaisyBook daisy202, String
-	// result) {
-	// DaisyBookInfo daisyBook = null;
-	//
-	// Date date = daisy202.getDate();
-	// String sDate = formatDateOrReturnEmptyString(date);
-	// daisyBook = new DaisyBookInfo("", daisy202.getTitle(), result,
-	// daisy202.getAuthor(),
-	// daisy202.getPublisher(), sDate, 1);
-	// return daisyBook;
-	// }
 
 	/**
 	 * Format date or return empty string.

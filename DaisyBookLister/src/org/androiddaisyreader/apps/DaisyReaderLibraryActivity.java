@@ -108,12 +108,9 @@ public class DaisyReaderLibraryActivity extends DaisyEbookReaderBaseActivity {
 	/**
 	 * Copy file.
 	 * 
-	 * @param in
-	 *            the in
-	 * @param out
-	 *            the out
-	 * @throws IOException
-	 *             Signals that an I/O exception has occurred.
+	 * @param in the in
+	 * @param out the out
+	 * @throws IOException Signals that an I/O exception has occurred.
 	 */
 	private void copyFile(InputStream in, OutputStream out) throws IOException {
 		byte[] buffer = new byte[1024];
@@ -141,8 +138,7 @@ public class DaisyReaderLibraryActivity extends DaisyEbookReaderBaseActivity {
 	/**
 	 * Push to other screen.
 	 * 
-	 * @param activityID
-	 *            the activity id
+	 * @param activityID the activity id
 	 */
 	private void pushToScreen(int activityID) {
 		Intent intent = null;

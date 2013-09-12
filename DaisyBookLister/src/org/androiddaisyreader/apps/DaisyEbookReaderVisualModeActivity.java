@@ -354,8 +354,10 @@ public class DaisyEbookReaderVisualModeActivity extends DaisyEbookReaderBaseActi
 		}
 		// case 2: variable > 0, user want to go to sentence.
 		else if (countLoop == 0 && isFormat202) {
-			mPlayer.seekTo(mTime);
-			mTime = -1;
+			// Fix bug: Audio is not read the contents after switch from simple
+			// mode to visual mode
+			n = mNavigator.previous();
+			n = mNavigator.next();
 		}
 		// case 3: variable < 0, user want to previous section.
 		else {
@@ -606,6 +608,11 @@ public class DaisyEbookReaderVisualModeActivity extends DaisyEbookReaderBaseActi
 	protected void onDestroy() {
 		super.onDestroy();
 		try {
+			if (mPlayer != null && mPlayer.isPlaying()) {
+				mPlayer.stop();
+				mPlayer.release();
+			}
+			mHandler.removeCallbacks(mRunnalbe);
 			if (mTts != null) {
 				mTts.shutdown();
 			}
@@ -614,11 +621,6 @@ public class DaisyEbookReaderVisualModeActivity extends DaisyEbookReaderBaseActi
 			PrivateException ex = new PrivateException(e, DaisyEbookReaderVisualModeActivity.this);
 			ex.writeLogException();
 		}
-		if (mPlayer != null && mPlayer.isPlaying()) {
-			mPlayer.stop();
-		}
-		mHandler.removeCallbacks(mRunnalbe);
-
 	}
 
 	@Override

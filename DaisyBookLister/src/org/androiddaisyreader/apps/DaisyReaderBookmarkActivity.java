@@ -41,6 +41,7 @@ public class DaisyReaderBookmarkActivity extends DaisyEbookReaderBaseActivity {
 	private SharedPreferences mPreferences;
 	private IntentController mIntentController;
 	private LoadingData mLoadingData;
+	private boolean isFormat202 = false;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -52,6 +53,7 @@ public class DaisyReaderBookmarkActivity extends DaisyEbookReaderBaseActivity {
 
 		mListBookmark = (ListView) this.findViewById(R.id.listBookmark);
 		mPath = getIntent().getStringExtra(Constants.DAISY_PATH);
+		isFormat202 = DaisyBookUtil.findDaisyFormat(mPath) == Constants.DAISY_202_FORMAT;
 		createNewBookmark();
 		SQLiteBookmarkHelper mSql = new SQLiteBookmarkHelper(DaisyReaderBookmarkActivity.this);
 		mListItems = new ArrayList<Bookmark>();
@@ -119,7 +121,7 @@ public class DaisyReaderBookmarkActivity extends DaisyEbookReaderBaseActivity {
 		mPath = getIntent().getStringExtra(Constants.DAISY_PATH);
 		try {
 			try {
-				if (DaisyBookUtil.findDaisyFormat(mPath) == Constants.DAISY_202_FORMAT) {
+				if (isFormat202) {
 					daisyBook = DaisyBookUtil.getDaisy202Book(mPath);
 					titleOfBook = daisyBook.getTitle() == null ? "" : daisyBook.getTitle();
 				} else {
@@ -163,8 +165,13 @@ public class DaisyReaderBookmarkActivity extends DaisyEbookReaderBaseActivity {
 		Navigator navigator;
 		try {
 			try {
-				DaisyBook mBook = DaisyBookUtil.getDaisy202Book(mPath);
-				navigator = new Navigator(mBook);
+				DaisyBook daisyBook;
+				if (isFormat202) {
+					daisyBook = DaisyBookUtil.getDaisy202Book(mPath);
+				} else {
+					daisyBook = DaisyBookUtil.getDaisy30Book(mPath);
+				}
+				navigator = new Navigator(daisyBook);
 				mIntentController.pushToTableOfContentsIntent(mPath, navigator,
 						getString(R.string.visual_mode));
 				finish();
@@ -248,6 +255,7 @@ public class DaisyReaderBookmarkActivity extends DaisyEbookReaderBaseActivity {
 	protected void onDestroy() {
 		try {
 			if (mTts != null) {
+				mTts.stop();
 				mTts.shutdown();
 			}
 		} catch (Exception e) {

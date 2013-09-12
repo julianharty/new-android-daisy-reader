@@ -8,9 +8,11 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.URLConnection;
 import java.util.ArrayList;
+import java.util.Date;
 
 import org.androiddaisyreader.adapter.DaisyBookAdapter;
 import org.androiddaisyreader.metadata.MetaDataHandler;
+import org.androiddaisyreader.model.DaisyBook;
 import org.androiddaisyreader.model.DaisyBookInfo;
 import org.androiddaisyreader.player.IntentController;
 import org.androiddaisyreader.sqlite.SQLiteDaisyBookHelper;
@@ -123,7 +125,8 @@ public class DaisyReaderDownloadBooks extends DaisyEbookReaderBaseActivity {
 							.getTextContent();
 					String date = eElement.getElementsByTagName(Constants.ATT_DATE).item(0)
 							.getTextContent();
-					DaisyBookInfo daisyBook = new DaisyBookInfo("", title, path, author, publisher, date, 1);
+					DaisyBookInfo daisyBook = new DaisyBookInfo("", title, path, author, publisher,
+							date, 1);
 					mSql.addDaisyBook(daisyBook, Constants.TYPE_DOWNLOAD_BOOK);
 				}
 			}
@@ -342,14 +345,20 @@ public class DaisyReaderDownloadBooks extends DaisyEbookReaderBaseActivity {
 			mProgressDialog.dismiss();
 			try {
 				if (result == true) {
-					DaisyBookInfo daisyBook = new DaisyBookInfo();
-					daisyBook.setAuthor(mDaisyBook.getAuthor());
-					daisyBook.setDate(mDaisyBook.getDate());
-					daisyBook.setPath(mPath + mName);
-					daisyBook.setPublisher(mDaisyBook.getPublisher());
-					daisyBook.setSort(mDaisyBook.getSort());
-					daisyBook.setTitle(mDaisyBook.getTitle());
-					if (mSql.addDaisyBook(daisyBook, Constants.TYPE_DOWNLOADED_BOOK) == true) {
+					DaisyBook daisyBook = new DaisyBook();
+					String path = mPath + mName;
+					daisyBook = DaisyBookUtil.getDaisy202Book(path);
+
+					DaisyBookInfo daisyBookInfo = new DaisyBookInfo();
+					daisyBookInfo.setAuthor(daisyBook.getAuthor());
+					Date date = daisyBook.getDate();
+					String sDate = formatDateOrReturnEmptyString(date);
+					daisyBookInfo.setDate(sDate);
+					daisyBookInfo.setPath(path);
+					daisyBookInfo.setPublisher(daisyBook.getPublisher());
+					daisyBookInfo.setSort(mDaisyBook.getSort());
+					daisyBookInfo.setTitle(daisyBook.getTitle());
+					if (mSql.addDaisyBook(daisyBookInfo, Constants.TYPE_DOWNLOADED_BOOK) == true) {
 						Intent intent = new Intent(DaisyReaderDownloadBooks.this,
 								DaisyReaderDownloadedBooks.class);
 						DaisyReaderDownloadBooks.this.startActivity(intent);
@@ -360,6 +369,20 @@ public class DaisyReaderDownloadBooks extends DaisyEbookReaderBaseActivity {
 				ex.writeLogException();
 			}
 		}
+	}
+
+	/**
+	 * Format date or return empty string.
+	 * 
+	 * @param date the date
+	 * @return the string
+	 */
+	private String formatDateOrReturnEmptyString(Date date) {
+		String sDate = "";
+		if (date != null) {
+			sDate = String.format(("%tB %te, %tY %n"), date, date, date, date);
+		}
+		return sDate;
 	}
 
 	@Override

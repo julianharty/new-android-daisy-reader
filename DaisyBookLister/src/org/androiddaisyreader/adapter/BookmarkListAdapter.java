@@ -175,6 +175,9 @@ public class BookmarkListAdapter extends ArrayAdapter<Bookmark> {
 	 */
 	private void pushToDaisyEbookReaderVisualModeIntent(String audioFileName, String path, int section, int time) {
 		Intent i = new Intent(mContext, DaisyEbookReaderVisualModeActivity.class);
+		//all of the other activities on top of it will be closed and
+		//this Intent will be delivered to the (now on top) old activity.
+		i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 		i.putExtra(Constants.AUDIO_FILE_NAME, String.valueOf(audioFileName));
 		i.putExtra(Constants.POSITION_SECTION, String.valueOf(section));
 		i.putExtra(Constants.DAISY_PATH, path);

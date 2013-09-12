@@ -50,7 +50,9 @@ public class DaisyEbookReaderBaseActivity extends SherlockActivity implements On
 		 * You should use cloud.count.ly instead of YOUR_SERVER for the line
 		 * below if you are using Countly Cloud service
 		 */
-		Countly.sharedInstance().init(this, Constants.Countly_URL_SERVER, Constants.Countly_APP_KEY);
+		Countly.sharedInstance()
+				.init(this, Constants.Countly_URL_SERVER, Constants.Countly_APP_KEY);
+
 		// start the session
 		BugSenseHandler.initAndStartSession(getApplicationContext(), Constants.BUGSENSE_API_KEY);
 
@@ -161,22 +163,27 @@ public class DaisyEbookReaderBaseActivity extends SherlockActivity implements On
 	}
 
 	/**
-	 * Speak text.
+	 * Interrupts the current utterance if speaking and speak new text
 	 * 
-	 * @param textToSpeech
-	 *            the text to speech
+	 * @param textToSpeech the text to speech
 	 */
 	public void speakText(String textToSpeech) {
-		if (checkTTSSupportLanguage() && !checkKeyguardMode()) {
-			mTts.speak(textToSpeech, TextToSpeech.QUEUE_FLUSH, null);
+		if (mTts != null) {
+			if (mTts.isSpeaking()) {
+				mTts.stop();
+			}
+			if (checkTTSSupportLanguage() && !checkKeyguardMode()) {
+				mTts.speak(textToSpeech, TextToSpeech.QUEUE_FLUSH, null);
+			}
+		}else{
+			startTts();
 		}
 	}
 
 	/**
 	 * Speak text on handler.
 	 * 
-	 * @param textToSpeech
-	 *            the text to speech
+	 * @param textToSpeech the text to speech
 	 */
 	@SuppressLint("HandlerLeak")
 	public void speakTextOnHandler(final String textToSpeech) {
@@ -231,8 +238,7 @@ public class DaisyEbookReaderBaseActivity extends SherlockActivity implements On
 	/**
 	 * Handle click item is double tap or single tap
 	 * 
-	 * @param position
-	 *            the position
+	 * @param position the position
 	 * @return true, if double tap on item
 	 */
 	public boolean handleClickItem(final int position) {
@@ -250,18 +256,16 @@ public class DaisyEbookReaderBaseActivity extends SherlockActivity implements On
 		lastPositionClick = position;
 		return mHasDoubleClicked;
 	}
-	
-    @Override
-    protected void onStart()
-    {
-    	super.onStart();
-        Countly.sharedInstance().onStart();
-    }
 
-    @Override
-    protected void onStop()
-    {
-        Countly.sharedInstance().onStop();
-    	super.onStop();
-    }
+	@Override
+	protected void onStart() {
+		super.onStart();
+		Countly.sharedInstance().onStart();
+	}
+
+	@Override
+	protected void onStop() {
+		Countly.sharedInstance().onStop();
+		super.onStop();
+	}
 }

@@ -75,7 +75,7 @@ public class DaisyReaderScanBooksActivity extends DaisyEbookReaderBaseActivity {
 		mTextSearch = (EditText) findViewById(R.id.edit_text_search);
 		mlistViewScanBooks = (ListView) findViewById(R.id.list_view_scan_books);
 		mlistViewScanBooks.setOnItemClickListener(onItemBookClick);
-		
+
 		mListScanBook = new ArrayList<DaisyBookInfo>();
 		mMetadata = new MetaDataHandler();
 		deleteCurrentInformation();
@@ -98,7 +98,7 @@ public class DaisyReaderScanBooksActivity extends DaisyEbookReaderBaseActivity {
 	@Override
 	protected void onResume() {
 		super.onResume();
-		
+
 		speakText(getString(R.string.title_activity_daisy_reader_scan_book));
 		handleSearchBook();
 		deleteCurrentInformation();
@@ -122,7 +122,7 @@ public class DaisyReaderScanBooksActivity extends DaisyEbookReaderBaseActivity {
 		deleteCurrentInformation();
 		super.onRestart();
 	}
-	
+
 	@Override
 	public void onConfigurationChanged(Configuration newConfig) {
 		super.onConfigurationChanged(newConfig);
@@ -130,6 +130,7 @@ public class DaisyReaderScanBooksActivity extends DaisyEbookReaderBaseActivity {
 			mDaisyBookAdapter.notifyDataSetChanged();
 		}
 	}
+
 	/**
 	 * handle search book when text changed.
 	 */
@@ -189,7 +190,7 @@ public class DaisyReaderScanBooksActivity extends DaisyEbookReaderBaseActivity {
 			if (isDoubleTap) {
 				addRecentBookToSQLite(mListScanBook.get(arg2));
 				itemScanBookClick(daisyBook);
-			}else{
+			} else {
 				speakTextOnHandler(daisyBook.getTitle());
 			}
 		}
@@ -198,8 +199,7 @@ public class DaisyReaderScanBooksActivity extends DaisyEbookReaderBaseActivity {
 	/**
 	 * Adds the recent book to sql lite.
 	 * 
-	 * @param daisyBook
-	 *            the daisy book
+	 * @param daisyBook the daisy book
 	 */
 	private void addRecentBookToSQLite(DaisyBookInfo daisyBook) {
 		if (mNumberOfRecentBooks > 0) {
@@ -220,8 +220,7 @@ public class DaisyReaderScanBooksActivity extends DaisyEbookReaderBaseActivity {
 	/**
 	 * Item scan book click.
 	 * 
-	 * @param daisyBook
-	 *            the daisy book
+	 * @param daisyBook the daisy book
 	 */
 	private void itemScanBookClick(DaisyBookInfo daisyBook) {
 		IntentController intentController = new IntentController(this);
@@ -266,8 +265,8 @@ public class DaisyReaderScanBooksActivity extends DaisyEbookReaderBaseActivity {
 									.item(0).getTextContent();
 							String date = eElement.getElementsByTagName(Constants.ATT_DATE).item(0)
 									.getTextContent();
-							DaisyBookInfo daisyBook = new DaisyBookInfo("", title, path, author, publisher,
-									date, 1);
+							DaisyBookInfo daisyBook = new DaisyBookInfo("", title, path, author,
+									publisher, date, 1);
 							filesResult.add(daisyBook);
 						}
 					}

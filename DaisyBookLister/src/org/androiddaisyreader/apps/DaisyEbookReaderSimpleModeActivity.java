@@ -204,8 +204,8 @@ public class DaisyEbookReaderSimpleModeActivity extends DaisyEbookReaderBaseActi
 		}
 		// case 2: variable > 0, user want to go to sentence.
 		else if (countLoop == 0 && isFormat202) {
-			mPlayer.seekTo(Integer.valueOf(mTime));
-			mTime = null;
+			n = mNavigator.previous();
+			n = mNavigator.next();
 		}
 		// case 3: variable < 0, user want to previous section.
 		else {
@@ -262,12 +262,13 @@ public class DaisyEbookReaderSimpleModeActivity extends DaisyEbookReaderBaseActi
 
 	@Override
 	public void onBackPressed() {
+		super.onBackPressed();
 		if (mBook != null) {
 			mIsPlaying = mPlayer.isPlaying();
 			if (mIsPlaying) {
 				setMediaPause();
 			}
-			super.onBackPressed();
+
 			if (mCurrent == null) {
 				createCurrentInformation();
 			} else {
@@ -327,8 +328,9 @@ public class DaisyEbookReaderSimpleModeActivity extends DaisyEbookReaderBaseActi
 	protected void onDestroy() {
 		super.onDestroy();
 		try {
-			if (mPlayer.isPlaying()) {
+			if (mPlayer != null & mPlayer.isPlaying()) {
 				mPlayer.stop();
+				mPlayer.release();
 			}
 			mTts.shutdown();
 		} catch (Exception e) {
@@ -782,6 +784,10 @@ public class DaisyEbookReaderSimpleModeActivity extends DaisyEbookReaderBaseActi
 				boolean isDoubleTap = handleClickItem(0);
 				if (isDoubleTap) {
 					Log.i("GESTURE", "Action: Double Tap");
+					mIsPlaying = mPlayer.isPlaying();
+					if (mIsPlaying) {
+						setMediaPause();
+					}
 					if (mCurrent != null) {
 						updateCurrentInformation();
 					} else {
@@ -956,7 +962,7 @@ public class DaisyEbookReaderSimpleModeActivity extends DaisyEbookReaderBaseActi
 		if (mCurrent != null) {
 			mIsEndOf = mCurrent.getAtTheEnd();
 		}
-		try { 
+		try {
 			if (isFormat202) {
 				previousSentenceDaisy202();
 			}
@@ -1124,6 +1130,10 @@ public class DaisyEbookReaderSimpleModeActivity extends DaisyEbookReaderBaseActi
 			mNavigationListener.atEndOfBook();
 		} else {
 			mPlayer.start();
+			if (mCurrent != null) {
+				mCurrent.setPlaying(true);
+				mSql.updateCurrentInformation(mCurrent);
+			}
 			mIsRunable = true;
 			if (mPlayer.getCurrentPosition() != 0 && mListTimeEnd != null) {
 				// if you pause while audio playing. You need to know time pause
@@ -1145,8 +1155,8 @@ public class DaisyEbookReaderSimpleModeActivity extends DaisyEbookReaderBaseActi
 			speakOut(Constants.PAUSE);
 		} else {
 			try {
-				setMediaPlay();
 				speakOut(Constants.PLAY);
+				setMediaPlay();
 			} catch (Exception e) {
 				speakOut(Constants.ERROR_WRONG_FORMAT_AUDIO);
 				PrivateException ex = new PrivateException(e,

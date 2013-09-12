@@ -41,7 +41,10 @@ public class ZippedBookContext implements BookContext {
 			// assumptions may bite us in the end with some books.
 			// TODO 20120218 (jharty): Consider ways to make the algorithm more
 			// robust.
-			if (entry.getName().contains(uri)) {
+
+			// 20130912: add "toLowerCase" to increase exactly when compare two
+			// text.
+			if (entry.getName().toLowerCase().contains(uri.toLowerCase())) {
 				BufferedInputStream bis = new BufferedInputStream(zipContents.getInputStream(entry));
 				return bis;
 			}

@@ -55,7 +55,10 @@ public class PrivateException extends Exception {
 	 * @param intent
 	 */
 	public void showDialogException(IntentController intent) {
-		boolean isExists = new File(path).exists();
+		boolean isExists = true;
+		if (path != null) {
+			isExists = new File(path).exists();
+		}
 		if (ex instanceof IOException && isExists) {
 			intent.pushToDialog(
 					String.format(mContext.getString(R.string.error_parse_file_ncc), path),

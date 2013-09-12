@@ -278,8 +278,8 @@ public class DaisyEbookReaderVisualModeActivity extends DaisyEbookReaderBaseActi
 		String section;
 		mCurrent = mSql.getCurrentInformation();
 		if (mCurrent != null
-				&& !mCurrent.getActivity().equals(
-						getString(R.string.title_activity_daisy_ebook_reader_simple_mode))) {
+				&& mCurrent.getActivity().equals(
+						getString(R.string.title_activity_daisy_ebook_reader_visual_mode))) {
 			mCurrent.setAtTheEnd(false);
 			mSql.updateCurrentInformation(mCurrent);
 		}
@@ -319,8 +319,8 @@ public class DaisyEbookReaderVisualModeActivity extends DaisyEbookReaderBaseActi
 						mPlayer.seekTo(mTime);
 						mTime = -1;
 					}
-					
-					//get status of audio
+
+					// get status of audio
 					if (mCurrent != null) {
 						mSql.updateCurrentInformation(mCurrent);
 						if (mCurrent.getPlaying()) {
@@ -1407,8 +1407,12 @@ public class DaisyEbookReaderVisualModeActivity extends DaisyEbookReaderBaseActi
 	 */
 	private void nextSentenceDaisy202() {
 		int currentTime = mPlayer.getCurrentPosition();
+		if (mCurrent != null) {
+			mIsEndOf = mCurrent.getAtTheEnd();
+		}
 		// this case for user press next sentence at the end of book.
-		if (currentTime == 0 && !mNavigator.hasNext() && mPositionSentence == mListTimeBegin.size()) {
+		if (currentTime == 0 && !mNavigator.hasNext() && mPositionSentence == mListTimeBegin.size()
+				|| mIsEndOf) {
 			mNavigationListener.atEndOfBook();
 		}
 		// this case for user press next sentence.
@@ -1428,8 +1432,11 @@ public class DaisyEbookReaderVisualModeActivity extends DaisyEbookReaderBaseActi
 	 */
 	private void nextSentenceDaisy30() {
 		// this case for user press next sentence at the end of book
+		if (mCurrent != null) {
+			mIsEndOf = mCurrent.getAtTheEnd();
+		}
 		if (mPlayer.getCurrentPosition() == 0 && !mNavigator.hasNext()
-				&& mPositionSentence == mListTimeBegin.size()) {
+				&& mPositionSentence == mListTimeBegin.size() || mIsEndOf) {
 			mNavigationListener.atEndOfBook();
 		}
 		// this case for user press next sentence.
@@ -1437,7 +1444,8 @@ public class DaisyEbookReaderVisualModeActivity extends DaisyEbookReaderBaseActi
 			boolean isBreak = false;
 			int currentTimeBegin = mListTimeBegin.get(mPositionSentence + 1);
 			int currentTimeEnd = mListTimeEnd.get(mPositionSentence + 1);
-			// Find and play the next audio (If daisy book has many audio files
+			// Find and play the next audio (If daisy book has many audio
+			// files
 			// on 1 chapter).
 			for (Entry<String, List<Integer>> entry : mHashMapBegin.entrySet()) {
 				List<Integer> listValue = entry.getValue();
@@ -1507,6 +1515,9 @@ public class DaisyEbookReaderVisualModeActivity extends DaisyEbookReaderBaseActi
 	 */
 	private void previousSentence() {
 		boolean isPlaying = mPlayer.isPlaying();
+		if (mCurrent != null) {
+			mIsEndOf = mCurrent.getAtTheEnd();
+		}
 		try {
 			if (isFormat202) {
 				previousSentenceDaisy202();

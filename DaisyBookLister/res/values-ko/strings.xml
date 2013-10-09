@@ -46,7 +46,6 @@
     <string name="previous_section">이전 섹션</string>
     <string name="pause">중지</string>
     <string name="play">지속</string>
-    <string name="tableOfContents">목록</string>
     <string name="title_activity_daisy_reader_library">라이브라리</string>
     <string name="title_activity_daisy_ebook_reader">플레이어 모드를 선택주십시오 / 리딩제도 선택</string>
     <string name="title_activity_daisy_ebook_reader_simple_mode">설치</string>
@@ -64,7 +63,6 @@
     <string name="scan_books">SD 카드를 스캔</string>
     <string name="simple_mode">간단 모드</string>
     <string name="save_bookmark">저장</string>
-    <string name="settings">설정</string>
     <string name="search_text">텍스트 검색</string>
     <string name="recent_books">최근 읽은 책</string>
     <string name="unzipping">압축 풀기 하는 중</string>

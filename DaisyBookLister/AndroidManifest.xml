@@ -2,9 +2,12 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="org.androiddaisyreader.apps"
     android:versionCode="1"
-    android:versionName="1.1" >
+    android:versionName="1.1.007" >
 
-    <uses-sdk android:minSdkVersion="8" />
+    <uses-sdk 
+        android:minSdkVersion="8" 
+        android:targetSdkVersion="17"
+        />
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
@@ -18,12 +21,7 @@
         android:icon="@drawable/icon"
         android:label="@string/app_name"
         android:theme="@style/Theme.Sherlock" >
-        <activity
-            android:name="org.androiddaisyreader.apps.DaisyBookListerActivity"
-            android:configChanges="keyboard|keyboardHidden|orientation|screenLayout|uiMode|screenSize|locale"
-            android:label="@string/app_name"
-            android:screenOrientation="portrait" >
-        </activity>
+
         <activity
             android:name="org.androiddaisyreader.apps.DaisyReaderLibraryActivity"
             android:configChanges="keyboard|keyboardHidden|orientation|screenLayout|uiMode|screenSize|locale"

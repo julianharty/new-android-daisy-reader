@@ -45,7 +45,6 @@
     <string name="previous_section">Chương trước</string>
     <string name="pause">Tạm dừng</string>
     <string name="play">Tiếp tục</string>
-    <string name="tableOfContents">Mục lục</string>
     <string name="title_activity_daisy_reader_library">Thư viện</string>
     <string name="title_activity_daisy_ebook_reader">Chọn chế độ đọc</string>
     <string name="title_activity_daisy_ebook_reader_simple_mode">Đơn giản</string>
@@ -63,7 +62,6 @@
     <string name="scan_books">Tìm sách từ thẻ nhớ</string>
     <string name="simple_mode">Đơn giản</string>
     <string name="save_bookmark">Lưu</string>
-    <string name="settings">Cài đặt</string>
     <string name="search_text">Tìm kiếm</string>
     <string name="recent_books">Sách vừa đọc</string>
     <string name="unzipping">Đang giải nén</string>

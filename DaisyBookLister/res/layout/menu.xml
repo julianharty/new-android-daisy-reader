@@ -6,25 +6,25 @@
     -->
     <item android:id="@+id/menu_library"
           android:icon="@drawable/library"
-          android:title="Library" />
+          android:title="@string/submenu_library" />
     
     <item android:id="@+id/menu_table"
           android:icon="@drawable/table_of_contents"
-          android:title="Table of contents" />
+          android:title="@string/submenu_table_of_contents" />
  
     <item android:id="@+id/menu_simple"
           android:icon="@drawable/simple_mode"
-          android:title="Simple Mode" />
+          android:title="@string/submenu_simple_mode" />
  
     <item android:id="@+id/menu_search"
           android:icon="@drawable/search"
-          android:title="Search" />
+          android:title="@string/submenu_search" />
  
     <item android:id="@+id/menu_bookmarks"
           android:icon="@drawable/bookmark"
-          android:title="Bookmarks" />
+          android:title="@string/submenu_bookmarks" />
  
     <item android:id="@+id/menu_settings"
           android:icon="@drawable/settings"
-          android:title="Settings" />
+          android:title="@string/submenu_settings" />
 </menu>

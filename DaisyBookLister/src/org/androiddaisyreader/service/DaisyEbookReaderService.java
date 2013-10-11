@@ -3,6 +3,7 @@ package org.androiddaisyreader.service;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.Locale;
 
 import org.androiddaisyreader.apps.PrivateException;
 import org.androiddaisyreader.metadata.MetaDataHandler;
@@ -150,7 +151,7 @@ public class DaisyEbookReaderService extends IntentService {
 	private String formatDateOrReturnEmptyString(Date date) {
 		String sDate = "";
 		if (date != null) {
-			sDate = String.format(("%tB %te, %tY %n"), date, date, date, date);
+			sDate = String.format(Locale.getDefault(),("%tB %te, %tY %n"), date, date, date, date);
 		}
 		return sDate;
 	}

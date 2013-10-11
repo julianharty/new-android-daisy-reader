@@ -5,7 +5,6 @@
     <string name="atBegin">…초에</string>
     <string name="atEnd">…말에</string>
     <string name="brightness">명도</string>
-    <string name="color_picker_viewer">컬러 뷰어 (다른 색상을 선택하면 클릭하십시오)</string>
     <string name="change_text_color">문자 색깔</string>
     <string name="change_background_color">백그라운드 색깔</string>
     <string name="change_highlight_color">하이라이트 표시 색깔</string>

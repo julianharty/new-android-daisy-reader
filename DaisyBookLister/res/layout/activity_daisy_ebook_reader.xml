@@ -40,7 +40,7 @@
             android:layout_alignParentLeft="true"
             android:layout_alignTop="@+id/textView1"
             android:contentDescription="@string/desc_simple_mode"
-            android:src="@drawable/simple" />
+            android:src="@raw/simple" />
 
     </RelativeLayout>
 
@@ -69,7 +69,7 @@
             android:layout_below="@+id/TextView02"
             android:layout_marginTop="18dp"
             android:contentDescription="@string/desc_visual_mode"
-            android:src="@drawable/visual" />
+            android:src="@raw/visual" />
 
         <TextView
             android:id="@+id/TextView01"

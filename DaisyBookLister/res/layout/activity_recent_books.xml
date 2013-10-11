@@ -12,7 +12,7 @@
         android:layout_height="40dp"
         android:layout_margin="10dp"
         android:background="@drawable/border_text_view"
-        android:drawableLeft="@drawable/ic_search_20x20"
+        android:drawableLeft="@raw/ic_search_20x20"
         android:drawablePadding="10dp"
         android:hint="@string/search"
         android:paddingLeft="10dp"

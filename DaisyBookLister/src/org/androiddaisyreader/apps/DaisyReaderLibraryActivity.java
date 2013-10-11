@@ -74,7 +74,7 @@ public class DaisyReaderLibraryActivity extends DaisyEbookReaderBaseActivity {
 				android.os.Environment.MEDIA_MOUNTED_READ_ONLY)) {
 			IntentController mIntentController = new IntentController(this);
 			mIntentController.pushToDialog(getString(R.string.sd_card_not_present),
-					getString(R.string.error_title), R.drawable.error, false, false, null);
+					getString(R.string.error_title), R.raw.error, false, false, null);
 		}
 
 	}

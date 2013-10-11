@@ -34,7 +34,7 @@
             android:layout_alignParentRight="true"
             android:layout_alignParentTop="true"
             android:contentDescription="@string/next_section"
-            android:src="@drawable/media_next_section" />
+            android:src="@raw/media_next_section" />
 
         <ImageButton
             android:id="@+id/btnPlay"
@@ -45,7 +45,7 @@
             android:layout_alignParentTop="true"
             android:layout_centerHorizontal="true"
             android:contentDescription="@string/play"
-            android:src="@drawable/media_play" />
+            android:src="@raw/media_play" />
 
         <ImageButton
             android:id="@+id/btnPreviousSection"
@@ -58,7 +58,7 @@
             android:layout_marginLeft="10dp"
             android:layout_marginRight="10dp"
             android:contentDescription="@string/previous_section"
-            android:src="@drawable/media_previous_section" />
+            android:src="@raw/media_previous_section" />
 
         <ImageButton
             android:id="@+id/btnNextSentence"
@@ -69,7 +69,7 @@
             android:layout_alignParentTop="true"
             android:layout_toLeftOf="@+id/btnNextSection"
             android:contentDescription="@string/next_sentence"
-            android:src="@drawable/media_next_sentence" />
+            android:src="@raw/media_next_sentence" />
 
         <ImageButton
             android:id="@+id/btnPreviousSentence"
@@ -80,7 +80,7 @@
             android:layout_alignParentTop="true"
             android:layout_toRightOf="@+id/btnPreviousSection"
             android:contentDescription="@string/previous_sentence"
-            android:src="@drawable/media_previous_sentence" />
+            android:src="@raw/media_previous_sentence" />
     </RelativeLayout>
 
 </LinearLayout>

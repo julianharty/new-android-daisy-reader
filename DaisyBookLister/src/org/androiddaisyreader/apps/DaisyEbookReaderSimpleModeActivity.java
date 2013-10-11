@@ -430,7 +430,7 @@ public class DaisyEbookReaderSimpleModeActivity extends DaisyEbookReaderBaseActi
 				mBook = NccSpecification.readFromStream(contents);
 				if (!mBook.hasTotalTime()) {
 					mIntentController.pushToDialog(getString(R.string.error_wrong_format_audio),
-							getString(R.string.error_title), R.drawable.error, false, false, null);
+							getString(R.string.error_title), R.raw.error, false, false, null);
 				}
 
 			} catch (Exception e) {

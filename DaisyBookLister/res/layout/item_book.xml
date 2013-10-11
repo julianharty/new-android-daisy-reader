@@ -14,7 +14,7 @@
         android:layout_height="50dp"
         android:layout_gravity="center_vertical"
         android:contentDescription="@string/logo_of_book"
-        android:src="@drawable/ic_book" />
+        android:src="@raw/ic_book" />
 
     <LinearLayout
         android:id="@+id/LinearLayout1"

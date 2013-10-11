@@ -14,7 +14,7 @@
         android:hint="@string/search"
         android:paddingLeft="10dp"
         android:paddingRight="10dp"
-        android:drawableLeft="@drawable/ic_search_20x20"
+        android:drawableLeft="@raw/ic_search_20x20"
         android:drawablePadding="10dp"
         android:background="@drawable/border_text_view"
         android:textColor="@android:color/black"

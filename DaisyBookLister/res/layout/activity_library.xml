@@ -16,7 +16,7 @@
             android:layout_centerHorizontal="true"
             android:layout_marginBottom="20dp"
             android:layout_marginTop="20dp"
-            android:background="@drawable/logo"
+            android:background="@raw/logo"
             android:contentDescription="@string/logo_of_book" />
 
         <Button
@@ -29,7 +29,7 @@
             android:layout_marginLeft="20dp"
             android:layout_marginRight="20dp"
             android:layout_marginTop="10dp"
-            android:drawableLeft="@drawable/ic_recent_48x48"
+            android:drawableLeft="@raw/ic_recent_48x48"
             android:text="@string/recent_books"
             android:textSize="20sp"
             android:textStyle="bold" />
@@ -44,7 +44,7 @@
             android:layout_marginLeft="20dp"
             android:layout_marginRight="20dp"
             android:layout_marginTop="10dp"
-            android:drawableLeft="@drawable/ic_scan_48x48"
+            android:drawableLeft="@raw/ic_scan_48x48"
             android:text="@string/scan_books"
             android:textSize="20sp"
             android:textStyle="bold" />
@@ -59,7 +59,7 @@
             android:layout_marginLeft="20dp"
             android:layout_marginRight="20dp"
             android:layout_marginTop="10dp"
-            android:drawableLeft="@drawable/ic_download_48x48"
+            android:drawableLeft="@raw/ic_download_48x48"
             android:text="@string/download_books"
             android:textSize="20sp"
             android:textStyle="bold" />

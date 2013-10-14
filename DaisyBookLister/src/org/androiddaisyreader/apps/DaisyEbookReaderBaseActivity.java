@@ -51,7 +51,7 @@ public class DaisyEbookReaderBaseActivity extends SherlockActivity implements On
 		 * below if you are using Countly Cloud service
 		 */
 		Countly.sharedInstance()
-				.init(this, Constants.Countly_URL_SERVER, Constants.Countly_APP_KEY);
+				.init(this, Constants.COUNTLY_URL_SERVER, Constants.COUNTLY_APP_KEY);
 
 		// start the session
 		BugSenseHandler.initAndStartSession(getApplicationContext(), Constants.BUGSENSE_API_KEY);

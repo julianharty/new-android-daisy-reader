@@ -1,18 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources>
+<resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
 
     <string name="app_name">DaisyBook Reader</string>
     <string name="atBegin">Bạn đang ở chương đầu của </string>
     <string name="atEnd">Bạn đang ở chương cuối của </string>
-    <string name="bookmarks">Đánh dấu</string>
     <string name="brightness">Độ sáng</string>
-    <string name="color_picker_viewer">Khung màu(Nhấn vào để chọn màu khác)</string>
     <string name="change_text_color">Màu chữ</string>
     <string name="change_background_color">Màu nền</string>
     <string name="change_highlight_color">Màu tô chữ</string>
     <string name="change_number_recent_books">Số lượng sách mới đọc</string>
     <string name="change_number_bookmarks">Số lượng bookmark</string>
-    <string name="chapter">Chương</string>
     <string name="cancel_bookmark">Thoát</string>
     <string name="desc_simple_mode">Chế độ đọc cho người mù, mắt kém hoặc có khuyết tật về mắt.</string>
     <string name="desc_visual_mode">Chế độ đọc cho người bình thường, hiển thị nội dung của sách.</string>
@@ -22,7 +19,6 @@
     <string name="error_wrong_format_audio">Ứng dụng không hỗ trợ các tập tin âm thanh trong quyển sách này</string>
     <string name="error_not_enough_space">Thẻ nhớ không đủ dung lượng để giải nén tệp tin</string>
     <string name="error_no_audio_found">Không tìm thấy tập tin âm thanh tại chương này</string>
-    <string name="error_no_text_found">Không tìm thấy nội dung tại chương này</string>
     <string name="error_parse_file_ncc">Không thể đọc tập tin gốc của cuốn sách %s</string>
     <string name="error_connect_internet">Vui lòng kiểm tra lại kết nối Internet</string>
     <string name="error_cannot_dowload">Quá trình tải xuống không thành công, vui lòng kiểm tra lại</string>
@@ -64,7 +60,6 @@
     <string name="save_bookmark">Lưu</string>
     <string name="search_text">Tìm kiếm</string>
     <string name="recent_books">Sách vừa đọc</string>
-    <string name="unzipping">Đang giải nén</string>
     <string name="visual_mode">Nâng cao</string>
     <string name="waiting">Vui lòng chờ &#x2026;</string>
     <string name="web_site_name_daisy_org">The DAISY Consortium</string>
@@ -85,5 +80,4 @@
     <string name="submenu_simple_mode">Chế độ đơn giản</string>
     <string name="submenu_bookmarks">Đánh dấu</string>
     <string name="submenu_settings">Cài đặt</string>
-
 </resources>

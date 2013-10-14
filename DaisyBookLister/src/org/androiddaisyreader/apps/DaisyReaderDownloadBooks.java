@@ -9,6 +9,7 @@ import java.io.OutputStream;
 import java.net.URLConnection;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.Locale;
 
 import org.androiddaisyreader.adapter.DaisyBookAdapter;
 import org.androiddaisyreader.metadata.MetaDataHandler;
@@ -107,7 +108,7 @@ public class DaisyReaderDownloadBooks extends DaisyEbookReaderBaseActivity {
 	 */
 	private void createDownloadData() {
 		try {
-			InputStream databaseInputStream = new FileInputStream(Constants.FOLDER_CONTAIN_METADATA
+			InputStream databaseInputStream = new FileInputStream(Constants.folderContainMetadata
 					+ Constants.META_DATA_FILE_NAME);
 			mMetadata = new MetaDataHandler();
 			NodeList nList = mMetadata.ReadDataDownloadFromXmlFile(databaseInputStream, mLink);
@@ -380,7 +381,7 @@ public class DaisyReaderDownloadBooks extends DaisyEbookReaderBaseActivity {
 	private String formatDateOrReturnEmptyString(Date date) {
 		String sDate = "";
 		if (date != null) {
-			sDate = String.format(("%tB %te, %tY %n"), date, date, date, date);
+			sDate = String.format(Locale.getDefault(), ("%tB %te, %tY %n"), date, date, date, date);
 		}
 		return sDate;
 	}
@@ -426,7 +427,7 @@ public class DaisyReaderDownloadBooks extends DaisyEbookReaderBaseActivity {
 		alertDialog.setCanceledOnTouchOutside(false);
 		alertDialog.setCancelable(false);
 		// Setting Icon to Dialog
-		alertDialog.setIcon(R.drawable.error);
+		alertDialog.setIcon(R.raw.error);
 		alertDialog.setButton(AlertDialog.BUTTON_NEGATIVE,
 				DaisyReaderDownloadBooks.this.getString(R.string.no),
 				new DialogInterface.OnClickListener() {
@@ -459,14 +460,14 @@ public class DaisyReaderDownloadBooks extends DaisyEbookReaderBaseActivity {
 					intent.pushToDialog(DaisyReaderDownloadBooks.this
 							.getString(R.string.error_not_enough_space),
 							DaisyReaderDownloadBooks.this.getString(R.string.error_title),
-							R.drawable.error, false, false, null);
+							R.raw.error, false, false, null);
 				}
 			}
 		} else {
 			intent.pushToDialog(
 					DaisyReaderDownloadBooks.this.getString(R.string.error_connect_internet),
 					DaisyReaderDownloadBooks.this.getString(R.string.error_title),
-					R.drawable.error, false, false, null);
+					R.raw.error, false, false, null);
 		}
 	}
 }

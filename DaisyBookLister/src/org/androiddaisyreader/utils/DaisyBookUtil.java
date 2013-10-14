@@ -75,10 +75,10 @@ public class DaisyBookUtil {
 	 *         false.
 	 */
 
-	public static boolean folderContainsDaisy2_02Book(File folder) {
+	public static boolean folderContainsDaisy202Book(File folder) {
 		boolean result = false;
 		if (folder.getAbsolutePath().endsWith(".zip")) {
-			result = zipFileContainsDaisy2_02Book(folder.getAbsolutePath());
+			result = zipFileContainsDaisy202Book(folder.getAbsolutePath());
 		} else {
 
 			if (!folder.isDirectory()) {
@@ -129,7 +129,7 @@ public class DaisyBookUtil {
 	 * @param filename
 	 * @return true if the uri has a zip file daisy book, else false.
 	 */
-	private static boolean zipFileContainsDaisy2_02Book(String filename) {
+	private static boolean zipFileContainsDaisy202Book(String filename) {
 		ZipEntry entry;
 		try {
 			ZipFile zipContents = new ZipFile(filename);
@@ -300,12 +300,12 @@ public class DaisyBookUtil {
 		if (!isLoop) {
 			sResult = new ArrayList<String>();
 		}
-		if (folderContainsDaisy2_02Book(path) || folderContainsDaisy30Book(path)) {
+		if (folderContainsDaisy202Book(path) || folderContainsDaisy30Book(path)) {
 			sResult.add(path.getAbsolutePath());
 		} else if (path.listFiles() != null) {
 			File[] files = path.listFiles();
 			for (File file : files) {
-				if (folderContainsDaisy2_02Book(file) || folderContainsDaisy30Book(file)) {
+				if (folderContainsDaisy202Book(file) || folderContainsDaisy30Book(file)) {
 					sResult.add(file.getAbsolutePath());
 				} else if (file.isDirectory()) {
 					getDaisyBook(file, true);
@@ -324,7 +324,7 @@ public class DaisyBookUtil {
 	public static int findDaisyFormat(String path) {
 		int result = 0;
 		File file = new File(path);
-		if (folderContainsDaisy2_02Book(new File(path))) {
+		if (folderContainsDaisy202Book(new File(path))) {
 			result = Constants.DAISY_202_FORMAT;
 		} else if (folderContainsDaisy30Book(file)) {
 			result = Constants.DAISY_30_FORMAT;

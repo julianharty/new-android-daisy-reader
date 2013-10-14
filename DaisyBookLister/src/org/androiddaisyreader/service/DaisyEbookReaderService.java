@@ -3,6 +3,7 @@ package org.androiddaisyreader.service;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.Locale;
 
 import org.androiddaisyreader.apps.PrivateException;
 import org.androiddaisyreader.metadata.MetaDataHandler;
@@ -54,7 +55,7 @@ public class DaisyEbookReaderService extends IntentService {
 	public int onStartCommand(Intent intent, int flags, int startId) {
 		Runnable r = new Runnable() {
 			public void run() {
-				String localPath = Constants.FOLDER_CONTAIN_METADATA
+				String localPath = Constants.folderContainMetadata
 						+ Constants.META_DATA_SCAN_BOOK_FILE_NAME;
 				mMetaData.WriteDataToXmlFile(getData(), localPath);
 				mEditor.putBoolean(Constants.SERVICE_DONE, true);
@@ -150,7 +151,7 @@ public class DaisyEbookReaderService extends IntentService {
 	private String formatDateOrReturnEmptyString(Date date) {
 		String sDate = "";
 		if (date != null) {
-			sDate = String.format(("%tB %te, %tY %n"), date, date, date, date);
+			sDate = String.format(Locale.getDefault(),("%tB %te, %tY %n"), date, date, date, date);
 		}
 		return sDate;
 	}

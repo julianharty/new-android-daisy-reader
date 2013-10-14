@@ -26,29 +26,29 @@ import android.view.WindowManager;
 
 public class Countly
 {
-	private static Countly sharedInstance_;
-	private Timer timer_;
-	private ConnectionQueue queue_;
-	private EventQueue eventQueue_;
-	private boolean isVisible_;
-	private double unsentSessionLength_;
-	private double lastTime_;
-	private int activityCount_;
+	private static Countly sharedInstance;
+	private Timer timer;
+	private ConnectionQueue queue;
+	private EventQueue eventQueue;
+	private boolean isVisible;
+	private double unsentSessionLength;
+	private double lastTime;
+	private int activityCount;
 
 	static public Countly sharedInstance()
 	{
-		if (sharedInstance_ == null)
-			sharedInstance_ = new Countly();
+		if (sharedInstance == null)
+			sharedInstance = new Countly();
 		
-		return sharedInstance_;
+		return sharedInstance;
 	}
 	
 	private Countly()
 	{
-		queue_ = new ConnectionQueue();
-		eventQueue_ = new EventQueue();
-		timer_ = new Timer();
-		timer_.schedule(new TimerTask()
+		queue = new ConnectionQueue();
+		eventQueue = new EventQueue();
+		timer = new Timer();
+		timer.schedule(new TimerTask()
 		{
 			@Override
 			public void run()
@@ -57,141 +57,141 @@ public class Countly
 			}
 		}, 60 * 1000,  60 * 1000);
 
-		isVisible_ = false;
-		unsentSessionLength_ = 0;
-		activityCount_ = 0;
+		isVisible = false;
+		unsentSessionLength = 0;
+		activityCount = 0;
 	}
 	
 	public void init(Context context, String serverURL, String appKey)
 	{
 		OpenUDIDManager.sync(context);
-		queue_.setContext(context);
-		queue_.setServerURL(serverURL);
-		queue_.setAppKey(appKey);
+		queue.setContext(context);
+		queue.setServerURL(serverURL);
+		queue.setAppKey(appKey);
 	}
 
 	public void onStart()
 	{
-		activityCount_++;
-		if (activityCount_ == 1)
+		activityCount++;
+		if (activityCount == 1)
 			onStartHelper();
 	}
 
 	public void onStop()
 	{
-		activityCount_--;
-		if (activityCount_ == 0)
+		activityCount--;
+		if (activityCount == 0)
 			onStopHelper();
 	}
 
 	public void onStartHelper()
 	{
-		lastTime_ = System.currentTimeMillis() / 1000.0;
+		lastTime = System.currentTimeMillis() / 1000.0;
 
-		queue_.beginSession();
+		queue.beginSession();
 
-		isVisible_ = true;
+		isVisible = true;
 	}
 
 	public void onStopHelper()
 	{
-		if (eventQueue_.size() > 0)
-			queue_.recordEvents(eventQueue_.events());
+		if (eventQueue.size() > 0)
+			queue.recordEvents(eventQueue.events());
 
 		double currTime = System.currentTimeMillis() / 1000.0;
-		unsentSessionLength_ += currTime - lastTime_;
+		unsentSessionLength += currTime - lastTime;
 
-		int duration = (int)unsentSessionLength_;
-		queue_.endSession(duration);
-		unsentSessionLength_ -= duration;
+		int duration = (int)unsentSessionLength;
+		queue.endSession(duration);
+		unsentSessionLength -= duration;
 
-		isVisible_ = false;
+		isVisible = false;
 	}
 	
 	public void recordEvent(String key, int count)
 	{
-		eventQueue_.recordEvent(key, count);
+		eventQueue.recordEvent(key, count);
 
-		if (eventQueue_.size() >= 10)
-			queue_.recordEvents(eventQueue_.events());
+		if (eventQueue.size() >= 10)
+			queue.recordEvents(eventQueue.events());
 	}
 
 	public void recordEvent(String key, int count, double sum)
 	{
-		eventQueue_.recordEvent(key, count, sum);
+		eventQueue.recordEvent(key, count, sum);
 
-		if (eventQueue_.size() >= 10)
-			queue_.recordEvents(eventQueue_.events());		
+		if (eventQueue.size() >= 10)
+			queue.recordEvents(eventQueue.events());		
 	}
 
 	public void recordEvent(String key, Map<String, String> segmentation, int count)
 	{
-		eventQueue_.recordEvent(key, segmentation, count);
+		eventQueue.recordEvent(key, segmentation, count);
 		
-		if (eventQueue_.size() >= 10)
-			queue_.recordEvents(eventQueue_.events());		
+		if (eventQueue.size() >= 10)
+			queue.recordEvents(eventQueue.events());		
 	}
 
 	public void recordEvent(String key, Map<String, String> segmentation, int count, double sum)
 	{
-		eventQueue_.recordEvent(key, segmentation, count, sum);
+		eventQueue.recordEvent(key, segmentation, count, sum);
 		
-		if (eventQueue_.size() >= 10)
-			queue_.recordEvents(eventQueue_.events());		
+		if (eventQueue.size() >= 10)
+			queue.recordEvents(eventQueue.events());		
 	}
 	
 	private void onTimer()
 	{
-		if (isVisible_ == false)
+		if (isVisible == false)
 			return;
 		
 		double currTime = System.currentTimeMillis() / 1000.0;
-		unsentSessionLength_ += currTime - lastTime_;
-		lastTime_ = currTime;
+		unsentSessionLength += currTime - lastTime;
+		lastTime = currTime;
 		
-		int duration = (int)unsentSessionLength_;
-		queue_.updateSession(duration);
-		unsentSessionLength_ -= duration;
+		int duration = (int)unsentSessionLength;
+		queue.updateSession(duration);
+		unsentSessionLength -= duration;
 
-		if (eventQueue_.size() > 0)
-			queue_.recordEvents(eventQueue_.events());		
+		if (eventQueue.size() > 0)
+			queue.recordEvents(eventQueue.events());		
 	}
 }
 
 class ConnectionQueue
 {
-	private ConcurrentLinkedQueue<String> queue_ = new ConcurrentLinkedQueue<String>();
-	private Thread thread_ = null;
-	private String appKey_;
-	private Context context_;
-	private String serverURL_;
+	private ConcurrentLinkedQueue<String> queue = new ConcurrentLinkedQueue<String>();
+	private Thread thread = null;
+	private String appKey;
+	private Context context;
+	private String serverURL;
 	
-	public void setAppKey(String appKey)
+	public void setAppKey(String appKeyValue)
 	{
-		appKey_ = appKey;
+		appKey = appKeyValue;
 	}
 
-	public void setContext(Context context)
+	public void setContext(Context contextValue)
 	{
-		context_ = context;
+		context = contextValue;
 	}
 	
-	public void setServerURL(String serverURL)
+	public void setServerURL(String serverURLValue)
 	{
-		serverURL_ = serverURL;
+		serverURL = serverURLValue;
 	}
 	
 	public void beginSession()
 	{
 		String data;
-		data  =       "app_key=" + appKey_;
+		data  =       "app_key=" + appKey;
 		data += "&" + "device_id=" + DeviceInfo.getUDID();
 		data += "&" + "timestamp=" + (long)(System.currentTimeMillis() / 1000.0);
 		data += "&" + "sdk_version=" + "1.0";
 		data += "&" + "begin_session=" + "1";
-		data += "&" + "metrics=" + DeviceInfo.getMetrics(context_);
+		data += "&" + "metrics=" + DeviceInfo.getMetrics(context);
 		
-		queue_.offer(data);		
+		queue.offer(data);		
 	
 		tick();
 	}
@@ -199,12 +199,12 @@ class ConnectionQueue
 	public void updateSession(int duration)
 	{
 		String data;
-		data  =       "app_key=" + appKey_;
+		data  =       "app_key=" + appKey;
 		data += "&" + "device_id=" + DeviceInfo.getUDID();
 		data += "&" + "timestamp=" + (long)(System.currentTimeMillis() / 1000.0);
 		data += "&" + "session_duration=" + duration;
 
-		queue_.offer(data);		
+		queue.offer(data);		
 
 		tick();
 	}
@@ -212,13 +212,13 @@ class ConnectionQueue
 	public void endSession(int duration)
 	{
 		String data;
-		data  =       "app_key=" + appKey_;
+		data  =       "app_key=" + appKey;
 		data += "&" + "device_id=" + DeviceInfo.getUDID();
 		data += "&" + "timestamp=" + (long)(System.currentTimeMillis() / 1000.0);
 		data += "&" + "end_session=" + "1";
 		data += "&" + "session_duration=" + duration;
 
-		queue_.offer(data);		
+		queue.offer(data);		
 		
 		tick();
 	}
@@ -226,32 +226,32 @@ class ConnectionQueue
 	public void recordEvents(String events)
 	{
 		String data;
-		data  =       "app_key=" + appKey_;
+		data  =       "app_key=" + appKey;
 		data += "&" + "device_id=" + DeviceInfo.getUDID();
 		data += "&" + "timestamp=" + (long)(System.currentTimeMillis() / 1000.0);
 		data += "&" + "events=" + events;
 
-		queue_.offer(data);		
+		queue.offer(data);		
 		
 		tick();		
 	}
 	
 	private void tick()
 	{
-		if (thread_ != null && thread_.isAlive())
+		if (thread != null && thread.isAlive())
 			return;
 		
-		if (queue_.isEmpty())
+		if (queue.isEmpty())
 			return;
 				
-		thread_ = new Thread() 
+		thread = new Thread() 
 		{
 			@Override
 			public void run()
 			{
 				while (true)
 				{
-					String data = queue_.peek();
+					String data = queue.peek();
 
 					if (data == null)
 						break;
@@ -267,7 +267,7 @@ class ConnectionQueue
 					try
 					{
 						DefaultHttpClient httpClient = new DefaultHttpClient();
-						HttpGet method = new HttpGet(new URI(serverURL_ + "/i?" + data));			
+						HttpGet method = new HttpGet(new URI(serverURL + "/i?" + data));			
 						HttpResponse response = httpClient.execute(method);
 						InputStream input = response.getEntity().getContent();
 						while (input.read() != -1)
@@ -276,7 +276,7 @@ class ConnectionQueue
 												
 						Log.d("Countly", "ok ->" + data);
 
-						queue_.poll();
+						queue.poll();
 					}
 					catch (Exception e)
 					{
@@ -288,7 +288,7 @@ class ConnectionQueue
 			}
 		};
 
-		thread_.start();
+		thread.start();
 	}
 }
 
@@ -394,18 +394,18 @@ class Event
 
 class EventQueue
 {
-	private ArrayList<Event> events_;
+	private ArrayList<Event> events;
 
 	public EventQueue()
 	{
-		events_ = new ArrayList<Event>();		
+		events = new ArrayList<Event>();		
 	}
 
 	public int size()
 	{
 		synchronized(this)
 		{
-			return events_.size();
+			return events.size();
 		}
 	}
 	
@@ -415,9 +415,9 @@ class EventQueue
 
 		synchronized (this)
 		{
-			for (int i = 0; i < events_.size(); ++i)
+			for (int i = 0; i < events.size(); ++i)
 			{
-				Event event = events_.get(i);
+				Event event = events.get(i);
 				
 				result += "{";
 
@@ -454,11 +454,11 @@ class EventQueue
 
 				result += "}";
 		           
-				if (i + 1 < events_.size())
+				if (i + 1 < events.size())
 					result += ",";
 			}
 			
-			events_.clear();
+			events.clear();
 		}
 
 		result += "]";
@@ -478,9 +478,9 @@ class EventQueue
 	{
 		synchronized(this)
 		{
-			for (int i = 0; i < events_.size(); ++i)
+			for (int i = 0; i < events.size(); ++i)
 			{
-				Event event = events_.get(i);
+				Event event = events.get(i);
 				
 				if (event.key.equals(key))
 				{
@@ -494,7 +494,7 @@ class EventQueue
 			event.key = key;
 			event.count = count;
 			event.timestamp = System.currentTimeMillis() / 1000.0;
-			events_.add(event);
+			events.add(event);
 		}
 	}
 
@@ -502,9 +502,9 @@ class EventQueue
 	{
 		synchronized(this)
 		{
-			for (int i = 0; i < events_.size(); ++i)
+			for (int i = 0; i < events.size(); ++i)
 			{
-				Event event = events_.get(i);
+				Event event = events.get(i);
 				
 				if (event.key.equals(key))
 				{
@@ -520,7 +520,7 @@ class EventQueue
 			event.count = count;
 			event.sum = sum;
 			event.timestamp = System.currentTimeMillis() / 1000.0;
-			events_.add(event);
+			events.add(event);
 		}		
 	}
 
@@ -528,9 +528,9 @@ class EventQueue
 	{
 		synchronized(this)
 		{
-			for (int i = 0; i < events_.size(); ++i)
+			for (int i = 0; i < events.size(); ++i)
 			{
-				Event event = events_.get(i);
+				Event event = events.get(i);
 				
 				if (event.key.equals(key) &&
 					event.segmentation != null && event.segmentation.equals(segmentation))
@@ -546,7 +546,7 @@ class EventQueue
 			event.segmentation = segmentation;
 			event.count = count;
 			event.timestamp = System.currentTimeMillis() / 1000.0;
-			events_.add(event);
+			events.add(event);
 		}		
 	}
 
@@ -554,9 +554,9 @@ class EventQueue
 	{
 		synchronized(this)
 		{
-			for (int i = 0; i < events_.size(); ++i)
+			for (int i = 0; i < events.size(); ++i)
 			{
-				Event event = events_.get(i);
+				Event event = events.get(i);
 				
 				if (event.key.equals(key) &&
 					event.segmentation != null && event.segmentation.equals(segmentation))
@@ -574,7 +574,7 @@ class EventQueue
 			event.count = count;
 			event.sum = sum;
 			event.timestamp = System.currentTimeMillis() / 1000.0;
-			events_.add(event);
+			events.add(event);
 		}
 	}	
 }

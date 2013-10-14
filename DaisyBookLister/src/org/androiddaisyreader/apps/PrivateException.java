@@ -62,24 +62,24 @@ public class PrivateException extends Exception {
 		if (ex instanceof IOException && isExists) {
 			intent.pushToDialog(
 					String.format(mContext.getString(R.string.error_parse_file_ncc), path),
-					mContext.getString(R.string.error_title), R.drawable.error, true, false, null);
+					mContext.getString(R.string.error_title), R.raw.error, true, false, null);
 		} else if (ex instanceof IllegalStateException || !isExists) {
 			intent.pushToDialog(
 					String.format(mContext.getString(R.string.error_no_path_found), path),
-					mContext.getString(R.string.error_title), R.drawable.error, true, false, null);
+					mContext.getString(R.string.error_title), R.raw.error, true, false, null);
 		} else if (ex instanceof NullPointerException) {
 			intent.pushToDialog(mContext.getString(R.string.error_wrong_format),
-					mContext.getString(R.string.error_title), R.drawable.error, true, false, null);
+					mContext.getString(R.string.error_title), R.raw.error, true, false, null);
 		} else if (ex instanceof RuntimeException) {
 			intent.pushToDialog(mContext.getString(R.string.error_no_audio_found),
-					mContext.getString(R.string.error_title), R.drawable.error, false, false, null);
+					mContext.getString(R.string.error_title), R.raw.error, false, false, null);
 		} else if (ex instanceof UnknownHostException) {
 			intent.pushToDialog(mContext.getString(R.string.error_connect_internet),
-					mContext.getString(R.string.error_title), R.drawable.error, false, false, null);
+					mContext.getString(R.string.error_title), R.raw.error, false, false, null);
 		} else {
 			intent.pushToDialog(
 					String.format(mContext.getString(R.string.error_parse_file_ncc), path),
-					mContext.getString(R.string.error_title), R.drawable.error, true, false, null);
+					mContext.getString(R.string.error_title), R.raw.error, true, false, null);
 		}
 	}
 
@@ -123,17 +123,17 @@ public class PrivateException extends Exception {
 	public void showDialogDowloadException(IntentController intent) {
 		if (ex instanceof UnknownHostException) {
 			intent.pushToDialog(mContext.getString(R.string.error_unknown_host),
-					mContext.getString(R.string.error_title), R.drawable.error, false, false, null);
+					mContext.getString(R.string.error_title), R.raw.error, false, false, null);
 		} else if (ex instanceof SocketException) {
 			intent.pushToDialog(mContext.getString(R.string.error_connect_internet),
-					mContext.getString(R.string.error_title), R.drawable.error, false, false, null);
+					mContext.getString(R.string.error_title), R.raw.error, false, false, null);
 		} else if (ex instanceof FileNotFoundException) {
 			intent.pushToDialog(mContext.getString(R.string.error_file_not_found),
-					mContext.getString(R.string.error_title), R.drawable.error, false, false, null);
+					mContext.getString(R.string.error_title), R.raw.error, false, false, null);
 		} else if (ex instanceof IOException) {
 		} else {
 			intent.pushToDialog(mContext.getString(R.string.error_cannot_dowload),
-					mContext.getString(R.string.error_title), R.drawable.error, false, false, null);
+					mContext.getString(R.string.error_title), R.raw.error, false, false, null);
 		}
 	}
 }

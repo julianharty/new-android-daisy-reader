@@ -175,7 +175,7 @@ public class DaisyReaderScanBooksActivity extends DaisyEbookReaderBaseActivity {
 		} else {
 			IntentController mIntentController = new IntentController(this);
 			mIntentController.pushToDialog(getString(R.string.sd_card_not_present),
-					getString(R.string.error_title), R.drawable.error, false, false, null);
+					getString(R.string.error_title), R.raw.error, false, false, null);
 		}
 
 	}
@@ -247,7 +247,7 @@ public class DaisyReaderScanBooksActivity extends DaisyEbookReaderBaseActivity {
 				}
 				if (mPreferences.getBoolean(Constants.SERVICE_DONE, false)) {
 					InputStream databaseInputStream = new FileInputStream(
-							Constants.FOLDER_CONTAIN_METADATA
+							Constants.folderContainMetadata
 									+ Constants.META_DATA_SCAN_BOOK_FILE_NAME);
 					NodeList nList = mMetadata.ReadDataScanFromXmlFile(databaseInputStream);
 					for (int temp = 0; temp < nList.getLength(); temp++) {

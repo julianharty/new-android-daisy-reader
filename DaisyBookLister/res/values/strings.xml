@@ -7,15 +7,12 @@
     <string name="app_name">DaisyBook Reader</string>
     <string name="atBegin">At the beginning of </string>
     <string name="atEnd">At the end of </string>
-    <string name="bookmarks">Bookmarks</string>
     <string name="brightness">Brightness</string>
-    <string name="color_picker_viewer">Color Viewer(Click to choose another color)</string>
     <string name="change_text_color">Text color</string>
     <string name="change_background_color">Background color</string>
     <string name="change_highlight_color">Highlight color</string>
     <string name="change_number_recent_books">Number of recent books</string>
     <string name="change_number_bookmarks">Number of bookmarks</string>
-    <string name="chapter">Chapter</string>
     <string name="cancel_bookmark">Cancel</string>
     <string name="desc_simple_mode">This mode is designed specifically for blind, low vision, and print disabled user</string>
     <string name="desc_visual_mode">In the graphical mode, all menus are vocalized and include large, graphical elements</string>
@@ -25,7 +22,6 @@
     <string name="error_wrong_format_audio">The audio files in this DAISY book are not supported by this application</string>
     <string name="error_not_enough_space">There is not enough available storage to download this book</string>
     <string name="error_no_audio_found">We cannot find the audio for the current chapter</string>
-    <string name="error_no_text_found">We cannot find text for the current chapter</string>
     <string name="error_parse_file_ncc">Could not read the master file for this book %s</string>
     <string name="error_connect_internet">Please check your Internet connection again</string>
     <string name="error_cannot_dowload">The download is not successfully, please try it again</string>
@@ -69,7 +65,6 @@
     <string name="save_bookmark">Save</string>
     <string name="search_text">Search Text</string>
     <string name="recent_books">Recent Books</string>
-    <string name="unzipping">Unzipping</string>
     <string name="visual_mode">VISUAL mode</string>
     <string name="waiting">Waiting &#x2026;</string>
     <string name="web_site_name_daisy_org">The DAISY Consortium</string>

@@ -61,19 +61,19 @@ public class DaisyReaderTableOfContentsActivity extends DaisyEbookReaderBaseActi
 			SubMenu subMenu = menu.addSubMenu(0, Constants.SUBMENU_MENU, 1, R.string.menu_title);
 
 			subMenu.add(0, Constants.SUBMENU_LIBRARY, 2, R.string.submenu_library).setIcon(
-					R.drawable.library);
+					R.raw.library);
 
 			subMenu.add(0, Constants.SUBMENU_BOOKMARKS, 3, R.string.submenu_bookmarks).setIcon(
-					R.drawable.bookmark);
+					R.raw.bookmark);
 
 			subMenu.add(0, Constants.SUBMENU_SIMPLE_MODE, 5, R.string.submenu_simple_mode).setIcon(
-					R.drawable.simple_mode);
+					R.raw.simple_mode);
 
 			subMenu.add(0, Constants.SUBMENU_SETTINGS, 7, R.string.submenu_settings).setIcon(
-					R.drawable.settings);
+					R.raw.settings);
 
 			MenuItem subMenuItem = subMenu.getItem();
-			subMenuItem.setIcon(R.drawable.ic_menu_32x32);
+			subMenuItem.setIcon(R.raw.ic_menu_32x32);
 			subMenuItem.setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
 			return true;
 		}

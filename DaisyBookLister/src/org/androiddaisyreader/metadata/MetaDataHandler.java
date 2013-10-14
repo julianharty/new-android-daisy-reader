@@ -48,7 +48,7 @@ public class MetaDataHandler extends Activity {
 				nList = ReadDataDownloadFromXmlFile(doc.getElementsByTagName(Constants.ATT_BOOKS),
 						link);
 			} catch (Exception e) {
-				PrivateException ex = new PrivateException(e, MetaDataHandler.this);
+				PrivateException ex = new PrivateException(e, getApplicationContext());
 				throw ex;
 			}
 		} catch (PrivateException e) {

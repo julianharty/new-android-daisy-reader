@@ -100,7 +100,7 @@ public class BookmarkListAdapter extends ArrayAdapter<Bookmark> {
 		// Setting Dialog Message
 		alertDialog.setMessage(message);
 		// Setting Icon to Dialog
-		alertDialog.setIcon(R.drawable.error);
+		alertDialog.setIcon(R.raw.error);
 		// Setting OK Button
 		if (onlyLoad) {
 			buttonLoad(alertDialog);

@@ -1,18 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources>
+<resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
 
     <string name="app_name">DaisyBook Reader</string>
     <string name="atBegin">…초에</string>
     <string name="atEnd">…말에</string>
-    <string name="bookmarks">북마크</string>
     <string name="brightness">명도</string>
-    <string name="color_picker_viewer">컬러 뷰어 (다른 색상을 선택하면 클릭하십시오)</string>
     <string name="change_text_color">문자 색깔</string>
     <string name="change_background_color">백그라운드 색깔</string>
     <string name="change_highlight_color">하이라이트 표시 색깔</string>
     <string name="change_number_recent_books">최근 읽은 책 수</string>
     <string name="change_number_bookmarks">북마크 수량</string>
-    <string name="chapter">장</string>
     <string name="cancel_bookmark">취소</string>
     <string name="desc_simple_mode">이 모드는 장님이나 눈이 흐릿해진 사람을 위한 것입니다.</string>
     <string name="desc_visual_mode">보통사람에게 모드입니다. 책 내용을 표시합니다.</string>
@@ -22,7 +19,6 @@
     <string name="error_wrong_format_audio">이 프로그램은 책에 있는 오디오 파일을 처리 불가능합니다.</string>
     <string name="error_not_enough_space">SD카트의 용량 부족해서 Zip파일을 압축풀기 불가능합니다.</string>
     <string name="error_no_audio_found">현 장에서 오디오 파일을 찾을 수 없습니다</string>
-    <string name="error_no_text_found">현 장에서 텍스트 내용을 찾을 수 없습니다</string>
     <string name="error_parse_file_ncc">이 책의 원본 파일을 읽을 수 없습니다 %s</string>
     <string name="error_connect_internet">인터넷 연결을 다시 확인하십시오</string>
     <string name="error_cannot_dowload">다운로드가 성공하지 않습니다. 다시 확인하시기 바랍니다</string>
@@ -65,7 +61,6 @@
     <string name="save_bookmark">저장</string>
     <string name="search_text">텍스트 검색</string>
     <string name="recent_books">최근 읽은 책</string>
-    <string name="unzipping">압축 풀기 하는 중</string>
     <string name="visual_mode">비주얼 모드</string>
     <string name="waiting">잠깐만 기다려 주십시요 &#x2026;</string>
     <string name="web_site_name_daisy_org">The DAISY Consortium</string>
@@ -86,5 +81,4 @@
     <string name="submenu_simple_mode">설치</string>
     <string name="submenu_bookmarks">북마크</string>
     <string name="submenu_settings">설정</string>
-
 </resources>

@@ -148,7 +148,7 @@ public class DaisyEbookReaderVisualModeActivity extends DaisyEbookReaderBaseActi
 		} else {
 			mIntentController.pushToDialog(
 					String.format(getString(R.string.error_no_path_found), mPath),
-					getString(R.string.error_title), R.drawable.error, true, false, null);
+					getString(R.string.error_title), R.raw.error, true, false, null);
 		}
 	}
 
@@ -157,25 +157,25 @@ public class DaisyEbookReaderVisualModeActivity extends DaisyEbookReaderBaseActi
 		SubMenu subMenu = menu.addSubMenu(0, Constants.SUBMENU_MENU, 1, R.string.menu_title);
 
 		subMenu.add(0, Constants.SUBMENU_LIBRARY, 2, R.string.submenu_library).setIcon(
-				R.drawable.library);
+				R.raw.library);
 
 		subMenu.add(0, Constants.SUBMENU_BOOKMARKS, 3, R.string.submenu_bookmarks).setIcon(
-				R.drawable.bookmark);
+				R.raw.bookmark);
 
 		subMenu.add(0, Constants.SUBMENU_TABLE_OF_CONTENTS, 4, R.string.submenu_table_of_contents)
-				.setIcon(R.drawable.table_of_contents);
+				.setIcon(R.raw.table_of_contents);
 
 		subMenu.add(0, Constants.SUBMENU_SIMPLE_MODE, 5, R.string.submenu_simple_mode).setIcon(
-				R.drawable.simple_mode);
+				R.raw.simple_mode);
 
 		subMenu.add(0, Constants.SUBMENU_SEARCH, 6, R.string.submenu_search).setIcon(
-				R.drawable.search);
+				R.raw.search);
 
 		subMenu.add(0, Constants.SUBMENU_SETTINGS, 7, R.string.submenu_settings).setIcon(
-				R.drawable.settings);
+				R.raw.settings);
 
 		MenuItem subMenuItem = subMenu.getItem();
-		subMenuItem.setIcon(R.drawable.ic_menu_32x32);
+		subMenuItem.setIcon(R.raw.ic_menu_32x32);
 		subMenuItem.setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
 		return true;
 	}
@@ -453,7 +453,7 @@ public class DaisyEbookReaderVisualModeActivity extends DaisyEbookReaderBaseActi
 		if (mIsEndOf) {
 			mIntentController.pushToDialog(
 					String.format(this.getString(R.string.error_save_bookmark), mBook.getTitle()),
-					this.getString(R.string.error_title), R.drawable.error, false, false, null);
+					this.getString(R.string.error_title), R.raw.error, false, false, null);
 		} else {
 			if (mCurrent != null) {
 				updateCurrentInformation();
@@ -765,7 +765,7 @@ public class DaisyEbookReaderVisualModeActivity extends DaisyEbookReaderBaseActi
 				mBook = NccSpecification.readFromStream(contents);
 				if (!mBook.hasTotalTime()) {
 					mIntentController.pushToDialog(getString(R.string.error_wrong_format_audio),
-							getString(R.string.error_title), R.drawable.error, false, false, null);
+							getString(R.string.error_title), R.raw.error, false, false, null);
 				}
 
 			} catch (Exception e) {
@@ -991,7 +991,7 @@ public class DaisyEbookReaderVisualModeActivity extends DaisyEbookReaderBaseActi
 						DaisyEbookReaderVisualModeActivity.this, mPath);
 				ex.showDialogException(mIntentController);
 				mIsFound = false;
-				mImgButton.setImageResource(R.drawable.media_play);
+				mImgButton.setImageResource(R.raw.media_play);
 			}
 		}
 
@@ -1023,7 +1023,7 @@ public class DaisyEbookReaderVisualModeActivity extends DaisyEbookReaderBaseActi
 						DaisyEbookReaderVisualModeActivity.this, mPath);
 				ex.showDialogException(mIntentController);
 				mIsFound = false;
-				mImgButton.setImageResource(R.drawable.media_play);
+				mImgButton.setImageResource(R.raw.media_play);
 			}
 		}
 
@@ -1032,7 +1032,7 @@ public class DaisyEbookReaderVisualModeActivity extends DaisyEbookReaderBaseActi
 		 */
 		private void atEndOfBook() {
 			mIntentController.pushToDialog(getString(R.string.atEnd) + getString(R.string.space)
-					+ mBook.getTitle(), getString(R.string.error_title), R.drawable.error, false,
+					+ mBook.getTitle(), getString(R.string.error_title), R.raw.error, false,
 					false, null);
 			int currentTime = mPlayer.getCurrentPosition();
 			if (currentTime == -1 || currentTime == mPlayer.getDuration() || currentTime == 0) {
@@ -1041,7 +1041,7 @@ public class DaisyEbookReaderVisualModeActivity extends DaisyEbookReaderBaseActi
 				mWordtoSpan.setSpan(new BackgroundColorSpan(Color.TRANSPARENT), 0, mContents
 						.getText().length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
 				mContents.setText(mWordtoSpan);
-				mImgButton.setImageResource(R.drawable.media_play);
+				mImgButton.setImageResource(R.raw.media_play);
 			}
 
 			if (mCurrent != null) {
@@ -1056,7 +1056,7 @@ public class DaisyEbookReaderVisualModeActivity extends DaisyEbookReaderBaseActi
 		 */
 		public void atBeginOfBook() {
 			mIntentController.pushToDialog(getString(R.string.atBegin) + getString(R.string.space)
-					+ mBook.getTitle(), getString(R.string.error_title), R.drawable.error, false,
+					+ mBook.getTitle(), getString(R.string.error_title), R.raw.error, false,
 					false, null);
 		}
 	}
@@ -1324,7 +1324,7 @@ public class DaisyEbookReaderVisualModeActivity extends DaisyEbookReaderBaseActi
 			mCurrent.setPlaying(mPlayer.isPlaying());
 			mSql.updateCurrentInformation(mCurrent);
 		}
-		mImgButton.setImageResource(R.drawable.media_play);
+		mImgButton.setImageResource(R.raw.media_play);
 		mIsRunable = false;
 	}
 
@@ -1357,7 +1357,7 @@ public class DaisyEbookReaderVisualModeActivity extends DaisyEbookReaderBaseActi
 			}
 			// create call backs when you touch button start.
 			mHandler.post(mRunnalbe);
-			mImgButton.setImageResource(R.drawable.media_pause);
+			mImgButton.setImageResource(R.raw.media_pause);
 		}
 	}
 

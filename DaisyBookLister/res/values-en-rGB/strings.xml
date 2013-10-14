@@ -1,9 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources>
-
-    <string name="color_picker_viewer">Colour Viewer(Click to choose another colour)</string>
+<resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+	
+     <!-- fix bugs of Android Lint "is not translated in en-rGB" -->
     <string name="change_text_color">Text colour</string>
     <string name="change_background_color">Background colour</string>
     <string name="change_highlight_color">Highlight colour</string>
-
 </resources>

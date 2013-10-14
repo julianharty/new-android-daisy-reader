@@ -21,7 +21,9 @@ the Action Bar enabled overlaying application content.
 
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:fitsSystemWindows="true"
-    android:splitMotionEvents="false">
+    android:splitMotionEvents="false"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content">
     <com.actionbarsherlock.internal.nineoldandroids.widget.NineFrameLayout android:id="@+id/abs__content"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent" />

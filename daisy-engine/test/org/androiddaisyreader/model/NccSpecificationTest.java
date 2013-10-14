@@ -14,6 +14,7 @@ import junit.framework.TestCase;
 
 @SuppressWarnings("deprecation")
 public class NccSpecificationTest extends TestCase {
+	static final String FIVE_SECTIONS = "12231";
 	ByteArrayInputStream bookContents = null;
 	
 	@Override
@@ -33,7 +34,7 @@ public class NccSpecificationTest extends TestCase {
 		eBookContents.writeDoctype();
 		eBookContents.writeXmlns();
 		eBookContents.writeBasicMetadata();
-		eBookContents.addTheseLevels("12231");
+		eBookContents.addTheseLevels(FIVE_SECTIONS);
 		eBookContents.writeEndOfDocument();
 		return new ByteArrayInputStream(out.toByteArray());
 	}

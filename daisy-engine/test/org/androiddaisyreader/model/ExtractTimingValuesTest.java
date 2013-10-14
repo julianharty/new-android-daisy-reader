@@ -67,6 +67,7 @@ public class ExtractTimingValuesTest extends TestCase {
 	public void testInvalidFormatRaisesNFE() {
 		attributes.addAttribute("", CLIP_BEGIN, "", CDATA, INVALID_NUMBER_WITH_2_DECIMAL_POINTS);
 		try {
+			@SuppressWarnings("unused")
 			int result = ExtractTimingValues.extractTimingAsMilliSeconds(CLIP_BEGIN, attributes, DAISYFORMAT202);
 			fail("Expected a NumberFormatException for a number with 2 decimal points. Number = "
 					+ INVALID_NUMBER_WITH_2_DECIMAL_POINTS);
@@ -119,6 +120,7 @@ public class ExtractTimingValuesTest extends TestCase {
 	public void testNumberWithInvalidFormat() {
 		attributes.addAttribute("", CLIP_BEGIN30, "", CDATA, "01:01:04.10.0");
 		try {
+			@SuppressWarnings("unused")
 			int result = ExtractTimingValues.extractTimingAsMilliSeconds(CLIP_BEGIN30, attributes, DAISYFORMAT30);
 			fail("Expected a NumberFormatException for a number with 2 decimal points. Number = "
 					+ "01:01:04.10.0");

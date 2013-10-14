@@ -4,6 +4,7 @@ import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.List;
 
 import junit.framework.TestCase;
 
@@ -36,15 +37,32 @@ public class NavigatorTest extends TestCase {
 			assertTrue(n != null);
 			elements++;
 		}
-		assertEquals("Expected 5 elements for a book with 12231 sections", 5, elements);
+		assertSectionsFound(NccSpecificationTest.FIVE_SECTIONS, elements);
 	}
 	
+	/**
+	 * Assert Sections Found is a convenience method that counts sections.
+	 * 
+	 *  The convenience is in the more descriptive message when the count does
+	 *  not match.
+	 * 
+	 * @param sections
+	 * @param numberOfSections
+	 */
+	private void assertSectionsFound(String sections, int numberOfSections) {
+		int sectionsFound = sections.length();
+		String message = String.format(
+							"Expected %d elements for a book with sections [%s]", 
+							sectionsFound, numberOfSections);
+		assertEquals(message, numberOfSections, sectionsFound);
+	}
+
 	public void testNavigationBackwardsThroughBook() {
-		int elements = 0;
+		List<Integer> sectionsFound = new ArrayList<Integer>();
 		
 		// First we need to reach the end of the book
 		while (navigator.hasNext()) {
-			Navigable n = navigator.next();
+			navigator.next();
 		}
 		
 		// We should be at the end of the book now.
@@ -52,11 +70,27 @@ public class NavigatorTest extends TestCase {
 			Navigable n = navigator.previous();
 			assertTrue(n != null);
 			Section s = (Section)n;
-			elements++;
+			sectionsFound.add(s.level);
 		}
-		assertEquals("Expected 5 elements for a book with 12231 sections", 5, elements);
+		
+		assertSectionsFound(NccSpecificationTest.FIVE_SECTIONS, sectionsFound.size());
+		String reversedSections = new StringBuilder(NccSpecificationTest.FIVE_SECTIONS).reverse().toString();
+		assertSectionsEquals(reversedSections, sectionsFound);
 	}
-	
+
+	/**
+	 * Assert the Sections Equals
+	 * @param expectedSectionsInOrder list of section levels in the expected order
+	 * @param sectionsFound the actual levels found
+	 */
+	private void assertSectionsEquals(String expectedSectionsInOrder, List<Integer> sectionsFound) {
+		int sectionToCompare = expectedSectionsInOrder.length(); 
+		while (sectionToCompare-- > 0) {
+			Integer level = Character.getNumericValue(expectedSectionsInOrder.charAt(sectionToCompare));
+			assertEquals(level, (Integer) sectionsFound.get(sectionToCompare));
+		}
+	}
+
 	public void testNavigationOfComplexDaisy202BookStructure() throws NotImplementedException, IOException {
 		DaisyBook book = createDaisy202Structure(SECTIONS_FOR_COMPLEX_NCC);
 		
@@ -114,10 +148,19 @@ public class NavigatorTest extends TestCase {
 		while (navigator.hasNext()) {
 			n = navigator.next();
 			smilFilename = ((DaisySection)n).getSmilFilename();
-			System.out.println(smilFilename);
-			assertNotNull("", smilFilename);
+			assertSmilFilename(smilFilename);
 		}
 	}
+	
+	/**
+	 * assert the SMIL filename matches the pattern we use in these tests.
+	 * @param smilFilename the smilfilename 
+	 */
+	private void assertSmilFilename(String smilFilename) {
+		assertTrue(smilFilename.startsWith("test"));
+		assertTrue(smilFilename.endsWith(".smil"));
+	}
+
 	/**
 	 * assertSectionEquals compare section contains the correct value.
 	 * 

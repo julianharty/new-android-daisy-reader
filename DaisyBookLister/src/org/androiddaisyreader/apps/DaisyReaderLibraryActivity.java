@@ -44,7 +44,7 @@ public class DaisyReaderLibraryActivity extends DaisyEbookReaderBaseActivity {
 		findViewById(R.id.btnScanBooks).setOnClickListener(this);
 		findViewById(R.id.btnDownloadBooks).setOnClickListener(this);
 
-		Constants.FOLDER_CONTAIN_METADATA = Environment.getExternalStorageDirectory().toString()
+		Constants.folderContainMetadata = Environment.getExternalStorageDirectory().toString()
 				+ "/" + Constants.FOLDER_NAME + "/";
 		createFolderContainXml();
 		deleteCurrentInformation();
@@ -62,7 +62,7 @@ public class DaisyReaderLibraryActivity extends DaisyEbookReaderBaseActivity {
 	private void createFolderContainXml() {
 		if (android.os.Environment.getExternalStorageState().equals(
 				android.os.Environment.MEDIA_MOUNTED)) {
-			File directory = new File(Constants.FOLDER_CONTAIN_METADATA);
+			File directory = new File(Constants.folderContainMetadata);
 			if (!directory.exists()) {
 				// Create a File object for the parent directory
 				directory.mkdirs();
@@ -83,14 +83,14 @@ public class DaisyReaderLibraryActivity extends DaisyEbookReaderBaseActivity {
 	 * Copy the file from the assets folder to the sdCard
 	 **/
 	private void copyFileFromAssets() {
-		File file = new File(Constants.FOLDER_CONTAIN_METADATA + Constants.META_DATA_FILE_NAME);
+		File file = new File(Constants.folderContainMetadata + Constants.META_DATA_FILE_NAME);
 		if (!file.exists()) {
 			AssetManager assetManager = getAssets();
 			InputStream in = null;
 			OutputStream out = null;
 			try {
 				in = assetManager.open(Constants.META_DATA_FILE_NAME);
-				out = new FileOutputStream(Constants.FOLDER_CONTAIN_METADATA
+				out = new FileOutputStream(Constants.folderContainMetadata
 						+ Constants.META_DATA_FILE_NAME);
 				copyFile(in, out);
 				in.close();
@@ -187,7 +187,7 @@ public class DaisyReaderLibraryActivity extends DaisyEbookReaderBaseActivity {
 	protected void onResume() {
 		super.onResume();
 		speakText(getString(R.string.title_activity_daisy_reader_library));
-		Constants.FOLDER_CONTAIN_METADATA = Environment.getExternalStorageDirectory().toString()
+		Constants.folderContainMetadata = Environment.getExternalStorageDirectory().toString()
 				+ "/" + Constants.FOLDER_NAME + "/";
 		createFolderContainXml();
 		deleteCurrentInformation();

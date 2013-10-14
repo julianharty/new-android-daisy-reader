@@ -108,7 +108,7 @@ public class DaisyReaderDownloadBooks extends DaisyEbookReaderBaseActivity {
 	 */
 	private void createDownloadData() {
 		try {
-			InputStream databaseInputStream = new FileInputStream(Constants.FOLDER_CONTAIN_METADATA
+			InputStream databaseInputStream = new FileInputStream(Constants.folderContainMetadata
 					+ Constants.META_DATA_FILE_NAME);
 			mMetadata = new MetaDataHandler();
 			NodeList nList = mMetadata.ReadDataDownloadFromXmlFile(databaseInputStream, mLink);

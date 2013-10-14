@@ -247,7 +247,7 @@ public class DaisyReaderScanBooksActivity extends DaisyEbookReaderBaseActivity {
 				}
 				if (mPreferences.getBoolean(Constants.SERVICE_DONE, false)) {
 					InputStream databaseInputStream = new FileInputStream(
-							Constants.FOLDER_CONTAIN_METADATA
+							Constants.folderContainMetadata
 									+ Constants.META_DATA_SCAN_BOOK_FILE_NAME);
 					NodeList nList = mMetadata.ReadDataScanFromXmlFile(databaseInputStream);
 					for (int temp = 0; temp < nList.getLength(); temp++) {

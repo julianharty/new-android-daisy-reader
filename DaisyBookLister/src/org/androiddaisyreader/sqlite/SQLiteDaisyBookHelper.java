@@ -123,7 +123,7 @@ public class SQLiteDaisyBookHelper extends SQLiteHandler {
 		return daisyBook;
 	}
 
-	public boolean DeleteAllDaisyBook(String type) {
+	public boolean deleteAllDaisyBook(String type) {
 		boolean result = false;
 		try {
 			SQLiteDatabase mdb = getWritableDatabase();
@@ -137,7 +137,7 @@ public class SQLiteDaisyBookHelper extends SQLiteHandler {
 		return result;
 	}
 
-	public boolean DeleteDaisyBook(String id) {
+	public boolean deleteDaisyBook(String id) {
 		boolean result = false;
 		try {
 			SQLiteDatabase mdb = getWritableDatabase();

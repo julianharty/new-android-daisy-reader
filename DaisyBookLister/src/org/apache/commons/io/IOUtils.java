@@ -137,8 +137,8 @@ public class IOUtils {
      * (if the buffer size were variable, we would need to synch. to ensure some other thread
      * did not create a smaller one)
      */
-    private static char[] SKIP_CHAR_BUFFER;
-    private static byte[] SKIP_BYTE_BUFFER;
+    private static char[] skipCharBuffer;
+    private static byte[] skipByteBuffer;
 
     /**
      * Instances should NOT be constructed in standard programming.
@@ -1941,12 +1941,12 @@ public class IOUtils {
          * is ignored) - we always use the same size buffer, so if it it is recreated it will still be OK (if the buffer
          * size were variable, we would need to synch. to ensure some other thread did not create a smaller one)
          */
-        if (SKIP_BYTE_BUFFER == null) {
-            SKIP_BYTE_BUFFER = new byte[SKIP_BUFFER_SIZE];
+        if (skipByteBuffer == null) {
+            skipByteBuffer = new byte[SKIP_BUFFER_SIZE];
         }
         long remain = toSkip;
         while (remain > 0) {
-            long n = input.read(SKIP_BYTE_BUFFER, 0, (int) Math.min(remain, SKIP_BUFFER_SIZE));
+            long n = input.read(skipByteBuffer, 0, (int) Math.min(remain, SKIP_BUFFER_SIZE));
             if (n < 0) { // EOF
                 break;
             }
@@ -1980,12 +1980,12 @@ public class IOUtils {
          * is ignored) - we always use the same size buffer, so if it it is recreated it will still be OK (if the buffer
          * size were variable, we would need to synch. to ensure some other thread did not create a smaller one)
          */
-        if (SKIP_CHAR_BUFFER == null) {
-            SKIP_CHAR_BUFFER = new char[SKIP_BUFFER_SIZE];
+        if (skipCharBuffer == null) {
+            skipCharBuffer = new char[SKIP_BUFFER_SIZE];
         }
         long remain = toSkip;
         while (remain > 0) {
-            long n = input.read(SKIP_CHAR_BUFFER, 0, (int) Math.min(remain, SKIP_BUFFER_SIZE));
+            long n = input.read(skipCharBuffer, 0, (int) Math.min(remain, SKIP_BUFFER_SIZE));
             if (n < 0) { // EOF
                 break;
             }

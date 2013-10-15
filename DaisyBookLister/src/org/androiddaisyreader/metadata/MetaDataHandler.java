@@ -35,7 +35,7 @@ public class MetaDataHandler extends Activity {
 	 * @param link the link
 	 * @return the node list
 	 */
-	public NodeList ReadDataDownloadFromXmlFile(InputStream databaseInputStream, String link) {
+	public NodeList readDataDownloadFromXmlFile(InputStream databaseInputStream, String link) {
 		NodeList nList = null;
 		try {
 			try {
@@ -45,7 +45,7 @@ public class MetaDataHandler extends Activity {
 				Document doc;
 				doc = dBuilder.parse(databaseInputStream);
 				doc.getDocumentElement().normalize();
-				nList = ReadDataDownloadFromXmlFile(doc.getElementsByTagName(Constants.ATT_BOOKS),
+				nList = readDataDownloadFromXmlFile(doc.getElementsByTagName(Constants.ATT_BOOKS),
 						link);
 			} catch (Exception e) {
 				PrivateException ex = new PrivateException(e, getApplicationContext());
@@ -64,7 +64,7 @@ public class MetaDataHandler extends Activity {
 	 * @param link the link
 	 * @return the node list
 	 */
-	private NodeList ReadDataDownloadFromXmlFile(NodeList nodeList, String link) {
+	private NodeList readDataDownloadFromXmlFile(NodeList nodeList, String link) {
 		NodeList nList = null;
 		for (int i = 0; i < nodeList.getLength(); i++) {
 			Element eElement = (Element) nodeList.item(i);
@@ -89,7 +89,7 @@ public class MetaDataHandler extends Activity {
 	 * @param databaseInputStream the database input stream
 	 * @return the node list
 	 */
-	public NodeList ReadDataScanFromXmlFile(InputStream databaseInputStream) {
+	public NodeList readDataScanFromXmlFile(InputStream databaseInputStream) {
 		NodeList nList = null;
 		try {
 			try {
@@ -116,7 +116,7 @@ public class MetaDataHandler extends Activity {
 	 * @param daisybooks the daisybooks
 	 * @param localPath the local path
 	 */
-	public void WriteDataToXmlFile(ArrayList<DaisyBookInfo> daisybooks, String localPath) {
+	public void writeDataToXmlFile(ArrayList<DaisyBookInfo> daisybooks, String localPath) {
 		try {
 			DocumentBuilderFactory docFactory = DocumentBuilderFactory.newInstance();
 			DocumentBuilder docBuilder = docFactory.newDocumentBuilder();

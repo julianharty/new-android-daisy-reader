@@ -486,11 +486,9 @@ public class DaisyEbookReaderSimpleModeActivity extends DaisyEbookReaderBaseActi
 				}
 				// seek to time when user change from visual mode
 				if (mListTimeEnd.size() > 0) {
-					if (isFormat202) {
-						if (mTime != null) {
-							mPlayer.seekTo(Integer.valueOf(mTime));
-							mTime = null;
-						}
+					if (isFormat202 && mTime != null) {
+						mPlayer.seekTo(Integer.valueOf(mTime));
+						mTime = null;
 					}
 					if (mCurrent != null) {
 						mSql.updateCurrentInformation(mCurrent);

@@ -209,7 +209,7 @@ public class DaisyReaderScanBooksActivity extends DaisyEbookReaderBaseActivity {
 				lastestIdRecentBooks = recentBooks.get(0).getSort();
 			}
 			if (mSql.isExists(daisyBook.getTitle(), Constants.TYPE_RECENT_BOOK)) {
-				mSql.DeleteDaisyBook(mSql.getDaisyBookByTitle(daisyBook.getTitle(),
+				mSql.deleteDaisyBook(mSql.getDaisyBookByTitle(daisyBook.getTitle(),
 						Constants.TYPE_RECENT_BOOK).getId());
 			}
 			daisyBook.setSort(lastestIdRecentBooks + 1);
@@ -249,7 +249,7 @@ public class DaisyReaderScanBooksActivity extends DaisyEbookReaderBaseActivity {
 					InputStream databaseInputStream = new FileInputStream(
 							Constants.folderContainMetadata
 									+ Constants.META_DATA_SCAN_BOOK_FILE_NAME);
-					NodeList nList = mMetadata.ReadDataScanFromXmlFile(databaseInputStream);
+					NodeList nList = mMetadata.readDataScanFromXmlFile(databaseInputStream);
 					for (int temp = 0; temp < nList.getLength(); temp++) {
 						Node nNode = nList.item(temp);
 						if (nNode.getNodeType() == Node.ELEMENT_NODE) {

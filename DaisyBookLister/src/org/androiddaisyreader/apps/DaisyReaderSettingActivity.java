@@ -355,10 +355,9 @@ public class DaisyReaderSettingActivity extends DaisyEbookReaderBaseActivity {
 		@Override
 		public void afterTextChanged(Editable s) {
 			int value = 1;
-			if (mNumberOfBookmarks.getText() != null) {
-				if (!mNumberOfBookmarks.getText().toString().equals("")) {
-					value = Integer.valueOf(mNumberOfBookmarks.getText().toString());
-				}
+			Editable numberOfBookmarks = mNumberOfBookmarks.getText();
+			if (numberOfBookmarks != null && !numberOfBookmarks.toString().equals("")) {
+				value = Integer.valueOf(mNumberOfBookmarks.getText().toString());
 			}
 			mEditor.putInt(Constants.NUMBER_OF_BOOKMARKS, value);
 			mEditor.commit();
@@ -391,10 +390,9 @@ public class DaisyReaderSettingActivity extends DaisyEbookReaderBaseActivity {
 		@Override
 		public void afterTextChanged(Editable s) {
 			int value = 1;
-			if (mNumberOfRecentBooks.getText() != null) {
-				if (!mNumberOfRecentBooks.getText().toString().equals("")) {
-					value = Integer.valueOf(mNumberOfRecentBooks.getText().toString());
-				}
+			Editable numberOfRecentBooks = mNumberOfRecentBooks.getText();
+			if (numberOfRecentBooks != null && !numberOfRecentBooks.toString().equals("")) {
+				value = Integer.valueOf(mNumberOfRecentBooks.getText().toString());
 			}
 			mEditor.putInt(Constants.NUMBER_OF_RECENT_BOOKS, value);
 			mEditor.commit();

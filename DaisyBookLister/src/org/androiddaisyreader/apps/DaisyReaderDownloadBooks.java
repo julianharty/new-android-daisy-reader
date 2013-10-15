@@ -60,7 +60,7 @@ public class DaisyReaderDownloadBooks extends DaisyEbookReaderBaseActivity {
 	private ArrayList<DaisyBookInfo> mListDaisyBookOriginal;
 	private DaisyBookInfo mDaisyBook;
 	private EditText mTextSearch;
-	public final static String mPath = Environment.getExternalStorageDirectory().toString()
+	public final static String PATH = Environment.getExternalStorageDirectory().toString()
 			+ Constants.FOLDER_DOWNLOADED + "/";
 	private ProgressDialog mProgressDialog;
 	private AlertDialog alertDialog;
@@ -75,7 +75,7 @@ public class DaisyReaderDownloadBooks extends DaisyEbookReaderBaseActivity {
 		mWebsiteName = getIntent().getStringExtra(Constants.NAME_WEBSITE);
 
 		mSql = new SQLiteDaisyBookHelper(DaisyReaderDownloadBooks.this);
-		mSql.DeleteAllDaisyBook(Constants.TYPE_DOWNLOAD_BOOK);
+		mSql.deleteAllDaisyBook(Constants.TYPE_DOWNLOAD_BOOK);
 		createDownloadData();
 		mlistDaisyBook = mSql.getAllDaisyBook(Constants.TYPE_DOWNLOAD_BOOK);
 		mDaisyBookAdapter = new DaisyBookAdapter(DaisyReaderDownloadBooks.this, mlistDaisyBook);
@@ -111,7 +111,7 @@ public class DaisyReaderDownloadBooks extends DaisyEbookReaderBaseActivity {
 			InputStream databaseInputStream = new FileInputStream(Constants.folderContainMetadata
 					+ Constants.META_DATA_FILE_NAME);
 			mMetadata = new MetaDataHandler();
-			NodeList nList = mMetadata.ReadDataDownloadFromXmlFile(databaseInputStream, mLink);
+			NodeList nList = mMetadata.readDataDownloadFromXmlFile(databaseInputStream, mLink);
 			for (int temp = 0; temp < nList.getLength(); temp++) {
 				Node nNode = nList.item(temp);
 				if (nNode.getNodeType() == Node.ELEMENT_NODE) {
@@ -201,7 +201,7 @@ public class DaisyReaderDownloadBooks extends DaisyEbookReaderBaseActivity {
 	 */
 	private boolean checkFolderIsExist() {
 		boolean result = false;
-		File folder = new File(mPath);
+		File folder = new File(PATH);
 		result = folder.exists();
 		if (!result) {
 			result = folder.mkdir();
@@ -288,12 +288,12 @@ public class DaisyReaderDownloadBooks extends DaisyEbookReaderBaseActivity {
 				// Output stream
 				String splitString[] = link.split("/");
 				mName = splitString[splitString.length - 1];
-				OutputStream output = new FileOutputStream(mPath + mName);
+				OutputStream output = new FileOutputStream(PATH + mName);
 				byte data[] = new byte[1024];
 				long total = 0;
 				while ((count = input.read(data)) != -1) {
 					if (isCancelled()) {
-						File file = new File(mPath + mName);
+						File file = new File(PATH + mName);
 						file.delete();
 						break;
 					} else {
@@ -347,7 +347,7 @@ public class DaisyReaderDownloadBooks extends DaisyEbookReaderBaseActivity {
 			try {
 				if (result == true) {
 					DaisyBook daisyBook = new DaisyBook();
-					String path = mPath + mName;
+					String path = PATH + mName;
 					daisyBook = DaisyBookUtil.getDaisy202Book(path);
 
 					DaisyBookInfo daisyBookInfo = new DaisyBookInfo();

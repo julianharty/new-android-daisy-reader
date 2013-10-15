@@ -37,9 +37,9 @@ public class DaisyEbookReaderModeChoiceActivity extends DaisyEbookReaderBaseActi
 		mIntentController = new IntentController(this);
 
 		RelativeLayout simpleMode = (RelativeLayout) this.findViewById(R.id.simpleMode);
-		simpleMode.setOnClickListener(ModeClick);
+		simpleMode.setOnClickListener(modeClick);
 		RelativeLayout visualMode = (RelativeLayout) this.findViewById(R.id.visualMode);
-		visualMode.setOnClickListener(ModeClick);
+		visualMode.setOnClickListener(modeClick);
 
 		getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 		getSupportActionBar().setTitle(getBookTitle());
@@ -106,7 +106,7 @@ public class DaisyEbookReaderModeChoiceActivity extends DaisyEbookReaderBaseActi
 		return titleOfBook;
 	}
 
-	private OnClickListener ModeClick = new OnClickListener() {
+	private OnClickListener modeClick = new OnClickListener() {
 		@SuppressLint("HandlerLeak")
 		@Override
 		public void onClick(final View v) {

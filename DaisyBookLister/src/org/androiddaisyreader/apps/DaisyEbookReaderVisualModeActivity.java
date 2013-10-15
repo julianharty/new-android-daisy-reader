@@ -168,8 +168,7 @@ public class DaisyEbookReaderVisualModeActivity extends DaisyEbookReaderBaseActi
 		subMenu.add(0, Constants.SUBMENU_SIMPLE_MODE, 5, R.string.submenu_simple_mode).setIcon(
 				R.raw.simple_mode);
 
-		subMenu.add(0, Constants.SUBMENU_SEARCH, 6, R.string.submenu_search).setIcon(
-				R.raw.search);
+		subMenu.add(0, Constants.SUBMENU_SEARCH, 6, R.string.submenu_search).setIcon(R.raw.search);
 
 		subMenu.add(0, Constants.SUBMENU_SETTINGS, 7, R.string.submenu_settings).setIcon(
 				R.raw.settings);
@@ -586,15 +585,15 @@ public class DaisyEbookReaderVisualModeActivity extends DaisyEbookReaderBaseActi
 				if (ett.trim().length() > 0) {
 					String tvt = mContents.getText().toString();
 					int ofe = tvt.indexOf(ett, 0);
-					Spannable WordtoSpan = new SpannableString(mContents.getText());
+					Spannable wordtoSpan = new SpannableString(mContents.getText());
 					for (int ofs = 0; ofs < tvt.length() && ofe != -1; ofs = ofe + 1) {
 						ofe = tvt.indexOf(ett, ofs);
 						if (ofe == -1)
 							break;
 						else {
-							WordtoSpan.setSpan(new BackgroundColorSpan(mHighlightColor), ofe, ofe
+							wordtoSpan.setSpan(new BackgroundColorSpan(mHighlightColor), ofe, ofe
 									+ ett.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-							mContents.setText(WordtoSpan, TextView.BufferType.SPANNABLE);
+							mContents.setText(wordtoSpan, TextView.BufferType.SPANNABLE);
 						}
 					}
 				}
@@ -829,11 +828,9 @@ public class DaisyEbookReaderVisualModeActivity extends DaisyEbookReaderBaseActi
 				}
 
 				// seek to time when user loading from book mark.
-				if (isFormat202) {
-					if (mTime != -1) {
-						mPlayer.seekTo(mTime);
-						mTime = -1;
-					}
+				if (isFormat202 && mTime != -1) {
+					mPlayer.seekTo(mTime);
+					mTime = -1;
 				}
 
 				if (mCurrent != null) {
@@ -1032,8 +1029,8 @@ public class DaisyEbookReaderVisualModeActivity extends DaisyEbookReaderBaseActi
 		 */
 		private void atEndOfBook() {
 			mIntentController.pushToDialog(getString(R.string.atEnd) + getString(R.string.space)
-					+ mBook.getTitle(), getString(R.string.error_title), R.raw.error, false,
-					false, null);
+					+ mBook.getTitle(), getString(R.string.error_title), R.raw.error, false, false,
+					null);
 			int currentTime = mPlayer.getCurrentPosition();
 			if (currentTime == -1 || currentTime == mPlayer.getDuration() || currentTime == 0) {
 				mIsRunable = false;
@@ -1056,8 +1053,8 @@ public class DaisyEbookReaderVisualModeActivity extends DaisyEbookReaderBaseActi
 		 */
 		public void atBeginOfBook() {
 			mIntentController.pushToDialog(getString(R.string.atBegin) + getString(R.string.space)
-					+ mBook.getTitle(), getString(R.string.error_title), R.raw.error, false,
-					false, null);
+					+ mBook.getTitle(), getString(R.string.error_title), R.raw.error, false, false,
+					null);
 		}
 	}
 

@@ -57,7 +57,7 @@ public class DaisyEbookReaderService extends IntentService {
 			public void run() {
 				String localPath = Constants.folderContainMetadata
 						+ Constants.META_DATA_SCAN_BOOK_FILE_NAME;
-				mMetaData.WriteDataToXmlFile(getData(), localPath);
+				mMetaData.writeDataToXmlFile(getData(), localPath);
 				mEditor.putBoolean(Constants.SERVICE_DONE, true);
 				mEditor.commit();
 				stopSelf();

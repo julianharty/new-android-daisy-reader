@@ -75,7 +75,7 @@ public class OpenUDIDManager implements ServiceConnection{
 	
 	private void storeOpenUDID() {
     	final Editor e = mPreferences.edit();
-		e.putString(PREF_KEY, OpenUDID);
+		e.putString(PREF_KEY, openUDID);
 		e.commit();
 	}
 	
@@ -85,11 +85,11 @@ public class OpenUDIDManager implements ServiceConnection{
 	private void generateOpenUDID() {
 		if (LOG) Log.d(TAG, "Generating openUDID");
 		//Try to get the ANDROID_ID
-		OpenUDID = Secure.getString(mContext.getContentResolver(), Secure.ANDROID_ID); 
-		if (OpenUDID == null || OpenUDID.equals("9774d56d682e549c") || OpenUDID.length() < 15 ) {
+		openUDID = Secure.getString(mContext.getContentResolver(), Secure.ANDROID_ID); 
+		if (openUDID == null || openUDID.equals("9774d56d682e549c") || openUDID.length() < 15 ) {
 			//if ANDROID_ID is null, or it's equals to the GalaxyTab generic ANDROID_ID or bad, generates a new one
 			final SecureRandom random = new SecureRandom();
-			OpenUDID = new BigInteger(64, random).toString(16);
+			openUDID = new BigInteger(64, random).toString(16);
 		}
     }
 	
@@ -110,9 +110,9 @@ public class OpenUDIDManager implements ServiceConnection{
 			
 			getMostFrequentOpenUDID(); //Choose the most frequent
 	
-			if (OpenUDID == null) //No OpenUDID was chosen, generate one			
+			if (openUDID == null) //No OpenUDID was chosen, generate one			
 				generateOpenUDID();
-			if (LOG) Log.d(TAG, "OpenUDID: " + OpenUDID);
+			if (LOG) Log.d(TAG, "OpenUDID: " + openUDID);
 
 			storeOpenUDID();//Store it locally
 			mInitialized = true;
@@ -125,12 +125,12 @@ public class OpenUDIDManager implements ServiceConnection{
 			final TreeMap<String,Integer> sorted_OpenUDIDS = new TreeMap(new ValueComparator());
 			sorted_OpenUDIDS.putAll(mReceivedOpenUDIDs);
         
-			OpenUDID = sorted_OpenUDIDS.firstKey();
+			openUDID = sorted_OpenUDIDS.firstKey();
 		}
 	}
 	
 	
-	private static String OpenUDID = null;
+	private static String openUDID = null;
 	private static boolean mInitialized = false; 
 
 	/**
@@ -139,7 +139,7 @@ public class OpenUDIDManager implements ServiceConnection{
 	 */
 	public static String getOpenUDID() {
 		if (!mInitialized) Log.e("OpenUDID", "Initialisation isn't done");
-		return OpenUDID;
+		return openUDID;
 	}
 	
 	/**
@@ -159,8 +159,8 @@ public class OpenUDIDManager implements ServiceConnection{
 		OpenUDIDManager manager = new OpenUDIDManager(context);
 		
 		//Try to get the openudid from local preferences
-		OpenUDID = manager.mPreferences.getString(PREF_KEY, null);
-		if (OpenUDID == null) //Not found
+		openUDID = manager.mPreferences.getString(PREF_KEY, null);
+		if (openUDID == null) //Not found
 		{
 			//Get the list of all OpenUDID services available (including itself)
 			manager.mMatchingIntents = context.getPackageManager().queryIntentServices(new Intent("org.OpenUDID.GETUDID"), 0);
@@ -171,7 +171,7 @@ public class OpenUDIDManager implements ServiceConnection{
 				manager.startService();
 		
 		} else {//Got it, you can now call getOpenUDID()
-			if (LOG) Log.d(TAG, "OpenUDID: " + OpenUDID);
+			if (LOG) Log.d(TAG, "OpenUDID: " + openUDID);
 			mInitialized = true;
 		}
 	}

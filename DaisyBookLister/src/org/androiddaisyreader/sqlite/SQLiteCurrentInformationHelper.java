@@ -142,8 +142,10 @@ public class SQLiteCurrentInformationHelper extends SQLiteHandler {
 				current = new CurrentInformation(audioName, path, section, time, playing, sentence,
 						activity, id, firstNext, firstPrevious, atTheEnd);
 			}
-			mCursor.close();
-			mdb.close();
+			if (mCursor != null) {
+				mCursor.close();
+				mdb.close();
+			}
 		} catch (Exception e) {
 			PrivateException ex = new PrivateException(e, mContext);
 			ex.writeLogException();

@@ -151,7 +151,7 @@ public class DaisyEbookReaderService extends IntentService {
 	private String formatDateOrReturnEmptyString(Date date) {
 		String sDate = "";
 		if (date != null) {
-			sDate = String.format(Locale.getDefault(),("%tB %te, %tY %n"), date, date, date, date);
+			sDate = String.format(Locale.getDefault(),("%tB %te, %tY %n"), date, date, date);
 		}
 		return sDate;
 	}

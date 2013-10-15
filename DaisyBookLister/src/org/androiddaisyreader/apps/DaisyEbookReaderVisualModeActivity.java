@@ -175,7 +175,7 @@ public class DaisyEbookReaderVisualModeActivity extends DaisyEbookReaderBaseActi
 
 		MenuItem subMenuItem = subMenu.getItem();
 		subMenuItem.setIcon(R.raw.ic_menu_32x32);
-		subMenuItem.setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
+		subMenuItem.setShowAsAction(MenuItem.SHOW_AS_ACTION_IF_ROOM);
 		return true;
 	}
 
@@ -485,9 +485,9 @@ public class DaisyEbookReaderVisualModeActivity extends DaisyEbookReaderBaseActi
 				}
 			}
 			// fix bug: chapter does not support audio and contents.
-			if (sentence.length() <= 0 && mListStringText.size() > 1) {
+			if (sentence != null && sentence.length() <= 0 && mListStringText.size() > 1) {
 				sentence = mListStringText.get(i + 1);
-			} else if (sentence.length() <= 0) {
+			} else if (sentence != null && sentence.length() <= 0) {
 				sentence = " ";
 			}
 		}
@@ -1451,7 +1451,8 @@ public class DaisyEbookReaderVisualModeActivity extends DaisyEbookReaderBaseActi
 				if (!isBreak) {
 					for (int value : listValue) {
 						if (value == currentTimeBegin) {
-							if (entry.getKey() != listAudio.get(countAudio).getAudioFilename()) {
+							if (!entry.getKey()
+									.equals(listAudio.get(countAudio).getAudioFilename())) {
 								List<Integer> listValueEnd = mHashMapEnd.get(entry.getKey());
 								if (listValueEnd.contains(currentTimeEnd)) {
 									isBreak = true;
@@ -1626,7 +1627,8 @@ public class DaisyEbookReaderVisualModeActivity extends DaisyEbookReaderBaseActi
 				if (!isBreak) {
 					for (int value : listValue) {
 						if (value == currentTimeBegin) {
-							if (entry.getKey() != listAudio.get(countAudio).getAudioFilename()) {
+							if (!entry.getKey()
+									.equals(listAudio.get(countAudio).getAudioFilename())) {
 								List<Integer> listValueEnd = mHashMapEnd.get(entry.getKey());
 								if (listValueEnd.contains(currentTimeEnd)) {
 									isBreak = true;

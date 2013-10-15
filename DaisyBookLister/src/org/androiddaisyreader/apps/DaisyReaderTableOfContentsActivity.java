@@ -74,7 +74,7 @@ public class DaisyReaderTableOfContentsActivity extends DaisyEbookReaderBaseActi
 
 			MenuItem subMenuItem = subMenu.getItem();
 			subMenuItem.setIcon(R.raw.ic_menu_32x32);
-			subMenuItem.setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
+			subMenuItem.setShowAsAction(MenuItem.SHOW_AS_ACTION_IF_ROOM);
 			return true;
 		}
 
@@ -215,10 +215,12 @@ public class DaisyReaderTableOfContentsActivity extends DaisyEbookReaderBaseActi
 				sql.updateCurrentInformation(current);
 			}
 		}
-		i.putExtra(Constants.POSITION_SECTION, String.valueOf(position));
-		// Make sure path of daisy book is correct.
-		i.putExtra(Constants.DAISY_PATH, mPath);
-		this.startActivity(i);
+		if (i != null) {
+			i.putExtra(Constants.POSITION_SECTION, String.valueOf(position));
+			// Make sure path of daisy book is correct.
+			i.putExtra(Constants.DAISY_PATH, mPath);
+			this.startActivity(i);
+		}
 	}
 
 }

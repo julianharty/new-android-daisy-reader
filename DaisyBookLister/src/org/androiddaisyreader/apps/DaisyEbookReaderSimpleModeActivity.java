@@ -917,7 +917,7 @@ public class DaisyEbookReaderSimpleModeActivity extends DaisyEbookReaderBaseActi
 				if (!isBreak) {
 					for (int value : listValue) {
 						if (value == currentTimeBegin) {
-							if (entry.getKey() != listAudio.get(countAudio).getAudioFilename()) {
+							if (!entry.getKey().equals(listAudio.get(countAudio).getAudioFilename())) {
 								List<Integer> listValueEnd = mHashMapEnd.get(entry.getKey());
 								if (listValueEnd.contains(currentTimeEnd)) {
 									isBreak = true;
@@ -1058,7 +1058,7 @@ public class DaisyEbookReaderSimpleModeActivity extends DaisyEbookReaderBaseActi
 				if (!isBreak) {
 					for (int value : listValue) {
 						if (value == currentTimeBegin) {
-							if (entry.getKey() != listAudio.get(countAudio).getAudioFilename()) {
+							if (!entry.getKey().equals(listAudio.get(countAudio).getAudioFilename())) {
 								List<Integer> listValueEnd = mHashMapEnd.get(entry.getKey());
 								if (listValueEnd.contains(currentTimeEnd)) {
 									isBreak = true;

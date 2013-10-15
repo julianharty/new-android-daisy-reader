@@ -486,11 +486,9 @@ public class DaisyEbookReaderSimpleModeActivity extends DaisyEbookReaderBaseActi
 				}
 				// seek to time when user change from visual mode
 				if (mListTimeEnd.size() > 0) {
-					if (isFormat202) {
-						if (mTime != null) {
-							mPlayer.seekTo(Integer.valueOf(mTime));
-							mTime = null;
-						}
+					if (isFormat202 && mTime != null) {
+						mPlayer.seekTo(Integer.valueOf(mTime));
+						mTime = null;
 					}
 					if (mCurrent != null) {
 						mSql.updateCurrentInformation(mCurrent);
@@ -919,7 +917,7 @@ public class DaisyEbookReaderSimpleModeActivity extends DaisyEbookReaderBaseActi
 				if (!isBreak) {
 					for (int value : listValue) {
 						if (value == currentTimeBegin) {
-							if (entry.getKey() != listAudio.get(countAudio).getAudioFilename()) {
+							if (!entry.getKey().equals(listAudio.get(countAudio).getAudioFilename())) {
 								List<Integer> listValueEnd = mHashMapEnd.get(entry.getKey());
 								if (listValueEnd.contains(currentTimeEnd)) {
 									isBreak = true;
@@ -1060,7 +1058,7 @@ public class DaisyEbookReaderSimpleModeActivity extends DaisyEbookReaderBaseActi
 				if (!isBreak) {
 					for (int value : listValue) {
 						if (value == currentTimeBegin) {
-							if (entry.getKey() != listAudio.get(countAudio).getAudioFilename()) {
+							if (!entry.getKey().equals(listAudio.get(countAudio).getAudioFilename())) {
 								List<Integer> listValueEnd = mHashMapEnd.get(entry.getKey());
 								if (listValueEnd.contains(currentTimeEnd)) {
 									isBreak = true;

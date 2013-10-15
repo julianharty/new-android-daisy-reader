@@ -109,11 +109,13 @@ public class SQLiteRecentBookHelper extends SQLiteHandler {
 				String path = mCursor.getString(mCursor.getColumnIndex(PATH_KEY_RECENT_BOOKS));
 				int sort = Integer.valueOf(mCursor.getString(mCursor
 						.getColumnIndex(SORT_KEY_RECENT_BOOKS)));
-				mRecentBooks = new DaisyBookInfo("", valueName, path, "author", "publisher", "date",
-						sort);
+				mRecentBooks = new DaisyBookInfo("", valueName, path, "author", "publisher",
+						"date", sort);
 			}
-			mCursor.close();
-			mdb.close();
+			if (mCursor != null) {
+				mCursor.close();
+				mdb.close();
+			}
 		} catch (Exception e) {
 			PrivateException ex = new PrivateException(e, mContext);
 			ex.writeLogException();
@@ -142,8 +144,8 @@ public class SQLiteRecentBookHelper extends SQLiteHandler {
 					int sort = Integer.valueOf(mCursor.getString(mCursor
 							.getColumnIndex(SORT_KEY_RECENT_BOOKS)));
 					// Add to ArrayList
-					arrRecentBooks.add(new DaisyBookInfo("", valueName, path, "author", "publisher",
-							"date", sort));
+					arrRecentBooks.add(new DaisyBookInfo("", valueName, path, "author",
+							"publisher", "date", sort));
 				} while (mCursor.moveToNext());
 			}
 			mCursor.close();

@@ -82,7 +82,7 @@ public class DaisyReaderBookmarkActivity extends DaisyEbookReaderBaseActivity {
 
 		MenuItem subMenuItem = subMenu.getItem();
 		subMenuItem.setIcon(R.raw.ic_menu_32x32);
-		subMenuItem.setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
+		subMenuItem.setShowAsAction(MenuItem.SHOW_AS_ACTION_IF_ROOM);
 		return true;
 	}
 

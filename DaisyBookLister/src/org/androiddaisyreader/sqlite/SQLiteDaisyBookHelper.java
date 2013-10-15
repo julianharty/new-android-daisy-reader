@@ -79,7 +79,8 @@ public class SQLiteDaisyBookHelper extends SQLiteHandler {
 					int sort = Integer.valueOf(mCursor.getString(mCursor
 							.getColumnIndex(SORT_KEY_DAISY_BOOK)));
 					// Add to ArrayList
-					arrDaisyBook.add(new DaisyBookInfo(id, title, path, author, publisher, date, sort));
+					arrDaisyBook.add(new DaisyBookInfo(id, title, path, author, publisher, date,
+							sort));
 				} while (mCursor.moveToNext());
 			}
 			mCursor.close();
@@ -114,8 +115,10 @@ public class SQLiteDaisyBookHelper extends SQLiteHandler {
 						.getColumnIndex(SORT_KEY_DAISY_BOOK)));
 				daisyBook = new DaisyBookInfo(id, titleBook, path, author, publisher, date, sort);
 			}
-			mCursor.close();
-			mdb.close();
+			if (mCursor != null) {
+				mCursor.close();
+				mdb.close();
+			}
 		} catch (Exception e) {
 			PrivateException ex = new PrivateException(e, mContext);
 			ex.writeLogException();
@@ -123,7 +126,7 @@ public class SQLiteDaisyBookHelper extends SQLiteHandler {
 		return daisyBook;
 	}
 
-	public boolean DeleteAllDaisyBook(String type) {
+	public boolean deleteAllDaisyBook(String type) {
 		boolean result = false;
 		try {
 			SQLiteDatabase mdb = getWritableDatabase();
@@ -137,7 +140,7 @@ public class SQLiteDaisyBookHelper extends SQLiteHandler {
 		return result;
 	}
 
-	public boolean DeleteDaisyBook(String id) {
+	public boolean deleteDaisyBook(String id) {
 		boolean result = false;
 		try {
 			SQLiteDatabase mdb = getWritableDatabase();

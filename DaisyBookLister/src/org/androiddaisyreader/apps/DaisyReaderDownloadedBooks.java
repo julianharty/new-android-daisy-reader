@@ -136,7 +136,7 @@ public class DaisyReaderDownloadedBooks extends DaisyEbookReaderBaseActivity {
 				lastestIdRecentBooks = recentBooks.get(0).getSort();
 			}
 			if (mSql.isExists(daisyBook.getTitle(), Constants.TYPE_RECENT_BOOK)) {
-				mSql.DeleteDaisyBook(mSql.getDaisyBookByTitle(daisyBook.getTitle(),
+				mSql.deleteDaisyBook(mSql.getDaisyBookByTitle(daisyBook.getTitle(),
 						Constants.TYPE_RECENT_BOOK).getId());
 			}
 			daisyBook.setSort(lastestIdRecentBooks + 1);

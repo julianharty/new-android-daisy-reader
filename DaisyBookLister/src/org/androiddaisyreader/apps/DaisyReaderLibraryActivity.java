@@ -60,8 +60,8 @@ public class DaisyReaderLibraryActivity extends DaisyEbookReaderBaseActivity {
 	 * Check to see if the sdCard is mounted and create a directory in it
 	 **/
 	private void createFolderContainXml() {
-		if (android.os.Environment.getExternalStorageState().equals(
-				android.os.Environment.MEDIA_MOUNTED)) {
+		if (Environment.getExternalStorageState().equals(
+				Environment.MEDIA_MOUNTED)) {
 			File directory = new File(Constants.folderContainMetadata);
 			if (!directory.exists()) {
 				// Create a File object for the parent directory
@@ -70,8 +70,8 @@ public class DaisyReaderLibraryActivity extends DaisyEbookReaderBaseActivity {
 			// Then run the method to copy the file.
 			copyFileFromAssets();
 
-		} else if (android.os.Environment.getExternalStorageState().equals(
-				android.os.Environment.MEDIA_MOUNTED_READ_ONLY)) {
+		} else if (Environment.getExternalStorageState().equals(
+				Environment.MEDIA_MOUNTED_READ_ONLY)) {
 			IntentController mIntentController = new IntentController(this);
 			mIntentController.pushToDialog(getString(R.string.sd_card_not_present),
 					getString(R.string.error_title), R.raw.error, false, false, null);

@@ -104,15 +104,13 @@ public class DaisyEbookReaderBaseActivity extends SherlockActivity implements On
 	@Override
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 		super.onActivityResult(requestCode, resultCode, data);
-		if (requestCode == Constants.MY_DATA_CHECK_CODE) {
-			if (!(resultCode == TextToSpeech.Engine.CHECK_VOICE_DATA_PASS)) {
-				// missing data, install it
-				Intent installIntent = new Intent();
-				installIntent.setAction(TextToSpeech.Engine.ACTION_INSTALL_TTS_DATA);
-				startActivity(installIntent);
-			}
+		if (requestCode == Constants.MY_DATA_CHECK_CODE
+				&& !(resultCode == TextToSpeech.Engine.CHECK_VOICE_DATA_PASS)) {
+			// missing data, install it
+			Intent installIntent = new Intent();
+			installIntent.setAction(TextToSpeech.Engine.ACTION_INSTALL_TTS_DATA);
+			startActivity(installIntent);
 		}
-
 	}
 
 	@Override
@@ -175,7 +173,7 @@ public class DaisyEbookReaderBaseActivity extends SherlockActivity implements On
 			if (checkTTSSupportLanguage() && !checkKeyguardMode()) {
 				mTts.speak(textToSpeech, TextToSpeech.QUEUE_FLUSH, null);
 			}
-		}else{
+		} else {
 			startTts();
 		}
 	}

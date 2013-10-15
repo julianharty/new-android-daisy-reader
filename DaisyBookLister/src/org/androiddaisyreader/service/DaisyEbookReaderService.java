@@ -57,7 +57,7 @@ public class DaisyEbookReaderService extends IntentService {
 			public void run() {
 				String localPath = Constants.folderContainMetadata
 						+ Constants.META_DATA_SCAN_BOOK_FILE_NAME;
-				mMetaData.WriteDataToXmlFile(getData(), localPath);
+				mMetaData.writeDataToXmlFile(getData(), localPath);
 				mEditor.putBoolean(Constants.SERVICE_DONE, true);
 				mEditor.commit();
 				stopSelf();
@@ -151,7 +151,7 @@ public class DaisyEbookReaderService extends IntentService {
 	private String formatDateOrReturnEmptyString(Date date) {
 		String sDate = "";
 		if (date != null) {
-			sDate = String.format(Locale.getDefault(),("%tB %te, %tY %n"), date, date, date, date);
+			sDate = String.format(Locale.getDefault(),("%tB %te, %tY %n"), date, date, date);
 		}
 		return sDate;
 	}

@@ -23,130 +23,126 @@ import android.util.Log;
  * 
  */
 public class AndroidAudioPlayer implements AudioPlayer, OnCompletionListener {
-	private static final String TAG = "DAISYAndroidAudioPlayer";
-	private MediaPlayer player;
-	private Audio audioSegment;
-	private BookContext context;
-	private TempFileForAudioContentProvider tempFileCreator;
-	private List<AudioCallbackListener> listeners = new ArrayList<AudioCallbackListener>();
-	
-	public AndroidAudioPlayer(BookContext context) {
-		this.context = context;
-		tempFileCreator = new TempFileForAudioContentProvider(context);
-		player = new MediaPlayer();
-		player.setOnCompletionListener(this);
-	}
+    private static final String TAG = "DAISYAndroidAudioPlayer";
+    private MediaPlayer player;
+    private Audio audioSegment;
+    private BookContext context;
+    private TempFileForAudioContentProvider tempFileCreator;
+    private List<AudioCallbackListener> listeners = new ArrayList<AudioCallbackListener>();
 
-	public void increaseVolume() {
-		// TODO Auto-generated method stub
+    public AndroidAudioPlayer(BookContext context) {
+        this.context = context;
+        tempFileCreator = new TempFileForAudioContentProvider(context);
+        player = new MediaPlayer();
+        player.setOnCompletionListener(this);
+    }
 
-	}
+    public void increaseVolume() {
+        // TODO Auto-generated method stub
 
-	public void decreaseVolume() {
-		// TODO Auto-generated method stub
+    }
 
-	}
+    public void decreaseVolume() {
+        // TODO Auto-generated method stub
 
-	public void toggleMute() {
-		// TODO Auto-generated method stub
+    }
 
-	}
+    public void toggleMute() {
+        // TODO Auto-generated method stub
 
-	public void addCallbackListener(AudioCallbackListener listener) {
-		listeners.add(listener);
-	}
+    }
 
-	public Audio getCurrentSegment() {
-		return audioSegment;
-	}
+    public void addCallbackListener(AudioCallbackListener listener) {
+        listeners.add(listener);
+    }
 
-	public AudioPlayerState getInternalPlayerState() {
-		// TODO Auto-generated method stub
-		return null;
-	}
+    public Audio getCurrentSegment() {
+        return audioSegment;
+    }
 
-	public void play() {
-		// TODO 20120514 (jharty): Do I want a play() method in addition to
-		String requestedFilename = audioSegment.getAudioFilename();
-		String filenameToPlay;
-		boolean doesContentNeedUnzipping = tempFileCreator
-				.doesContentNeedUnzipping();
-		if (doesContentNeedUnzipping) {
-			try {
-				File f = tempFileCreator
-						.getFileHandleToTempAudioFile(requestedFilename);
-				filenameToPlay = f.getAbsolutePath();
-				Log.i(TAG, "Created temporary audio file, " + filenameToPlay);
+    public AudioPlayerState getInternalPlayerState() {
+        // TODO Auto-generated method stub
+        return null;
+    }
 
-			} catch (IOException ioe) {
-				Log.e(TAG, "Problem obtaining a temporary audio file.", ioe);
-				return;
-			}
-		} else {
-			filenameToPlay = context.getBaseUri() + File.separator
-					+ requestedFilename;
-		}
-		Log.i(TAG, filenameToPlay);
-		Log.i(TAG, context.getBaseUri());
-		player.reset();
-		try {
-			player.setDataSource(filenameToPlay);
-			player.prepare();
-		} catch (Exception e) {
-			// TODO 20120514 (jharty): Consider how to report exceptions. For
-			// now this'll do.
-			e.printStackTrace();
-			throw new RuntimeException(e);
-		}
-		// TODO 20120514 (jharty): This starts from the start of the clip. Add
-		// code to start later in the clip e.g. from a bookmark setting.
-		player.seekTo(audioSegment.getClipBegin());
-		player.start();
-		
-		// Seems we can delete the temporary file now.
-		if (doesContentNeedUnzipping) {
-			File deleteMe = new File(filenameToPlay);
-			deleteMe.delete();
-			Log.i(TAG, "Deleting temporary file, " + filenameToPlay);
-		}
-	}
+    public void play() {
+        // TODO 20120514 (jharty): Do I want a play() method in addition to
+        String requestedFilename = audioSegment.getAudioFilename();
+        String filenameToPlay;
+        boolean doesContentNeedUnzipping = tempFileCreator.doesContentNeedUnzipping();
+        if (doesContentNeedUnzipping) {
+            try {
+                File f = tempFileCreator.getFileHandleToTempAudioFile(requestedFilename);
+                filenameToPlay = f.getAbsolutePath();
+                Log.i(TAG, "Created temporary audio file, " + filenameToPlay);
 
-	public MediaPlayer getCurrentPlayer() {
-		return player;
-	}
+            } catch (IOException ioe) {
+                Log.e(TAG, "Problem obtaining a temporary audio file.", ioe);
+                return;
+            }
+        } else {
+            filenameToPlay = context.getBaseUri() + File.separator + requestedFilename;
+        }
+        Log.i(TAG, filenameToPlay);
+        Log.i(TAG, context.getBaseUri());
+        player.reset();
+        try {
+            player.setDataSource(filenameToPlay);
+            player.prepare();
+        } catch (Exception e) {
+            // TODO 20120514 (jharty): Consider how to report exceptions. For
+            // now this'll do.
+            e.printStackTrace();
+            throw new RuntimeException(e);
+        }
+        // TODO 20120514 (jharty): This starts from the start of the clip. Add
+        // code to start later in the clip e.g. from a bookmark setting.
+        player.seekTo(audioSegment.getClipBegin());
+        player.start();
 
-	public void seekTo(int newTimeInMilliseconds) {
-		player.pause();
-		player.seekTo(newTimeInMilliseconds);
-		try {
-			player.prepare();
-		} catch (IllegalStateException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-	}
+        // Seems we can delete the temporary file now.
+        if (doesContentNeedUnzipping) {
+            File deleteMe = new File(filenameToPlay);
+            deleteMe.delete();
+            Log.i(TAG, "Deleting temporary file, " + filenameToPlay);
+        }
+    }
 
-	public void setCurrentSegment(Audio audioSegment) {
-		Log.i(TAG, "setCurrentSegment");
-		this.audioSegment = audioSegment;
+    public MediaPlayer getCurrentPlayer() {
+        return player;
+    }
 
-	}
+    public void seekTo(int newTimeInMilliseconds) {
+        player.pause();
+        player.seekTo(newTimeInMilliseconds);
+        try {
+            player.prepare();
+        } catch (IllegalStateException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        } catch (IOException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+    }
 
-	public void setInternalPlayerState(AudioPlayerState audioState) {
-		// TODO Auto-generated method stub
+    public void setCurrentSegment(Audio audioSegment) {
+        Log.i(TAG, "setCurrentSegment");
+        this.audioSegment = audioSegment;
 
-	}
+    }
 
-	public void onCompletion(MediaPlayer mp) {
-		Log.i(TAG,
-				"On Completion called. Resetting the state of the Media Player.");
-		player.reset();
-		for (AudioCallbackListener acl : listeners) {
-			acl.endOfAudio();
-		}
-	}
+    public void setInternalPlayerState(AudioPlayerState audioState) {
+        // TODO Auto-generated method stub
+
+    }
+
+    public void onCompletion(MediaPlayer mp) {
+        Log.i(TAG, "On Completion called. Resetting the state of the Media Player.");
+        player.reset();
+        for (AudioCallbackListener acl : listeners) {
+            acl.endOfAudio();
+        }
+    }
 
 }

@@ -8,13 +8,13 @@ import android.content.Intent;
 
 public class DaisyEbookReaderReceiver extends BroadcastReceiver {
 
-	@Override
-	public void onReceive(Context context, Intent intent) {
+    @Override
+    public void onReceive(Context context, Intent intent) {
 
-		if (intent.getAction().equals(Intent.ACTION_MEDIA_SCANNER_STARTED)
-				|| intent.getAction().equals(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE)) {
-			Intent serviceIntent = new Intent(context, DaisyEbookReaderService.class);
-			context.startService(serviceIntent);
-		}
-	}
+        if (intent.getAction().equals(Intent.ACTION_MEDIA_SCANNER_STARTED)
+                || intent.getAction().equals(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE)) {
+            Intent serviceIntent = new Intent(context, DaisyEbookReaderService.class);
+            context.startService(serviceIntent);
+        }
+    }
 }

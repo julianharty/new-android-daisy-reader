@@ -22,197 +22,207 @@ import android.os.RemoteException;
 import android.provider.Settings.Secure;
 import android.util.Log;
 
-public class OpenUDIDManager implements ServiceConnection {
-	public final static String PREF_KEY = "openudid";
-	public final static String PREFS_NAME = "openudid_prefs";
-	public final static String TAG = "OpenUDID";
+public final class OpenUDIDManager implements ServiceConnection {
+    public static final String PREF_KEY = "openudid";
+    public static final String PREFS_NAME = "openudid_prefs";
+    public static final String TAG = "OpenUDID";
+    // Display or not debug message
+    private static final boolean LOG = true;
+    // Application context
+    private final Context mContext;
+    // List of available OpenUDID Intents
+    private List<ResolveInfo> mMatchingIntents;
+    // Map of OpenUDIDs found so far
+    private Map<String, Integer> mReceivedOpenUDIDs;
+    // Preferences to store the OpenUDID
+    private final SharedPreferences mPreferences;
+    private final Random mRandom;
 
-	private final static boolean LOG = true; // Display or not debug message
+    private static final int NUMBITS = 64;
+    private static final int RADIX = 16;
+    private static final int MINLENGTHUDID = 15;
 
-	private final Context mContext; // Application context
-	private List<ResolveInfo> mMatchingIntents; // List of available OpenUDID
-												// Intents
-	private Map<String, Integer> mReceivedOpenUDIDs; // Map of OpenUDIDs found
-														// so far
+    private OpenUDIDManager(Context context) {
+        mPreferences = context.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE);
+        mContext = context;
+        mRandom = new Random();
+        mReceivedOpenUDIDs = new HashMap<String, Integer>();
+    }
 
-	private final SharedPreferences mPreferences; // Preferences to store the
-													// OpenUDID
-	private final Random mRandom;
+    @Override
+    public void onServiceConnected(ComponentName className, IBinder service) {
+        // Get the OpenUDID from the remote service
+        try {
+            // Send a random number to the service
+            android.os.Parcel data = android.os.Parcel.obtain();
+            data.writeInt(mRandom.nextInt());
+            android.os.Parcel reply = android.os.Parcel.obtain();
+            service.transact(1, android.os.Parcel.obtain(), reply, 0);
+            if (data.readInt() == reply.readInt())
+            // Check if the service
+            // returns us this number
+            {
+                final String openUDIDValue = reply.readString();
+                // if valid OpenUDID, save it
+                if (openUDIDValue != null) {
+                    if (LOG)
+                        Log.d(TAG, "Received " + openUDIDValue);
 
-	private OpenUDIDManager(Context context) {
-		mPreferences = context.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE);
-		mContext = context;
-		mRandom = new Random();
-		mReceivedOpenUDIDs = new HashMap<String, Integer>();
-	}
+                    if (mReceivedOpenUDIDs.containsKey(openUDIDValue))
+                        mReceivedOpenUDIDs.put(openUDIDValue,
+                                mReceivedOpenUDIDs.get(openUDIDValue) + 1);
+                    else
+                        mReceivedOpenUDIDs.put(openUDIDValue, 1);
 
-	@Override
-	public void onServiceConnected(ComponentName className, IBinder service) {
-		// Get the OpenUDID from the remote service
-		try {
-			// Send a random number to the service
-			android.os.Parcel data = android.os.Parcel.obtain();
-			data.writeInt(mRandom.nextInt());
-			android.os.Parcel reply = android.os.Parcel.obtain();
-			service.transact(1, android.os.Parcel.obtain(), reply, 0);
-			if (data.readInt() == reply.readInt()) // Check if the service
-													// returns us this number
-			{
-				final String _openUDID = reply.readString();
-				if (_openUDID != null) { // if valid OpenUDID, save it
-					if (LOG)
-						Log.d(TAG, "Received " + _openUDID);
+                }
+            }
+        } catch (RemoteException e) {
+            if (LOG)
+                Log.e(TAG, "RemoteException: " + e.getMessage());
+        }
+        mContext.unbindService(this);
+        // Try the next one
+        startService();
+    }
 
-					if (mReceivedOpenUDIDs.containsKey(_openUDID))
-						mReceivedOpenUDIDs.put(_openUDID, mReceivedOpenUDIDs.get(_openUDID) + 1);
-					else
-						mReceivedOpenUDIDs.put(_openUDID, 1);
+    @Override
+    public void onServiceDisconnected(ComponentName className) {
+    }
 
-				}
-			}
-		} catch (RemoteException e) {
-			if (LOG)
-				Log.e(TAG, "RemoteException: " + e.getMessage());
-		}
-		mContext.unbindService(this);
+    private void storeOpenUDID() {
+        final Editor e = mPreferences.edit();
+        e.putString(PREF_KEY, openUDID);
+        e.commit();
+    }
 
-		startService(); // Try the next one
-	}
+    /*
+     * Generate a new OpenUDID
+     */
+    private void generateOpenUDID() {
+        if (LOG)
+            Log.d(TAG, "Generating openUDID");
+        // Try to get the ANDROID_ID
+        openUDID = Secure.getString(mContext.getContentResolver(), Secure.ANDROID_ID);
+        if (openUDID == null || openUDID.equals("9774d56d682e549c")
+                || openUDID.length() < MINLENGTHUDID) {
+            // if ANDROID_ID is null, or it's equals to the GalaxyTab generic
+            // ANDROID_ID or bad, generates a new one
+            final SecureRandom random = new SecureRandom();
+            openUDID = new BigInteger(NUMBITS, random).toString(RADIX);
+        }
+    }
 
-	@Override
-	public void onServiceDisconnected(ComponentName className) {
-	}
+    /*
+     * Start the oldest service
+     */
+    private void startService() {
+        // There are some Intents untested
+        if (mMatchingIntents.size() > 0) {
+            if (LOG)
+                Log.d(TAG,
+                        "Trying service "
+                                + mMatchingIntents.get(0).loadLabel(mContext.getPackageManager()));
 
-	private void storeOpenUDID() {
-		final Editor e = mPreferences.edit();
-		e.putString(PREF_KEY, openUDID);
-		e.commit();
-	}
+            final ServiceInfo servInfo = mMatchingIntents.get(0).serviceInfo;
+            final Intent i = new Intent();
+            i.setComponent(new ComponentName(servInfo.applicationInfo.packageName, servInfo.name));
+            mContext.bindService(i, this, Context.BIND_AUTO_CREATE);
+            mMatchingIntents.remove(0);
+        } else {
+            // No more service to test
+            getMostFrequentOpenUDID();
+            // Choose the most frequent
+            // No OpenUDID was chosen, generate one
+            if (openUDID == null)
+                generateOpenUDID();
+            if (LOG)
+                Log.d(TAG, "OpenUDID: " + openUDID);
+            // Store it locally
+            storeOpenUDID();
+            mInitialized = true;
+        }
+    }
 
-	/*
-	 * Generate a new OpenUDID
-	 */
-	private void generateOpenUDID() {
-		if (LOG)
-			Log.d(TAG, "Generating openUDID");
-		// Try to get the ANDROID_ID
-		openUDID = Secure.getString(mContext.getContentResolver(), Secure.ANDROID_ID);
-		if (openUDID == null || openUDID.equals("9774d56d682e549c") || openUDID.length() < 15) {
-			// if ANDROID_ID is null, or it's equals to the GalaxyTab generic
-			// ANDROID_ID or bad, generates a new one
-			final SecureRandom random = new SecureRandom();
-			openUDID = new BigInteger(64, random).toString(16);
-		}
-	}
+    private void getMostFrequentOpenUDID() {
+        if (mReceivedOpenUDIDs.isEmpty() == false) {
+            @SuppressWarnings({ "unchecked", "rawtypes" })
+            final TreeMap<String, Integer> sorted_OpenUDIDS = new TreeMap(new ValueComparator());
+            sorted_OpenUDIDS.putAll(mReceivedOpenUDIDs);
 
-	/*
-	 * Start the oldest service
-	 */
-	private void startService() {
-		if (mMatchingIntents.size() > 0) { // There are some Intents untested
-			if (LOG)
-				Log.d(TAG,
-						"Trying service "
-								+ mMatchingIntents.get(0).loadLabel(mContext.getPackageManager()));
+            openUDID = sorted_OpenUDIDS.firstKey();
+        }
+    }
 
-			final ServiceInfo servInfo = mMatchingIntents.get(0).serviceInfo;
-			final Intent i = new Intent();
-			i.setComponent(new ComponentName(servInfo.applicationInfo.packageName, servInfo.name));
-			mContext.bindService(i, this, Context.BIND_AUTO_CREATE);
-			mMatchingIntents.remove(0);
-		} else { // No more service to test
+    private static String openUDID = null;
+    private static boolean mInitialized = false;
 
-			getMostFrequentOpenUDID(); // Choose the most frequent
+    /**
+     * The Method to call to get OpenUDID
+     * 
+     * @return the OpenUDID
+     */
+    public static String getOpenUDID() {
+        if (!mInitialized)
+            Log.e("OpenUDID", "Initialisation isn't done");
+        return openUDID;
+    }
 
-			if (openUDID == null) // No OpenUDID was chosen, generate one
-				generateOpenUDID();
-			if (LOG)
-				Log.d(TAG, "OpenUDID: " + openUDID);
+    /**
+     * The Method to call to get OpenUDID
+     * 
+     * @return the OpenUDID
+     */
+    public static boolean isInitialized() {
+        return mInitialized;
+    }
 
-			storeOpenUDID();// Store it locally
-			mInitialized = true;
-		}
-	}
+    /**
+     * The Method the call at the init of your app
+     * 
+     * @param context you current context
+     */
+    public static void sync(Context context) {
+        // Initialise the Manager
+        OpenUDIDManager manager = new OpenUDIDManager(context);
 
-	private void getMostFrequentOpenUDID() {
-		if (mReceivedOpenUDIDs.isEmpty() == false) {
-			@SuppressWarnings({ "unchecked", "rawtypes" })
-			final TreeMap<String, Integer> sorted_OpenUDIDS = new TreeMap(new ValueComparator());
-			sorted_OpenUDIDS.putAll(mReceivedOpenUDIDs);
+        // Try to get the openudid from local preferences
+        openUDID = manager.mPreferences.getString(PREF_KEY, null);
+        // Not found
+        if (openUDID == null) {
+            // Get the list of all OpenUDID services available (including
+            // itself)
+            manager.mMatchingIntents = context.getPackageManager().queryIntentServices(
+                    new Intent("org.OpenUDID.GETUDID"), 0);
+            if (LOG && manager.mMatchingIntents != null) {
+                Log.d(TAG, manager.mMatchingIntents.size() + " services matches OpenUDID");
+            }
 
-			openUDID = sorted_OpenUDIDS.firstKey();
-		}
-	}
+            if (manager.mMatchingIntents != null)
+                // Start services one by one
+                manager.startService();
 
-	private static String openUDID = null;
-	private static boolean mInitialized = false;
+        } else {
+            // Got it, you can now call getOpenUDID()
+            if (LOG)
+                Log.d(TAG, "OpenUDID: " + openUDID);
+            mInitialized = true;
+        }
+    }
 
-	/**
-	 * The Method to call to get OpenUDID
-	 * 
-	 * @return the OpenUDID
-	 */
-	public static String getOpenUDID() {
-		if (!mInitialized)
-			Log.e("OpenUDID", "Initialisation isn't done");
-		return openUDID;
-	}
+    /*
+     * Used to sort the OpenUDIDs collected by occurrence
+     */
+    @SuppressWarnings("rawtypes")
+    private class ValueComparator implements Comparator {
+        public int compare(Object a, Object b) {
 
-	/**
-	 * The Method to call to get OpenUDID
-	 * 
-	 * @return the OpenUDID
-	 */
-	public static boolean isInitialized() {
-		return mInitialized;
-	}
-
-	/**
-	 * The Method the call at the init of your app
-	 * 
-	 * @param context you current context
-	 */
-	public static void sync(Context context) {
-		// Initialise the Manager
-		OpenUDIDManager manager = new OpenUDIDManager(context);
-
-		// Try to get the openudid from local preferences
-		openUDID = manager.mPreferences.getString(PREF_KEY, null);
-		if (openUDID == null) // Not found
-		{
-			// Get the list of all OpenUDID services available (including
-			// itself)
-			manager.mMatchingIntents = context.getPackageManager().queryIntentServices(
-					new Intent("org.OpenUDID.GETUDID"), 0);
-			if (LOG && manager.mMatchingIntents != null) {
-				Log.d(TAG, manager.mMatchingIntents.size() + " services matches OpenUDID");
-			}
-
-			if (manager.mMatchingIntents != null)
-				// Start services one by one
-				manager.startService();
-
-		} else {// Got it, you can now call getOpenUDID()
-			if (LOG)
-				Log.d(TAG, "OpenUDID: " + openUDID);
-			mInitialized = true;
-		}
-	}
-
-	/*
-	 * Used to sort the OpenUDIDs collected by occurrence
-	 */
-	@SuppressWarnings("rawtypes")
-	private class ValueComparator implements Comparator {
-		public int compare(Object a, Object b) {
-
-			if (mReceivedOpenUDIDs.get(a) < mReceivedOpenUDIDs.get(b)) {
-				return 1;
-			} else if (mReceivedOpenUDIDs.get(a).equals(mReceivedOpenUDIDs.get(b))) {
-				return 0;
-			} else {
-				return -1;
-			}
-		}
-	}
+            if (mReceivedOpenUDIDs.get(a) < mReceivedOpenUDIDs.get(b)) {
+                return 1;
+            } else if (mReceivedOpenUDIDs.get(a).equals(mReceivedOpenUDIDs.get(b))) {
+                return 0;
+            } else {
+                return -1;
+            }
+        }
+    }
 }

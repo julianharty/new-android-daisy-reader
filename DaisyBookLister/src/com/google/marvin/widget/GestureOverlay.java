@@ -52,14 +52,14 @@ public class GestureOverlay extends View {
      * The callback interface to be used when a gesture is detected.
      */
     public interface GestureListener {
-        public void onGestureStart(int g);
+        void onGestureStart(int g);
 
-        public void onGestureChange(int g);
+        void onGestureChange(int g);
 
-        public void onGestureFinish(int g);
+        void onGestureFinish(int g);
     }
 
-    private final double left = 0;
+    private static final double left = 0;
 
     private final double upleft = Math.PI * .25;
 
@@ -82,8 +82,6 @@ public class GestureOverlay extends View {
     private double downX;
 
     private double downY;
-
-    private int currentGesture;
 
     private int radiusThreshold = 30;
 
@@ -110,47 +108,47 @@ public class GestureOverlay extends View {
         float x = event.getX();
         float y = event.getY();
         int prevGesture = -1;
+        int currentGesture = 0;
         switch (action) {
-            case MotionEvent.ACTION_DOWN:
-                downX = x;
-                downY = y;
-                currentGesture = Gesture.CENTER;
-                if (cb != null) {
-                    cb.onGestureStart(currentGesture);
-                }
+        case MotionEvent.ACTION_DOWN:
+            downX = x;
+            downY = y;
+            currentGesture = Gesture.CENTER;
+            if (cb != null) {
+                cb.onGestureStart(currentGesture);
+            }
+            break;
+        case MotionEvent.ACTION_UP:
+            prevGesture = currentGesture;
+            currentGesture = evalMotion(x, y);
+            // Do some correction if the user lifts up on deadspace
+            if (currentGesture == -1) {
+                currentGesture = prevGesture;
+            }
+            if (cb != null) {
+                cb.onGestureFinish(currentGesture);
+            }
+            break;
+        default:
+            prevGesture = currentGesture;
+            currentGesture = evalMotion(x, y);
+            // Do some correction if the user lifts up on deadspace
+            if (currentGesture == -1) {
+                currentGesture = prevGesture;
                 break;
-            case MotionEvent.ACTION_UP:
-                prevGesture = currentGesture;
-                currentGesture = evalMotion(x, y);
-                // Do some correction if the user lifts up on deadspace
-                if (currentGesture == -1) {
-                    currentGesture = prevGesture;
-                }
-                if (cb != null) {
-                    cb.onGestureFinish(currentGesture);
-                }
-                break;
-            default:
-                prevGesture = currentGesture;
-                currentGesture = evalMotion(x, y);
-                // Do some correction if the user lifts up on deadspace
-                if (currentGesture == -1) {
-                    currentGesture = prevGesture;
-                    break;
-                }
-                if (prevGesture != currentGesture) {
-                    if (cb != null) {
-                        cb.onGestureChange(currentGesture);
-                    }
-                }
-                break;
+            }
+            if (prevGesture != currentGesture && cb != null) {
+                cb.onGestureChange(currentGesture);
+            }
+            break;
         }
         return true;
     }
 
     public int evalMotion(double x, double y) {
+        final int TWELVE = 12;
         float rTolerance = radiusThreshold;
-        double thetaTolerance = (Math.PI / 12);
+        double thetaTolerance = (Math.PI / TWELVE);
 
         double r = Math.sqrt(((downX - x) * (downX - x)) + ((downY - y) * (downY - y)));
 

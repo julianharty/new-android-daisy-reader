@@ -49,425 +49,427 @@ import com.actionbarsherlock.view.MenuItem;
 @SuppressLint("NewApi")
 public class DaisyReaderDownloadBooks extends DaisyEbookReaderBaseActivity {
 
-	private String mLink;
-	private String mWebsiteName;
-	private SQLiteDaisyBookHelper mSql;
-	private DaisyBookAdapter mDaisyBookAdapter;
-	private MetaDataHandler mMetadata;
-	public String mName;
-	private DownloadFileFromURL mTask;
-	private ArrayList<DaisyBookInfo> mlistDaisyBook;
-	private ArrayList<DaisyBookInfo> mListDaisyBookOriginal;
-	private DaisyBookInfo mDaisyBook;
-	private EditText mTextSearch;
-	public final static String PATH = Environment.getExternalStorageDirectory().toString()
-			+ Constants.FOLDER_DOWNLOADED + "/";
-	private ProgressDialog mProgressDialog;
-	private AlertDialog alertDialog;
+    private String mLink;
+    private SQLiteDaisyBookHelper mSql;
+    private DaisyBookAdapter mDaisyBookAdapter;
+    public String mName;
+    private DownloadFileFromURL mTask;
+    private ArrayList<DaisyBookInfo> mlistDaisyBook;
+    private ArrayList<DaisyBookInfo> mListDaisyBookOriginal;
+    private DaisyBookInfo mDaisyBook;
+    private EditText mTextSearch;
+    public static final String PATH = Environment.getExternalStorageDirectory().toString()
+            + Constants.FOLDER_DOWNLOADED + "/";
+    private ProgressDialog mProgressDialog;
+    private AlertDialog alertDialog;
 
-	@Override
-	protected void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_download_books);
+    private static final int maxProgress = 100;
+    private static final int size = 8192;
+    private static final int byteVaule = 1024;
 
-		mTextSearch = (EditText) findViewById(R.id.edit_text_search);
-		mLink = getIntent().getStringExtra(Constants.LINK_WEBSITE);
-		mWebsiteName = getIntent().getStringExtra(Constants.NAME_WEBSITE);
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_download_books);
 
-		mSql = new SQLiteDaisyBookHelper(DaisyReaderDownloadBooks.this);
-		mSql.deleteAllDaisyBook(Constants.TYPE_DOWNLOAD_BOOK);
-		createDownloadData();
-		mlistDaisyBook = mSql.getAllDaisyBook(Constants.TYPE_DOWNLOAD_BOOK);
-		mDaisyBookAdapter = new DaisyBookAdapter(DaisyReaderDownloadBooks.this, mlistDaisyBook);
-		ListView listDownload = (ListView) findViewById(R.id.list_view_download_books);
-		listDownload.setAdapter(mDaisyBookAdapter);
-		listDownload.setOnItemClickListener(onItemClick);
-		mListDaisyBookOriginal = new ArrayList<DaisyBookInfo>(mlistDaisyBook);
+        mTextSearch = (EditText) findViewById(R.id.edit_text_search);
+        mLink = getIntent().getStringExtra(Constants.LINK_WEBSITE);
+        String websiteName = getIntent().getStringExtra(Constants.NAME_WEBSITE);
 
-		getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-		getSupportActionBar().setTitle(mWebsiteName.length() != 0 ? mWebsiteName : "");
+        mSql = new SQLiteDaisyBookHelper(DaisyReaderDownloadBooks.this);
+        mSql.deleteAllDaisyBook(Constants.TYPE_DOWNLOAD_BOOK);
+        createDownloadData();
+        mlistDaisyBook = mSql.getAllDaisyBook(Constants.TYPE_DOWNLOAD_BOOK);
+        mDaisyBookAdapter = new DaisyBookAdapter(DaisyReaderDownloadBooks.this, mlistDaisyBook);
+        ListView listDownload = (ListView) findViewById(R.id.list_view_download_books);
+        listDownload.setAdapter(mDaisyBookAdapter);
+        listDownload.setOnItemClickListener(onItemClick);
+        mListDaisyBookOriginal = new ArrayList<DaisyBookInfo>(mlistDaisyBook);
 
-	}
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setTitle(websiteName.length() != 0 ? websiteName : "");
 
-	@Override
-	public boolean onOptionsItemSelected(MenuItem item) {
-		switch (item.getItemId()) {
+    }
 
-		case android.R.id.home:
-			backToTopScreen();
-			break;
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
 
-		default:
-			return super.onOptionsItemSelected(item);
-		}
-		return false;
-	}
+        case android.R.id.home:
+            backToTopScreen();
+            break;
 
-	/**
-	 * Wirte data to sqlite from metadata
-	 */
-	private void createDownloadData() {
-		try {
-			InputStream databaseInputStream = new FileInputStream(Constants.folderContainMetadata
-					+ Constants.META_DATA_FILE_NAME);
-			mMetadata = new MetaDataHandler();
-			NodeList nList = mMetadata.readDataDownloadFromXmlFile(databaseInputStream, mLink);
-			for (int temp = 0; temp < nList.getLength(); temp++) {
-				Node nNode = nList.item(temp);
-				if (nNode.getNodeType() == Node.ELEMENT_NODE) {
+        default:
+            return super.onOptionsItemSelected(item);
+        }
+        return false;
+    }
 
-					Element eElement = (Element) nNode;
-					String author = eElement.getElementsByTagName(Constants.ATT_AUTHOR).item(0)
-							.getTextContent();
-					String publisher = eElement.getElementsByTagName(Constants.ATT_PUBLISHER)
-							.item(0).getTextContent();
-					String path = eElement.getAttribute(Constants.ATT_LINK);
-					String title = eElement.getElementsByTagName(Constants.ATT_TITLE).item(0)
-							.getTextContent();
-					String date = eElement.getElementsByTagName(Constants.ATT_DATE).item(0)
-							.getTextContent();
-					DaisyBookInfo daisyBook = new DaisyBookInfo("", title, path, author, publisher,
-							date, 1);
-					mSql.addDaisyBook(daisyBook, Constants.TYPE_DOWNLOAD_BOOK);
-				}
-			}
-		} catch (Exception e) {
-			PrivateException ex = new PrivateException(e, DaisyReaderDownloadBooks.this);
-			ex.writeLogException();
-		}
-	}
+    /**
+     * Wirte data to sqlite from metadata
+     */
+    private void createDownloadData() {
+        try {
+            InputStream databaseInputStream = new FileInputStream(Constants.folderContainMetadata
+                    + Constants.META_DATA_FILE_NAME);
+            MetaDataHandler metadata = new MetaDataHandler();
+            NodeList nList = metadata.readDataDownloadFromXmlFile(databaseInputStream, mLink);
+            for (int temp = 0; temp < nList.getLength(); temp++) {
+                Node nNode = nList.item(temp);
+                if (nNode.getNodeType() == Node.ELEMENT_NODE) {
 
-	private OnItemClickListener onItemClick = new OnItemClickListener() {
+                    Element eElement = (Element) nNode;
+                    String author = eElement.getElementsByTagName(Constants.ATT_AUTHOR).item(0)
+                            .getTextContent();
+                    String publisher = eElement.getElementsByTagName(Constants.ATT_PUBLISHER)
+                            .item(0).getTextContent();
+                    String path = eElement.getAttribute(Constants.ATT_LINK);
+                    String title = eElement.getElementsByTagName(Constants.ATT_TITLE).item(0)
+                            .getTextContent();
+                    String date = eElement.getElementsByTagName(Constants.ATT_DATE).item(0)
+                            .getTextContent();
+                    DaisyBookInfo daisyBook = new DaisyBookInfo("", title, path, author, publisher,
+                            date, 1);
+                    mSql.addDaisyBook(daisyBook, Constants.TYPE_DOWNLOAD_BOOK);
+                }
+            }
+        } catch (Exception e) {
+            PrivateException ex = new PrivateException(e, DaisyReaderDownloadBooks.this);
+            ex.writeLogException();
+        }
+    }
 
-		@Override
-		public void onItemClick(AdapterView<?> arg0, View arg1, int position, long arg3) {
-			final DaisyBookInfo daisyBook = mlistDaisyBook.get(position);
-			boolean isDoubleTap = handleClickItem(position);
-			if (isDoubleTap) {
-				downloadABook(position);
-			} else {
-				speakTextOnHandler(daisyBook.getTitle());
-			}
-		}
-	};
+    private OnItemClickListener onItemClick = new OnItemClickListener() {
 
-	/**
-	 * Run asyn task.
-	 * 
-	 * @param params the params
-	 */
-	private void runAsynTask(String params[]) {
-		mTask = new DownloadFileFromURL();
-		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
-			mTask.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, params);
-		} else {
-			mTask.execute(params);
-		}
-	}
+        @Override
+        public void onItemClick(AdapterView<?> arg0, View arg1, int position, long arg3) {
+            final DaisyBookInfo daisyBook = mlistDaisyBook.get(position);
+            boolean isDoubleTap = handleClickItem(position);
+            if (isDoubleTap) {
+                downloadABook(position);
+            } else {
+                speakTextOnHandler(daisyBook.getTitle());
+            }
+        }
+    };
 
-	/**
-	 * Check storage.
-	 * 
-	 * @param link the link
-	 * @return true, if successful
-	 */
-	private int checkStorage(String link) {
-		int result = 0;
-		try {
-			java.net.URL url = new java.net.URL(link);
-			URLConnection conection = url.openConnection();
-			conection.connect();
-			int lenghtOfFile = conection.getContentLength();
+    /**
+     * Run asyn task.
+     * 
+     * @param params the params
+     */
+    private void runAsynTask(String params[]) {
+        mTask = new DownloadFileFromURL();
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
+            mTask.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, params);
+        } else {
+            mTask.execute(params);
+        }
+    }
 
-			StatFs statFs = new StatFs(Environment.getExternalStorageDirectory().getAbsolutePath());
-			long blockSize = statFs.getBlockSize();
-			long freeSize = statFs.getFreeBlocks() * blockSize;
+    /**
+     * Check storage.
+     * 
+     * @param link the link
+     * @return true, if successful
+     */
+    private int checkStorage(String link) {
+        int result = 0;
+        try {
+            java.net.URL url = new java.net.URL(link);
+            URLConnection conection = url.openConnection();
+            conection.connect();
+            int lenghtOfFile = conection.getContentLength();
 
-			if (freeSize > lenghtOfFile) {
-				result = 1;
-			}
-		} catch (Exception e) {
-			result = 2;
-			PrivateException ex = new PrivateException(e, DaisyReaderDownloadBooks.this);
-			ex.writeLogException();
-		}
-		return result;
-	}
+            StatFs statFs = new StatFs(Environment.getExternalStorageDirectory().getAbsolutePath());
+            long blockSize = statFs.getBlockSize();
+            long freeSize = statFs.getFreeBlocks() * blockSize;
 
-	/**
-	 * Create folder if not exists
-	 * 
-	 * @return
-	 */
-	private boolean checkFolderIsExist() {
-		boolean result = false;
-		File folder = new File(PATH);
-		result = folder.exists();
-		if (!result) {
-			result = folder.mkdir();
-		}
-		return result;
-	}
+            if (freeSize > lenghtOfFile) {
+                result = 1;
+            }
+        } catch (Exception e) {
+            result = 2;
+            PrivateException ex = new PrivateException(e, DaisyReaderDownloadBooks.this);
+            ex.writeLogException();
+        }
+        return result;
+    }
 
-	/**
-	 * handle search book when text changed.
-	 */
-	private void handleSearchBook() {
-		mTextSearch.addTextChangedListener(new TextWatcher() {
+    /**
+     * Create folder if not exists
+     * 
+     * @return
+     */
+    private boolean checkFolderIsExist() {
+        boolean result = false;
+        File folder = new File(PATH);
+        result = folder.exists();
+        if (!result) {
+            result = folder.mkdir();
+        }
+        return result;
+    }
 
-			@Override
-			public void onTextChanged(CharSequence s, int start, int before, int count) {
-				if (mListDaisyBookOriginal != null && mListDaisyBookOriginal.size() != 0) {
-					mlistDaisyBook = DaisyBookUtil.searchBookWithText(s, mlistDaisyBook,
-							mListDaisyBookOriginal);
-					mDaisyBookAdapter.notifyDataSetChanged();
-				}
-			}
+    /**
+     * handle search book when text changed.
+     */
+    private void handleSearchBook() {
+        mTextSearch.addTextChangedListener(new TextWatcher() {
 
-			@Override
-			public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                if (mListDaisyBookOriginal != null && mListDaisyBookOriginal.size() != 0) {
+                    mlistDaisyBook = DaisyBookUtil.searchBookWithText(s, mlistDaisyBook,
+                            mListDaisyBookOriginal);
+                    mDaisyBookAdapter.notifyDataSetChanged();
+                }
+            }
 
-			}
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
 
-			@Override
-			public void afterTextChanged(Editable s) {
+            }
 
-			}
-		});
-	}
+            @Override
+            public void afterTextChanged(Editable s) {
 
-	/**
-	 * Background Async Task to download file
-	 * */
-	class DownloadFileFromURL extends AsyncTask<String, Integer, Boolean> {
-		/**
-		 * Before starting background thread Show Progress Bar Dialog
-		 * */
+            }
+        });
+    }
 
-		@Override
-		protected void onPreExecute() {
-			mProgressDialog = new ProgressDialog(DaisyReaderDownloadBooks.this);
-			mProgressDialog.setMessage(DaisyReaderDownloadBooks.this
-					.getString(R.string.message_downloading_file));
-			mProgressDialog.setCancelable(true);
-			mProgressDialog.setCanceledOnTouchOutside(false);
-			mProgressDialog.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
-			mProgressDialog.setProgress(0);
-			mProgressDialog.setMax(100);
-			mProgressDialog.setOnCancelListener(new DialogInterface.OnCancelListener() {
-				@Override
-				public void onCancel(DialogInterface dialog) {
-					runOnUiThread(new Runnable() {
-						public void run() {
-							pushToDialogOptions(DaisyReaderDownloadBooks.this
-									.getString(R.string.message_confirm_exit_download));
-						}
-					});
-				}
-			});
-			mProgressDialog.show();
-		}
+    /**
+     * Background Async Task to download file
+     * */
+    class DownloadFileFromURL extends AsyncTask<String, Integer, Boolean> {
+        /**
+         * Before starting background thread Show Progress Bar Dialog
+         * */
 
-		/**
-		 * Downloading file in background thread
-		 * */
-		@Override
-		protected Boolean doInBackground(String... params) {
-			int count;
-			boolean result = false;
-			try {
-				String link = params[0];
-				java.net.URL url = new java.net.URL(link);
-				URLConnection conection = url.openConnection();
-				conection.connect();
-				// this will be useful so that you can show a tipical 0-100%
-				// progress bar
-				int lenghtOfFile = conection.getContentLength();
-				// download the file
-				InputStream input = new BufferedInputStream(url.openStream(), 8192);
-				// Output stream
-				String splitString[] = link.split("/");
-				mName = splitString[splitString.length - 1];
-				OutputStream output = new FileOutputStream(PATH + mName);
-				byte data[] = new byte[1024];
-				long total = 0;
-				while ((count = input.read(data)) != -1) {
-					if (isCancelled()) {
-						File file = new File(PATH + mName);
-						file.delete();
-						break;
-					} else {
-						total += count;
-						// publishing the progress....
-						// After this onProgressUpdate will be called
-						publishProgress((int) ((total * 100) / lenghtOfFile));
-						// writing data to file
-						output.write(data, 0, count);
-					}
-				}
-				// flushing output
-				output.flush();
-				// closing streams
-				output.close();
-				input.close();
-				result = true;
-			} catch (Exception e) {
-				result = false;
-				mTask.cancel(true);
-				mProgressDialog.dismiss();
-				// show error message if an error occurs while connecting to the
-				// resource
-				final PrivateException ex = new PrivateException(e, DaisyReaderDownloadBooks.this);
-				runOnUiThread(new Runnable() {
-					public void run() {
-						IntentController intent = new IntentController(
-								DaisyReaderDownloadBooks.this);
-						ex.showDialogDowloadException(intent);
-					}
-				});
-			}
+        @Override
+        protected void onPreExecute() {
+            mProgressDialog = new ProgressDialog(DaisyReaderDownloadBooks.this);
+            mProgressDialog.setMessage(DaisyReaderDownloadBooks.this
+                    .getString(R.string.message_downloading_file));
+            mProgressDialog.setCancelable(true);
+            mProgressDialog.setCanceledOnTouchOutside(false);
+            mProgressDialog.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
+            mProgressDialog.setProgress(0);
+            mProgressDialog.setMax(maxProgress);
+            mProgressDialog.setOnCancelListener(new DialogInterface.OnCancelListener() {
+                @Override
+                public void onCancel(DialogInterface dialog) {
+                    runOnUiThread(new Runnable() {
+                        public void run() {
+                            pushToDialogOptions(DaisyReaderDownloadBooks.this
+                                    .getString(R.string.message_confirm_exit_download));
+                        }
+                    });
+                }
+            });
+            mProgressDialog.show();
+        }
 
-			return result;
-		}
+        /**
+         * Downloading file in background thread
+         * */
+        @Override
+        protected Boolean doInBackground(String... params) {
+            int count;
+            boolean result = false;
+            try {
+                String link = params[0];
+                java.net.URL url = new java.net.URL(link);
+                URLConnection conection = url.openConnection();
+                conection.connect();
+                // this will be useful so that you can show a tipical 0-100%
+                // progress bar
+                int lenghtOfFile = conection.getContentLength();
+                // download the file
+                InputStream input = new BufferedInputStream(url.openStream(), size);
+                // Output stream
+                String splitString[] = link.split("/");
+                mName = splitString[splitString.length - 1];
+                OutputStream output = new FileOutputStream(PATH + mName);
+                byte data[] = new byte[byteVaule];
+                long total = 0;
+                while ((count = input.read(data)) != -1) {
+                    if (isCancelled()) {
+                        File file = new File(PATH + mName);
+                        file.delete();
+                        break;
+                    } else {
+                        total += count;
+                        // publishing the progress....
+                        // After this onProgressUpdate will be called
+                        publishProgress((int) ((total * maxProgress) / lenghtOfFile));
+                        // writing data to file
+                        output.write(data, 0, count);
+                    }
+                }
+                // flushing output
+                output.flush();
+                // closing streams
+                output.close();
+                input.close();
+                result = true;
+            } catch (Exception e) {
+                result = false;
+                mTask.cancel(true);
+                mProgressDialog.dismiss();
+                // show error message if an error occurs while connecting to the
+                // resource
+                final PrivateException ex = new PrivateException(e, DaisyReaderDownloadBooks.this);
+                runOnUiThread(new Runnable() {
+                    public void run() {
+                        IntentController intent = new IntentController(
+                                DaisyReaderDownloadBooks.this);
+                        ex.showDialogDowloadException(intent);
+                    }
+                });
+            }
 
-		@Override
-		protected void onProgressUpdate(Integer... values) {
-			mProgressDialog.setProgress(values[0]);
-		}
+            return result;
+        }
 
-		/**
-		 * After completing background task Dismiss the progress dialogs
-		 * **/
-		@Override
-		protected void onPostExecute(Boolean result) {
-			if (alertDialog != null) {
-				alertDialog.dismiss();
-			}
-			mProgressDialog.dismiss();
-			try {
-				if (result == true) {
-					DaisyBook daisyBook = new DaisyBook();
-					String path = PATH + mName;
-					daisyBook = DaisyBookUtil.getDaisy202Book(path);
+        @Override
+        protected void onProgressUpdate(Integer... values) {
+            mProgressDialog.setProgress(values[0]);
+        }
 
-					DaisyBookInfo daisyBookInfo = new DaisyBookInfo();
-					daisyBookInfo.setAuthor(daisyBook.getAuthor());
-					Date date = daisyBook.getDate();
-					String sDate = formatDateOrReturnEmptyString(date);
-					daisyBookInfo.setDate(sDate);
-					daisyBookInfo.setPath(path);
-					daisyBookInfo.setPublisher(daisyBook.getPublisher());
-					daisyBookInfo.setSort(mDaisyBook.getSort());
-					daisyBookInfo.setTitle(daisyBook.getTitle());
-					if (mSql.addDaisyBook(daisyBookInfo, Constants.TYPE_DOWNLOADED_BOOK) == true) {
-						Intent intent = new Intent(DaisyReaderDownloadBooks.this,
-								DaisyReaderDownloadedBooks.class);
-						DaisyReaderDownloadBooks.this.startActivity(intent);
-					}
-				}
-			} catch (Exception e) {
-				PrivateException ex = new PrivateException(e, DaisyReaderDownloadBooks.this);
-				ex.writeLogException();
-			}
-		}
-	}
+        /**
+         * After completing background task Dismiss the progress dialogs
+         * **/
+        @Override
+        protected void onPostExecute(Boolean result) {
+            if (alertDialog != null) {
+                alertDialog.dismiss();
+            }
+            mProgressDialog.dismiss();
+            try {
+                if (result == true) {
+                    DaisyBook daisyBook = new DaisyBook();
+                    String path = PATH + mName;
+                    daisyBook = DaisyBookUtil.getDaisy202Book(path);
 
-	/**
-	 * Format date or return empty string.
-	 * 
-	 * @param date the date
-	 * @return the string
-	 */
-	private String formatDateOrReturnEmptyString(Date date) {
-		String sDate = "";
-		if (date != null) {
-			sDate = String.format(Locale.getDefault(), ("%tB %te, %tY %n"), date, date, date);
-		}
-		return sDate;
-	}
+                    DaisyBookInfo daisyBookInfo = new DaisyBookInfo();
+                    daisyBookInfo.setAuthor(daisyBook.getAuthor());
+                    Date date = daisyBook.getDate();
+                    String sDate = formatDateOrReturnEmptyString(date);
+                    daisyBookInfo.setDate(sDate);
+                    daisyBookInfo.setPath(path);
+                    daisyBookInfo.setPublisher(daisyBook.getPublisher());
+                    daisyBookInfo.setSort(mDaisyBook.getSort());
+                    daisyBookInfo.setTitle(daisyBook.getTitle());
+                    if (mSql.addDaisyBook(daisyBookInfo, Constants.TYPE_DOWNLOADED_BOOK) == true) {
+                        Intent intent = new Intent(DaisyReaderDownloadBooks.this,
+                                DaisyReaderDownloadedBooks.class);
+                        DaisyReaderDownloadBooks.this.startActivity(intent);
+                    }
+                }
+            } catch (Exception e) {
+                PrivateException ex = new PrivateException(e, DaisyReaderDownloadBooks.this);
+                ex.writeLogException();
+            }
+        }
+    }
 
-	@Override
-	public void onBackPressed() {
-		if (mTask != null) {
-			mTask.cancel(false);
-		}
-		super.onBackPressed();
-	}
+    /**
+     * Format date or return empty string.
+     * 
+     * @param date the date
+     * @return the string
+     */
+    private String formatDateOrReturnEmptyString(Date date) {
+        String sDate = "";
+        if (date != null) {
+            sDate = String.format(Locale.getDefault(), ("%tB %te, %tY %n"), date, date, date);
+        }
+        return sDate;
+    }
 
-	@Override
-	protected void onResume() {
-		super.onResume();
-		handleSearchBook();
-	}
+    @Override
+    public void onBackPressed() {
+        if (mTask != null) {
+            mTask.cancel(false);
+        }
+        super.onBackPressed();
+    }
 
-	@Override
-	protected void onDestroy() {
-		try {
-			if (mTts != null) {
-				mTts.shutdown();
-			}
-		} catch (Exception e) {
-			PrivateException ex = new PrivateException(e, DaisyReaderDownloadBooks.this);
-			ex.writeLogException();
-		}
-		super.onDestroy();
-	}
+    @Override
+    protected void onResume() {
+        super.onResume();
+        handleSearchBook();
+    }
 
-	/**
-	 * Show a dialog to confirm exit download.
-	 * 
-	 * @param message
-	 */
-	private void pushToDialogOptions(String message) {
-		alertDialog = new AlertDialog.Builder(DaisyReaderDownloadBooks.this).create();
-		// Setting Dialog Title
-		alertDialog.setTitle(R.string.error_title);
-		// Setting Dialog Message
-		alertDialog.setMessage(message);
-		alertDialog.setCanceledOnTouchOutside(false);
-		alertDialog.setCancelable(false);
-		// Setting Icon to Dialog
-		alertDialog.setIcon(R.raw.error);
-		alertDialog.setButton(AlertDialog.BUTTON_NEGATIVE,
-				DaisyReaderDownloadBooks.this.getString(R.string.no),
-				new DialogInterface.OnClickListener() {
-					public void onClick(DialogInterface dialog, int id) {
-						mProgressDialog.show();
-					}
-				});
-		alertDialog.setButton(AlertDialog.BUTTON_POSITIVE,
-				DaisyReaderDownloadBooks.this.getString(R.string.yes),
-				new DialogInterface.OnClickListener() {
-					public void onClick(DialogInterface dialog, int id) {
-						mTask.cancel(true);
-					}
-				});
-		alertDialog.show();
-	}
+    @Override
+    protected void onDestroy() {
+        try {
+            if (mTts != null) {
+                mTts.shutdown();
+            }
+        } catch (Exception e) {
+            PrivateException ex = new PrivateException(e, DaisyReaderDownloadBooks.this);
+            ex.writeLogException();
+        }
+        super.onDestroy();
+    }
 
-	private void downloadABook(int position) {
-		boolean isConnected = DaisyBookUtil.getConnectivityStatus(DaisyReaderDownloadBooks.this) != Constants.TYPE_NOT_CONNECTED;
-		IntentController intent = new IntentController(DaisyReaderDownloadBooks.this);
-		if (isConnected) {
-			if (checkFolderIsExist()) {
-				mDaisyBook = mlistDaisyBook.get(position);
-				String link = mDaisyBook.getPath();
+    /**
+     * Show a dialog to confirm exit download.
+     * 
+     * @param message
+     */
+    private void pushToDialogOptions(String message) {
+        alertDialog = new AlertDialog.Builder(DaisyReaderDownloadBooks.this).create();
+        // Setting Dialog Title
+        alertDialog.setTitle(R.string.error_title);
+        // Setting Dialog Message
+        alertDialog.setMessage(message);
+        alertDialog.setCanceledOnTouchOutside(false);
+        alertDialog.setCancelable(false);
+        // Setting Icon to Dialog
+        alertDialog.setIcon(R.raw.error);
+        alertDialog.setButton(AlertDialog.BUTTON_NEGATIVE,
+                DaisyReaderDownloadBooks.this.getString(R.string.no),
+                new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        mProgressDialog.show();
+                    }
+                });
+        alertDialog.setButton(AlertDialog.BUTTON_POSITIVE,
+                DaisyReaderDownloadBooks.this.getString(R.string.yes),
+                new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        mTask.cancel(true);
+                    }
+                });
+        alertDialog.show();
+    }
 
-				if (checkStorage(link) != 0) {
-					String params[] = { link };
-					runAsynTask(params);
-				} else {
-					intent.pushToDialog(DaisyReaderDownloadBooks.this
-							.getString(R.string.error_not_enough_space),
-							DaisyReaderDownloadBooks.this.getString(R.string.error_title),
-							R.raw.error, false, false, null);
-				}
-			}
-		} else {
-			intent.pushToDialog(
-					DaisyReaderDownloadBooks.this.getString(R.string.error_connect_internet),
-					DaisyReaderDownloadBooks.this.getString(R.string.error_title),
-					R.raw.error, false, false, null);
-		}
-	}
+    private void downloadABook(int position) {
+        boolean isConnected = DaisyBookUtil.getConnectivityStatus(DaisyReaderDownloadBooks.this) != Constants.TYPE_NOT_CONNECTED;
+        IntentController intent = new IntentController(DaisyReaderDownloadBooks.this);
+        if (isConnected) {
+            if (checkFolderIsExist()) {
+                mDaisyBook = mlistDaisyBook.get(position);
+                String link = mDaisyBook.getPath();
+
+                if (checkStorage(link) != 0) {
+                    String params[] = { link };
+                    runAsynTask(params);
+                } else {
+                    intent.pushToDialog(DaisyReaderDownloadBooks.this
+                            .getString(R.string.error_not_enough_space),
+                            DaisyReaderDownloadBooks.this.getString(R.string.error_title),
+                            R.raw.error, false, false, null);
+                }
+            }
+        } else {
+            intent.pushToDialog(
+                    DaisyReaderDownloadBooks.this.getString(R.string.error_connect_internet),
+                    DaisyReaderDownloadBooks.this.getString(R.string.error_title), R.raw.error,
+                    false, false, null);
+        }
+    }
 }

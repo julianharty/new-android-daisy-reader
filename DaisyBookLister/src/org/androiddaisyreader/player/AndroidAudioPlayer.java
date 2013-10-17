@@ -92,7 +92,7 @@ public class AndroidAudioPlayer implements AudioPlayer, OnCompletionListener {
         } catch (Exception e) {
             // TODO 20120514 (jharty): Consider how to report exceptions. For
             // now this'll do.
-            e.printStackTrace();
+            Log.e("TAG", e.getMessage(), e);
         }
         // TODO 20120514 (jharty): This starts from the start of the clip. Add
         // code to start later in the clip e.g. from a bookmark setting.
@@ -118,10 +118,10 @@ public class AndroidAudioPlayer implements AudioPlayer, OnCompletionListener {
             player.prepare();
         } catch (IllegalStateException e) {
             // TODO Auto-generated catch block
-            e.printStackTrace();
+            Log.e("TAG", e.getMessage(), e);
         } catch (IOException e) {
             // TODO Auto-generated catch block
-            e.printStackTrace();
+            Log.e("TAG", e.getMessage(), e);
         }
     }
 

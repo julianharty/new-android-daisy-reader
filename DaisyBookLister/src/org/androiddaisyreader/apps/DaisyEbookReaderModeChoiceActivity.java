@@ -1,7 +1,6 @@
 package org.androiddaisyreader.apps;
 
 import org.androiddaisyreader.model.CurrentInformation;
-import org.androiddaisyreader.model.DaisyBook;
 import org.androiddaisyreader.player.IntentController;
 import org.androiddaisyreader.sqlite.SQLiteCurrentInformationHelper;
 import org.androiddaisyreader.utils.Constants;
@@ -77,23 +76,10 @@ public class DaisyEbookReaderModeChoiceActivity extends DaisyEbookReaderBaseActi
      * get book title on the top activity
      */
     private String getBookTitle() {
-        DaisyBook daisyBook;
-        String titleOfBook = "";
+        String titleOfBook = null;
         mPath = getIntent().getStringExtra(Constants.DAISY_PATH);
         try {
-            try {
-                if (DaisyBookUtil.findDaisyFormat(mPath) == Constants.DAISY_202_FORMAT) {
-                    daisyBook = DaisyBookUtil.getDaisy202Book(mPath);
-                    titleOfBook = daisyBook.getTitle() == null ? "" : daisyBook.getTitle();
-                } else {
-                    daisyBook = DaisyBookUtil.getDaisy30Book(mPath);
-                    titleOfBook = daisyBook.getTitle() == null ? "" : daisyBook.getTitle();
-                }
-            } catch (Exception e) {
-                PrivateException ex = new PrivateException(e, getApplicationContext(), mPath);
-                throw ex;
-            }
-
+            titleOfBook = new DaisyBookUtil().getBookTitle(mPath, getApplicationContext());
         } catch (PrivateException e) {
             e.showDialogException(mIntentController);
         }
@@ -107,8 +93,10 @@ public class DaisyEbookReaderModeChoiceActivity extends DaisyEbookReaderBaseActi
             boolean isDoubleTap = handleClickItem(v.getId());
             if (isDoubleTap) {
                 if (v.getId() == R.id.simpleMode) {
+                    updateCurrentInformation();
                     mIntentController.pushToDaisyEbookReaderSimpleModeIntent(mPath);
                 } else {
+                    updateCurrentInformation();
                     mIntentController.pushToDaisyEbookReaderVisualModeIntent(mPath);
                 }
             } else {

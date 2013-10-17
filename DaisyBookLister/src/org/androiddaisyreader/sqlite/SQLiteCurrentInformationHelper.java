@@ -26,17 +26,8 @@ public class SQLiteCurrentInformationHelper extends SQLiteHandler {
     public void addCurrentInformation(CurrentInformation current) {
 
         ContentValues mValue = new ContentValues();
-        mValue.put(AUDIO_NAME_KEY_CURRENT_INFORMATION, current.getAudioName());
-        mValue.put(PATH_KEY_CURRENT_INFORMATION, current.getPath());
-        mValue.put(TIME_KEY_CURRENT_INFORMATION, current.getTime());
-        mValue.put(SECTION_KEY_CURRENT_INFORMATION, current.getSection());
-        mValue.put(PLAYING_KEY_CURRENT_INFORMATION, current.getPlaying());
-        mValue.put(SENTENCE_KEY_CURRENT_INFORMATION, current.getSentence());
-        mValue.put(ACTIVITY_KEY_CURRENT_INFORMATION, current.getActivity());
-        mValue.put(FIRST_NEXT_KEY_CURRENT_INFORMATION, current.getFirstNext());
-        mValue.put(FIRST_PREVIOUS_KEY_CURRENT_INFORMATION, current.getFirstPrevious());
         mValue.put(ID_KEY_CURRENT_INFORMATION, UUID.randomUUID().toString());
-        mValue.put(AT_THE_END_KEY_CURRENT_INFORMATION, current.getAtTheEnd());
+        putValue(mValue, current);
         try {
             SQLiteDatabase mdb = getWritableDatabase();
             mdb.insert(TABLE_NAME_CURRENT_INFORMATION, null, mValue);
@@ -73,17 +64,8 @@ public class SQLiteCurrentInformationHelper extends SQLiteHandler {
      */
     public void updateCurrentInformation(CurrentInformation current) {
         ContentValues mValue = new ContentValues();
-        mValue.put(AUDIO_NAME_KEY_CURRENT_INFORMATION, current.getAudioName());
-        mValue.put(PATH_KEY_CURRENT_INFORMATION, current.getPath());
-        mValue.put(TIME_KEY_CURRENT_INFORMATION, current.getTime());
-        mValue.put(SECTION_KEY_CURRENT_INFORMATION, current.getSection());
-        mValue.put(PLAYING_KEY_CURRENT_INFORMATION, current.getPlaying());
-        mValue.put(SENTENCE_KEY_CURRENT_INFORMATION, current.getSentence());
-        mValue.put(ACTIVITY_KEY_CURRENT_INFORMATION, current.getActivity());
-        mValue.put(FIRST_NEXT_KEY_CURRENT_INFORMATION, current.getFirstNext());
-        mValue.put(FIRST_PREVIOUS_KEY_CURRENT_INFORMATION, current.getFirstPrevious());
-        mValue.put(AT_THE_END_KEY_CURRENT_INFORMATION, current.getAtTheEnd());
         try {
+            putValue(mValue, current);
             SQLiteDatabase mdb = getWritableDatabase();
             mdb.update(TABLE_NAME_CURRENT_INFORMATION, mValue, ID_KEY_CURRENT_INFORMATION + "=?",
                     new String[] { current.getId() });
@@ -92,7 +74,19 @@ public class SQLiteCurrentInformationHelper extends SQLiteHandler {
             PrivateException ex = new PrivateException(e, mContext);
             ex.writeLogException();
         }
+    }
 
+    private void putValue(ContentValues value, CurrentInformation currentInfomation) {
+        value.put(AUDIO_NAME_KEY_CURRENT_INFORMATION, currentInfomation.getAudioName());
+        value.put(PATH_KEY_CURRENT_INFORMATION, currentInfomation.getPath());
+        value.put(TIME_KEY_CURRENT_INFORMATION, currentInfomation.getTime());
+        value.put(SECTION_KEY_CURRENT_INFORMATION, currentInfomation.getSection());
+        value.put(PLAYING_KEY_CURRENT_INFORMATION, currentInfomation.getPlaying());
+        value.put(SENTENCE_KEY_CURRENT_INFORMATION, currentInfomation.getSentence());
+        value.put(ACTIVITY_KEY_CURRENT_INFORMATION, currentInfomation.getActivity());
+        value.put(FIRST_NEXT_KEY_CURRENT_INFORMATION, currentInfomation.getFirstNext());
+        value.put(FIRST_PREVIOUS_KEY_CURRENT_INFORMATION, currentInfomation.getFirstPrevious());
+        value.put(AT_THE_END_KEY_CURRENT_INFORMATION, currentInfomation.getAtTheEnd());
     }
 
     /**

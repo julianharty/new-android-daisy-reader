@@ -50,9 +50,9 @@ public class MetaDataHandlerTest extends AndroidTestCase {
 		super.setUp();
 		RenamingDelegatingContext context = new RenamingDelegatingContext(getContext(), "");
 		mContext = context;
-		Constants.FOLDER_CONTAIN_METADATA = Environment.getExternalStorageDirectory().toString()
+		Constants.folderContainMetadata = Environment.getExternalStorageDirectory().toString()
 				+ "/" + Constants.FOLDER_NAME + "/";
-		File directory = new File(Constants.FOLDER_CONTAIN_METADATA);
+		File directory = new File(Constants.folderContainMetadata);
 		// Create a File object for the parent directory
 		directory.mkdirs();
 		// Then run the method to copy the file.
@@ -64,14 +64,14 @@ public class MetaDataHandlerTest extends AndroidTestCase {
 	 * Copy the file from the assets folder to the sdCard
 	 **/
 	private void copyFileFromAssets() {
-		File file = new File(Constants.FOLDER_CONTAIN_METADATA + Constants.META_DATA_FILE_NAME);
+		File file = new File(Constants.folderContainMetadata + Constants.META_DATA_FILE_NAME);
 		if (!file.exists()) {
 			AssetManager assetManager = mContext.getAssets();
 			InputStream in = null;
 			OutputStream out = null;
 			try {
 				in = assetManager.open(Constants.META_DATA_FILE_NAME);
-				out = new FileOutputStream(Constants.FOLDER_CONTAIN_METADATA
+				out = new FileOutputStream(Constants.folderContainMetadata
 						+ Constants.META_DATA_FILE_NAME);
 				copyFile(in, out);
 				in.close();
@@ -130,12 +130,12 @@ public class MetaDataHandlerTest extends AndroidTestCase {
 		InputStream databaseInputStream = null;
 		MetaDataHandler metadata = new MetaDataHandler();
 		try {
-			databaseInputStream = new FileInputStream(Constants.FOLDER_CONTAIN_METADATA
+			databaseInputStream = new FileInputStream(Constants.folderContainMetadata
 					+ Constants.META_DATA_FILE_NAME);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		NodeList nlistDaisy = metadata.ReadDataDownloadFromXmlFile(databaseInputStream, website);
+		NodeList nlistDaisy = metadata.readDataDownloadFromXmlFile(databaseInputStream, website);
 		assertEquals(true, nlistDaisy.getLength() > 0);
 	}
 
@@ -153,7 +153,7 @@ public class MetaDataHandlerTest extends AndroidTestCase {
 		InputStream nullInputStream = null;
 		MetaDataHandler metadata = new MetaDataHandler();
 		try {
-			metadata.ReadDataDownloadFromXmlFile(nullInputStream, website);
+			metadata.readDataDownloadFromXmlFile(nullInputStream, website);
 		} catch (IllegalArgumentException e) {
 			assertEquals(true, e.getMessage().contains(IllegalArgumentException.class.toString()));
 		}
@@ -163,12 +163,12 @@ public class MetaDataHandlerTest extends AndroidTestCase {
 	 * Test write data to xml file.
 	 */
 	public void testWriteDataToXmlFile() {
-		String localPath = Constants.FOLDER_CONTAIN_METADATA
+		String localPath = Constants.folderContainMetadata
 				+ Constants.META_DATA_SCAN_BOOK_FILE_NAME;
 		MetaDataHandler metadata = new MetaDataHandler();
 		ArrayList<DaisyBookInfo> list = createDataForScanBook(5);
 		assertTrue(list.size() ==  5);
-		metadata.WriteDataToXmlFile(list, localPath);
+		metadata.writeDataToXmlFile(list, localPath);
 		File file = new File(localPath);
 		assertTrue(file.length() > 0);
 	}
@@ -180,24 +180,24 @@ public class MetaDataHandlerTest extends AndroidTestCase {
 	 *             the file not found exception
 	 */
 	public void testReadDataScanFromXmlFile() throws FileNotFoundException {
-		String localPath = Constants.FOLDER_CONTAIN_METADATA
+		String localPath = Constants.folderContainMetadata
 				+ Constants.META_DATA_SCAN_BOOK_FILE_NAME;
 		MetaDataHandler metadata = new MetaDataHandler();
 		ArrayList<DaisyBookInfo> list = createDataForScanBook(5);
 		assertTrue(list.size() > 0);
-		metadata.WriteDataToXmlFile(list, localPath);
+		metadata.writeDataToXmlFile(list, localPath);
 
 		InputStream databaseInputStream = null;
 		databaseInputStream = new FileInputStream(localPath);
-		NodeList nList = metadata.ReadDataScanFromXmlFile(databaseInputStream);
+		NodeList nList = metadata.readDataScanFromXmlFile(databaseInputStream);
 		assertTrue(nList.getLength() > 0);
 	}
 
 	@Override
 	protected void tearDown() throws Exception {
 		super.tearDown();
-		File directory = new File(Constants.FOLDER_CONTAIN_METADATA);
+		File directory = new File(Constants.folderContainMetadata);
 		directory.delete();
-		Constants.FOLDER_CONTAIN_METADATA = "";
+		Constants.folderContainMetadata = "";
 	}
 }

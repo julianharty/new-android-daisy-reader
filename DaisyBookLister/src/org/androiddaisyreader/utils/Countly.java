@@ -137,7 +137,7 @@ public final class Countly {
     }
 
     private void onTimer() {
-        if (isVisible == false) {
+        if (!isVisible) {
             return;
         }
 
@@ -174,11 +174,15 @@ class ConnectionQueue {
         serverURL = serverURLValue;
     }
 
+    private static final String APP_KEY = "app_key=";
+    private static final String DEVICE_ID = "device_id=";
+    private static final String TIMESTAMP = "timestamp=";
+
     public void beginSession() {
         String data;
-        data = "app_key=" + appKey;
-        data += "&" + "device_id=" + DeviceInfo.getUDID();
-        data += "&" + "timestamp=" + (long) (System.currentTimeMillis() / Countly.THOUSAND);
+        data = APP_KEY + appKey;
+        data += "&" + DEVICE_ID + DeviceInfo.getUDID();
+        data += "&" + TIMESTAMP + (long) (System.currentTimeMillis() / Countly.THOUSAND);
         data += "&" + "sdk_version=" + "1.0";
         data += "&" + "begin_session=" + "1";
         data += "&" + "metrics=" + DeviceInfo.getMetrics(context);
@@ -190,9 +194,9 @@ class ConnectionQueue {
 
     public void updateSession(int duration) {
         String data;
-        data = "app_key=" + appKey;
-        data += "&" + "device_id=" + DeviceInfo.getUDID();
-        data += "&" + "timestamp=" + (long) (System.currentTimeMillis() / Countly.THOUSAND);
+        data = APP_KEY + appKey;
+        data += "&" + DEVICE_ID + DeviceInfo.getUDID();
+        data += "&" + TIMESTAMP + (long) (System.currentTimeMillis() / Countly.THOUSAND);
         data += "&" + "session_duration=" + duration;
 
         queue.offer(data);
@@ -202,9 +206,9 @@ class ConnectionQueue {
 
     public void endSession(int duration) {
         String data;
-        data = "app_key=" + appKey;
-        data += "&" + "device_id=" + DeviceInfo.getUDID();
-        data += "&" + "timestamp=" + (long) (System.currentTimeMillis() / Countly.THOUSAND);
+        data = APP_KEY + appKey;
+        data += "&" + DEVICE_ID + DeviceInfo.getUDID();
+        data += "&" + TIMESTAMP + (long) (System.currentTimeMillis() / Countly.THOUSAND);
         data += "&" + "end_session=" + "1";
         data += "&" + "session_duration=" + duration;
 
@@ -215,9 +219,9 @@ class ConnectionQueue {
 
     public void recordEvents(String events) {
         String data;
-        data = "app_key=" + appKey;
-        data += "&" + "device_id=" + DeviceInfo.getUDID();
-        data += "&" + "timestamp=" + (long) (System.currentTimeMillis() / Countly.THOUSAND);
+        data = APP_KEY + appKey;
+        data += "&" + DEVICE_ID + DeviceInfo.getUDID();
+        data += "&" + TIMESTAMP + (long) (System.currentTimeMillis() / Countly.THOUSAND);
         data += "&" + "events=" + events;
 
         queue.offer(data);
@@ -226,11 +230,7 @@ class ConnectionQueue {
     }
 
     private void tick() {
-        if (thread != null && thread.isAlive()) {
-            return;
-        }
-
-        if (queue.isEmpty()) {
+        if (thread != null && thread.isAlive() || queue.isEmpty()) {
             return;
         }
 
@@ -243,7 +243,6 @@ class ConnectionQueue {
                     if (data == null) {
                         break;
                     }
-
                     int index = data.indexOf("REPLACE_UDID");
                     if (index != -1) {
                         if (!OpenUDIDManager.isInitialized()) {
@@ -251,7 +250,6 @@ class ConnectionQueue {
                         }
                         data = data.replaceFirst("REPLACE_UDID", OpenUDIDManager.getOpenUDID());
                     }
-
                     try {
                         DefaultHttpClient httpClient = new DefaultHttpClient();
                         HttpGet method = new HttpGet(new URI(serverURL + "/i?" + data));
@@ -260,9 +258,7 @@ class ConnectionQueue {
                         while (input.read() != -1) {
                             httpClient.getConnectionManager().shutdown();
                         }
-
                         Log.d("Countly", "ok ->" + data);
-
                         queue.poll();
                     } catch (Exception e) {
                         Log.d("Countly", e.toString());
@@ -349,6 +345,7 @@ class DeviceInfo {
         try {
             result = java.net.URLEncoder.encode(result, "UTF-8");
         } catch (UnsupportedEncodingException e) {
+            Log.d("UnsupportedEncodingException", e.getMessage());
         }
 
         return result;
@@ -422,7 +419,7 @@ class EventQueue {
         try {
             result = java.net.URLEncoder.encode(result, "UTF-8");
         } catch (UnsupportedEncodingException e) {
-
+            Log.d("UnsupportedEncodingException", e.getMessage());
         }
 
         return result;

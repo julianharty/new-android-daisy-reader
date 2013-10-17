@@ -59,7 +59,7 @@ public class GestureOverlay extends View {
         void onGestureFinish(int g);
     }
 
-    private final double left = 0;
+    private static final double LEFT = 0;
 
     private final double upleft = Math.PI * .25;
 
@@ -83,7 +83,7 @@ public class GestureOverlay extends View {
 
     private double downY;
 
-    private int radiusThreshold = 30;
+    private static int radiusThreshold = 30;
 
     public GestureOverlay(Context context, GestureListener callback) {
         super(context);
@@ -157,7 +157,7 @@ public class GestureOverlay extends View {
         }
 
         double theta = Math.atan2(downY - y, downX - x);
-        if (Math.abs(theta - left) < thetaTolerance) {
+        if (Math.abs(theta - LEFT) < thetaTolerance) {
             return Gesture.LEFT;
         } else if (Math.abs(theta - upleft) < thetaTolerance) {
             return Gesture.UPLEFT;

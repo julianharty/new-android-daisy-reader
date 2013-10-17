@@ -136,7 +136,6 @@ public class DaisyReaderScanBooksActivity extends DaisyEbookReaderBaseActivity {
      */
     private void handleSearchBook() {
         mTextSearch.addTextChangedListener(new TextWatcher() {
-
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 if (mListDaisyBookOriginal != null && mListDaisyBookOriginal.size() != 0) {
@@ -148,12 +147,10 @@ public class DaisyReaderScanBooksActivity extends DaisyEbookReaderBaseActivity {
 
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
             }
 
             @Override
             public void afterTextChanged(Editable s) {
-
             }
         });
     }
@@ -188,34 +185,14 @@ public class DaisyReaderScanBooksActivity extends DaisyEbookReaderBaseActivity {
             final DaisyBookInfo daisyBook = mListScanBook.get(arg2);
             boolean isDoubleTap = handleClickItem(arg2);
             if (isDoubleTap) {
-                addRecentBookToSQLite(mListScanBook.get(arg2));
+                DaisyBookUtil.addRecentBookToSQLite(mListScanBook.get(arg2), mNumberOfRecentBooks,
+                        mSql);
                 itemScanBookClick(daisyBook);
             } else {
                 speakTextOnHandler(daisyBook.getTitle());
             }
         }
     };
-
-    /**
-     * Adds the recent book to sql lite.
-     * 
-     * @param daisyBook the daisy book
-     */
-    private void addRecentBookToSQLite(DaisyBookInfo daisyBook) {
-        if (mNumberOfRecentBooks > 0) {
-            int lastestIdRecentBooks = 0;
-            List<DaisyBookInfo> recentBooks = mSql.getAllDaisyBook(Constants.TYPE_RECENT_BOOK);
-            if (recentBooks.size() > 0) {
-                lastestIdRecentBooks = recentBooks.get(0).getSort();
-            }
-            if (mSql.isExists(daisyBook.getTitle(), Constants.TYPE_RECENT_BOOK)) {
-                mSql.deleteDaisyBook(mSql.getDaisyBookByTitle(daisyBook.getTitle(),
-                        Constants.TYPE_RECENT_BOOK).getId());
-            }
-            daisyBook.setSort(lastestIdRecentBooks + 1);
-            mSql.addDaisyBook(daisyBook, Constants.TYPE_RECENT_BOOK);
-        }
-    }
 
     /**
      * Item scan book click.

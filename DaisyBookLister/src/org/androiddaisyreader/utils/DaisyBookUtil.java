@@ -10,6 +10,7 @@ import java.util.Locale;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipFile;
 
+import org.androiddaisyreader.apps.PrivateException;
 import org.androiddaisyreader.model.BookContext;
 import org.androiddaisyreader.model.DaisyBook;
 import org.androiddaisyreader.model.DaisyBookInfo;
@@ -17,10 +18,12 @@ import org.androiddaisyreader.model.FileSystemContext;
 import org.androiddaisyreader.model.NccSpecification;
 import org.androiddaisyreader.model.OpfSpecification;
 import org.androiddaisyreader.model.ZippedBookContext;
+import org.androiddaisyreader.sqlite.SQLiteDaisyBookHelper;
 
 import android.content.Context;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.util.Log;
 
 /**
  * @author LogiGear
@@ -146,7 +149,7 @@ public class DaisyBookUtil {
                 }
             }
         } catch (IOException e) {
-            e.printStackTrace();
+            Log.d("IOException", e.getMessage());
         }
         return false;
     }
@@ -170,7 +173,7 @@ public class DaisyBookUtil {
                 }
             }
         } catch (IOException e) {
-            e.printStackTrace();
+            Log.d("IOException", e.getMessage());
         }
         return result;
     }
@@ -334,5 +337,45 @@ public class DaisyBookUtil {
             result = Constants.DAISY_30_FORMAT;
         }
         return result;
+    }
+
+    /**
+     * Adds the recent book to sql lite.
+     * 
+     * @param daisyBook the daisy book
+     */
+    public static void addRecentBookToSQLite(DaisyBookInfo daisyBook, int numberOfRecentBooks,
+            SQLiteDaisyBookHelper sql) {
+        if (numberOfRecentBooks > 0) {
+            int lastestIdRecentBooks = 0;
+            List<DaisyBookInfo> recentBooks = sql.getAllDaisyBook(Constants.TYPE_RECENT_BOOK);
+            if (recentBooks.size() > 0) {
+                lastestIdRecentBooks = recentBooks.get(0).getSort();
+            }
+            if (sql.isExists(daisyBook.getTitle(), Constants.TYPE_RECENT_BOOK)) {
+                sql.deleteDaisyBook(sql.getDaisyBookByTitle(daisyBook.getTitle(),
+                        Constants.TYPE_RECENT_BOOK).getId());
+            }
+            daisyBook.setSort(lastestIdRecentBooks + 1);
+            sql.addDaisyBook(daisyBook, Constants.TYPE_RECENT_BOOK);
+        }
+    }
+
+    public String getBookTitle(String path, Context context) throws PrivateException {
+        DaisyBook daisyBook;
+        String titleOfBook = null;
+        try {
+            if (DaisyBookUtil.findDaisyFormat(path) == Constants.DAISY_202_FORMAT) {
+                daisyBook = DaisyBookUtil.getDaisy202Book(path);
+                titleOfBook = daisyBook.getTitle() == null ? "" : daisyBook.getTitle();
+            } else {
+                daisyBook = DaisyBookUtil.getDaisy30Book(path);
+                titleOfBook = daisyBook.getTitle() == null ? "" : daisyBook.getTitle();
+            }
+        } catch (Exception e) {
+            PrivateException ex = new PrivateException(e, context, path);
+            throw ex;
+        }
+        return titleOfBook;
     }
 }

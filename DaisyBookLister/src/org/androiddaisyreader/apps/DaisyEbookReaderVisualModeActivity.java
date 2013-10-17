@@ -3,9 +3,9 @@ package org.androiddaisyreader.apps;
 import java.io.File;
 import java.io.InputStream;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 import java.util.Map.Entry;
 
@@ -119,8 +119,8 @@ public class DaisyEbookReaderVisualModeActivity extends DaisyEbookReaderBaseActi
     private List<Audio> listAudio;
     private int countAudio = 0;
 
-    private HashMap<String, List<Integer>> mHashMapBegin;
-    private HashMap<String, List<Integer>> mHashMapEnd;
+    private Map<String, List<Integer>> mHashMapBegin;
+    private Map<String, List<Integer>> mHashMapEnd;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -705,7 +705,7 @@ public class DaisyEbookReaderVisualModeActivity extends DaisyEbookReaderBaseActi
 
     }
 
-    public AudioCallbackListener audioCallbackListener = new AudioCallbackListener() {
+    private AudioCallbackListener audioCallbackListener = new AudioCallbackListener() {
 
         public void endOfAudio() {
             Log.i("DAISYBOOKLISTENERACTIVITY", "Audio is over...");

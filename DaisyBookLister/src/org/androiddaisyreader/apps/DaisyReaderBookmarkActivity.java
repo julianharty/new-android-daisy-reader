@@ -118,22 +118,10 @@ public class DaisyReaderBookmarkActivity extends DaisyEbookReaderBaseActivity {
     }
 
     private String getBookTitle() {
-        DaisyBook daisyBook;
-        String titleOfBook = "";
+        String titleOfBook = null;
         mPath = getIntent().getStringExtra(Constants.DAISY_PATH);
         try {
-            try {
-                if (isFormat202) {
-                    daisyBook = DaisyBookUtil.getDaisy202Book(mPath);
-                    titleOfBook = daisyBook.getTitle() == null ? "" : daisyBook.getTitle();
-                } else {
-                    daisyBook = DaisyBookUtil.getDaisy30Book(mPath);
-                    titleOfBook = daisyBook.getTitle() == null ? "" : daisyBook.getTitle();
-                }
-            } catch (Exception e) {
-                PrivateException ex = new PrivateException(e, getApplicationContext(), mPath);
-                throw ex;
-            }
+            titleOfBook = new DaisyBookUtil().getBookTitle(mPath, getApplicationContext());
         } catch (PrivateException e) {
             e.showDialogException(mIntentController);
         }

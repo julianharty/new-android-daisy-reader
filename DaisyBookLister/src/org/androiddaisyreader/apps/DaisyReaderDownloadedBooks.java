@@ -110,7 +110,7 @@ public class DaisyReaderDownloadedBooks extends DaisyEbookReaderBaseActivity {
             boolean isDoubleTap = handleClickItem(arg2);
             if (isDoubleTap) {
                 // add to sqlite
-                addRecentBookToSQLite(daisyBook);
+                DaisyBookUtil.addRecentBookToSQLite(daisyBook, mNumberOfRecentBooks, mSql);
 
                 // push to reader activity
                 IntentController intentController = new IntentController(
@@ -121,27 +121,6 @@ public class DaisyReaderDownloadedBooks extends DaisyEbookReaderBaseActivity {
             }
         }
     };
-
-    /**
-     * Adds the recent book to sql lite.
-     * 
-     * @param daisyBook the daisy book
-     */
-    private void addRecentBookToSQLite(DaisyBookInfo daisyBook) {
-        if (mNumberOfRecentBooks > 0) {
-            int lastestIdRecentBooks = 0;
-            List<DaisyBookInfo> recentBooks = mSql.getAllDaisyBook(Constants.TYPE_RECENT_BOOK);
-            if (recentBooks.size() > 0) {
-                lastestIdRecentBooks = recentBooks.get(0).getSort();
-            }
-            if (mSql.isExists(daisyBook.getTitle(), Constants.TYPE_RECENT_BOOK)) {
-                mSql.deleteDaisyBook(mSql.getDaisyBookByTitle(daisyBook.getTitle(),
-                        Constants.TYPE_RECENT_BOOK).getId());
-            }
-            daisyBook.setSort(lastestIdRecentBooks + 1);
-            mSql.addDaisyBook(daisyBook, Constants.TYPE_RECENT_BOOK);
-        }
-    }
 
     /**
      * handle search book when text changed.
@@ -160,12 +139,10 @@ public class DaisyReaderDownloadedBooks extends DaisyEbookReaderBaseActivity {
 
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
             }
 
             @Override
             public void afterTextChanged(Editable s) {
-
             }
         });
     }

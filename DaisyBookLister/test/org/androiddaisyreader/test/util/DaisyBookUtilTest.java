@@ -2,6 +2,7 @@ package org.androiddaisyreader.test.util;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.List;
 
 import org.androiddaisyreader.model.DaisyBookInfo;
 import org.androiddaisyreader.sqlite.SQLiteDaisyBookHelper;
@@ -55,10 +56,10 @@ public class DaisyBookUtilTest extends AndroidTestCase {
 	 */
 	public void testSearchBookReturnTrueIfSearchCorrectly() {
 		prepareDataToTest(Constants.TYPE_DOWNLOAD_BOOK);
-		ArrayList<DaisyBookInfo> arrDaisyBook = helper.getAllDaisyBook(Constants.TYPE_DOWNLOAD_BOOK);
+		List<DaisyBookInfo> arrDaisyBook = helper.getAllDaisyBook(Constants.TYPE_DOWNLOAD_BOOK);
 		assertTrue(arrDaisyBook.size() == 5);
-		ArrayList<DaisyBookInfo> arrDaisyBookOriginal = new ArrayList<DaisyBookInfo>(arrDaisyBook);
-		ArrayList<DaisyBookInfo> arrResult = DaisyBookUtil.searchBookWithText("a", arrDaisyBook,
+		List<DaisyBookInfo> arrDaisyBookOriginal = new ArrayList<DaisyBookInfo>(arrDaisyBook);
+		List<DaisyBookInfo> arrResult = DaisyBookUtil.searchBookWithText("a", arrDaisyBook,
 				arrDaisyBookOriginal);
 		assertTrue(arrResult.size() == 2);
 	}
@@ -68,10 +69,10 @@ public class DaisyBookUtilTest extends AndroidTestCase {
 	 */
 	public void testSearchBookWhenNoContainText() {
 		prepareDataToTest(Constants.TYPE_DOWNLOAD_BOOK);
-		ArrayList<DaisyBookInfo> arrDaisyBook = helper.getAllDaisyBook(Constants.TYPE_DOWNLOAD_BOOK);
+		List<DaisyBookInfo> arrDaisyBook = helper.getAllDaisyBook(Constants.TYPE_DOWNLOAD_BOOK);
 		assertTrue(arrDaisyBook.size() == 5);
-		ArrayList<DaisyBookInfo> arrDaisyBookOriginal = new ArrayList<DaisyBookInfo>(arrDaisyBook);
-		ArrayList<DaisyBookInfo> arrResult = DaisyBookUtil.searchBookWithText("a3", arrDaisyBook,
+		List<DaisyBookInfo> arrDaisyBookOriginal = new ArrayList<DaisyBookInfo>(arrDaisyBook);
+		List<DaisyBookInfo> arrResult = DaisyBookUtil.searchBookWithText("a3", arrDaisyBook,
 				arrDaisyBookOriginal);
 		assertTrue(arrResult.size() == 0);
 	}
@@ -120,7 +121,7 @@ public class DaisyBookUtilTest extends AndroidTestCase {
 	 */
 	public void testFolderContainsDaisy202ReturnTrueWhenPathCorrectly(){
 		File folder = new File(PATH_EBOOK_202);
-		boolean result = DaisyBookUtil.folderContainsDaisy2_02Book(folder);
+		boolean result = DaisyBookUtil.folderContainsDaisy202Book(folder);
 		assertTrue(result);
 	}
 	
@@ -129,7 +130,7 @@ public class DaisyBookUtilTest extends AndroidTestCase {
 	 */
 	public void testFolderContainsDaisy202ReturnFalseWhenPathInCorrectly(){
 		File folder = new File("wrong path");
-		boolean result = DaisyBookUtil.folderContainsDaisy2_02Book(folder);
+		boolean result = DaisyBookUtil.folderContainsDaisy202Book(folder);
 		assertFalse(result);
 	}
 		

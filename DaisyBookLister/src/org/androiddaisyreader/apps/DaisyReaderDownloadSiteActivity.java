@@ -1,7 +1,7 @@
 package org.androiddaisyreader.apps;
 
+import java.util.ArrayList;
 import java.util.List;
-import java.util.Vector;
 
 import org.androiddaisyreader.adapter.WebsiteAdapter;
 import org.androiddaisyreader.model.Website;
@@ -76,7 +76,7 @@ public class DaisyReaderDownloadSiteActivity extends DaisyEbookReaderBaseActivit
      * Inits the list website.
      */
     private void initListWebsite() {
-        listWebsite = new Vector<Website>();
+        listWebsite = new ArrayList<Website>();
         Website website = null;
         website = new Website(this.getString(R.string.web_site_name_daisy_org),
                 this.getString(R.string.web_site_url_daisy_org), 1);

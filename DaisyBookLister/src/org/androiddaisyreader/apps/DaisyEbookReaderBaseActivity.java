@@ -37,11 +37,11 @@ public class DaisyEbookReaderBaseActivity extends SherlockActivity implements On
         TextToSpeech.OnInitListener {
     protected TextToSpeech mTts;
     // in millis
-    protected static final long DOUBLE_PRESS_INTERVAL = 1000;
-    private static final long delayMillis = 500;
-    protected static long lastPressTime;
-    protected static int lastPositionClick = -1;
-    protected static boolean mHasDoubleClicked = false;
+    private static final long DOUBLE_PRESS_INTERVAL = 1000;
+    private static final long DELAY_MILLIS = 500;
+    private static long lastPressTime;
+    private static int lastPositionClick = -1;
+    private static boolean mHasDoubleClicked = false;
 
     @SuppressLint("NewApi")
     @Override
@@ -196,7 +196,7 @@ public class DaisyEbookReaderBaseActivity extends SherlockActivity implements On
             }
         };
         Message m = new Message();
-        myHandler.sendMessageDelayed(m, delayMillis);
+        myHandler.sendMessageDelayed(m, DELAY_MILLIS);
     }
 
     /**

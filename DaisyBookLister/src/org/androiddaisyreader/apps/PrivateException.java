@@ -28,7 +28,7 @@ import android.util.Log;
 public class PrivateException extends Exception {
     private static final long serialVersionUID = -3511134293183982787L;
     // constructor without parameters
-    public Exception ex = new Exception();
+    private Exception ex = new Exception();
     private Context mContext;
     private String path;
 

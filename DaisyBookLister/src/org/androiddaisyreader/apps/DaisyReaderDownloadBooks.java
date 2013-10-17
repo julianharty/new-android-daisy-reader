@@ -9,6 +9,7 @@ import java.io.OutputStream;
 import java.net.URLConnection;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import java.util.Locale;
 
 import org.androiddaisyreader.adapter.DaisyBookAdapter;
@@ -52,10 +53,10 @@ public class DaisyReaderDownloadBooks extends DaisyEbookReaderBaseActivity {
     private String mLink;
     private SQLiteDaisyBookHelper mSql;
     private DaisyBookAdapter mDaisyBookAdapter;
-    public String mName;
+    private String mName;
     private DownloadFileFromURL mTask;
-    private ArrayList<DaisyBookInfo> mlistDaisyBook;
-    private ArrayList<DaisyBookInfo> mListDaisyBookOriginal;
+    private List<DaisyBookInfo> mlistDaisyBook;
+    private List<DaisyBookInfo> mListDaisyBookOriginal;
     private DaisyBookInfo mDaisyBook;
     private EditText mTextSearch;
     public static final String PATH = Environment.getExternalStorageDirectory().toString()
@@ -63,9 +64,9 @@ public class DaisyReaderDownloadBooks extends DaisyEbookReaderBaseActivity {
     private ProgressDialog mProgressDialog;
     private AlertDialog alertDialog;
 
-    private static final int maxProgress = 100;
-    private static final int size = 8192;
-    private static final int byteVaule = 1024;
+    private static final int MAX_PROGRESS = 100;
+    private static final int SIZE = 8192;
+    private static final int BYTE_VALUE = 1024;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -255,7 +256,7 @@ public class DaisyReaderDownloadBooks extends DaisyEbookReaderBaseActivity {
             mProgressDialog.setCanceledOnTouchOutside(false);
             mProgressDialog.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
             mProgressDialog.setProgress(0);
-            mProgressDialog.setMax(maxProgress);
+            mProgressDialog.setMax(MAX_PROGRESS);
             mProgressDialog.setOnCancelListener(new DialogInterface.OnCancelListener() {
                 @Override
                 public void onCancel(DialogInterface dialog) {
@@ -286,12 +287,12 @@ public class DaisyReaderDownloadBooks extends DaisyEbookReaderBaseActivity {
                 // progress bar
                 int lenghtOfFile = conection.getContentLength();
                 // download the file
-                InputStream input = new BufferedInputStream(url.openStream(), size);
+                InputStream input = new BufferedInputStream(url.openStream(), SIZE);
                 // Output stream
                 String splitString[] = link.split("/");
                 mName = splitString[splitString.length - 1];
                 OutputStream output = new FileOutputStream(PATH + mName);
-                byte data[] = new byte[byteVaule];
+                byte data[] = new byte[BYTE_VALUE];
                 long total = 0;
                 while ((count = input.read(data)) != -1) {
                     if (isCancelled()) {
@@ -302,7 +303,7 @@ public class DaisyReaderDownloadBooks extends DaisyEbookReaderBaseActivity {
                         total += count;
                         // publishing the progress....
                         // After this onProgressUpdate will be called
-                        publishProgress((int) ((total * maxProgress) / lenghtOfFile));
+                        publishProgress((int) ((total * MAX_PROGRESS) / lenghtOfFile));
                         // writing data to file
                         output.write(data, 0, count);
                     }
@@ -347,7 +348,7 @@ public class DaisyReaderDownloadBooks extends DaisyEbookReaderBaseActivity {
             }
             mProgressDialog.dismiss();
             try {
-                if (result == true) {
+                if (result) {
                     DaisyBook daisyBook = new DaisyBook();
                     String path = PATH + mName;
                     daisyBook = DaisyBookUtil.getDaisy202Book(path);
@@ -361,7 +362,7 @@ public class DaisyReaderDownloadBooks extends DaisyEbookReaderBaseActivity {
                     daisyBookInfo.setPublisher(daisyBook.getPublisher());
                     daisyBookInfo.setSort(mDaisyBook.getSort());
                     daisyBookInfo.setTitle(daisyBook.getTitle());
-                    if (mSql.addDaisyBook(daisyBookInfo, Constants.TYPE_DOWNLOADED_BOOK) == true) {
+                    if (mSql.addDaisyBook(daisyBookInfo, Constants.TYPE_DOWNLOADED_BOOK)) {
                         Intent intent = new Intent(DaisyReaderDownloadBooks.this,
                                 DaisyReaderDownloadedBooks.class);
                         DaisyReaderDownloadBooks.this.startActivity(intent);

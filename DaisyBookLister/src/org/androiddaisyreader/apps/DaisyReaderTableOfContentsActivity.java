@@ -1,6 +1,6 @@
 package org.androiddaisyreader.apps;
 
-import java.util.ArrayList;
+import java.util.List;
 
 import org.androiddaisyreader.model.Bookmark;
 import org.androiddaisyreader.model.CurrentInformation;
@@ -30,11 +30,10 @@ import com.actionbarsherlock.view.SubMenu;
  */
 public class DaisyReaderTableOfContentsActivity extends DaisyEbookReaderBaseActivity {
 
-    private ArrayList<String> mListResult;
+    private List<String> mListResult;
     private String mPath;
     private IntentController mIntentController;
     private DaisyBook mBook;
-    private int order = 1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,6 +56,7 @@ public class DaisyReaderTableOfContentsActivity extends DaisyEbookReaderBaseActi
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         String targetActivity = getIntent().getStringExtra(Constants.TARGET_ACTIVITY);
+        int order = 1;
         // invisible button book mark when you go to bookmark from simple mode.
         if (!targetActivity.equals(getString(R.string.simple_mode))) {
             SubMenu subMenu = menu.addSubMenu(0, Constants.SUBMENU_MENU, order++, R.string.menu_title);

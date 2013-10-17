@@ -57,11 +57,6 @@ public class DaisyEbookReaderModeChoiceActivity extends DaisyEbookReaderBaseActi
     }
 
     @Override
-    protected void onStart() {
-        super.onStart();
-    }
-
-    @Override
     protected void onRestart() {
         updateCurrentInformation();
         super.onRestart();

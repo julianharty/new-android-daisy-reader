@@ -56,12 +56,16 @@ public class DaisyEbookReaderService extends IntentService {
     public int onStartCommand(Intent intent, int flags, int startId) {
         Runnable r = new Runnable() {
             public void run() {
-                String localPath = Constants.folderContainMetadata
-                        + Constants.META_DATA_SCAN_BOOK_FILE_NAME;
-                mMetaData.writeDataToXmlFile(getData(), localPath);
-                mEditor.putBoolean(Constants.SERVICE_DONE, true);
-                mEditor.commit();
-                stopSelf();
+                Boolean isSDPresent = Environment.getExternalStorageState().equals(
+                        Environment.MEDIA_MOUNTED);
+                if (isSDPresent) {
+                    String localPath = Constants.folderContainMetadata
+                            + Constants.META_DATA_SCAN_BOOK_FILE_NAME;
+                    mMetaData.writeDataToXmlFile(getData(), localPath);
+                    mEditor.putBoolean(Constants.SERVICE_DONE, true);
+                    mEditor.commit();
+                    stopSelf();
+                }
             }
         };
 
@@ -82,7 +86,7 @@ public class DaisyEbookReaderService extends IntentService {
             if (files != null) {
                 int lengthOfFile = files.length;
                 for (int i = 0; i < lengthOfFile; i++) {
-                    ArrayList<String> listResult = DaisyBookUtil.getDaisyBook(files[i], false);
+                    List<String> listResult = DaisyBookUtil.getDaisyBook(files[i], false);
                     for (String result : listResult) {
                         try {
                             File daisyPath = new File(result);

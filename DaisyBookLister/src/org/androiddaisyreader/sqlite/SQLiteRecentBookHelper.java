@@ -1,6 +1,7 @@
 package org.androiddaisyreader.sqlite;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import org.androiddaisyreader.apps.PrivateException;
 import org.androiddaisyreader.model.DaisyBookInfo;
@@ -128,7 +129,7 @@ public class SQLiteRecentBookHelper extends SQLiteHandler {
      * 
      * @return
      */
-    public ArrayList<DaisyBookInfo> getAllRecentBooks() {
+    public List<DaisyBookInfo> getAllRecentBooks() {
         ArrayList<DaisyBookInfo> arrRecentBooks = new ArrayList<DaisyBookInfo>();
         try {
             SQLiteDatabase mdb = getReadableDatabase();

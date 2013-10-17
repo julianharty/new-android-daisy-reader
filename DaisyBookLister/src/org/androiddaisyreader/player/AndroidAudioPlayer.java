@@ -93,7 +93,6 @@ public class AndroidAudioPlayer implements AudioPlayer, OnCompletionListener {
             // TODO 20120514 (jharty): Consider how to report exceptions. For
             // now this'll do.
             e.printStackTrace();
-            throw new RuntimeException(e);
         }
         // TODO 20120514 (jharty): This starts from the start of the clip. Add
         // code to start later in the clip e.g. from a bookmark setting.

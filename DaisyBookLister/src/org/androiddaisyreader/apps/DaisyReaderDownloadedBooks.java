@@ -34,8 +34,8 @@ import com.actionbarsherlock.view.MenuItem;
 public class DaisyReaderDownloadedBooks extends DaisyEbookReaderBaseActivity {
 
     private SQLiteDaisyBookHelper mSql;
-    private ArrayList<DaisyBookInfo> mlistDaisyBook;
-    private ArrayList<DaisyBookInfo> mListDaisyBookOriginal;
+    private List<DaisyBookInfo> mlistDaisyBook;
+    private List<DaisyBookInfo> mListDaisyBookOriginal;
     private DaisyBookAdapter mDaisyBookAdapter;
     private EditText mTextSearch;
     private int mNumberOfRecentBooks;
@@ -88,9 +88,9 @@ public class DaisyReaderDownloadedBooks extends DaisyEbookReaderBaseActivity {
      * 
      * @return List daisy book
      */
-    private ArrayList<DaisyBookInfo> getActualDownloadedBooks() {
+    private List<DaisyBookInfo> getActualDownloadedBooks() {
         ArrayList<DaisyBookInfo> actualDownloadedBooks = new ArrayList<DaisyBookInfo>();
-        ArrayList<DaisyBookInfo> listBooks = mSql.getAllDaisyBook(Constants.TYPE_DOWNLOADED_BOOK);
+        List<DaisyBookInfo> listBooks = mSql.getAllDaisyBook(Constants.TYPE_DOWNLOADED_BOOK);
         for (DaisyBookInfo book : listBooks) {
             File file = new File(book.getPath());
             if (file.exists()) {

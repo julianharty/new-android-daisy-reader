@@ -59,7 +59,7 @@ public class GestureOverlay extends View {
         void onGestureFinish(int g);
     }
 
-    private static final double left = 0;
+    private final double left = 0;
 
     private final double upleft = Math.PI * .25;
 
@@ -146,9 +146,9 @@ public class GestureOverlay extends View {
     }
 
     public int evalMotion(double x, double y) {
-        final int TWELVE = 12;
+        final int twelve = 12;
         float rTolerance = radiusThreshold;
-        double thetaTolerance = (Math.PI / TWELVE);
+        double thetaTolerance = (Math.PI / twelve);
 
         double r = Math.sqrt(((downX - x) * (downX - x)) + ((downY - y) * (downY - y)));
 

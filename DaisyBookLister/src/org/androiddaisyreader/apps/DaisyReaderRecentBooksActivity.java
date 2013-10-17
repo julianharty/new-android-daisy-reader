@@ -38,8 +38,8 @@ public class DaisyReaderRecentBooksActivity extends DaisyEbookReaderBaseActivity
     private EditText mTextSearch;
     private SQLiteDaisyBookHelper mSql;
     private DaisyBookAdapter mDaisyBookAdapter;
-    private ArrayList<DaisyBookInfo> mListRecentBooks;
-    private ArrayList<DaisyBookInfo> mListRecentBookOriginal;
+    private List<DaisyBookInfo> mListRecentBooks;
+    private List<DaisyBookInfo> mListRecentBookOriginal;
     private int mNumberOfRecentBooks;
 
     @Override
@@ -123,7 +123,7 @@ public class DaisyReaderRecentBooksActivity extends DaisyEbookReaderBaseActivity
      * 
      * @return the array list recent books
      */
-    private ArrayList<DaisyBookInfo> loadRecentBooks() {
+    private List<DaisyBookInfo> loadRecentBooks() {
         ArrayList<DaisyBookInfo> daisyBookList = new ArrayList<DaisyBookInfo>();
         // get all recent books from sqlite.
         List<DaisyBookInfo> recentBooks = mSql.getAllDaisyBook(Constants.TYPE_RECENT_BOOK);

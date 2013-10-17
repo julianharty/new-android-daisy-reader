@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Enumeration;
+import java.util.List;
 import java.util.Locale;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipFile;
@@ -34,8 +35,8 @@ public class DaisyBookUtil {
      * @param listBook the list recent books
      * @param listBookOriginal the list recent book original
      */
-    public static ArrayList<DaisyBookInfo> searchBookWithText(CharSequence textSearch,
-            ArrayList<DaisyBookInfo> listBook, ArrayList<DaisyBookInfo> listBookOriginal) {
+    public static List<DaisyBookInfo> searchBookWithText(CharSequence textSearch,
+            List<DaisyBookInfo> listBook, List<DaisyBookInfo> listBookOriginal) {
         listBook.clear();
         for (int i = 0; i < listBookOriginal.size(); i++) {
             if (listBookOriginal.get(i).getTitle().toString().toUpperCase(Locale.getDefault())
@@ -58,10 +59,13 @@ public class DaisyBookUtil {
 
         NetworkInfo activeNetwork = cm.getActiveNetworkInfo();
         if (null != activeNetwork) {
-            if (activeNetwork.getType() == ConnectivityManager.TYPE_WIFI)
+            if (activeNetwork.getType() == ConnectivityManager.TYPE_WIFI) {
                 return Constants.TYPE_WIFI;
-            if (activeNetwork.getType() == ConnectivityManager.TYPE_MOBILE)
+            }
+
+            if (activeNetwork.getType() == ConnectivityManager.TYPE_MOBILE) {
                 return Constants.TYPE_MOBILE;
+            }
         }
         return Constants.TYPE_NOT_CONNECTED;
     }
@@ -77,7 +81,7 @@ public class DaisyBookUtil {
 
     public static boolean folderContainsDaisy202Book(File folder) {
         boolean result = false;
-        if (folder.getAbsolutePath().endsWith(".zip")) {
+        if (folder.getAbsolutePath().endsWith(Constants.SUFFIX_ZIP_FILE)) {
             result = zipFileContainsDaisy202Book(folder.getAbsolutePath());
         } else {
 
@@ -115,7 +119,7 @@ public class DaisyBookUtil {
             result = false;
         }
         String fileName = getOpfFileName(folder.getAbsolutePath());
-        if (folder.getAbsolutePath().endsWith(".zip")) {
+        if (folder.getAbsolutePath().endsWith(Constants.SUFFIX_ZIP_FILE)) {
             fileName = getOpfFileNameInZipFolder(folder.getAbsolutePath());
         }
         if (fileName != null) {
@@ -209,7 +213,7 @@ public class DaisyBookUtil {
             bookContext = new FileSystemContext(directory.getParent());
         }
         directory = null;
-        if (filename.endsWith(".zip")) {
+        if (filename.endsWith(Constants.SUFFIX_ZIP_FILE)) {
             bookContext = new ZippedBookContext(filename);
         } else {
             directory = new File(filename);
@@ -249,7 +253,7 @@ public class DaisyBookUtil {
         DaisyBook book = null;
         String filename = "";
         BookContext bookContext = null;
-        if (path.endsWith(".zip")) {
+        if (path.endsWith(Constants.SUFFIX_ZIP_FILE)) {
             bookContext = openBook(path);
             contents = bookContext.getResource(getOpfFileNameInZipFolder(path));
         } else {
@@ -287,7 +291,7 @@ public class DaisyBookUtil {
         return fileName;
     }
 
-    private static ArrayList<String> sResult;
+    private static List<String> sResult;
 
     /**
      * Gets the daisy book.
@@ -296,7 +300,7 @@ public class DaisyBookUtil {
      * @param isLoop the is loop
      * @return the daisy book
      */
-    public static ArrayList<String> getDaisyBook(File path, boolean isLoop) {
+    public static List<String> getDaisyBook(File path, boolean isLoop) {
         if (!isLoop) {
             sResult = new ArrayList<String>();
         }

@@ -23,7 +23,7 @@ import android.util.Log;
 import android.view.Display;
 import android.view.WindowManager;
 
-public class Countly {
+public final class Countly {
     private static Countly sharedInstance;
     private ConnectionQueue queue;
     private EventQueue eventQueue;
@@ -38,8 +38,9 @@ public class Countly {
     public static final int TEN = 10;
 
     public static Countly sharedInstance() {
-        if (sharedInstance == null)
+        if (sharedInstance == null) {
             sharedInstance = new Countly();
+        }
 
         return sharedInstance;
     }
@@ -69,27 +70,28 @@ public class Countly {
 
     public void onStart() {
         activityCount++;
-        if (activityCount == 1)
+        if (activityCount == 1) {
             onStartHelper();
+        }
     }
 
     public void onStop() {
         activityCount--;
-        if (activityCount == 0)
+        if (activityCount == 0) {
             onStopHelper();
+        }
     }
 
     public void onStartHelper() {
         lastTime = System.currentTimeMillis() / THOUSAND;
-
         queue.beginSession();
-
         isVisible = true;
     }
 
     public void onStopHelper() {
-        if (eventQueue.size() > 0)
+        if (eventQueue.size() > 0) {
             queue.recordEvents(eventQueue.events());
+        }
 
         double currTime = System.currentTimeMillis() / THOUSAND;
         unsentSessionLength += currTime - lastTime;
@@ -104,34 +106,40 @@ public class Countly {
     public void recordEvent(String key, int count) {
         eventQueue.recordEvent(key, count);
 
-        if (eventQueue.size() >= TEN)
+        if (eventQueue.size() >= TEN) {
             queue.recordEvents(eventQueue.events());
+        }
     }
 
     public void recordEvent(String key, int count, double sum) {
         eventQueue.recordEvent(key, count, sum);
 
-        if (eventQueue.size() >= TEN)
+        if (eventQueue.size() >= TEN) {
             queue.recordEvents(eventQueue.events());
+        }
+
     }
 
     public void recordEvent(String key, Map<String, String> segmentation, int count) {
         eventQueue.recordEvent(key, segmentation, count);
 
-        if (eventQueue.size() >= TEN)
+        if (eventQueue.size() >= TEN) {
             queue.recordEvents(eventQueue.events());
+        }
     }
 
     public void recordEvent(String key, Map<String, String> segmentation, int count, double sum) {
         eventQueue.recordEvent(key, segmentation, count, sum);
 
-        if (eventQueue.size() >= TEN)
+        if (eventQueue.size() >= TEN) {
             queue.recordEvents(eventQueue.events());
+        }
     }
 
     private void onTimer() {
-        if (isVisible == false)
+        if (isVisible == false) {
             return;
+        }
 
         double currTime = System.currentTimeMillis() / THOUSAND;
         unsentSessionLength += currTime - lastTime;
@@ -141,8 +149,9 @@ public class Countly {
         queue.updateSession(duration);
         unsentSessionLength -= duration;
 
-        if (eventQueue.size() > 0)
+        if (eventQueue.size() > 0) {
             queue.recordEvents(eventQueue.events());
+        }
     }
 }
 
@@ -217,11 +226,13 @@ class ConnectionQueue {
     }
 
     private void tick() {
-        if (thread != null && thread.isAlive())
+        if (thread != null && thread.isAlive()) {
             return;
+        }
 
-        if (queue.isEmpty())
+        if (queue.isEmpty()) {
             return;
+        }
 
         thread = new Thread() {
             @Override
@@ -229,13 +240,15 @@ class ConnectionQueue {
                 while (true) {
                     String data = queue.peek();
 
-                    if (data == null)
+                    if (data == null) {
                         break;
+                    }
 
                     int index = data.indexOf("REPLACE_UDID");
                     if (index != -1) {
-                        if (OpenUDIDManager.isInitialized() == false)
+                        if (!OpenUDIDManager.isInitialized()) {
                             break;
+                        }
                         data = data.replaceFirst("REPLACE_UDID", OpenUDIDManager.getOpenUDID());
                     }
 
@@ -244,8 +257,9 @@ class ConnectionQueue {
                         HttpGet method = new HttpGet(new URI(serverURL + "/i?" + data));
                         HttpResponse response = httpClient.execute(method);
                         InputStream input = response.getEntity().getContent();
-                        while (input.read() != -1)
+                        while (input.read() != -1) {
                             httpClient.getConnectionManager().shutdown();
+                        }
 
                         Log.d("Countly", "ok ->" + data);
 
@@ -335,7 +349,6 @@ class DeviceInfo {
         try {
             result = java.net.URLEncoder.encode(result, "UTF-8");
         } catch (UnsupportedEncodingException e) {
-
         }
 
         return result;
@@ -382,29 +395,23 @@ class EventQueue {
                     for (int j = 0; j < keys.length; ++j) {
                         String key = keys[j];
                         String value = event.segmentation.get(key);
-
                         segmentation += "\"" + key + "\"" + ":" + "\"" + value + "\"";
-
-                        if (j + 1 < keys.length)
+                        if (j + 1 < keys.length) {
                             segmentation += ",";
+                        }
                     }
-
                     segmentation += "}";
-
                     result += "," + "\"" + "segmentation" + "\"" + ":" + segmentation;
                 }
-
                 result += "," + "\"" + "count" + "\"" + ":" + event.count;
-
-                if (event.sum > 0)
+                if (event.sum > 0) {
                     result += "," + "\"" + "sum" + "\"" + ":" + event.sum;
-
+                }
                 result += "," + "\"" + "timestamp" + "\"" + ":" + (long) event.timestamp;
-
                 result += "}";
-
-                if (i + 1 < events.size())
+                if (i + 1 < events.size()) {
                     result += ",";
+                }
             }
 
             events.clear();

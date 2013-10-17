@@ -47,8 +47,8 @@ public class DaisyReaderScanBooksActivity extends DaisyEbookReaderBaseActivity {
 
     private ListView mlistViewScanBooks;
     private ProgressDialog mProgressDialog;
-    private ArrayList<DaisyBookInfo> mListScanBook;
-    private ArrayList<DaisyBookInfo> mListDaisyBookOriginal;
+    private List<DaisyBookInfo> mListScanBook;
+    private List<DaisyBookInfo> mListDaisyBookOriginal;
     private DaisyBookAdapter mDaisyBookAdapter;
     private int mNumberOfRecentBooks;
     private SharedPreferences mPreferences;
@@ -233,14 +233,13 @@ public class DaisyReaderScanBooksActivity extends DaisyEbookReaderBaseActivity {
      * @author nguyen.le
      * 
      */
-    class LoadingData extends AsyncTask<Void, Void, ArrayList<DaisyBookInfo>> {
+    class LoadingData extends AsyncTask<Void, Void, List<DaisyBookInfo>> {
 
         /** The list files. */
-        List<String> listFiles;
         private static final int TIMESLEEP = 1000;
 
         @Override
-        protected ArrayList<DaisyBookInfo> doInBackground(Void... params) {
+        protected List<DaisyBookInfo> doInBackground(Void... params) {
             ArrayList<DaisyBookInfo> filesResult = new ArrayList<DaisyBookInfo>();
             try {
                 while (!mPreferences.getBoolean(Constants.SERVICE_DONE, false)) {
@@ -280,7 +279,7 @@ public class DaisyReaderScanBooksActivity extends DaisyEbookReaderBaseActivity {
         }
 
         @Override
-        protected void onPostExecute(ArrayList<DaisyBookInfo> result) {
+        protected void onPostExecute(List<DaisyBookInfo> result) {
             if (result != null) {
                 mListScanBook = result;
                 mListDaisyBookOriginal = new ArrayList<DaisyBookInfo>(result);

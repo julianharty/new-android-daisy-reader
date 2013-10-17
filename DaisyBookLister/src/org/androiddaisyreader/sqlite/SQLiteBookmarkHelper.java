@@ -1,6 +1,7 @@
 package org.androiddaisyreader.sqlite;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 import org.androiddaisyreader.apps.PrivateException;
 import org.androiddaisyreader.model.Bookmark;
@@ -139,7 +140,7 @@ public class SQLiteBookmarkHelper extends SQLiteHandler {
      * @param path
      * @return ArrayList<Bookmark>
      */
-    public ArrayList<Bookmark> getAllBookmark(String path) {
+    public List<Bookmark> getAllBookmark(String path) {
 
         ArrayList<Bookmark> arrBookmark = new ArrayList<Bookmark>();
         try {

@@ -101,13 +101,4 @@ public class WebsiteAdapter extends BaseAdapter {
         private TextView txtWebsiteName;
         private TextView txtWebsiteURL;
     }
-
-    /*
-     * (non-Javadoc)
-     * @see android.widget.BaseAdapter#notifyDataSetChanged()
-     */
-    @Override
-    public void notifyDataSetChanged() {
-        super.notifyDataSetChanged();
-    }
 }

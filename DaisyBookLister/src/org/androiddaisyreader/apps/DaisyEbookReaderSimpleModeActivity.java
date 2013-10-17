@@ -58,9 +58,9 @@ public class DaisyEbookReaderSimpleModeActivity extends DaisyEbookReaderBaseActi
     private Controller mController;
     private AudioPlayerController mAudioPlayer;
     private MediaPlayer mPlayer;
-    private ArrayList<String> mListStringText;
-    private ArrayList<Integer> mListTimeEnd;
-    private ArrayList<Integer> mListTimeBegin;
+    private List<String> mListStringText;
+    private List<Integer> mListTimeEnd;
+    private List<Integer> mListTimeBegin;
     private IntentController mIntentController;
     private String mTime;
     private String mAudioFileName;
@@ -68,9 +68,9 @@ public class DaisyEbookReaderSimpleModeActivity extends DaisyEbookReaderBaseActi
     private boolean mIsRunable = true;
     private Runnable mRunnalbe;
     private Handler mHandler;
-    // if audio is over, mIsEndOf will equal true;
+    // if audio is over, mIsEndOf will equal true.
     private boolean mIsEndOf = false;
-    private static final int mTimeForProcess = 400;
+    private static final int TIME_FOR_PROCESS = 400;
     private boolean mIsFound = true;
     private int mOldMessage;
     private CurrentInformation mCurrent;
@@ -379,7 +379,7 @@ public class DaisyEbookReaderSimpleModeActivity extends DaisyEbookReaderBaseActi
             }
         }
     };
-    List<String> listId;
+    private List<String> listId;
 
     /**
      * open book from path
@@ -776,11 +776,12 @@ public class DaisyEbookReaderSimpleModeActivity extends DaisyEbookReaderBaseActi
 
         @Override
         public void onGestureFinish(int g) {
+            String gesture = "GESTURE";
             try {
                 // If user double tap will go to table of contents.
                 boolean isDoubleTap = handleClickItem(0);
                 if (isDoubleTap) {
-                    Log.i("GESTURE", "Action: Double Tap");
+                    Log.i(gesture, "Action: Double Tap");
                     mIsPlaying = mPlayer.isPlaying();
                     if (mIsPlaying) {
                         setMediaPause();
@@ -796,18 +797,18 @@ public class DaisyEbookReaderSimpleModeActivity extends DaisyEbookReaderBaseActi
                 } else {
                     switch (g) {
                     case Gesture.CENTER:
-                        Log.i("GESTURE", "Action: CENTER");
+                        Log.i(gesture, "Action: CENTER");
                         togglePlay();
                         break;
                     case Gesture.DOWN:
-                        Log.i("GESTURE", "Action: DOWN");
+                        Log.i(gesture, "Action: DOWN");
                         if (mNavigator.hasNext()) {
                             speakOut(Constants.NEXT_SECTION);
                         }
                         nextSection();
                         break;
                     case Gesture.UP:
-                        Log.i("GESTURE", "Action: UP");
+                        Log.i(gesture, "Action: UP");
 
                         if (mNavigator.hasPrevious()) {
                             speakOut(Constants.PREVIOUS_SECTION);
@@ -815,7 +816,7 @@ public class DaisyEbookReaderSimpleModeActivity extends DaisyEbookReaderBaseActi
                         previousSection();
                         break;
                     case Gesture.LEFT:
-                        Log.i("GESTURE", "Action: LEFT");
+                        Log.i(gesture, "Action: LEFT");
                         speakOut(Constants.PREVIOUS_SENTENCE);
                         previousSentence();
                         if (mPositionSentence > 0) {
@@ -826,7 +827,7 @@ public class DaisyEbookReaderSimpleModeActivity extends DaisyEbookReaderBaseActi
                         }
                         break;
                     case Gesture.RIGHT:
-                        Log.i("GESTURE", "Action: RIGHT");
+                        Log.i(gesture, "Action: RIGHT");
                         speakOut(Constants.NEXT_SENTENCE);
                         nextSentence();
                         if (mPositionSentence < mListTimeBegin.size() - 1) {
@@ -1115,7 +1116,7 @@ public class DaisyEbookReaderSimpleModeActivity extends DaisyEbookReaderBaseActi
         mIsRunable = false;
     }
 
-    long mTimePause = 0;
+    private long mTimePause = 0;
 
     /**
      * Set media play and post runnable
@@ -1179,7 +1180,7 @@ public class DaisyEbookReaderSimpleModeActivity extends DaisyEbookReaderBaseActi
                         int sizeOfStringText = mListStringText.size();
                         for (int i = mPositionSentence; i < sizeOfStringText; i++) {
                             int currentPosition = mPlayer.getCurrentPosition();
-                            if (mListTimeBegin.get(i) <= currentPosition + mTimeForProcess
+                            if (mListTimeBegin.get(i) <= currentPosition + TIME_FOR_PROCESS
                                     && currentPosition < mListTimeEnd.get(i)) {
                                 mPositionSentence = i;
                                 break;
@@ -1200,7 +1201,7 @@ public class DaisyEbookReaderSimpleModeActivity extends DaisyEbookReaderBaseActi
                         // If user choose pause and play. 400 is time delay
                         // when
                         // you touch on your phone.
-                        mHandler.postDelayed(this, mTimePause + mTimeForProcess);
+                        mHandler.postDelayed(this, mTimePause + TIME_FOR_PROCESS);
                     }
                     mTimePause = 0;
                 }

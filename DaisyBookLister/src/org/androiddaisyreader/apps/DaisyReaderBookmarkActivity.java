@@ -1,6 +1,7 @@
 package org.androiddaisyreader.apps;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
 import org.androiddaisyreader.adapter.BookmarkListAdapter;
@@ -35,14 +36,13 @@ import com.actionbarsherlock.view.SubMenu;
 @SuppressLint("NewApi")
 public class DaisyReaderBookmarkActivity extends DaisyEbookReaderBaseActivity {
     private ListView mListBookmark;
-    private ArrayList<Bookmark> mListItems;
+    private List<Bookmark> mListItems;
     private Bookmark mBookmark;
     private String mPath;
     private SharedPreferences mPreferences;
     private IntentController mIntentController;
     private LoadingData mLoadingData;
     private boolean isFormat202 = false;
-    private int order = 1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -67,6 +67,7 @@ public class DaisyReaderBookmarkActivity extends DaisyEbookReaderBaseActivity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
+        int order = 1;
         SubMenu subMenu = menu.addSubMenu(0, Constants.SUBMENU_MENU, order++, R.string.menu_title);
 
         subMenu.add(0, Constants.SUBMENU_LIBRARY, order++, R.string.submenu_library).setIcon(
@@ -189,13 +190,13 @@ public class DaisyReaderBookmarkActivity extends DaisyEbookReaderBaseActivity {
     /**
      * Show dialog when data loading.
      */
-    class LoadingData extends AsyncTask<Void, Void, ArrayList<Bookmark>> {
+    class LoadingData extends AsyncTask<Void, Void, List<Bookmark>> {
         private ProgressDialog progressDialog;
         private int numberOfBookmarks = mPreferences.getInt(Constants.NUMBER_OF_BOOKMARKS,
                 Constants.NUMBER_OF_BOOKMARK_DEFAULT);;
 
         @Override
-        protected ArrayList<Bookmark> doInBackground(Void... params) {
+        protected List<Bookmark> doInBackground(Void... params) {
             ArrayList<Bookmark> result = new ArrayList<Bookmark>();
             if (numberOfBookmarks < mListItems.size()) {
                 for (int i = 0; i < numberOfBookmarks; i++) {
@@ -219,7 +220,7 @@ public class DaisyReaderBookmarkActivity extends DaisyEbookReaderBaseActivity {
         }
 
         @Override
-        protected void onPostExecute(ArrayList<Bookmark> result) {
+        protected void onPostExecute(List<Bookmark> result) {
             BookmarkListAdapter mAdapter;
             mAdapter = new BookmarkListAdapter(DaisyReaderBookmarkActivity.this, result, mBookmark,
                     mPath, mListItems.size());

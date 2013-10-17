@@ -50,7 +50,7 @@ public class DaisyReaderSettingActivity extends DaisyEbookReaderBaseActivity {
     private TextView mHighlightColor;
     private int mFontsize;
     // some basic colors
-    private static final int mColorTable[] = { 0xffffffff, 0xffc0c0c0, 0xff808080, 0xff000000, 0xffffc0c0,
+    private static final int COLOR_TALBE[] = { 0xffffffff, 0xffc0c0c0, 0xff808080, 0xff000000, 0xffffc0c0,
             0xffff6060, 0xffff0000, 0xff800000, 0xffffe0c0, 0xffffb060, 0xffff8000, 0xff804000,
             0xffffffc0, 0xffffff60, 0xffffff00, 0xff808000, 0xffe0ffc0, 0xffb0ff60, 0xff80ff00,
             0xff408000, 0xffc0ffc0, 0xff60ff60, 0xff00ff00, 0xff008000, 0xffc0ffe0, 0xff60ffb0,
@@ -63,9 +63,9 @@ public class DaisyReaderSettingActivity extends DaisyEbookReaderBaseActivity {
     private int mCurrentTextColor;
     private int mCurrentBackgroundColor;
     private int mCurrentHighlightColor;
-    private static final int mDefaultFontsize = 6;
-    private static final int mDefaultBrightness = 20;
-    private static final int maxBrighBar = 255;
+    private static final int DEFAULT_FONT_SIZE = 6;
+    private static final int DEFAULT_BRIGHTNESS = 20;
+    private static final int BRIGHT_BAR = 255;
     private Boolean mChangeText;
     private Boolean mChangeBackground;
     private Boolean mChangeHighlight;
@@ -123,21 +123,21 @@ public class DaisyReaderSettingActivity extends DaisyEbookReaderBaseActivity {
      */
     private void settingBrightness() {
         SeekBar brightBar = (SeekBar) findViewById(R.id.barBrightness);
-        brightBar.setMax(maxBrighBar);
+        brightBar.setMax(BRIGHT_BAR);
         brightBar.setKeyProgressIncrement(1);
         ContentResolver contentResolver = getContentResolver();
         mWindow = getWindow();
         layoutpars = mWindow.getAttributes();
         try {
-            SharedPreferences mPreferences = PreferenceManager
+            SharedPreferences preferences = PreferenceManager
                     .getDefaultSharedPreferences(DaisyReaderSettingActivity.this);
-            mBrightness = mPreferences.getInt(Constants.BRIGHTNESS,
+            mBrightness = preferences.getInt(Constants.BRIGHTNESS,
                     System.getInt(contentResolver, System.SCREEN_BRIGHTNESS));
             // sets the progress of the seek bar based on the system's
             // brightness
-            brightBar.setProgress(mBrightness - mDefaultBrightness);
+            brightBar.setProgress(mBrightness - DEFAULT_BRIGHTNESS);
             // set the brightness of this window
-            layoutpars.screenBrightness = mBrightness / (float) maxBrighBar;
+            layoutpars.screenBrightness = mBrightness / (float) BRIGHT_BAR;
             // apply attribute changes to this window
             mWindow.setAttributes(layoutpars);
         } catch (Exception e) {
@@ -157,7 +157,7 @@ public class DaisyReaderSettingActivity extends DaisyEbookReaderBaseActivity {
         mFontsize = mPreferences.getInt(Constants.FONT_SIZE, Constants.FONTSIZE_DEFAULT);
         mFontSize.setTextSize(mFontsize);
         sizeBar.setMax(maxFontsizeBar);
-        sizeBar.setProgress(mFontsize - mDefaultFontsize);
+        sizeBar.setProgress(mFontsize - DEFAULT_FONT_SIZE);
         sizeBar.setOnSeekBarChangeListener(seekBarSizeListener);
     }
 
@@ -290,11 +290,11 @@ public class DaisyReaderSettingActivity extends DaisyEbookReaderBaseActivity {
                 @Override
                 public View getView(int position, View convertView, ViewGroup parent) {
                     View view = super.getView(position, convertView, parent);
-                    view.setBackgroundColor(mColorTable[position]);
+                    view.setBackgroundColor(COLOR_TALBE[position]);
                     return view;
                 }
             };
-            int sizeOfColorTable = mColorTable.length;
+            int sizeOfColorTable = COLOR_TALBE.length;
             for (int i = 0; i < sizeOfColorTable; i++) {
                 adapter.add("");
             }
@@ -302,9 +302,9 @@ public class DaisyReaderSettingActivity extends DaisyEbookReaderBaseActivity {
             gridView.setOnItemClickListener(new OnItemClickListener() {
                 @Override
                 public void onItemClick(AdapterView<?> arg0, View arg1, int arg2, long arg3) {
-                    mCurrentTextColor = mColorTable[arg2];
-                    mCurrentBackgroundColor = mColorTable[arg2];
-                    mCurrentHighlightColor = mColorTable[arg2];
+                    mCurrentTextColor = COLOR_TALBE[arg2];
+                    mCurrentBackgroundColor = COLOR_TALBE[arg2];
+                    mCurrentHighlightColor = COLOR_TALBE[arg2];
                     if (mChangeText) {
                         mTextColor.setBackgroundColor(mCurrentTextColor);
                         mEditor.putInt(Constants.TEXT_COLOR, mCurrentTextColor);
@@ -407,7 +407,7 @@ public class DaisyReaderSettingActivity extends DaisyEbookReaderBaseActivity {
         @Override
         public void onStopTrackingTouch(SeekBar seekBar) {
             // set the brightness of this window
-            layoutpars.screenBrightness = mBrightness / (float) maxBrighBar;
+            layoutpars.screenBrightness = mBrightness / (float) BRIGHT_BAR;
             mEditor.putInt(Constants.BRIGHTNESS, mBrightness);
             mEditor.commit();
             // apply attribute changes to this window
@@ -421,7 +421,7 @@ public class DaisyReaderSettingActivity extends DaisyEbookReaderBaseActivity {
         @Override
         public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
             // sets brightness variable based on the progress bar
-            mBrightness = progress + mDefaultBrightness;
+            mBrightness = progress + DEFAULT_BRIGHTNESS;
         }
     };
 
@@ -444,7 +444,7 @@ public class DaisyReaderSettingActivity extends DaisyEbookReaderBaseActivity {
 
         @Override
         public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-            mFontsize = progress + mDefaultFontsize;
+            mFontsize = progress + DEFAULT_FONT_SIZE;
         }
     };
 

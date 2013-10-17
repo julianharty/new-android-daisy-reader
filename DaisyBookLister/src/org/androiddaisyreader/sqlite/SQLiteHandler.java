@@ -84,11 +84,21 @@ public class SQLiteHandler extends SQLiteOpenHelper {
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-        db.execSQL("DROP TABLE IF EXISTS " + TABLE_NAME_BOOKMARK);
-        db.execSQL("DROP TABLE IF EXISTS " + TABLE_NAME_CURRENT_INFORMATION);
-        db.execSQL("DROP TABLE IF EXISTS " + TABLE_NAME_RECENT_BOOKS);
-        db.execSQL("DROP TABLE IF EXISTS " + TABLE_NAME_DAISY_BOOK);
+        dropTable(db, TABLE_NAME_BOOKMARK);
+        dropTable(db, TABLE_NAME_CURRENT_INFORMATION);
+        dropTable(db, TABLE_NAME_RECENT_BOOKS);
+        dropTable(db, TABLE_NAME_DAISY_BOOK);
         onCreate(db);
+    }
+
+    /**
+     * Drop table.
+     *
+     * @param db the db
+     * @param tableName the table name
+     */
+    private void dropTable(SQLiteDatabase db, String tableName) {
+        db.execSQL("DROP TABLE IF EXISTS " + tableName);
     }
 
 }

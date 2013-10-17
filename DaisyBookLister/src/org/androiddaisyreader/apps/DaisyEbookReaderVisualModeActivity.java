@@ -87,11 +87,11 @@ public class DaisyEbookReaderVisualModeActivity extends DaisyEbookReaderBaseActi
     private Spannable mWordtoSpan;
     private Runnable mRunnalbe;
     private Handler mHandler;
-    private ArrayList<String> mListStringText;
-    private ArrayList<Integer> mListTimeBegin;
-    private ArrayList<Integer> mListTimeEnd;
-    private ArrayList<Integer> mListValueScroll;
-    private ArrayList<Integer> mListValueLine;
+    private List<String> mListStringText;
+    private List<Integer> mListTimeBegin;
+    private List<Integer> mListTimeEnd;
+    private List<Integer> mListValueScroll;
+    private List<Integer> mListValueLine;
     private String mPath;
     private SharedPreferences mPreferences;
     private Window mWindow;
@@ -105,11 +105,10 @@ public class DaisyEbookReaderVisualModeActivity extends DaisyEbookReaderBaseActi
     private int mStartOfSentence = 0;
     private int mPositionSection = 0;
     private int mPositionSentence = 0;
-    private static final int mTimeForProcess = 400;
-    private int order = 1;
+    private static final int TIME_FOR_PROCESS = 400;
     private long mLastClickTime = 0;
-    // if audio is over, mIsEndOf will equal true;
     private boolean mIsRunable = true;
+    // if audio is over, mIsEndOf will equal true.
     private boolean mIsEndOf = false;
     // This variable will help to find chapter has audio files or not.
     private boolean mIsFound = true;
@@ -154,6 +153,7 @@ public class DaisyEbookReaderVisualModeActivity extends DaisyEbookReaderBaseActi
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
+        int order = 1;
         SubMenu subMenu = menu.addSubMenu(0, Constants.SUBMENU_MENU, order++, R.string.menu_title);
 
         subMenu.add(0, Constants.SUBMENU_LIBRARY, order++, R.string.submenu_library).setIcon(
@@ -589,9 +589,9 @@ public class DaisyEbookReaderVisualModeActivity extends DaisyEbookReaderBaseActi
                     Spannable wordtoSpan = new SpannableString(mContents.getText());
                     for (int ofs = 0; ofs < tvt.length() && ofe != -1; ofs = ofe + 1) {
                         ofe = tvt.indexOf(ett, ofs);
-                        if (ofe == -1)
+                        if (ofe == -1) {
                             break;
-                        else {
+                        } else {
                             wordtoSpan.setSpan(new BackgroundColorSpan(mHighlightColor), ofe, ofe
                                     + ett.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
                             mContents.setText(wordtoSpan, TextView.BufferType.SPANNABLE);
@@ -663,9 +663,9 @@ public class DaisyEbookReaderVisualModeActivity extends DaisyEbookReaderBaseActi
         ContentResolver cResolver = getContentResolver();
         int valueScreen = 0;
         try {
-            SharedPreferences mPreferences = PreferenceManager
+            SharedPreferences preferences = PreferenceManager
                     .getDefaultSharedPreferences(DaisyEbookReaderVisualModeActivity.this);
-            valueScreen = mPreferences.getInt(Constants.BRIGHTNESS,
+            valueScreen = preferences.getInt(Constants.BRIGHTNESS,
                     System.getInt(cResolver, System.SCREEN_BRIGHTNESS));
             LayoutParams layoutpars = mWindow.getAttributes();
             layoutpars.screenBrightness = valueScreen / (float) numberToConvert;
@@ -718,7 +718,7 @@ public class DaisyEbookReaderVisualModeActivity extends DaisyEbookReaderBaseActi
         }
     };
 
-    List<String> listId;
+    private List<String> listId;
 
     /**
      * open book from path.
@@ -1086,7 +1086,7 @@ public class DaisyEbookReaderVisualModeActivity extends DaisyEbookReaderBaseActi
                                 - mListTimeBegin.get(mPositionSentence);
                         mHandler.postDelayed(this, timeReadSentence);
                     } else {
-                        mHandler.postDelayed(this, mTimePause + mTimeForProcess);
+                        mHandler.postDelayed(this, mTimePause + TIME_FOR_PROCESS);
                     }
                     mTimePause = 0;
                 } catch (Exception e) {
@@ -1120,7 +1120,7 @@ public class DaisyEbookReaderVisualModeActivity extends DaisyEbookReaderBaseActi
             int sizeOfStringText = mListStringText.size();
             for (int i = mPositionSentence; i < sizeOfStringText; i++) {
                 int currentPosition = mPlayer.getCurrentPosition();
-                if (mListTimeBegin.get(i) <= currentPosition + mTimeForProcess
+                if (mListTimeBegin.get(i) <= currentPosition + TIME_FOR_PROCESS
                         && currentPosition < mListTimeEnd.get(i)) {
                     mStartOfSentence = mFullTextOfBook.indexOf(mListStringText.get(i),
                             mStartOfSentence);
@@ -1354,7 +1354,7 @@ public class DaisyEbookReaderVisualModeActivity extends DaisyEbookReaderBaseActi
                 // pause
                 // to high light text more correctly.
                 mTimePause = mListTimeEnd.get(mPositionSentence) - mPlayer.getCurrentPosition()
-                        + mTimeForProcess;
+                        + TIME_FOR_PROCESS;
             }
             // create call backs when you touch button start.
             mHandler.post(mRunnalbe);

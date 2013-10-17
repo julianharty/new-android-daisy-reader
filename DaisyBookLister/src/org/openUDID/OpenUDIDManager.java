@@ -65,20 +65,23 @@ public final class OpenUDIDManager implements ServiceConnection {
                 final String openUDIDValue = reply.readString();
                 // if valid OpenUDID, save it
                 if (openUDIDValue != null) {
-                    if (LOG)
+                    if (LOG) {
                         Log.d(TAG, "Received " + openUDIDValue);
+                    }
 
-                    if (mReceivedOpenUDIDs.containsKey(openUDIDValue))
+                    if (mReceivedOpenUDIDs.containsKey(openUDIDValue)) {
                         mReceivedOpenUDIDs.put(openUDIDValue,
                                 mReceivedOpenUDIDs.get(openUDIDValue) + 1);
-                    else
+                    } else {
                         mReceivedOpenUDIDs.put(openUDIDValue, 1);
+                    }
 
                 }
             }
         } catch (RemoteException e) {
-            if (LOG)
+            if (LOG) {
                 Log.e(TAG, "RemoteException: " + e.getMessage());
+            }
         }
         mContext.unbindService(this);
         // Try the next one
@@ -99,8 +102,9 @@ public final class OpenUDIDManager implements ServiceConnection {
      * Generate a new OpenUDID
      */
     private void generateOpenUDID() {
-        if (LOG)
+        if (LOG) {
             Log.d(TAG, "Generating openUDID");
+        }
         // Try to get the ANDROID_ID
         openUDID = Secure.getString(mContext.getContentResolver(), Secure.ANDROID_ID);
         if (openUDID == null || openUDID.equals("9774d56d682e549c")
@@ -118,10 +122,11 @@ public final class OpenUDIDManager implements ServiceConnection {
     private void startService() {
         // There are some Intents untested
         if (mMatchingIntents.size() > 0) {
-            if (LOG)
+            if (LOG) {
                 Log.d(TAG,
                         "Trying service "
                                 + mMatchingIntents.get(0).loadLabel(mContext.getPackageManager()));
+            }
 
             final ServiceInfo servInfo = mMatchingIntents.get(0).serviceInfo;
             final Intent i = new Intent();
@@ -133,10 +138,12 @@ public final class OpenUDIDManager implements ServiceConnection {
             getMostFrequentOpenUDID();
             // Choose the most frequent
             // No OpenUDID was chosen, generate one
-            if (openUDID == null)
+            if (openUDID == null) {
                 generateOpenUDID();
-            if (LOG)
+            }
+            if (LOG) {
                 Log.d(TAG, "OpenUDID: " + openUDID);
+            }
             // Store it locally
             storeOpenUDID();
             mInitialized = true;
@@ -144,12 +151,12 @@ public final class OpenUDIDManager implements ServiceConnection {
     }
 
     private void getMostFrequentOpenUDID() {
-        if (mReceivedOpenUDIDs.isEmpty() == false) {
+        if (!mReceivedOpenUDIDs.isEmpty()) {
             @SuppressWarnings({ "unchecked", "rawtypes" })
-            final TreeMap<String, Integer> sorted_OpenUDIDS = new TreeMap(new ValueComparator());
-            sorted_OpenUDIDS.putAll(mReceivedOpenUDIDs);
+            final TreeMap<String, Integer> sortedOpenUDIDS = new TreeMap(new ValueComparator());
+            sortedOpenUDIDS.putAll(mReceivedOpenUDIDs);
 
-            openUDID = sorted_OpenUDIDS.firstKey();
+            openUDID = sortedOpenUDIDS.firstKey();
         }
     }
 
@@ -162,8 +169,9 @@ public final class OpenUDIDManager implements ServiceConnection {
      * @return the OpenUDID
      */
     public static String getOpenUDID() {
-        if (!mInitialized)
+        if (!mInitialized) {
             Log.e("OpenUDID", "Initialisation isn't done");
+        }
         return openUDID;
     }
 
@@ -197,14 +205,16 @@ public final class OpenUDIDManager implements ServiceConnection {
                 Log.d(TAG, manager.mMatchingIntents.size() + " services matches OpenUDID");
             }
 
-            if (manager.mMatchingIntents != null)
+            if (manager.mMatchingIntents != null) {
                 // Start services one by one
                 manager.startService();
+            }
 
         } else {
             // Got it, you can now call getOpenUDID()
-            if (LOG)
+            if (LOG) {
                 Log.d(TAG, "OpenUDID: " + openUDID);
+            }
             mInitialized = true;
         }
     }

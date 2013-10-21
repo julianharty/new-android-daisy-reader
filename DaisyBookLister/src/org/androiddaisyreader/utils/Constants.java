@@ -191,5 +191,7 @@ public class Constants {
     public static final int TYPE_MOBILE = 2;
     /** The Constant TYPE_NOT_CONNECTED. */
     public static final int TYPE_NOT_CONNECTED = 0;
-
+    // The following section are used to record statistical data for Analytics
+	public static final String RECORD_BOOK_DOWNLOAD_COMPLETED = "BookDownloadCompleted";
+	public static final String RECORD_BOOK_DOWNLOAD_FAILED = "BookDownloadFailed";
 }

@@ -9,7 +9,7 @@
 <property name="daisymodeljar" value="lib/daisymodel.jar" />
 <property name="daisymodelsourcesjar" value="lib/daisymodel-sources.jar" />
 <property name="test.dir" location="test" />
-<property name="test.report.dir" location="test/data" />
+<property name="test.report.dir" location="test/report" />
 <property name="test.classes.dir" location="${test.dir}/classes" />
 <property name="test.suite" value="org.androiddaisyreader.AllTests" />
 <property name="test.daisy.files" value="/sdcard/files-used-for-testing/" />
@@ -39,6 +39,7 @@
 
 <target name="prepare-for-testing">
   <mkdir dir="${test.classes.dir}" />
+  <mkdir dir="${test.report.dir}" />
   <mkdir dir="/sdcard/" />
   <mkdir dir="${test.daisy.files}" />
   <copy todir="${test.daisy.files}">
@@ -69,7 +70,7 @@
 <target name="test" depends="prepare-for-testing, compile-the-tests" description="run the unit tests" >
   <junit printsummary="false" haltonfailure="true" >
     <classpath refid="test.compile.classpath"/>
-    <formatter type="brief" usefile="false" />
+    <formatter type="xml" usefile="true" />
     <batchtest todir="${test.report.dir}">
       <fileset dir="${test.classes.dir}">
         <include name="**/*Test*" />

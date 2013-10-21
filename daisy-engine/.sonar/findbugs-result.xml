@@ -1,0 +1,1514 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<BugCollection version="2.0.1" sequence="0" timestamp="1382004342831" analysisTimestamp="1382084720447" release="">
+  <Project>
+    <Jar>D:\Project\Mobile\Ebook Reader\GitHub\daisy-engine\bin</Jar>
+    <AuxClasspathEntry>D:\adt-bundle-windows-x86\eclipse\plugins\org.junit_3.8.2.v3_8_2_v20100427-1100\junit.jar</AuxClasspathEntry>
+    <AuxClasspathEntry>C:\Users\nguyen.le\AppData\Local\Temp\findbugs23499.jar</AuxClasspathEntry>
+    <AuxClasspathEntry>C:\Users\nguyen.le\AppData\Local\Temp\findbugs23498.jar</AuxClasspathEntry>
+    <SrcDir>D:\Project\Mobile\Ebook Reader\GitHub\daisy-engine\src</SrcDir>
+  </Project>
+  <BugInstance type="URF_UNREAD_FIELD" priority="2" abbrev="UrF" category="PERFORMANCE" instanceHash="13b79d12bfbc30a8dab6b18e78c52ce9" instanceOccurrenceNum="0" instanceOccurrenceMax="0" rank="18">
+    <ShortMessage>Unread field</ShortMessage>
+    <LongMessage>Unread field: org.androiddaisyreader.PresentationController.player</LongMessage>
+    <Class classname="org.androiddaisyreader.PresentationController" primary="true">
+      <SourceLine classname="org.androiddaisyreader.PresentationController" start="3" end="53" sourcefile="PresentationController.java" sourcepath="org/androiddaisyreader/PresentationController.java" relSourcepath="org\androiddaisyreader\PresentationController.java">
+        <Message>At PresentationController.java:[lines 3-53]</Message>
+      </SourceLine>
+      <Message>In class org.androiddaisyreader.PresentationController</Message>
+    </Class>
+    <Field classname="org.androiddaisyreader.PresentationController" name="player" signature="Lorg/androiddaisyreader/AudioPlayer;" isStatic="false" primary="true">
+      <SourceLine classname="org.androiddaisyreader.PresentationController" sourcefile="PresentationController.java" sourcepath="org/androiddaisyreader/PresentationController.java" relSourcepath="org\androiddaisyreader\PresentationController.java">
+        <Message>In PresentationController.java</Message>
+      </SourceLine>
+      <Message>Field org.androiddaisyreader.PresentationController.player</Message>
+    </Field>
+    <SourceLine classname="org.androiddaisyreader.PresentationController" primary="true" start="4" end="4" startBytecode="2" endBytecode="2" sourcefile="PresentationController.java" sourcepath="org/androiddaisyreader/PresentationController.java" relSourcepath="org\androiddaisyreader\PresentationController.java">
+      <Message>At PresentationController.java:[line 4]</Message>
+    </SourceLine>
+  </BugInstance>
+  <BugInstance type="URF_UNREAD_FIELD" priority="2" abbrev="UrF" category="PERFORMANCE" instanceHash="5b925ab49d6c2051fd214aadbb11e1d2" instanceOccurrenceNum="0" instanceOccurrenceMax="0" rank="18">
+    <ShortMessage>Unread field</ShortMessage>
+    <LongMessage>Unread field: org.androiddaisyreader.PresentationController.view</LongMessage>
+    <Class classname="org.androiddaisyreader.PresentationController" primary="true">
+      <SourceLine classname="org.androiddaisyreader.PresentationController" start="3" end="53" sourcefile="PresentationController.java" sourcepath="org/androiddaisyreader/PresentationController.java" relSourcepath="org\androiddaisyreader\PresentationController.java">
+        <Message>At PresentationController.java:[lines 3-53]</Message>
+      </SourceLine>
+      <Message>In class org.androiddaisyreader.PresentationController</Message>
+    </Class>
+    <Field classname="org.androiddaisyreader.PresentationController" name="view" signature="Lorg/androiddaisyreader/DisplayTextView;" isStatic="false" primary="true">
+      <SourceLine classname="org.androiddaisyreader.PresentationController" sourcefile="PresentationController.java" sourcepath="org/androiddaisyreader/PresentationController.java" relSourcepath="org\androiddaisyreader\PresentationController.java">
+        <Message>In PresentationController.java</Message>
+      </SourceLine>
+      <Message>Field org.androiddaisyreader.PresentationController.view</Message>
+    </Field>
+    <SourceLine classname="org.androiddaisyreader.PresentationController" primary="true" start="5" end="5" startBytecode="2" endBytecode="2" sourcefile="PresentationController.java" sourcepath="org/androiddaisyreader/PresentationController.java" relSourcepath="org\androiddaisyreader\PresentationController.java">
+      <Message>At PresentationController.java:[line 5]</Message>
+    </SourceLine>
+  </BugInstance>
+  <BugInstance type="DLS_DEAD_LOCAL_STORE" priority="2" abbrev="DLS" category="STYLE" instanceHash="83af617aa31c57cfeb3d493ff7f91832" instanceOccurrenceNum="0" instanceOccurrenceMax="0" rank="17">
+    <ShortMessage>Dead store to local variable</ShortMessage>
+    <LongMessage>Dead store to controller in org.androiddaisyreader.TestController.testAudioPlays()</LongMessage>
+    <Class classname="org.androiddaisyreader.TestController" primary="true">
+      <SourceLine classname="org.androiddaisyreader.TestController" start="7" end="19" sourcefile="TestController.java" sourcepath="org/androiddaisyreader/TestController.java">
+        <Message>At TestController.java:[lines 7-19]</Message>
+      </SourceLine>
+      <Message>In class org.androiddaisyreader.TestController</Message>
+    </Class>
+    <Method classname="org.androiddaisyreader.TestController" name="testAudioPlays" signature="()V" isStatic="false" primary="true">
+      <SourceLine classname="org.androiddaisyreader.TestController" start="16" end="19" startBytecode="0" endBytecode="13" sourcefile="TestController.java" sourcepath="org/androiddaisyreader/TestController.java"/>
+      <Message>In method org.androiddaisyreader.TestController.testAudioPlays()</Message>
+    </Method>
+    <LocalVariable name="controller" register="2" pc="14" role="LOCAL_VARIABLE_NAMED">
+      <Message>Local variable named controller</Message>
+    </LocalVariable>
+    <SourceLine classname="org.androiddaisyreader.TestController" primary="true" start="17" end="17" startBytecode="13" endBytecode="13" sourcefile="TestController.java" sourcepath="org/androiddaisyreader/TestController.java">
+      <Message>At TestController.java:[line 17]</Message>
+    </SourceLine>
+    <Property name="edu.umd.cs.findbugs.detect.DeadLocalStoreProperty.NO_LOADS" value="true"/>
+    <Property name="edu.umd.cs.findbugs.detect.DeadLocalStoreProperty.METHOD_RESULT" value="true"/>
+    <Property name="edu.umd.cs.findbugs.detect.DeadLocalStoreProperty.LOCAL_NAME" value="controller"/>
+  </BugInstance>
+  <BugInstance type="URF_UNREAD_FIELD" priority="2" abbrev="UrF" category="PERFORMANCE" instanceHash="67642abdeb0e95a27094077956c2e673" instanceOccurrenceNum="0" instanceOccurrenceMax="0" rank="18">
+    <ShortMessage>Unread field</ShortMessage>
+    <LongMessage>Unread field: org.androiddaisyreader.mock.MockAndroidAudioPlayer.log</LongMessage>
+    <Class classname="org.androiddaisyreader.mock.MockAndroidAudioPlayer" primary="true">
+      <SourceLine classname="org.androiddaisyreader.mock.MockAndroidAudioPlayer" start="10" end="70" sourcefile="MockAndroidAudioPlayer.java" sourcepath="org/androiddaisyreader/mock/MockAndroidAudioPlayer.java">
+        <Message>At MockAndroidAudioPlayer.java:[lines 10-70]</Message>
+      </SourceLine>
+      <Message>In class org.androiddaisyreader.mock.MockAndroidAudioPlayer</Message>
+    </Class>
+    <Field classname="org.androiddaisyreader.mock.MockAndroidAudioPlayer" name="log" signature="Ljava/util/logging/Logger;" isStatic="false" primary="true">
+      <SourceLine classname="org.androiddaisyreader.mock.MockAndroidAudioPlayer" sourcefile="MockAndroidAudioPlayer.java" sourcepath="org/androiddaisyreader/mock/MockAndroidAudioPlayer.java">
+        <Message>In MockAndroidAudioPlayer.java</Message>
+      </SourceLine>
+      <Message>Field org.androiddaisyreader.mock.MockAndroidAudioPlayer.log</Message>
+    </Field>
+    <SourceLine classname="org.androiddaisyreader.mock.MockAndroidAudioPlayer" primary="true" start="12" end="12" startBytecode="10" endBytecode="10" sourcefile="MockAndroidAudioPlayer.java" sourcepath="org/androiddaisyreader/mock/MockAndroidAudioPlayer.java">
+      <Message>At MockAndroidAudioPlayer.java:[line 12]</Message>
+    </SourceLine>
+  </BugInstance>
+  <BugInstance type="EI_EXPOSE_REP" priority="2" abbrev="EI" category="MALICIOUS_CODE" instanceHash="bf85500dd6f7f4d3d42d0e19d11f0e94" instanceOccurrenceNum="0" instanceOccurrenceMax="0" rank="18">
+    <ShortMessage>May expose internal representation by returning reference to mutable object</ShortMessage>
+    <LongMessage>org.androiddaisyreader.model.DaisyBook.getDate() may expose internal representation by returning DaisyBook.date</LongMessage>
+    <Class classname="org.androiddaisyreader.model.DaisyBook" primary="true">
+      <SourceLine classname="org.androiddaisyreader.model.DaisyBook" start="8" end="62" sourcefile="DaisyBook.java" sourcepath="org/androiddaisyreader/model/DaisyBook.java" relSourcepath="org\androiddaisyreader\model\DaisyBook.java">
+        <Message>At DaisyBook.java:[lines 8-62]</Message>
+      </SourceLine>
+      <Message>In class org.androiddaisyreader.model.DaisyBook</Message>
+    </Class>
+    <Method classname="org.androiddaisyreader.model.DaisyBook" name="getDate" signature="()Ljava/util/Date;" isStatic="false" primary="true">
+      <SourceLine classname="org.androiddaisyreader.model.DaisyBook" start="62" end="62" startBytecode="0" endBytecode="46" sourcefile="DaisyBook.java" sourcepath="org/androiddaisyreader/model/DaisyBook.java" relSourcepath="org\androiddaisyreader\model\DaisyBook.java"/>
+      <Message>In method org.androiddaisyreader.model.DaisyBook.getDate()</Message>
+    </Method>
+    <Field classname="org.androiddaisyreader.model.DaisyBook" name="date" signature="Ljava/util/Date;" isStatic="false" primary="true">
+      <SourceLine classname="org.androiddaisyreader.model.DaisyBook" sourcefile="DaisyBook.java" sourcepath="org/androiddaisyreader/model/DaisyBook.java" relSourcepath="org\androiddaisyreader\model\DaisyBook.java">
+        <Message>In DaisyBook.java</Message>
+      </SourceLine>
+      <Message>Field org.androiddaisyreader.model.DaisyBook.date</Message>
+    </Field>
+    <SourceLine classname="org.androiddaisyreader.model.DaisyBook" primary="true" start="62" end="62" startBytecode="4" endBytecode="4" sourcefile="DaisyBook.java" sourcepath="org/androiddaisyreader/model/DaisyBook.java" relSourcepath="org\androiddaisyreader\model\DaisyBook.java">
+      <Message>At DaisyBook.java:[line 62]</Message>
+    </SourceLine>
+  </BugInstance>
+  <BugInstance type="DM_DEFAULT_ENCODING" priority="1" abbrev="Dm" category="I18N" instanceHash="807d5abd3494c06e948901da6e0d4c8" instanceOccurrenceNum="0" instanceOccurrenceMax="0" rank="19">
+    <ShortMessage>Reliance on default encoding</ShortMessage>
+    <LongMessage>Found reliance on default encoding in org.androiddaisyreader.model.FullText.getContentsOfHTMLFile(File): new java.io.FileReader(File)</LongMessage>
+    <Class classname="org.androiddaisyreader.model.FullText" primary="true">
+      <SourceLine classname="org.androiddaisyreader.model.FullText" start="20" end="66" sourcefile="FullText.java" sourcepath="org/androiddaisyreader/model/FullText.java" relSourcepath="org\androiddaisyreader\model\FullText.java">
+        <Message>At FullText.java:[lines 20-66]</Message>
+      </SourceLine>
+      <Message>In class org.androiddaisyreader.model.FullText</Message>
+    </Class>
+    <Method classname="org.androiddaisyreader.model.FullText" name="getContentsOfHTMLFile" signature="(Ljava/io/File;)Ljava/lang/StringBuilder;" isStatic="false" primary="true">
+      <SourceLine classname="org.androiddaisyreader.model.FullText" start="34" end="45" startBytecode="0" endBytecode="203" sourcefile="FullText.java" sourcepath="org/androiddaisyreader/model/FullText.java" relSourcepath="org\androiddaisyreader\model\FullText.java"/>
+      <Message>In method org.androiddaisyreader.model.FullText.getContentsOfHTMLFile(File)</Message>
+    </Method>
+    <Method classname="java.io.FileReader" name="&lt;init&gt;" signature="(Ljava/io/File;)V" isStatic="false" role="METHOD_CALLED">
+      <SourceLine classname="java.io.FileReader" start="55" end="56" startBytecode="0" endBytecode="40" sourcefile="FileReader.java" sourcepath="java/io/FileReader.java"/>
+      <Message>Called method new java.io.FileReader(File)</Message>
+    </Method>
+    <SourceLine classname="org.androiddaisyreader.model.FullText" primary="true" start="35" end="35" startBytecode="17" endBytecode="17" sourcefile="FullText.java" sourcepath="org/androiddaisyreader/model/FullText.java" relSourcepath="org\androiddaisyreader\model\FullText.java">
+      <Message>At FullText.java:[line 35]</Message>
+    </SourceLine>
+  </BugInstance>
+  <BugInstance type="OS_OPEN_STREAM" priority="2" abbrev="OS" category="BAD_PRACTICE" instanceHash="5f60eb8c3a6610f5e1f6fb6cbc588956" instanceOccurrenceNum="0" instanceOccurrenceMax="0" rank="16">
+    <ShortMessage>Method may fail to close stream</ShortMessage>
+    <LongMessage>org.androiddaisyreader.model.FullText.getContentsOfHTMLFile(File) may fail to close stream</LongMessage>
+    <Class classname="org.androiddaisyreader.model.FullText" primary="true">
+      <SourceLine classname="org.androiddaisyreader.model.FullText" start="20" end="66" sourcefile="FullText.java" sourcepath="org/androiddaisyreader/model/FullText.java" relSourcepath="org\androiddaisyreader\model\FullText.java">
+        <Message>At FullText.java:[lines 20-66]</Message>
+      </SourceLine>
+      <Message>In class org.androiddaisyreader.model.FullText</Message>
+    </Class>
+    <Method classname="org.androiddaisyreader.model.FullText" name="getContentsOfHTMLFile" signature="(Ljava/io/File;)Ljava/lang/StringBuilder;" isStatic="false" primary="true">
+      <SourceLine classname="org.androiddaisyreader.model.FullText" start="34" end="45" startBytecode="0" endBytecode="31" sourcefile="FullText.java" sourcepath="org/androiddaisyreader/model/FullText.java" relSourcepath="org\androiddaisyreader\model\FullText.java"/>
+      <Message>In method org.androiddaisyreader.model.FullText.getContentsOfHTMLFile(File)</Message>
+    </Method>
+    <Type descriptor="Ljava/io/Reader;" role="TYPE_CLOSEIT">
+      <SourceLine classname="java.io.Reader" start="49" end="232" sourcefile="Reader.java" sourcepath="java/io/Reader.java">
+        <Message>At Reader.java:[lines 49-232]</Message>
+      </SourceLine>
+      <Message>Need to close java.io.Reader </Message>
+    </Type>
+    <SourceLine classname="org.androiddaisyreader.model.FullText" primary="true" start="35" end="35" startBytecode="8" endBytecode="8" sourcefile="FullText.java" sourcepath="org/androiddaisyreader/model/FullText.java" relSourcepath="org\androiddaisyreader\model\FullText.java">
+      <Message>At FullText.java:[line 35]</Message>
+    </SourceLine>
+  </BugInstance>
+  <BugInstance type="SIC_INNER_SHOULD_BE_STATIC" priority="2" abbrev="SIC" category="PERFORMANCE" instanceHash="c81abfc9d7004c2daa913c6ca2ec8571" instanceOccurrenceNum="0" instanceOccurrenceMax="0" rank="18">
+    <ShortMessage>Should be a static inner class</ShortMessage>
+    <LongMessage>Should org.androiddaisyreader.model.MockAndroidAudioPlayerStateTest$AudioListener be a _static_ inner class?</LongMessage>
+    <Class classname="org.androiddaisyreader.model.MockAndroidAudioPlayerStateTest$AudioListener" primary="true">
+      <SourceLine classname="org.androiddaisyreader.model.MockAndroidAudioPlayerStateTest$AudioListener" start="32" end="41" sourcefile="MockAndroidAudioPlayerStateTest.java" sourcepath="org/androiddaisyreader/model/MockAndroidAudioPlayerStateTest.java">
+        <Message>At MockAndroidAudioPlayerStateTest.java:[lines 32-41]</Message>
+      </SourceLine>
+      <Message>In class org.androiddaisyreader.model.MockAndroidAudioPlayerStateTest$AudioListener</Message>
+    </Class>
+    <SourceLine classname="org.androiddaisyreader.model.MockAndroidAudioPlayerStateTest$AudioListener" start="32" end="41" sourcefile="MockAndroidAudioPlayerStateTest.java" sourcepath="org/androiddaisyreader/model/MockAndroidAudioPlayerStateTest.java" synthetic="true">
+      <Message>At MockAndroidAudioPlayerStateTest.java:[lines 32-41]</Message>
+    </SourceLine>
+  </BugInstance>
+  <BugInstance type="SF_SWITCH_NO_DEFAULT" priority="2" abbrev="SF" category="STYLE" instanceHash="2e04dd879893b65051beceda30bb2945" instanceOccurrenceNum="0" instanceOccurrenceMax="0" rank="19">
+    <ShortMessage>Switch statement found where default case is missing</ShortMessage>
+    <LongMessage>Switch statement found in org.androiddaisyreader.model.NccSpecification.handleMeta(Attributes) where default case is missing</LongMessage>
+    <Class classname="org.androiddaisyreader.model.NccSpecification" primary="true">
+      <SourceLine classname="org.androiddaisyreader.model.NccSpecification" start="48" end="377" sourcefile="NccSpecification.java" sourcepath="org/androiddaisyreader/model/NccSpecification.java" relSourcepath="org\androiddaisyreader\model\NccSpecification.java">
+        <Message>At NccSpecification.java:[lines 48-377]</Message>
+      </SourceLine>
+      <Message>In class org.androiddaisyreader.model.NccSpecification</Message>
+    </Class>
+    <Method classname="org.androiddaisyreader.model.NccSpecification" name="handleMeta" signature="(Lorg/xml/sax/Attributes;)V" isStatic="false" primary="true">
+      <SourceLine classname="org.androiddaisyreader.model.NccSpecification" start="267" end="321" startBytecode="0" endBytecode="580" sourcefile="NccSpecification.java" sourcepath="org/androiddaisyreader/model/NccSpecification.java" relSourcepath="org\androiddaisyreader\model\NccSpecification.java"/>
+      <Message>In method org.androiddaisyreader.model.NccSpecification.handleMeta(Attributes)</Message>
+    </Method>
+    <SourceLine classname="org.androiddaisyreader.model.NccSpecification" primary="true" start="298" end="315" startBytecode="156" endBytecode="266" sourcefile="NccSpecification.java" sourcepath="org/androiddaisyreader/model/NccSpecification.java" relSourcepath="org\androiddaisyreader\model\NccSpecification.java">
+      <Message>At NccSpecification.java:[lines 298-315]</Message>
+    </SourceLine>
+  </BugInstance>
+  <BugInstance type="VA_FORMAT_STRING_EXTRA_ARGUMENTS_PASSED" priority="2" abbrev="FS" category="CORRECTNESS" instanceHash="e5c9c2f07697826cae6e8e292f120f52" instanceOccurrenceNum="0" instanceOccurrenceMax="0" rank="9">
+    <ShortMessage>More arguments are passed than are actually used in the format string</ShortMessage>
+    <LongMessage>Format-string method String.format(String, Object[]) called with format string &quot;Expected the same level as [%s] found [%s]&quot; wants 2 arguments but is given 3 in org.androiddaisyreader.model.NccSpecification.handleEndOfHeading(NccSpecification$Element)</LongMessage>
+    <Class classname="org.androiddaisyreader.model.NccSpecification" primary="true">
+      <SourceLine classname="org.androiddaisyreader.model.NccSpecification" start="48" end="377" sourcefile="NccSpecification.java" sourcepath="org/androiddaisyreader/model/NccSpecification.java" relSourcepath="org\androiddaisyreader\model\NccSpecification.java">
+        <Message>At NccSpecification.java:[lines 48-377]</Message>
+      </SourceLine>
+      <Message>In class org.androiddaisyreader.model.NccSpecification</Message>
+    </Class>
+    <Method classname="org.androiddaisyreader.model.NccSpecification" name="handleEndOfHeading" signature="(Lorg/androiddaisyreader/model/NccSpecification$Element;)V" isStatic="false" primary="true">
+      <SourceLine classname="org.androiddaisyreader.model.NccSpecification" start="251" end="264" startBytecode="0" endBytecode="246" sourcefile="NccSpecification.java" sourcepath="org/androiddaisyreader/model/NccSpecification.java" relSourcepath="org\androiddaisyreader\model\NccSpecification.java"/>
+      <Message>In method org.androiddaisyreader.model.NccSpecification.handleEndOfHeading(NccSpecification$Element)</Message>
+    </Method>
+    <Method classname="java.lang.String" name="format" signature="(Ljava/lang/String;[Ljava/lang/Object;)Ljava/lang/String;" isStatic="true" role="METHOD_CALLED">
+      <SourceLine classname="java.lang.String" start="2770" end="2770" startBytecode="0" endBytecode="39" sourcefile="String.java" sourcepath="java/lang/String.java"/>
+      <Message>Called method String.format(String, Object[])</Message>
+    </Method>
+    <String value="Expected the same level as [%s] found [%s]" role="STRING_FORMAT_STRING">
+      <Message>Format string &quot;Expected the same level as [%s] found [%s]&quot;</Message>
+    </String>
+    <Int value="2" role="INT_EXPECTED_ARGUMENTS">
+      <Message>Expected 2 arguments</Message>
+    </Int>
+    <Int value="3" role="INT_ACTUAL_ARGUMENTS">
+      <Message>Found 3 arguments</Message>
+    </Int>
+    <SourceLine classname="org.androiddaisyreader.model.NccSpecification" primary="true" start="255" end="255" startBytecode="66" endBytecode="66" sourcefile="NccSpecification.java" sourcepath="org/androiddaisyreader/model/NccSpecification.java" relSourcepath="org\androiddaisyreader\model\NccSpecification.java">
+      <Message>At NccSpecification.java:[line 255]</Message>
+    </SourceLine>
+  </BugInstance>
+  <BugInstance type="DMI_HARDCODED_ABSOLUTE_FILENAME" priority="2" abbrev="DMI" category="STYLE" instanceHash="775bd2e77b508ea9d0feab614b01e66d" instanceOccurrenceNum="0" instanceOccurrenceMax="0" rank="17">
+    <ShortMessage>Code contains a hard coded reference to an absolute pathname</ShortMessage>
+    <LongMessage>Hard coded reference to an absolute pathname in org.androiddaisyreader.model.NccSpecificationTest.testReadFromFile()</LongMessage>
+    <Class classname="org.androiddaisyreader.model.NccSpecificationTest" primary="true">
+      <SourceLine classname="org.androiddaisyreader.model.NccSpecificationTest" start="16" end="78" sourcefile="NccSpecificationTest.java" sourcepath="org/androiddaisyreader/model/NccSpecificationTest.java">
+        <Message>At NccSpecificationTest.java:[lines 16-78]</Message>
+      </SourceLine>
+      <Message>In class org.androiddaisyreader.model.NccSpecificationTest</Message>
+    </Class>
+    <Method classname="org.androiddaisyreader.model.NccSpecificationTest" name="testReadFromFile" signature="()V" isStatic="false" primary="true">
+      <SourceLine classname="org.androiddaisyreader.model.NccSpecificationTest" start="44" end="50" startBytecode="0" endBytecode="21" sourcefile="NccSpecificationTest.java" sourcepath="org/androiddaisyreader/model/NccSpecificationTest.java"/>
+      <Message>In method org.androiddaisyreader.model.NccSpecificationTest.testReadFromFile()</Message>
+    </Method>
+    <String value="/sdcard/files-used-for-testing/testfiles/minidaisyaudiobook/ncc.html" role="FILE_NAME">
+      <Message>File name /sdcard/files-used-for-testing/testfiles/minidaisyaudiobook/ncc.html</Message>
+    </String>
+    <SourceLine classname="org.androiddaisyreader.model.NccSpecificationTest" primary="true" start="44" end="44" startBytecode="6" endBytecode="6" sourcefile="NccSpecificationTest.java" sourcepath="org/androiddaisyreader/model/NccSpecificationTest.java">
+      <Message>At NccSpecificationTest.java:[line 44]</Message>
+    </SourceLine>
+  </BugInstance>
+  <BugInstance type="DM_DEFAULT_ENCODING" priority="1" abbrev="Dm" category="I18N" instanceHash="50bd5fd078c651ce5a514880102d3e7e" instanceOccurrenceNum="0" instanceOccurrenceMax="0" rank="19">
+    <ShortMessage>Reliance on default encoding</ShortMessage>
+    <LongMessage>Found reliance on default encoding in org.androiddaisyreader.model.NccSpecificationTest.testUsingValidSampleContent(): String.getBytes()</LongMessage>
+    <Class classname="org.androiddaisyreader.model.NccSpecificationTest" primary="true">
+      <SourceLine classname="org.androiddaisyreader.model.NccSpecificationTest" start="16" end="78" sourcefile="NccSpecificationTest.java" sourcepath="org/androiddaisyreader/model/NccSpecificationTest.java">
+        <Message>At NccSpecificationTest.java:[lines 16-78]</Message>
+      </SourceLine>
+      <Message>In class org.androiddaisyreader.model.NccSpecificationTest</Message>
+    </Class>
+    <Method classname="org.androiddaisyreader.model.NccSpecificationTest" name="testUsingValidSampleContent" signature="()V" isStatic="false" primary="true">
+      <SourceLine classname="org.androiddaisyreader.model.NccSpecificationTest" start="53" end="58" startBytecode="0" endBytecode="137" sourcefile="NccSpecificationTest.java" sourcepath="org/androiddaisyreader/model/NccSpecificationTest.java"/>
+      <Message>In method org.androiddaisyreader.model.NccSpecificationTest.testUsingValidSampleContent()</Message>
+    </Method>
+    <Method classname="java.lang.String" name="getBytes" signature="()[B" isStatic="false" role="METHOD_CALLED">
+      <SourceLine classname="java.lang.String" start="987" end="987" startBytecode="0" endBytecode="39" sourcefile="String.java" sourcepath="java/lang/String.java"/>
+      <Message>Called method String.getBytes()</Message>
+    </Method>
+    <SourceLine classname="org.androiddaisyreader.model.NccSpecificationTest" primary="true" start="53" end="53" startBytecode="6" endBytecode="6" sourcefile="NccSpecificationTest.java" sourcepath="org/androiddaisyreader/model/NccSpecificationTest.java">
+      <Message>At NccSpecificationTest.java:[line 53]</Message>
+    </SourceLine>
+  </BugInstance>
+  <BugInstance type="NP_NULL_ON_SOME_PATH_EXCEPTION" priority="2" abbrev="NP" category="CORRECTNESS" instanceHash="813e1cadedee9f3c84fbad3aa20865b7" instanceOccurrenceNum="0" instanceOccurrenceMax="0" rank="11">
+    <ShortMessage>Possible null pointer dereference in method on exception path</ShortMessage>
+    <LongMessage>Possible null pointer dereference of eBookContents in org.androiddaisyreader.model.NccSpecificationTest.createNCC() on exception path</LongMessage>
+    <Class classname="org.androiddaisyreader.model.NccSpecificationTest" primary="true">
+      <SourceLine classname="org.androiddaisyreader.model.NccSpecificationTest" start="16" end="78" sourcefile="NccSpecificationTest.java" sourcepath="org/androiddaisyreader/model/NccSpecificationTest.java">
+        <Message>At NccSpecificationTest.java:[lines 16-78]</Message>
+      </SourceLine>
+      <Message>In class org.androiddaisyreader.model.NccSpecificationTest</Message>
+    </Class>
+    <Method classname="org.androiddaisyreader.model.NccSpecificationTest" name="createNCC" signature="()Ljava/io/ByteArrayInputStream;" isStatic="true" primary="true">
+      <SourceLine classname="org.androiddaisyreader.model.NccSpecificationTest" start="26" end="39" startBytecode="0" endBytecode="203" sourcefile="NccSpecificationTest.java" sourcepath="org/androiddaisyreader/model/NccSpecificationTest.java"/>
+      <Message>In method org.androiddaisyreader.model.NccSpecificationTest.createNCC()</Message>
+    </Method>
+    <LocalVariable name="eBookContents" register="1" pc="19" role="LOCAL_VARIABLE_VALUE_OF">
+      <Message>Value loaded from eBookContents</Message>
+    </LocalVariable>
+    <SourceLine classname="org.androiddaisyreader.model.NccSpecificationTest" primary="true" start="33" end="33" startBytecode="28" endBytecode="28" sourcefile="NccSpecificationTest.java" sourcepath="org/androiddaisyreader/model/NccSpecificationTest.java" role="SOURCE_LINE_DEREF">
+      <Message>Dereferenced at NccSpecificationTest.java:[line 33]</Message>
+    </SourceLine>
+    <SourceLine classname="org.androiddaisyreader.model.NccSpecificationTest" start="27" end="27" startBytecode="8" endBytecode="8" sourcefile="NccSpecificationTest.java" sourcepath="org/androiddaisyreader/model/NccSpecificationTest.java" role="SOURCE_LINE_NULL_VALUE">
+      <Message>Null value at NccSpecificationTest.java:[line 27]</Message>
+    </SourceLine>
+    <SourceLine classname="org.androiddaisyreader.model.NccSpecificationTest" start="30" end="30" startBytecode="22" endBytecode="22" sourcefile="NccSpecificationTest.java" sourcepath="org/androiddaisyreader/model/NccSpecificationTest.java" role="SOURCE_LINE_KNOWN_NULL">
+      <Message>Known null at NccSpecificationTest.java:[line 30]</Message>
+    </SourceLine>
+    <SourceLine classname="org.androiddaisyreader.model.NccSpecificationTest" start="31" end="31" startBytecode="24" endBytecode="24" sourcefile="NccSpecificationTest.java" sourcepath="org/androiddaisyreader/model/NccSpecificationTest.java" role="SOURCE_LINE_KNOWN_NULL">
+      <Message>Known null at NccSpecificationTest.java:[line 31]</Message>
+    </SourceLine>
+    <Property name="edu.umd.cs.findbugs.detect.NullDerefProperty.ALWAYS_ON_EXCEPTION_PATH" value="true"/>
+  </BugInstance>
+  <BugInstance type="DM_DEFAULT_ENCODING" priority="1" abbrev="Dm" category="I18N" instanceHash="64a1fd7774dd45a58aaa0d216b14cd35" instanceOccurrenceNum="0" instanceOccurrenceMax="0" rank="19">
+    <ShortMessage>Reliance on default encoding</ShortMessage>
+    <LongMessage>Found reliance on default encoding in org.androiddaisyreader.model.OpfSpecificationTest.testUsingValidSampleContentDaisy30(): String.getBytes()</LongMessage>
+    <Class classname="org.androiddaisyreader.model.OpfSpecificationTest" primary="true">
+      <SourceLine classname="org.androiddaisyreader.model.OpfSpecificationTest" start="13" end="55" sourcefile="OpfSpecificationTest.java" sourcepath="org/androiddaisyreader/model/OpfSpecificationTest.java">
+        <Message>At OpfSpecificationTest.java:[lines 13-55]</Message>
+      </SourceLine>
+      <Message>In class org.androiddaisyreader.model.OpfSpecificationTest</Message>
+    </Class>
+    <Method classname="org.androiddaisyreader.model.OpfSpecificationTest" name="testUsingValidSampleContentDaisy30" signature="()V" isStatic="false" primary="true">
+      <SourceLine classname="org.androiddaisyreader.model.OpfSpecificationTest" start="23" end="31" startBytecode="0" endBytecode="159" sourcefile="OpfSpecificationTest.java" sourcepath="org/androiddaisyreader/model/OpfSpecificationTest.java"/>
+      <Message>In method org.androiddaisyreader.model.OpfSpecificationTest.testUsingValidSampleContentDaisy30()</Message>
+    </Method>
+    <Method classname="java.lang.String" name="getBytes" signature="()[B" isStatic="false" role="METHOD_CALLED">
+      <SourceLine classname="java.lang.String" start="987" end="987" startBytecode="0" endBytecode="39" sourcefile="String.java" sourcepath="java/lang/String.java"/>
+      <Message>Called method String.getBytes()</Message>
+    </Method>
+    <SourceLine classname="org.androiddaisyreader.model.OpfSpecificationTest" primary="true" start="24" end="24" startBytecode="6" endBytecode="6" sourcefile="OpfSpecificationTest.java" sourcepath="org/androiddaisyreader/model/OpfSpecificationTest.java">
+      <Message>At OpfSpecificationTest.java:[line 24]</Message>
+    </SourceLine>
+  </BugInstance>
+  <BugInstance type="URF_UNREAD_PUBLIC_OR_PROTECTED_FIELD" priority="2" abbrev="UrF" category="STYLE" instanceHash="feacc91804389c09f41f5e07095df2d9" instanceOccurrenceNum="0" instanceOccurrenceMax="0" rank="18">
+    <ShortMessage>Unread public/protected field</ShortMessage>
+    <LongMessage>Unread public/protected field: org.androiddaisyreader.model.Part.timingMode</LongMessage>
+    <Class classname="org.androiddaisyreader.model.Part" primary="true">
+      <SourceLine classname="org.androiddaisyreader.model.Part" start="8" end="103" sourcefile="Part.java" sourcepath="org/androiddaisyreader/model/Part.java" relSourcepath="org\androiddaisyreader\model\Part.java">
+        <Message>At Part.java:[lines 8-103]</Message>
+      </SourceLine>
+      <Message>In class org.androiddaisyreader.model.Part</Message>
+    </Class>
+    <Field classname="org.androiddaisyreader.model.Part" name="timingMode" signature="Ljava/lang/String;" isStatic="false" primary="true">
+      <SourceLine classname="org.androiddaisyreader.model.Part" sourcefile="Part.java" sourcepath="org/androiddaisyreader/model/Part.java" relSourcepath="org\androiddaisyreader\model\Part.java">
+        <Message>In Part.java</Message>
+      </SourceLine>
+      <Message>Field org.androiddaisyreader.model.Part.timingMode</Message>
+    </Field>
+    <SourceLine classname="org.androiddaisyreader.model.Part$Builder" primary="true" start="91" end="91" startBytecode="5" endBytecode="5" sourcefile="Part.java" sourcepath="org/androiddaisyreader/model/Part.java" relSourcepath="org\androiddaisyreader\model\Part.java">
+      <Message>At Part.java:[line 91]</Message>
+    </SourceLine>
+  </BugInstance>
+  <BugInstance type="URF_UNREAD_PUBLIC_OR_PROTECTED_FIELD" priority="2" abbrev="UrF" category="STYLE" instanceHash="a821cf26ea5b4c55c91fac02b215df80" instanceOccurrenceNum="0" instanceOccurrenceMax="0" rank="18">
+    <ShortMessage>Unread public/protected field</ShortMessage>
+    <LongMessage>Unread public/protected field: org.androiddaisyreader.model.Section.id</LongMessage>
+    <Class classname="org.androiddaisyreader.model.Section" primary="true">
+      <SourceLine classname="org.androiddaisyreader.model.Section" start="6" end="33" sourcefile="Section.java" sourcepath="org/androiddaisyreader/model/Section.java" relSourcepath="org\androiddaisyreader\model\Section.java">
+        <Message>At Section.java:[lines 6-33]</Message>
+      </SourceLine>
+      <Message>In class org.androiddaisyreader.model.Section</Message>
+    </Class>
+    <Field classname="org.androiddaisyreader.model.Section" name="id" signature="Ljava/lang/String;" isStatic="false" primary="true">
+      <SourceLine classname="org.androiddaisyreader.model.Section" sourcefile="Section.java" sourcepath="org/androiddaisyreader/model/Section.java" relSourcepath="org\androiddaisyreader\model\Section.java">
+        <Message>In Section.java</Message>
+      </SourceLine>
+      <Message>Field org.androiddaisyreader.model.Section.id</Message>
+    </Field>
+    <SourceLine classname="org.androiddaisyreader.model.DaisySection$Builder" primary="true" start="129" end="129" startBytecode="5" endBytecode="5" sourcefile="DaisySection.java" sourcepath="org/androiddaisyreader/model/DaisySection.java" relSourcepath="org\androiddaisyreader\model\DaisySection.java">
+      <Message>At DaisySection.java:[line 129]</Message>
+    </SourceLine>
+  </BugInstance>
+  <BugInstance type="URF_UNREAD_PUBLIC_OR_PROTECTED_FIELD" priority="2" abbrev="UrF" category="STYLE" instanceHash="c0973742c40ed2e9381b1650df697c04" instanceOccurrenceNum="0" instanceOccurrenceMax="0" rank="18">
+    <ShortMessage>Unread public/protected field</ShortMessage>
+    <LongMessage>Unread public/protected field: org.androiddaisyreader.model.Smil.format</LongMessage>
+    <Class classname="org.androiddaisyreader.model.Smil" primary="true">
+      <SourceLine classname="org.androiddaisyreader.model.Smil" start="3" end="3" sourcefile="Smil.java" sourcepath="org/androiddaisyreader/model/Smil.java" relSourcepath="org\androiddaisyreader\model\Smil.java">
+        <Message>At Smil.java:[line 3]</Message>
+      </SourceLine>
+      <Message>In class org.androiddaisyreader.model.Smil</Message>
+    </Class>
+    <Field classname="org.androiddaisyreader.model.Smil" name="format" signature="Ljava/lang/String;" isStatic="false" primary="true">
+      <SourceLine classname="org.androiddaisyreader.model.Smil" sourcefile="Smil.java" sourcepath="org/androiddaisyreader/model/Smil.java" relSourcepath="org\androiddaisyreader\model\Smil.java">
+        <Message>In Smil.java</Message>
+      </SourceLine>
+      <Message>Field org.androiddaisyreader.model.Smil.format</Message>
+    </Field>
+    <SourceLine classname="org.androiddaisyreader.model.Smil$Builder" primary="true" start="11" end="11" startBytecode="5" endBytecode="5" sourcefile="Smil.java" sourcepath="org/androiddaisyreader/model/Smil.java" relSourcepath="org\androiddaisyreader\model\Smil.java">
+      <Message>At Smil.java:[line 11]</Message>
+    </SourceLine>
+  </BugInstance>
+  <BugInstance type="RV_RETURN_VALUE_IGNORED" priority="2" abbrev="RV" category="CORRECTNESS" instanceHash="5e18f32fff134a4de6a20e07935b1f3d" instanceOccurrenceNum="0" instanceOccurrenceMax="0" rank="5">
+    <ShortMessage>Method ignores return value</ShortMessage>
+    <LongMessage>return value of String.equalsIgnoreCase(String) ignored in org.androiddaisyreader.model.Smil10Specification.handleMeta(Attributes)</LongMessage>
+    <Class classname="org.androiddaisyreader.model.Smil10Specification" primary="true">
+      <SourceLine classname="org.androiddaisyreader.model.Smil10Specification" start="28" end="296" sourcefile="Smil10Specification.java" sourcepath="org/androiddaisyreader/model/Smil10Specification.java" relSourcepath="org\androiddaisyreader\model\Smil10Specification.java">
+        <Message>At Smil10Specification.java:[lines 28-296]</Message>
+      </SourceLine>
+      <Message>In class org.androiddaisyreader.model.Smil10Specification</Message>
+    </Class>
+    <Method classname="org.androiddaisyreader.model.Smil10Specification" name="handleMeta" signature="(Lorg/xml/sax/Attributes;)V" isStatic="false" primary="true">
+      <SourceLine classname="org.androiddaisyreader.model.Smil10Specification" start="238" end="262" startBytecode="0" endBytecode="292" sourcefile="Smil10Specification.java" sourcepath="org/androiddaisyreader/model/Smil10Specification.java" relSourcepath="org\androiddaisyreader\model\Smil10Specification.java"/>
+      <Message>In method org.androiddaisyreader.model.Smil10Specification.handleMeta(Attributes)</Message>
+    </Method>
+    <Method classname="java.lang.String" name="equalsIgnoreCase" signature="(Ljava/lang/String;)Z" isStatic="false" role="METHOD_CALLED">
+      <SourceLine classname="java.lang.String" start="1120" end="1120" startBytecode="0" endBytecode="68" sourcefile="String.java" sourcepath="java/lang/String.java"/>
+      <Message>Called method String.equalsIgnoreCase(String)</Message>
+    </Method>
+    <SourceLine classname="org.androiddaisyreader.model.Smil10Specification" primary="true" start="246" end="246" startBytecode="40" endBytecode="40" sourcefile="Smil10Specification.java" sourcepath="org/androiddaisyreader/model/Smil10Specification.java" relSourcepath="org\androiddaisyreader\model\Smil10Specification.java">
+      <Message>At Smil10Specification.java:[line 246]</Message>
+    </SourceLine>
+  </BugInstance>
+  <BugInstance type="SF_SWITCH_NO_DEFAULT" priority="2" abbrev="SF" category="STYLE" instanceHash="fa5f6709d69cde5d908eb928cd0cf97e" instanceOccurrenceNum="0" instanceOccurrenceMax="0" rank="19">
+    <ShortMessage>Switch statement found where default case is missing</ShortMessage>
+    <LongMessage>Switch statement found in org.androiddaisyreader.model.Smil10Specification.endElement(String, String, String) where default case is missing</LongMessage>
+    <Class classname="org.androiddaisyreader.model.Smil10Specification" primary="true">
+      <SourceLine classname="org.androiddaisyreader.model.Smil10Specification" start="28" end="296" sourcefile="Smil10Specification.java" sourcepath="org/androiddaisyreader/model/Smil10Specification.java" relSourcepath="org\androiddaisyreader\model\Smil10Specification.java">
+        <Message>At Smil10Specification.java:[lines 28-296]</Message>
+      </SourceLine>
+      <Message>In class org.androiddaisyreader.model.Smil10Specification</Message>
+    </Class>
+    <Method classname="org.androiddaisyreader.model.Smil10Specification" name="endElement" signature="(Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;)V" isStatic="false" primary="true">
+      <SourceLine classname="org.androiddaisyreader.model.Smil10Specification" start="103" end="124" startBytecode="0" endBytecode="227" sourcefile="Smil10Specification.java" sourcepath="org/androiddaisyreader/model/Smil10Specification.java" relSourcepath="org\androiddaisyreader\model\Smil10Specification.java"/>
+      <Message>In method org.androiddaisyreader.model.Smil10Specification.endElement(String, String, String)</Message>
+    </Method>
+    <SourceLine classname="org.androiddaisyreader.model.Smil10Specification" primary="true" start="108" end="119" startBytecode="39" endBytecode="97" sourcefile="Smil10Specification.java" sourcepath="org/androiddaisyreader/model/Smil10Specification.java" relSourcepath="org\androiddaisyreader\model\Smil10Specification.java">
+      <Message>At Smil10Specification.java:[lines 108-119]</Message>
+    </SourceLine>
+  </BugInstance>
+  <BugInstance type="SS_SHOULD_BE_STATIC" priority="2" abbrev="SS" category="PERFORMANCE" instanceHash="9784b3cb84233c5c1358f9e6a059b2e4" instanceOccurrenceNum="0" instanceOccurrenceMax="0" rank="18">
+    <ShortMessage>Unread field: should this field be static?</ShortMessage>
+    <LongMessage>Unread field: org.androiddaisyreader.model.Smil10Specification.DAISYFORMAT202; should this field be static?</LongMessage>
+    <Class classname="org.androiddaisyreader.model.Smil10Specification" primary="true">
+      <SourceLine classname="org.androiddaisyreader.model.Smil10Specification" start="28" end="296" sourcefile="Smil10Specification.java" sourcepath="org/androiddaisyreader/model/Smil10Specification.java" relSourcepath="org\androiddaisyreader\model\Smil10Specification.java">
+        <Message>At Smil10Specification.java:[lines 28-296]</Message>
+      </SourceLine>
+      <Message>In class org.androiddaisyreader.model.Smil10Specification</Message>
+    </Class>
+    <Field classname="org.androiddaisyreader.model.Smil10Specification" name="DAISYFORMAT202" signature="I" isStatic="false" primary="true">
+      <SourceLine classname="org.androiddaisyreader.model.Smil10Specification" sourcefile="Smil10Specification.java" sourcepath="org/androiddaisyreader/model/Smil10Specification.java" relSourcepath="org\androiddaisyreader\model\Smil10Specification.java">
+        <Message>In Smil10Specification.java</Message>
+      </SourceLine>
+      <Message>Field org.androiddaisyreader.model.Smil10Specification.DAISYFORMAT202</Message>
+    </Field>
+    <SourceLine classname="org.androiddaisyreader.model.Smil10Specification" primary="true" start="40" end="40" startBytecode="24" endBytecode="24" sourcefile="Smil10Specification.java" sourcepath="org/androiddaisyreader/model/Smil10Specification.java" relSourcepath="org\androiddaisyreader\model\Smil10Specification.java">
+      <Message>At Smil10Specification.java:[line 40]</Message>
+    </SourceLine>
+  </BugInstance>
+  <BugInstance type="DM_DEFAULT_ENCODING" priority="1" abbrev="Dm" category="I18N" instanceHash="460dc8237658f324907a295439cfdefe" instanceOccurrenceNum="0" instanceOccurrenceMax="0" rank="19">
+    <ShortMessage>Reliance on default encoding</ShortMessage>
+    <LongMessage>Found reliance on default encoding in org.androiddaisyreader.model.Smil10SpecificationTest.testErrorHandlingForBrokenSmilPointerToTextContents(): String.getBytes()</LongMessage>
+    <Class classname="org.androiddaisyreader.model.Smil10SpecificationTest" primary="true">
+      <SourceLine classname="org.androiddaisyreader.model.Smil10SpecificationTest" start="14" end="127" sourcefile="Smil10SpecificationTest.java" sourcepath="org/androiddaisyreader/model/Smil10SpecificationTest.java">
+        <Message>At Smil10SpecificationTest.java:[lines 14-127]</Message>
+      </SourceLine>
+      <Message>In class org.androiddaisyreader.model.Smil10SpecificationTest</Message>
+    </Class>
+    <Method classname="org.androiddaisyreader.model.Smil10SpecificationTest" name="testErrorHandlingForBrokenSmilPointerToTextContents" signature="()V" isStatic="false" primary="true">
+      <SourceLine classname="org.androiddaisyreader.model.Smil10SpecificationTest" start="81" end="91" startBytecode="0" endBytecode="225" sourcefile="Smil10SpecificationTest.java" sourcepath="org/androiddaisyreader/model/Smil10SpecificationTest.java"/>
+      <Message>In method org.androiddaisyreader.model.Smil10SpecificationTest.testErrorHandlingForBrokenSmilPointerToTextContents()</Message>
+    </Method>
+    <Method classname="java.lang.String" name="getBytes" signature="()[B" isStatic="false" role="METHOD_CALLED">
+      <SourceLine classname="java.lang.String" start="987" end="987" startBytecode="0" endBytecode="39" sourcefile="String.java" sourcepath="java/lang/String.java"/>
+      <Message>Called method String.getBytes()</Message>
+    </Method>
+    <SourceLine classname="org.androiddaisyreader.model.Smil10SpecificationTest" primary="true" start="81" end="81" startBytecode="6" endBytecode="6" sourcefile="Smil10SpecificationTest.java" sourcepath="org/androiddaisyreader/model/Smil10SpecificationTest.java">
+      <Message>At Smil10SpecificationTest.java:[line 81]</Message>
+    </SourceLine>
+  </BugInstance>
+  <BugInstance type="DM_DEFAULT_ENCODING" priority="1" abbrev="Dm" category="I18N" instanceHash="c514179c49db051272cc8a8fe4d2d16" instanceOccurrenceNum="0" instanceOccurrenceMax="0" rank="19">
+    <ShortMessage>Reliance on default encoding</ShortMessage>
+    <LongMessage>Found reliance on default encoding in org.androiddaisyreader.model.Smil10SpecificationTest.testParsingOfSimpleSmil10WithAudio(): String.getBytes()</LongMessage>
+    <Class classname="org.androiddaisyreader.model.Smil10SpecificationTest" primary="true">
+      <SourceLine classname="org.androiddaisyreader.model.Smil10SpecificationTest" start="14" end="127" sourcefile="Smil10SpecificationTest.java" sourcepath="org/androiddaisyreader/model/Smil10SpecificationTest.java">
+        <Message>At Smil10SpecificationTest.java:[lines 14-127]</Message>
+      </SourceLine>
+      <Message>In class org.androiddaisyreader.model.Smil10SpecificationTest</Message>
+    </Class>
+    <Method classname="org.androiddaisyreader.model.Smil10SpecificationTest" name="testParsingOfSimpleSmil10WithAudio" signature="()V" isStatic="false" primary="true">
+      <SourceLine classname="org.androiddaisyreader.model.Smil10SpecificationTest" start="94" end="100" startBytecode="0" endBytecode="157" sourcefile="Smil10SpecificationTest.java" sourcepath="org/androiddaisyreader/model/Smil10SpecificationTest.java"/>
+      <Message>In method org.androiddaisyreader.model.Smil10SpecificationTest.testParsingOfSimpleSmil10WithAudio()</Message>
+    </Method>
+    <Method classname="java.lang.String" name="getBytes" signature="()[B" isStatic="false" role="METHOD_CALLED">
+      <SourceLine classname="java.lang.String" start="987" end="987" startBytecode="0" endBytecode="39" sourcefile="String.java" sourcepath="java/lang/String.java"/>
+      <Message>Called method String.getBytes()</Message>
+    </Method>
+    <SourceLine classname="org.androiddaisyreader.model.Smil10SpecificationTest" primary="true" start="94" end="94" startBytecode="6" endBytecode="6" sourcefile="Smil10SpecificationTest.java" sourcepath="org/androiddaisyreader/model/Smil10SpecificationTest.java">
+      <Message>At Smil10SpecificationTest.java:[line 94]</Message>
+    </SourceLine>
+  </BugInstance>
+  <BugInstance type="DM_DEFAULT_ENCODING" priority="1" abbrev="Dm" category="I18N" instanceHash="76582a8819676a0aec27c705699d9dd0" instanceOccurrenceNum="0" instanceOccurrenceMax="0" rank="19">
+    <ShortMessage>Reliance on default encoding</ShortMessage>
+    <LongMessage>Found reliance on default encoding in org.androiddaisyreader.model.Smil10SpecificationTest.testParsingOfSimpleSmil10WithText(): String.getBytes()</LongMessage>
+    <Class classname="org.androiddaisyreader.model.Smil10SpecificationTest" primary="true">
+      <SourceLine classname="org.androiddaisyreader.model.Smil10SpecificationTest" start="14" end="127" sourcefile="Smil10SpecificationTest.java" sourcepath="org/androiddaisyreader/model/Smil10SpecificationTest.java">
+        <Message>At Smil10SpecificationTest.java:[lines 14-127]</Message>
+      </SourceLine>
+      <Message>In class org.androiddaisyreader.model.Smil10SpecificationTest</Message>
+    </Class>
+    <Method classname="org.androiddaisyreader.model.Smil10SpecificationTest" name="testParsingOfSimpleSmil10WithText" signature="()V" isStatic="false" primary="true">
+      <SourceLine classname="org.androiddaisyreader.model.Smil10SpecificationTest" start="68" end="78" startBytecode="0" endBytecode="203" sourcefile="Smil10SpecificationTest.java" sourcepath="org/androiddaisyreader/model/Smil10SpecificationTest.java"/>
+      <Message>In method org.androiddaisyreader.model.Smil10SpecificationTest.testParsingOfSimpleSmil10WithText()</Message>
+    </Method>
+    <Method classname="java.lang.String" name="getBytes" signature="()[B" isStatic="false" role="METHOD_CALLED">
+      <SourceLine classname="java.lang.String" start="987" end="987" startBytecode="0" endBytecode="39" sourcefile="String.java" sourcepath="java/lang/String.java"/>
+      <Message>Called method String.getBytes()</Message>
+    </Method>
+    <SourceLine classname="org.androiddaisyreader.model.Smil10SpecificationTest" primary="true" start="68" end="68" startBytecode="6" endBytecode="6" sourcefile="Smil10SpecificationTest.java" sourcepath="org/androiddaisyreader/model/Smil10SpecificationTest.java">
+      <Message>At Smil10SpecificationTest.java:[line 68]</Message>
+    </SourceLine>
+  </BugInstance>
+  <BugInstance type="DM_DEFAULT_ENCODING" priority="1" abbrev="Dm" category="I18N" instanceHash="495115481d900b0c6410d89ce5381b97" instanceOccurrenceNum="0" instanceOccurrenceMax="0" rank="19">
+    <ShortMessage>Reliance on default encoding</ShortMessage>
+    <LongMessage>Found reliance on default encoding in org.androiddaisyreader.model.Smil10SpecificationTest.testParsingOfSimpleSmil10WithTwoAudioSections(): String.getBytes()</LongMessage>
+    <Class classname="org.androiddaisyreader.model.Smil10SpecificationTest" primary="true">
+      <SourceLine classname="org.androiddaisyreader.model.Smil10SpecificationTest" start="14" end="127" sourcefile="Smil10SpecificationTest.java" sourcepath="org/androiddaisyreader/model/Smil10SpecificationTest.java">
+        <Message>At Smil10SpecificationTest.java:[lines 14-127]</Message>
+      </SourceLine>
+      <Message>In class org.androiddaisyreader.model.Smil10SpecificationTest</Message>
+    </Class>
+    <Method classname="org.androiddaisyreader.model.Smil10SpecificationTest" name="testParsingOfSimpleSmil10WithTwoAudioSections" signature="()V" isStatic="false" primary="true">
+      <SourceLine classname="org.androiddaisyreader.model.Smil10SpecificationTest" start="103" end="111" startBytecode="0" endBytecode="211" sourcefile="Smil10SpecificationTest.java" sourcepath="org/androiddaisyreader/model/Smil10SpecificationTest.java"/>
+      <Message>In method org.androiddaisyreader.model.Smil10SpecificationTest.testParsingOfSimpleSmil10WithTwoAudioSections()</Message>
+    </Method>
+    <Method classname="java.lang.String" name="getBytes" signature="()[B" isStatic="false" role="METHOD_CALLED">
+      <SourceLine classname="java.lang.String" start="987" end="987" startBytecode="0" endBytecode="39" sourcefile="String.java" sourcepath="java/lang/String.java"/>
+      <Message>Called method String.getBytes()</Message>
+    </Method>
+    <SourceLine classname="org.androiddaisyreader.model.Smil10SpecificationTest" primary="true" start="103" end="103" startBytecode="6" endBytecode="6" sourcefile="Smil10SpecificationTest.java" sourcepath="org/androiddaisyreader/model/Smil10SpecificationTest.java">
+      <Message>At Smil10SpecificationTest.java:[line 103]</Message>
+    </SourceLine>
+  </BugInstance>
+  <BugInstance type="DM_DEFAULT_ENCODING" priority="1" abbrev="Dm" category="I18N" instanceHash="fac1ea034c0d2246f9a665b20c86e3e1" instanceOccurrenceNum="0" instanceOccurrenceMax="0" rank="19">
+    <ShortMessage>Reliance on default encoding</ShortMessage>
+    <LongMessage>Found reliance on default encoding in org.androiddaisyreader.model.Smil10SpecificationTest.testParsingOfSimpleSmil10WithTwoTextSections(): String.getBytes()</LongMessage>
+    <Class classname="org.androiddaisyreader.model.Smil10SpecificationTest" primary="true">
+      <SourceLine classname="org.androiddaisyreader.model.Smil10SpecificationTest" start="14" end="127" sourcefile="Smil10SpecificationTest.java" sourcepath="org/androiddaisyreader/model/Smil10SpecificationTest.java">
+        <Message>At Smil10SpecificationTest.java:[lines 14-127]</Message>
+      </SourceLine>
+      <Message>In class org.androiddaisyreader.model.Smil10SpecificationTest</Message>
+    </Class>
+    <Method classname="org.androiddaisyreader.model.Smil10SpecificationTest" name="testParsingOfSimpleSmil10WithTwoTextSections" signature="()V" isStatic="false" primary="true">
+      <SourceLine classname="org.androiddaisyreader.model.Smil10SpecificationTest" start="114" end="120" startBytecode="0" endBytecode="157" sourcefile="Smil10SpecificationTest.java" sourcepath="org/androiddaisyreader/model/Smil10SpecificationTest.java"/>
+      <Message>In method org.androiddaisyreader.model.Smil10SpecificationTest.testParsingOfSimpleSmil10WithTwoTextSections()</Message>
+    </Method>
+    <Method classname="java.lang.String" name="getBytes" signature="()[B" isStatic="false" role="METHOD_CALLED">
+      <SourceLine classname="java.lang.String" start="987" end="987" startBytecode="0" endBytecode="39" sourcefile="String.java" sourcepath="java/lang/String.java"/>
+      <Message>Called method String.getBytes()</Message>
+    </Method>
+    <SourceLine classname="org.androiddaisyreader.model.Smil10SpecificationTest" primary="true" start="114" end="114" startBytecode="6" endBytecode="6" sourcefile="Smil10SpecificationTest.java" sourcepath="org/androiddaisyreader/model/Smil10SpecificationTest.java">
+      <Message>At Smil10SpecificationTest.java:[line 114]</Message>
+    </SourceLine>
+  </BugInstance>
+  <BugInstance type="RV_RETURN_VALUE_IGNORED" priority="2" abbrev="RV" category="CORRECTNESS" instanceHash="3a972a98ac790894a69b7616d2282d15" instanceOccurrenceNum="0" instanceOccurrenceMax="0" rank="5">
+    <ShortMessage>Method ignores return value</ShortMessage>
+    <LongMessage>return value of String.equalsIgnoreCase(String) ignored in org.androiddaisyreader.model.Smil30Specification.handleMeta(Attributes)</LongMessage>
+    <Class classname="org.androiddaisyreader.model.Smil30Specification" primary="true">
+      <SourceLine classname="org.androiddaisyreader.model.Smil30Specification" start="24" end="310" sourcefile="Smil30Specification.java" sourcepath="org/androiddaisyreader/model/Smil30Specification.java" relSourcepath="org\androiddaisyreader\model\Smil30Specification.java">
+        <Message>At Smil30Specification.java:[lines 24-310]</Message>
+      </SourceLine>
+      <Message>In class org.androiddaisyreader.model.Smil30Specification</Message>
+    </Class>
+    <Method classname="org.androiddaisyreader.model.Smil30Specification" name="handleMeta" signature="(Lorg/xml/sax/Attributes;)V" isStatic="false" primary="true">
+      <SourceLine classname="org.androiddaisyreader.model.Smil30Specification" start="248" end="272" startBytecode="0" endBytecode="292" sourcefile="Smil30Specification.java" sourcepath="org/androiddaisyreader/model/Smil30Specification.java" relSourcepath="org\androiddaisyreader\model\Smil30Specification.java"/>
+      <Message>In method org.androiddaisyreader.model.Smil30Specification.handleMeta(Attributes)</Message>
+    </Method>
+    <Method classname="java.lang.String" name="equalsIgnoreCase" signature="(Ljava/lang/String;)Z" isStatic="false" role="METHOD_CALLED">
+      <SourceLine classname="java.lang.String" start="1120" end="1120" startBytecode="0" endBytecode="68" sourcefile="String.java" sourcepath="java/lang/String.java"/>
+      <Message>Called method String.equalsIgnoreCase(String)</Message>
+    </Method>
+    <SourceLine classname="org.androiddaisyreader.model.Smil30Specification" primary="true" start="256" end="256" startBytecode="40" endBytecode="40" sourcefile="Smil30Specification.java" sourcepath="org/androiddaisyreader/model/Smil30Specification.java" relSourcepath="org\androiddaisyreader\model\Smil30Specification.java">
+      <Message>At Smil30Specification.java:[line 256]</Message>
+    </SourceLine>
+  </BugInstance>
+  <BugInstance type="SF_SWITCH_NO_DEFAULT" priority="2" abbrev="SF" category="STYLE" instanceHash="2d6002ffecd3910f31d9befbf0270e1b" instanceOccurrenceNum="0" instanceOccurrenceMax="0" rank="19">
+    <ShortMessage>Switch statement found where default case is missing</ShortMessage>
+    <LongMessage>Switch statement found in org.androiddaisyreader.model.Smil30Specification.endElement(String, String, String) where default case is missing</LongMessage>
+    <Class classname="org.androiddaisyreader.model.Smil30Specification" primary="true">
+      <SourceLine classname="org.androiddaisyreader.model.Smil30Specification" start="24" end="310" sourcefile="Smil30Specification.java" sourcepath="org/androiddaisyreader/model/Smil30Specification.java" relSourcepath="org\androiddaisyreader\model\Smil30Specification.java">
+        <Message>At Smil30Specification.java:[lines 24-310]</Message>
+      </SourceLine>
+      <Message>In class org.androiddaisyreader.model.Smil30Specification</Message>
+    </Class>
+    <Method classname="org.androiddaisyreader.model.Smil30Specification" name="endElement" signature="(Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;)V" isStatic="false" primary="true">
+      <SourceLine classname="org.androiddaisyreader.model.Smil30Specification" start="101" end="124" startBytecode="0" endBytecode="248" sourcefile="Smil30Specification.java" sourcepath="org/androiddaisyreader/model/Smil30Specification.java" relSourcepath="org\androiddaisyreader\model\Smil30Specification.java"/>
+      <Message>In method org.androiddaisyreader.model.Smil30Specification.endElement(String, String, String)</Message>
+    </Method>
+    <SourceLine classname="org.androiddaisyreader.model.Smil30Specification" primary="true" start="106" end="119" startBytecode="39" endBytecode="109" sourcefile="Smil30Specification.java" sourcepath="org/androiddaisyreader/model/Smil30Specification.java" relSourcepath="org\androiddaisyreader\model\Smil30Specification.java">
+      <Message>At Smil30Specification.java:[lines 106-119]</Message>
+    </SourceLine>
+  </BugInstance>
+  <BugInstance type="SS_SHOULD_BE_STATIC" priority="2" abbrev="SS" category="PERFORMANCE" instanceHash="45943ffab91ae40a4507a1f1a6defb79" instanceOccurrenceNum="0" instanceOccurrenceMax="0" rank="18">
+    <ShortMessage>Unread field: should this field be static?</ShortMessage>
+    <LongMessage>Unread field: org.androiddaisyreader.model.Smil30Specification.DAISYFORMAT30; should this field be static?</LongMessage>
+    <Class classname="org.androiddaisyreader.model.Smil30Specification" primary="true">
+      <SourceLine classname="org.androiddaisyreader.model.Smil30Specification" start="24" end="310" sourcefile="Smil30Specification.java" sourcepath="org/androiddaisyreader/model/Smil30Specification.java" relSourcepath="org\androiddaisyreader\model\Smil30Specification.java">
+        <Message>At Smil30Specification.java:[lines 24-310]</Message>
+      </SourceLine>
+      <Message>In class org.androiddaisyreader.model.Smil30Specification</Message>
+    </Class>
+    <Field classname="org.androiddaisyreader.model.Smil30Specification" name="DAISYFORMAT30" signature="I" isStatic="false" primary="true">
+      <SourceLine classname="org.androiddaisyreader.model.Smil30Specification" sourcefile="Smil30Specification.java" sourcepath="org/androiddaisyreader/model/Smil30Specification.java" relSourcepath="org\androiddaisyreader\model\Smil30Specification.java">
+        <Message>In Smil30Specification.java</Message>
+      </SourceLine>
+      <Message>Field org.androiddaisyreader.model.Smil30Specification.DAISYFORMAT30</Message>
+    </Field>
+    <SourceLine classname="org.androiddaisyreader.model.Smil30Specification" primary="true" start="38" end="38" startBytecode="38" endBytecode="38" sourcefile="Smil30Specification.java" sourcepath="org/androiddaisyreader/model/Smil30Specification.java" relSourcepath="org\androiddaisyreader\model\Smil30Specification.java">
+      <Message>At Smil30Specification.java:[line 38]</Message>
+    </SourceLine>
+  </BugInstance>
+  <BugInstance type="DM_DEFAULT_ENCODING" priority="1" abbrev="Dm" category="I18N" instanceHash="1c9bc09eae5f219ef7a54912fdf76e43" instanceOccurrenceNum="0" instanceOccurrenceMax="0" rank="19">
+    <ShortMessage>Reliance on default encoding</ShortMessage>
+    <LongMessage>Found reliance on default encoding in org.androiddaisyreader.model.Smil30SpecificationTest.testParsingOfSimpleSmil30With2Audio(): String.getBytes()</LongMessage>
+    <Class classname="org.androiddaisyreader.model.Smil30SpecificationTest" primary="true">
+      <SourceLine classname="org.androiddaisyreader.model.Smil30SpecificationTest" start="14" end="130" sourcefile="Smil30SpecificationTest.java" sourcepath="org/androiddaisyreader/model/Smil30SpecificationTest.java">
+        <Message>At Smil30SpecificationTest.java:[lines 14-130]</Message>
+      </SourceLine>
+      <Message>In class org.androiddaisyreader.model.Smil30SpecificationTest</Message>
+    </Class>
+    <Method classname="org.androiddaisyreader.model.Smil30SpecificationTest" name="testParsingOfSimpleSmil30With2Audio" signature="()V" isStatic="false" primary="true">
+      <SourceLine classname="org.androiddaisyreader.model.Smil30SpecificationTest" start="95" end="101" startBytecode="0" endBytecode="157" sourcefile="Smil30SpecificationTest.java" sourcepath="org/androiddaisyreader/model/Smil30SpecificationTest.java"/>
+      <Message>In method org.androiddaisyreader.model.Smil30SpecificationTest.testParsingOfSimpleSmil30With2Audio()</Message>
+    </Method>
+    <Method classname="java.lang.String" name="getBytes" signature="()[B" isStatic="false" role="METHOD_CALLED">
+      <SourceLine classname="java.lang.String" start="987" end="987" startBytecode="0" endBytecode="39" sourcefile="String.java" sourcepath="java/lang/String.java"/>
+      <Message>Called method String.getBytes()</Message>
+    </Method>
+    <SourceLine classname="org.androiddaisyreader.model.Smil30SpecificationTest" primary="true" start="95" end="95" startBytecode="6" endBytecode="6" sourcefile="Smil30SpecificationTest.java" sourcepath="org/androiddaisyreader/model/Smil30SpecificationTest.java">
+      <Message>At Smil30SpecificationTest.java:[line 95]</Message>
+    </SourceLine>
+  </BugInstance>
+  <BugInstance type="DM_DEFAULT_ENCODING" priority="1" abbrev="Dm" category="I18N" instanceHash="c0ca539cc49b539d4d642b21feb3844f" instanceOccurrenceNum="0" instanceOccurrenceMax="0" rank="19">
+    <ShortMessage>Reliance on default encoding</ShortMessage>
+    <LongMessage>Found reliance on default encoding in org.androiddaisyreader.model.Smil30SpecificationTest.testParsingOfSimpleSmil30With2Text(): String.getBytes()</LongMessage>
+    <Class classname="org.androiddaisyreader.model.Smil30SpecificationTest" primary="true">
+      <SourceLine classname="org.androiddaisyreader.model.Smil30SpecificationTest" start="14" end="130" sourcefile="Smil30SpecificationTest.java" sourcepath="org/androiddaisyreader/model/Smil30SpecificationTest.java">
+        <Message>At Smil30SpecificationTest.java:[lines 14-130]</Message>
+      </SourceLine>
+      <Message>In class org.androiddaisyreader.model.Smil30SpecificationTest</Message>
+    </Class>
+    <Method classname="org.androiddaisyreader.model.Smil30SpecificationTest" name="testParsingOfSimpleSmil30With2Text" signature="()V" isStatic="false" primary="true">
+      <SourceLine classname="org.androiddaisyreader.model.Smil30SpecificationTest" start="117" end="125" startBytecode="0" endBytecode="165" sourcefile="Smil30SpecificationTest.java" sourcepath="org/androiddaisyreader/model/Smil30SpecificationTest.java"/>
+      <Message>In method org.androiddaisyreader.model.Smil30SpecificationTest.testParsingOfSimpleSmil30With2Text()</Message>
+    </Method>
+    <Method classname="java.lang.String" name="getBytes" signature="()[B" isStatic="false" role="METHOD_CALLED">
+      <SourceLine classname="java.lang.String" start="987" end="987" startBytecode="0" endBytecode="39" sourcefile="String.java" sourcepath="java/lang/String.java"/>
+      <Message>Called method String.getBytes()</Message>
+    </Method>
+    <SourceLine classname="org.androiddaisyreader.model.Smil30SpecificationTest" primary="true" start="117" end="117" startBytecode="6" endBytecode="6" sourcefile="Smil30SpecificationTest.java" sourcepath="org/androiddaisyreader/model/Smil30SpecificationTest.java">
+      <Message>At Smil30SpecificationTest.java:[line 117]</Message>
+    </SourceLine>
+  </BugInstance>
+  <BugInstance type="DM_DEFAULT_ENCODING" priority="1" abbrev="Dm" category="I18N" instanceHash="2338b40502bc28b37c3d433c7a15f4e" instanceOccurrenceNum="0" instanceOccurrenceMax="0" rank="19">
+    <ShortMessage>Reliance on default encoding</ShortMessage>
+    <LongMessage>Found reliance on default encoding in org.androiddaisyreader.model.Smil30SpecificationTest.testParsingOfSimpleSmil30WithAudio(): String.getBytes()</LongMessage>
+    <Class classname="org.androiddaisyreader.model.Smil30SpecificationTest" primary="true">
+      <SourceLine classname="org.androiddaisyreader.model.Smil30SpecificationTest" start="14" end="130" sourcefile="Smil30SpecificationTest.java" sourcepath="org/androiddaisyreader/model/Smil30SpecificationTest.java">
+        <Message>At Smil30SpecificationTest.java:[lines 14-130]</Message>
+      </SourceLine>
+      <Message>In class org.androiddaisyreader.model.Smil30SpecificationTest</Message>
+    </Class>
+    <Method classname="org.androiddaisyreader.model.Smil30SpecificationTest" name="testParsingOfSimpleSmil30WithAudio" signature="()V" isStatic="false" primary="true">
+      <SourceLine classname="org.androiddaisyreader.model.Smil30SpecificationTest" start="85" end="91" startBytecode="0" endBytecode="157" sourcefile="Smil30SpecificationTest.java" sourcepath="org/androiddaisyreader/model/Smil30SpecificationTest.java"/>
+      <Message>In method org.androiddaisyreader.model.Smil30SpecificationTest.testParsingOfSimpleSmil30WithAudio()</Message>
+    </Method>
+    <Method classname="java.lang.String" name="getBytes" signature="()[B" isStatic="false" role="METHOD_CALLED">
+      <SourceLine classname="java.lang.String" start="987" end="987" startBytecode="0" endBytecode="39" sourcefile="String.java" sourcepath="java/lang/String.java"/>
+      <Message>Called method String.getBytes()</Message>
+    </Method>
+    <SourceLine classname="org.androiddaisyreader.model.Smil30SpecificationTest" primary="true" start="85" end="85" startBytecode="6" endBytecode="6" sourcefile="Smil30SpecificationTest.java" sourcepath="org/androiddaisyreader/model/Smil30SpecificationTest.java">
+      <Message>At Smil30SpecificationTest.java:[line 85]</Message>
+    </SourceLine>
+  </BugInstance>
+  <BugInstance type="DM_DEFAULT_ENCODING" priority="1" abbrev="Dm" category="I18N" instanceHash="397b2f02eec45d4069be41434c9553a1" instanceOccurrenceNum="0" instanceOccurrenceMax="0" rank="19">
+    <ShortMessage>Reliance on default encoding</ShortMessage>
+    <LongMessage>Found reliance on default encoding in org.androiddaisyreader.model.Smil30SpecificationTest.testParsingOfSimpleSmil30WithSimpleSection(): String.getBytes()</LongMessage>
+    <Class classname="org.androiddaisyreader.model.Smil30SpecificationTest" primary="true">
+      <SourceLine classname="org.androiddaisyreader.model.Smil30SpecificationTest" start="14" end="130" sourcefile="Smil30SpecificationTest.java" sourcepath="org/androiddaisyreader/model/Smil30SpecificationTest.java">
+        <Message>At Smil30SpecificationTest.java:[lines 14-130]</Message>
+      </SourceLine>
+      <Message>In class org.androiddaisyreader.model.Smil30SpecificationTest</Message>
+    </Class>
+    <Method classname="org.androiddaisyreader.model.Smil30SpecificationTest" name="testParsingOfSimpleSmil30WithSimpleSection" signature="()V" isStatic="false" primary="true">
+      <SourceLine classname="org.androiddaisyreader.model.Smil30SpecificationTest" start="75" end="81" startBytecode="0" endBytecode="157" sourcefile="Smil30SpecificationTest.java" sourcepath="org/androiddaisyreader/model/Smil30SpecificationTest.java"/>
+      <Message>In method org.androiddaisyreader.model.Smil30SpecificationTest.testParsingOfSimpleSmil30WithSimpleSection()</Message>
+    </Method>
+    <Method classname="java.lang.String" name="getBytes" signature="()[B" isStatic="false" role="METHOD_CALLED">
+      <SourceLine classname="java.lang.String" start="987" end="987" startBytecode="0" endBytecode="39" sourcefile="String.java" sourcepath="java/lang/String.java"/>
+      <Message>Called method String.getBytes()</Message>
+    </Method>
+    <SourceLine classname="org.androiddaisyreader.model.Smil30SpecificationTest" primary="true" start="75" end="75" startBytecode="6" endBytecode="6" sourcefile="Smil30SpecificationTest.java" sourcepath="org/androiddaisyreader/model/Smil30SpecificationTest.java">
+      <Message>At Smil30SpecificationTest.java:[line 75]</Message>
+    </SourceLine>
+  </BugInstance>
+  <BugInstance type="DM_DEFAULT_ENCODING" priority="1" abbrev="Dm" category="I18N" instanceHash="eb2a07130005bd83d5622b4a614c6bb0" instanceOccurrenceNum="0" instanceOccurrenceMax="0" rank="19">
+    <ShortMessage>Reliance on default encoding</ShortMessage>
+    <LongMessage>Found reliance on default encoding in org.androiddaisyreader.model.Smil30SpecificationTest.testParsingOfSimpleSmil30WithText(): String.getBytes()</LongMessage>
+    <Class classname="org.androiddaisyreader.model.Smil30SpecificationTest" primary="true">
+      <SourceLine classname="org.androiddaisyreader.model.Smil30SpecificationTest" start="14" end="130" sourcefile="Smil30SpecificationTest.java" sourcepath="org/androiddaisyreader/model/Smil30SpecificationTest.java">
+        <Message>At Smil30SpecificationTest.java:[lines 14-130]</Message>
+      </SourceLine>
+      <Message>In class org.androiddaisyreader.model.Smil30SpecificationTest</Message>
+    </Class>
+    <Method classname="org.androiddaisyreader.model.Smil30SpecificationTest" name="testParsingOfSimpleSmil30WithText" signature="()V" isStatic="false" primary="true">
+      <SourceLine classname="org.androiddaisyreader.model.Smil30SpecificationTest" start="105" end="113" startBytecode="0" endBytecode="165" sourcefile="Smil30SpecificationTest.java" sourcepath="org/androiddaisyreader/model/Smil30SpecificationTest.java"/>
+      <Message>In method org.androiddaisyreader.model.Smil30SpecificationTest.testParsingOfSimpleSmil30WithText()</Message>
+    </Method>
+    <Method classname="java.lang.String" name="getBytes" signature="()[B" isStatic="false" role="METHOD_CALLED">
+      <SourceLine classname="java.lang.String" start="987" end="987" startBytecode="0" endBytecode="39" sourcefile="String.java" sourcepath="java/lang/String.java"/>
+      <Message>Called method String.getBytes()</Message>
+    </Method>
+    <SourceLine classname="org.androiddaisyreader.model.Smil30SpecificationTest" primary="true" start="105" end="105" startBytecode="6" endBytecode="6" sourcefile="Smil30SpecificationTest.java" sourcepath="org/androiddaisyreader/model/Smil30SpecificationTest.java">
+      <Message>At Smil30SpecificationTest.java:[line 105]</Message>
+    </SourceLine>
+  </BugInstance>
+  <BugInstance type="DM_DEFAULT_ENCODING" priority="1" abbrev="Dm" category="I18N" instanceHash="ef1e1c9637c2feded41227ca60d7a69a" instanceOccurrenceNum="0" instanceOccurrenceMax="0" rank="19">
+    <ShortMessage>Reliance on default encoding</ShortMessage>
+    <LongMessage>Found reliance on default encoding in org.androiddaisyreader.model.Smil30SpecificationTest.testParsingOfSimpleSmil30WithTwoPart(): String.getBytes()</LongMessage>
+    <Class classname="org.androiddaisyreader.model.Smil30SpecificationTest" primary="true">
+      <SourceLine classname="org.androiddaisyreader.model.Smil30SpecificationTest" start="14" end="130" sourcefile="Smil30SpecificationTest.java" sourcepath="org/androiddaisyreader/model/Smil30SpecificationTest.java">
+        <Message>At Smil30SpecificationTest.java:[lines 14-130]</Message>
+      </SourceLine>
+      <Message>In class org.androiddaisyreader.model.Smil30SpecificationTest</Message>
+    </Class>
+    <Method classname="org.androiddaisyreader.model.Smil30SpecificationTest" name="testParsingOfSimpleSmil30WithTwoPart" signature="()V" isStatic="false" primary="true">
+      <SourceLine classname="org.androiddaisyreader.model.Smil30SpecificationTest" start="68" end="71" startBytecode="0" endBytecode="101" sourcefile="Smil30SpecificationTest.java" sourcepath="org/androiddaisyreader/model/Smil30SpecificationTest.java"/>
+      <Message>In method org.androiddaisyreader.model.Smil30SpecificationTest.testParsingOfSimpleSmil30WithTwoPart()</Message>
+    </Method>
+    <Method classname="java.lang.String" name="getBytes" signature="()[B" isStatic="false" role="METHOD_CALLED">
+      <SourceLine classname="java.lang.String" start="987" end="987" startBytecode="0" endBytecode="39" sourcefile="String.java" sourcepath="java/lang/String.java"/>
+      <Message>Called method String.getBytes()</Message>
+    </Method>
+    <SourceLine classname="org.androiddaisyreader.model.Smil30SpecificationTest" primary="true" start="68" end="68" startBytecode="6" endBytecode="6" sourcefile="Smil30SpecificationTest.java" sourcepath="org/androiddaisyreader/model/Smil30SpecificationTest.java">
+      <Message>At Smil30SpecificationTest.java:[line 68]</Message>
+    </SourceLine>
+  </BugInstance>
+  <BugInstance type="VA_FORMAT_STRING_USES_NEWLINE" priority="2" abbrev="FS" category="BAD_PRACTICE" instanceHash="25095282b7b00527428de1a92c39fc3" instanceOccurrenceNum="0" instanceOccurrenceMax="0" rank="20">
+    <ShortMessage>Format string should use %n rather than \n</ShortMessage>
+    <LongMessage>Format string should use %n rather than \n in org.androiddaisyreader.testapps.ProcessExternalSmilFile.main(String[])</LongMessage>
+    <Class classname="org.androiddaisyreader.testapps.ProcessExternalSmilFile" primary="true">
+      <SourceLine classname="org.androiddaisyreader.testapps.ProcessExternalSmilFile" start="13" end="78" sourcefile="ProcessExternalSmilFile.java" sourcepath="org/androiddaisyreader/testapps/ProcessExternalSmilFile.java">
+        <Message>At ProcessExternalSmilFile.java:[lines 13-78]</Message>
+      </SourceLine>
+      <Message>In class org.androiddaisyreader.testapps.ProcessExternalSmilFile</Message>
+    </Class>
+    <Method classname="org.androiddaisyreader.testapps.ProcessExternalSmilFile" name="main" signature="([Ljava/lang/String;)V" isStatic="true" primary="true">
+      <SourceLine classname="org.androiddaisyreader.testapps.ProcessExternalSmilFile" start="22" end="78" startBytecode="0" endBytecode="920" sourcefile="ProcessExternalSmilFile.java" sourcepath="org/androiddaisyreader/testapps/ProcessExternalSmilFile.java"/>
+      <Message>In method org.androiddaisyreader.testapps.ProcessExternalSmilFile.main(String[])</Message>
+    </Method>
+    <Method classname="java.io.PrintStream" name="printf" signature="(Ljava/lang/String;[Ljava/lang/Object;)Ljava/io/PrintStream;" isStatic="false" role="METHOD_CALLED">
+      <SourceLine classname="java.io.PrintStream" start="821" end="821" startBytecode="0" endBytecode="30" sourcefile="PrintStream.java" sourcepath="java/io/PrintStream.java"/>
+      <Message>Called method java.io.PrintStream.printf(String, Object[])</Message>
+    </Method>
+    <String value=" [%s]: %s &lt; Show text for %f seconds =&gt; %s\n" role="STRING_FORMAT_STRING">
+      <Message>Format string &quot; [%s]: %s &lt; Show text for %f seconds =&gt; %s\n&quot;</Message>
+    </String>
+    <SourceLine classname="org.androiddaisyreader.testapps.ProcessExternalSmilFile" primary="true" start="63" end="63" startBytecode="306" endBytecode="306" sourcefile="ProcessExternalSmilFile.java" sourcepath="org/androiddaisyreader/testapps/ProcessExternalSmilFile.java">
+      <Message>At ProcessExternalSmilFile.java:[line 63]</Message>
+    </SourceLine>
+  </BugInstance>
+  <BugInstance type="DM_DEFAULT_ENCODING" priority="1" abbrev="Dm" category="I18N" instanceHash="5d5564a453121bf46fc94c99e8a861e9" instanceOccurrenceNum="0" instanceOccurrenceMax="2" rank="19">
+    <ShortMessage>Reliance on default encoding</ShortMessage>
+    <LongMessage>Found reliance on default encoding in org.androiddaisyreader.testutilities.CreateDaisy202Book.addLevel(int): new java.io.PrintStream(OutputStream)</LongMessage>
+    <Class classname="org.androiddaisyreader.testutilities.CreateDaisy202Book" primary="true">
+      <SourceLine classname="org.androiddaisyreader.testutilities.CreateDaisy202Book" start="20" end="155" sourcefile="CreateDaisy202Book.java" sourcepath="org/androiddaisyreader/testutilities/CreateDaisy202Book.java" relSourcepath="org\androiddaisyreader\testutilities\CreateDaisy202Book.java">
+        <Message>At CreateDaisy202Book.java:[lines 20-155]</Message>
+      </SourceLine>
+      <Message>In class org.androiddaisyreader.testutilities.CreateDaisy202Book</Message>
+    </Class>
+    <Method classname="org.androiddaisyreader.testutilities.CreateDaisy202Book" name="addLevel" signature="(I)V" isStatic="false" primary="true">
+      <SourceLine classname="org.androiddaisyreader.testutilities.CreateDaisy202Book" start="110" end="116" startBytecode="0" endBytecode="230" sourcefile="CreateDaisy202Book.java" sourcepath="org/androiddaisyreader/testutilities/CreateDaisy202Book.java" relSourcepath="org\androiddaisyreader\testutilities\CreateDaisy202Book.java"/>
+      <Message>In method org.androiddaisyreader.testutilities.CreateDaisy202Book.addLevel(int)</Message>
+    </Method>
+    <Method classname="java.io.PrintStream" name="&lt;init&gt;" signature="(Ljava/io/OutputStream;)V" isStatic="false" role="METHOD_CALLED">
+      <SourceLine classname="java.io.PrintStream" start="62" end="63" startBytecode="0" endBytecode="34" sourcefile="PrintStream.java" sourcepath="java/io/PrintStream.java"/>
+      <Message>Called method new java.io.PrintStream(OutputStream)</Message>
+    </Method>
+    <SourceLine classname="org.androiddaisyreader.testutilities.CreateDaisy202Book" primary="true" start="111" end="111" startBytecode="15" endBytecode="15" sourcefile="CreateDaisy202Book.java" sourcepath="org/androiddaisyreader/testutilities/CreateDaisy202Book.java" relSourcepath="org\androiddaisyreader\testutilities\CreateDaisy202Book.java">
+      <Message>At CreateDaisy202Book.java:[line 111]</Message>
+    </SourceLine>
+  </BugInstance>
+  <BugInstance type="DM_DEFAULT_ENCODING" priority="1" abbrev="Dm" category="I18N" instanceHash="5d5564a453121bf46fc94c99e8a861e9" instanceOccurrenceNum="1" instanceOccurrenceMax="2" rank="19">
+    <ShortMessage>Reliance on default encoding</ShortMessage>
+    <LongMessage>Found reliance on default encoding in org.androiddaisyreader.testutilities.CreateDaisy202Book.addLevel(int): new java.io.PrintStream(OutputStream)</LongMessage>
+    <Class classname="org.androiddaisyreader.testutilities.CreateDaisy202Book" primary="true">
+      <SourceLine classname="org.androiddaisyreader.testutilities.CreateDaisy202Book" start="20" end="155" sourcefile="CreateDaisy202Book.java" sourcepath="org/androiddaisyreader/testutilities/CreateDaisy202Book.java" relSourcepath="org\androiddaisyreader\testutilities\CreateDaisy202Book.java">
+        <Message>At CreateDaisy202Book.java:[lines 20-155]</Message>
+      </SourceLine>
+      <Message>In class org.androiddaisyreader.testutilities.CreateDaisy202Book</Message>
+    </Class>
+    <Method classname="org.androiddaisyreader.testutilities.CreateDaisy202Book" name="addLevel" signature="(I)V" isStatic="false" primary="true">
+      <SourceLine classname="org.androiddaisyreader.testutilities.CreateDaisy202Book" start="110" end="116" startBytecode="0" endBytecode="230" sourcefile="CreateDaisy202Book.java" sourcepath="org/androiddaisyreader/testutilities/CreateDaisy202Book.java" relSourcepath="org\androiddaisyreader\testutilities\CreateDaisy202Book.java"/>
+      <Message>In method org.androiddaisyreader.testutilities.CreateDaisy202Book.addLevel(int)</Message>
+    </Method>
+    <Method classname="java.io.PrintStream" name="&lt;init&gt;" signature="(Ljava/io/OutputStream;)V" isStatic="false" role="METHOD_CALLED">
+      <SourceLine classname="java.io.PrintStream" start="62" end="63" startBytecode="0" endBytecode="34" sourcefile="PrintStream.java" sourcepath="java/io/PrintStream.java"/>
+      <Message>Called method new java.io.PrintStream(OutputStream)</Message>
+    </Method>
+    <SourceLine classname="org.androiddaisyreader.testutilities.CreateDaisy202Book" primary="true" start="112" end="112" startBytecode="59" endBytecode="59" sourcefile="CreateDaisy202Book.java" sourcepath="org/androiddaisyreader/testutilities/CreateDaisy202Book.java" relSourcepath="org\androiddaisyreader\testutilities\CreateDaisy202Book.java">
+      <Message>At CreateDaisy202Book.java:[line 112]</Message>
+    </SourceLine>
+  </BugInstance>
+  <BugInstance type="DM_DEFAULT_ENCODING" priority="1" abbrev="Dm" category="I18N" instanceHash="5d5564a453121bf46fc94c99e8a861e9" instanceOccurrenceNum="2" instanceOccurrenceMax="2" rank="19">
+    <ShortMessage>Reliance on default encoding</ShortMessage>
+    <LongMessage>Found reliance on default encoding in org.androiddaisyreader.testutilities.CreateDaisy202Book.addLevel(int): new java.io.PrintStream(OutputStream)</LongMessage>
+    <Class classname="org.androiddaisyreader.testutilities.CreateDaisy202Book" primary="true">
+      <SourceLine classname="org.androiddaisyreader.testutilities.CreateDaisy202Book" start="20" end="155" sourcefile="CreateDaisy202Book.java" sourcepath="org/androiddaisyreader/testutilities/CreateDaisy202Book.java" relSourcepath="org\androiddaisyreader\testutilities\CreateDaisy202Book.java">
+        <Message>At CreateDaisy202Book.java:[lines 20-155]</Message>
+      </SourceLine>
+      <Message>In class org.androiddaisyreader.testutilities.CreateDaisy202Book</Message>
+    </Class>
+    <Method classname="org.androiddaisyreader.testutilities.CreateDaisy202Book" name="addLevel" signature="(I)V" isStatic="false" primary="true">
+      <SourceLine classname="org.androiddaisyreader.testutilities.CreateDaisy202Book" start="110" end="116" startBytecode="0" endBytecode="230" sourcefile="CreateDaisy202Book.java" sourcepath="org/androiddaisyreader/testutilities/CreateDaisy202Book.java" relSourcepath="org\androiddaisyreader\testutilities\CreateDaisy202Book.java"/>
+      <Message>In method org.androiddaisyreader.testutilities.CreateDaisy202Book.addLevel(int)</Message>
+    </Method>
+    <Method classname="java.io.PrintStream" name="&lt;init&gt;" signature="(Ljava/io/OutputStream;)V" isStatic="false" role="METHOD_CALLED">
+      <SourceLine classname="java.io.PrintStream" start="62" end="63" startBytecode="0" endBytecode="34" sourcefile="PrintStream.java" sourcepath="java/io/PrintStream.java"/>
+      <Message>Called method new java.io.PrintStream(OutputStream)</Message>
+    </Method>
+    <SourceLine classname="org.androiddaisyreader.testutilities.CreateDaisy202Book" primary="true" start="113" end="113" startBytecode="103" endBytecode="103" sourcefile="CreateDaisy202Book.java" sourcepath="org/androiddaisyreader/testutilities/CreateDaisy202Book.java" relSourcepath="org\androiddaisyreader\testutilities\CreateDaisy202Book.java">
+      <Message>At CreateDaisy202Book.java:[line 113]</Message>
+    </SourceLine>
+  </BugInstance>
+  <BugInstance type="DM_DEFAULT_ENCODING" priority="1" abbrev="Dm" category="I18N" instanceHash="7e8b993c0f5c024756e82a70d4bdcc52" instanceOccurrenceNum="0" instanceOccurrenceMax="2" rank="19">
+    <ShortMessage>Reliance on default encoding</ShortMessage>
+    <LongMessage>Found reliance on default encoding in org.androiddaisyreader.testutilities.CreateDaisy202Book.addSmilFileEntry(int, String, String): new java.io.PrintStream(OutputStream)</LongMessage>
+    <Class classname="org.androiddaisyreader.testutilities.CreateDaisy202Book" primary="true">
+      <SourceLine classname="org.androiddaisyreader.testutilities.CreateDaisy202Book" start="20" end="155" sourcefile="CreateDaisy202Book.java" sourcepath="org/androiddaisyreader/testutilities/CreateDaisy202Book.java" relSourcepath="org\androiddaisyreader\testutilities\CreateDaisy202Book.java">
+        <Message>At CreateDaisy202Book.java:[lines 20-155]</Message>
+      </SourceLine>
+      <Message>In class org.androiddaisyreader.testutilities.CreateDaisy202Book</Message>
+    </Class>
+    <Method classname="org.androiddaisyreader.testutilities.CreateDaisy202Book" name="addSmilFileEntry" signature="(ILjava/lang/String;Ljava/lang/String;)V" isStatic="false" primary="true">
+      <SourceLine classname="org.androiddaisyreader.testutilities.CreateDaisy202Book" start="133" end="142" startBytecode="0" endBytecode="251" sourcefile="CreateDaisy202Book.java" sourcepath="org/androiddaisyreader/testutilities/CreateDaisy202Book.java" relSourcepath="org\androiddaisyreader\testutilities\CreateDaisy202Book.java"/>
+      <Message>In method org.androiddaisyreader.testutilities.CreateDaisy202Book.addSmilFileEntry(int, String, String)</Message>
+    </Method>
+    <Method classname="java.io.PrintStream" name="&lt;init&gt;" signature="(Ljava/io/OutputStream;)V" isStatic="false" role="METHOD_CALLED">
+      <SourceLine classname="java.io.PrintStream" start="62" end="63" startBytecode="0" endBytecode="34" sourcefile="PrintStream.java" sourcepath="java/io/PrintStream.java"/>
+      <Message>Called method new java.io.PrintStream(OutputStream)</Message>
+    </Method>
+    <SourceLine classname="org.androiddaisyreader.testutilities.CreateDaisy202Book" primary="true" start="137" end="137" startBytecode="25" endBytecode="25" sourcefile="CreateDaisy202Book.java" sourcepath="org/androiddaisyreader/testutilities/CreateDaisy202Book.java" relSourcepath="org\androiddaisyreader\testutilities\CreateDaisy202Book.java">
+      <Message>At CreateDaisy202Book.java:[line 137]</Message>
+    </SourceLine>
+  </BugInstance>
+  <BugInstance type="DM_DEFAULT_ENCODING" priority="1" abbrev="Dm" category="I18N" instanceHash="7e8b993c0f5c024756e82a70d4bdcc52" instanceOccurrenceNum="1" instanceOccurrenceMax="2" rank="19">
+    <ShortMessage>Reliance on default encoding</ShortMessage>
+    <LongMessage>Found reliance on default encoding in org.androiddaisyreader.testutilities.CreateDaisy202Book.addSmilFileEntry(int, String, String): new java.io.PrintStream(OutputStream)</LongMessage>
+    <Class classname="org.androiddaisyreader.testutilities.CreateDaisy202Book" primary="true">
+      <SourceLine classname="org.androiddaisyreader.testutilities.CreateDaisy202Book" start="20" end="155" sourcefile="CreateDaisy202Book.java" sourcepath="org/androiddaisyreader/testutilities/CreateDaisy202Book.java" relSourcepath="org\androiddaisyreader\testutilities\CreateDaisy202Book.java">
+        <Message>At CreateDaisy202Book.java:[lines 20-155]</Message>
+      </SourceLine>
+      <Message>In class org.androiddaisyreader.testutilities.CreateDaisy202Book</Message>
+    </Class>
+    <Method classname="org.androiddaisyreader.testutilities.CreateDaisy202Book" name="addSmilFileEntry" signature="(ILjava/lang/String;Ljava/lang/String;)V" isStatic="false" primary="true">
+      <SourceLine classname="org.androiddaisyreader.testutilities.CreateDaisy202Book" start="133" end="142" startBytecode="0" endBytecode="251" sourcefile="CreateDaisy202Book.java" sourcepath="org/androiddaisyreader/testutilities/CreateDaisy202Book.java" relSourcepath="org\androiddaisyreader\testutilities\CreateDaisy202Book.java"/>
+      <Message>In method org.androiddaisyreader.testutilities.CreateDaisy202Book.addSmilFileEntry(int, String, String)</Message>
+    </Method>
+    <Method classname="java.io.PrintStream" name="&lt;init&gt;" signature="(Ljava/io/OutputStream;)V" isStatic="false" role="METHOD_CALLED">
+      <SourceLine classname="java.io.PrintStream" start="62" end="63" startBytecode="0" endBytecode="34" sourcefile="PrintStream.java" sourcepath="java/io/PrintStream.java"/>
+      <Message>Called method new java.io.PrintStream(OutputStream)</Message>
+    </Method>
+    <SourceLine classname="org.androiddaisyreader.testutilities.CreateDaisy202Book" primary="true" start="138" end="138" startBytecode="70" endBytecode="70" sourcefile="CreateDaisy202Book.java" sourcepath="org/androiddaisyreader/testutilities/CreateDaisy202Book.java" relSourcepath="org\androiddaisyreader\testutilities\CreateDaisy202Book.java">
+      <Message>At CreateDaisy202Book.java:[line 138]</Message>
+    </SourceLine>
+  </BugInstance>
+  <BugInstance type="DM_DEFAULT_ENCODING" priority="1" abbrev="Dm" category="I18N" instanceHash="7e8b993c0f5c024756e82a70d4bdcc52" instanceOccurrenceNum="2" instanceOccurrenceMax="2" rank="19">
+    <ShortMessage>Reliance on default encoding</ShortMessage>
+    <LongMessage>Found reliance on default encoding in org.androiddaisyreader.testutilities.CreateDaisy202Book.addSmilFileEntry(int, String, String): new java.io.PrintStream(OutputStream)</LongMessage>
+    <Class classname="org.androiddaisyreader.testutilities.CreateDaisy202Book" primary="true">
+      <SourceLine classname="org.androiddaisyreader.testutilities.CreateDaisy202Book" start="20" end="155" sourcefile="CreateDaisy202Book.java" sourcepath="org/androiddaisyreader/testutilities/CreateDaisy202Book.java" relSourcepath="org\androiddaisyreader\testutilities\CreateDaisy202Book.java">
+        <Message>At CreateDaisy202Book.java:[lines 20-155]</Message>
+      </SourceLine>
+      <Message>In class org.androiddaisyreader.testutilities.CreateDaisy202Book</Message>
+    </Class>
+    <Method classname="org.androiddaisyreader.testutilities.CreateDaisy202Book" name="addSmilFileEntry" signature="(ILjava/lang/String;Ljava/lang/String;)V" isStatic="false" primary="true">
+      <SourceLine classname="org.androiddaisyreader.testutilities.CreateDaisy202Book" start="133" end="142" startBytecode="0" endBytecode="251" sourcefile="CreateDaisy202Book.java" sourcepath="org/androiddaisyreader/testutilities/CreateDaisy202Book.java" relSourcepath="org\androiddaisyreader\testutilities\CreateDaisy202Book.java"/>
+      <Message>In method org.androiddaisyreader.testutilities.CreateDaisy202Book.addSmilFileEntry(int, String, String)</Message>
+    </Method>
+    <Method classname="java.io.PrintStream" name="&lt;init&gt;" signature="(Ljava/io/OutputStream;)V" isStatic="false" role="METHOD_CALLED">
+      <SourceLine classname="java.io.PrintStream" start="62" end="63" startBytecode="0" endBytecode="34" sourcefile="PrintStream.java" sourcepath="java/io/PrintStream.java"/>
+      <Message>Called method new java.io.PrintStream(OutputStream)</Message>
+    </Method>
+    <SourceLine classname="org.androiddaisyreader.testutilities.CreateDaisy202Book" primary="true" start="140" end="140" startBytecode="114" endBytecode="114" sourcefile="CreateDaisy202Book.java" sourcepath="org/androiddaisyreader/testutilities/CreateDaisy202Book.java" relSourcepath="org\androiddaisyreader\testutilities\CreateDaisy202Book.java">
+      <Message>At CreateDaisy202Book.java:[line 140]</Message>
+    </SourceLine>
+  </BugInstance>
+  <BugInstance type="DM_DEFAULT_ENCODING" priority="1" abbrev="Dm" category="I18N" instanceHash="20171645fb1eeed3c4852229d6699c6a" instanceOccurrenceNum="0" instanceOccurrenceMax="3" rank="19">
+    <ShortMessage>Reliance on default encoding</ShortMessage>
+    <LongMessage>Found reliance on default encoding in org.androiddaisyreader.testutilities.CreateDaisy202Book.writeBasicMetadata(): new java.io.PrintStream(OutputStream)</LongMessage>
+    <Class classname="org.androiddaisyreader.testutilities.CreateDaisy202Book" primary="true">
+      <SourceLine classname="org.androiddaisyreader.testutilities.CreateDaisy202Book" start="20" end="155" sourcefile="CreateDaisy202Book.java" sourcepath="org/androiddaisyreader/testutilities/CreateDaisy202Book.java" relSourcepath="org\androiddaisyreader\testutilities\CreateDaisy202Book.java">
+        <Message>At CreateDaisy202Book.java:[lines 20-155]</Message>
+      </SourceLine>
+      <Message>In class org.androiddaisyreader.testutilities.CreateDaisy202Book</Message>
+    </Class>
+    <Method classname="org.androiddaisyreader.testutilities.CreateDaisy202Book" name="writeBasicMetadata" signature="()V" isStatic="false" primary="true">
+      <SourceLine classname="org.androiddaisyreader.testutilities.CreateDaisy202Book" start="46" end="50" startBytecode="0" endBytecode="122" sourcefile="CreateDaisy202Book.java" sourcepath="org/androiddaisyreader/testutilities/CreateDaisy202Book.java" relSourcepath="org\androiddaisyreader\testutilities\CreateDaisy202Book.java"/>
+      <Message>In method org.androiddaisyreader.testutilities.CreateDaisy202Book.writeBasicMetadata()</Message>
+    </Method>
+    <Method classname="java.io.PrintStream" name="&lt;init&gt;" signature="(Ljava/io/OutputStream;)V" isStatic="false" role="METHOD_CALLED">
+      <SourceLine classname="java.io.PrintStream" start="62" end="63" startBytecode="0" endBytecode="34" sourcefile="PrintStream.java" sourcepath="java/io/PrintStream.java"/>
+      <Message>Called method new java.io.PrintStream(OutputStream)</Message>
+    </Method>
+    <SourceLine classname="org.androiddaisyreader.testutilities.CreateDaisy202Book" primary="true" start="46" end="46" startBytecode="8" endBytecode="8" sourcefile="CreateDaisy202Book.java" sourcepath="org/androiddaisyreader/testutilities/CreateDaisy202Book.java" relSourcepath="org\androiddaisyreader\testutilities\CreateDaisy202Book.java">
+      <Message>At CreateDaisy202Book.java:[line 46]</Message>
+    </SourceLine>
+  </BugInstance>
+  <BugInstance type="DM_DEFAULT_ENCODING" priority="1" abbrev="Dm" category="I18N" instanceHash="20171645fb1eeed3c4852229d6699c6a" instanceOccurrenceNum="1" instanceOccurrenceMax="3" rank="19">
+    <ShortMessage>Reliance on default encoding</ShortMessage>
+    <LongMessage>Found reliance on default encoding in org.androiddaisyreader.testutilities.CreateDaisy202Book.writeBasicMetadata(): new java.io.PrintStream(OutputStream)</LongMessage>
+    <Class classname="org.androiddaisyreader.testutilities.CreateDaisy202Book" primary="true">
+      <SourceLine classname="org.androiddaisyreader.testutilities.CreateDaisy202Book" start="20" end="155" sourcefile="CreateDaisy202Book.java" sourcepath="org/androiddaisyreader/testutilities/CreateDaisy202Book.java" relSourcepath="org\androiddaisyreader\testutilities\CreateDaisy202Book.java">
+        <Message>At CreateDaisy202Book.java:[lines 20-155]</Message>
+      </SourceLine>
+      <Message>In class org.androiddaisyreader.testutilities.CreateDaisy202Book</Message>
+    </Class>
+    <Method classname="org.androiddaisyreader.testutilities.CreateDaisy202Book" name="writeBasicMetadata" signature="()V" isStatic="false" primary="true">
+      <SourceLine classname="org.androiddaisyreader.testutilities.CreateDaisy202Book" start="46" end="50" startBytecode="0" endBytecode="122" sourcefile="CreateDaisy202Book.java" sourcepath="org/androiddaisyreader/testutilities/CreateDaisy202Book.java" relSourcepath="org\androiddaisyreader\testutilities\CreateDaisy202Book.java"/>
+      <Message>In method org.androiddaisyreader.testutilities.CreateDaisy202Book.writeBasicMetadata()</Message>
+    </Method>
+    <Method classname="java.io.PrintStream" name="&lt;init&gt;" signature="(Ljava/io/OutputStream;)V" isStatic="false" role="METHOD_CALLED">
+      <SourceLine classname="java.io.PrintStream" start="62" end="63" startBytecode="0" endBytecode="34" sourcefile="PrintStream.java" sourcepath="java/io/PrintStream.java"/>
+      <Message>Called method new java.io.PrintStream(OutputStream)</Message>
+    </Method>
+    <SourceLine classname="org.androiddaisyreader.testutilities.CreateDaisy202Book" primary="true" start="47" end="47" startBytecode="24" endBytecode="24" sourcefile="CreateDaisy202Book.java" sourcepath="org/androiddaisyreader/testutilities/CreateDaisy202Book.java" relSourcepath="org\androiddaisyreader\testutilities\CreateDaisy202Book.java">
+      <Message>At CreateDaisy202Book.java:[line 47]</Message>
+    </SourceLine>
+  </BugInstance>
+  <BugInstance type="DM_DEFAULT_ENCODING" priority="1" abbrev="Dm" category="I18N" instanceHash="20171645fb1eeed3c4852229d6699c6a" instanceOccurrenceNum="2" instanceOccurrenceMax="3" rank="19">
+    <ShortMessage>Reliance on default encoding</ShortMessage>
+    <LongMessage>Found reliance on default encoding in org.androiddaisyreader.testutilities.CreateDaisy202Book.writeBasicMetadata(): new java.io.PrintStream(OutputStream)</LongMessage>
+    <Class classname="org.androiddaisyreader.testutilities.CreateDaisy202Book" primary="true">
+      <SourceLine classname="org.androiddaisyreader.testutilities.CreateDaisy202Book" start="20" end="155" sourcefile="CreateDaisy202Book.java" sourcepath="org/androiddaisyreader/testutilities/CreateDaisy202Book.java" relSourcepath="org\androiddaisyreader\testutilities\CreateDaisy202Book.java">
+        <Message>At CreateDaisy202Book.java:[lines 20-155]</Message>
+      </SourceLine>
+      <Message>In class org.androiddaisyreader.testutilities.CreateDaisy202Book</Message>
+    </Class>
+    <Method classname="org.androiddaisyreader.testutilities.CreateDaisy202Book" name="writeBasicMetadata" signature="()V" isStatic="false" primary="true">
+      <SourceLine classname="org.androiddaisyreader.testutilities.CreateDaisy202Book" start="46" end="50" startBytecode="0" endBytecode="122" sourcefile="CreateDaisy202Book.java" sourcepath="org/androiddaisyreader/testutilities/CreateDaisy202Book.java" relSourcepath="org\androiddaisyreader\testutilities\CreateDaisy202Book.java"/>
+      <Message>In method org.androiddaisyreader.testutilities.CreateDaisy202Book.writeBasicMetadata()</Message>
+    </Method>
+    <Method classname="java.io.PrintStream" name="&lt;init&gt;" signature="(Ljava/io/OutputStream;)V" isStatic="false" role="METHOD_CALLED">
+      <SourceLine classname="java.io.PrintStream" start="62" end="63" startBytecode="0" endBytecode="34" sourcefile="PrintStream.java" sourcepath="java/io/PrintStream.java"/>
+      <Message>Called method new java.io.PrintStream(OutputStream)</Message>
+    </Method>
+    <SourceLine classname="org.androiddaisyreader.testutilities.CreateDaisy202Book" primary="true" start="48" end="48" startBytecode="40" endBytecode="40" sourcefile="CreateDaisy202Book.java" sourcepath="org/androiddaisyreader/testutilities/CreateDaisy202Book.java" relSourcepath="org\androiddaisyreader\testutilities\CreateDaisy202Book.java">
+      <Message>At CreateDaisy202Book.java:[line 48]</Message>
+    </SourceLine>
+  </BugInstance>
+  <BugInstance type="DM_DEFAULT_ENCODING" priority="1" abbrev="Dm" category="I18N" instanceHash="20171645fb1eeed3c4852229d6699c6a" instanceOccurrenceNum="3" instanceOccurrenceMax="3" rank="19">
+    <ShortMessage>Reliance on default encoding</ShortMessage>
+    <LongMessage>Found reliance on default encoding in org.androiddaisyreader.testutilities.CreateDaisy202Book.writeBasicMetadata(): new java.io.PrintStream(OutputStream)</LongMessage>
+    <Class classname="org.androiddaisyreader.testutilities.CreateDaisy202Book" primary="true">
+      <SourceLine classname="org.androiddaisyreader.testutilities.CreateDaisy202Book" start="20" end="155" sourcefile="CreateDaisy202Book.java" sourcepath="org/androiddaisyreader/testutilities/CreateDaisy202Book.java" relSourcepath="org\androiddaisyreader\testutilities\CreateDaisy202Book.java">
+        <Message>At CreateDaisy202Book.java:[lines 20-155]</Message>
+      </SourceLine>
+      <Message>In class org.androiddaisyreader.testutilities.CreateDaisy202Book</Message>
+    </Class>
+    <Method classname="org.androiddaisyreader.testutilities.CreateDaisy202Book" name="writeBasicMetadata" signature="()V" isStatic="false" primary="true">
+      <SourceLine classname="org.androiddaisyreader.testutilities.CreateDaisy202Book" start="46" end="50" startBytecode="0" endBytecode="122" sourcefile="CreateDaisy202Book.java" sourcepath="org/androiddaisyreader/testutilities/CreateDaisy202Book.java" relSourcepath="org\androiddaisyreader\testutilities\CreateDaisy202Book.java"/>
+      <Message>In method org.androiddaisyreader.testutilities.CreateDaisy202Book.writeBasicMetadata()</Message>
+    </Method>
+    <Method classname="java.io.PrintStream" name="&lt;init&gt;" signature="(Ljava/io/OutputStream;)V" isStatic="false" role="METHOD_CALLED">
+      <SourceLine classname="java.io.PrintStream" start="62" end="63" startBytecode="0" endBytecode="34" sourcefile="PrintStream.java" sourcepath="java/io/PrintStream.java"/>
+      <Message>Called method new java.io.PrintStream(OutputStream)</Message>
+    </Method>
+    <SourceLine classname="org.androiddaisyreader.testutilities.CreateDaisy202Book" primary="true" start="49" end="49" startBytecode="56" endBytecode="56" sourcefile="CreateDaisy202Book.java" sourcepath="org/androiddaisyreader/testutilities/CreateDaisy202Book.java" relSourcepath="org\androiddaisyreader\testutilities\CreateDaisy202Book.java">
+      <Message>At CreateDaisy202Book.java:[line 49]</Message>
+    </SourceLine>
+  </BugInstance>
+  <BugInstance type="DM_DEFAULT_ENCODING" priority="1" abbrev="Dm" category="I18N" instanceHash="62969fb6bd2e3668c34e540fe2dc5a3f" instanceOccurrenceNum="0" instanceOccurrenceMax="0" rank="19">
+    <ShortMessage>Reliance on default encoding</ShortMessage>
+    <LongMessage>Found reliance on default encoding in org.androiddaisyreader.testutilities.CreateDaisy202Book.writeDoctype(): new java.io.PrintStream(OutputStream)</LongMessage>
+    <Class classname="org.androiddaisyreader.testutilities.CreateDaisy202Book" primary="true">
+      <SourceLine classname="org.androiddaisyreader.testutilities.CreateDaisy202Book" start="20" end="155" sourcefile="CreateDaisy202Book.java" sourcepath="org/androiddaisyreader/testutilities/CreateDaisy202Book.java" relSourcepath="org\androiddaisyreader\testutilities\CreateDaisy202Book.java">
+        <Message>At CreateDaisy202Book.java:[lines 20-155]</Message>
+      </SourceLine>
+      <Message>In class org.androiddaisyreader.testutilities.CreateDaisy202Book</Message>
+    </Class>
+    <Method classname="org.androiddaisyreader.testutilities.CreateDaisy202Book" name="writeDoctype" signature="()V" isStatic="false" primary="true">
+      <SourceLine classname="org.androiddaisyreader.testutilities.CreateDaisy202Book" start="41" end="42" startBytecode="0" endBytecode="62" sourcefile="CreateDaisy202Book.java" sourcepath="org/androiddaisyreader/testutilities/CreateDaisy202Book.java" relSourcepath="org\androiddaisyreader\testutilities\CreateDaisy202Book.java"/>
+      <Message>In method org.androiddaisyreader.testutilities.CreateDaisy202Book.writeDoctype()</Message>
+    </Method>
+    <Method classname="java.io.PrintStream" name="&lt;init&gt;" signature="(Ljava/io/OutputStream;)V" isStatic="false" role="METHOD_CALLED">
+      <SourceLine classname="java.io.PrintStream" start="62" end="63" startBytecode="0" endBytecode="34" sourcefile="PrintStream.java" sourcepath="java/io/PrintStream.java"/>
+      <Message>Called method new java.io.PrintStream(OutputStream)</Message>
+    </Method>
+    <SourceLine classname="org.androiddaisyreader.testutilities.CreateDaisy202Book" primary="true" start="41" end="41" startBytecode="8" endBytecode="8" sourcefile="CreateDaisy202Book.java" sourcepath="org/androiddaisyreader/testutilities/CreateDaisy202Book.java" relSourcepath="org\androiddaisyreader\testutilities\CreateDaisy202Book.java">
+      <Message>At CreateDaisy202Book.java:[line 41]</Message>
+    </SourceLine>
+  </BugInstance>
+  <BugInstance type="DM_DEFAULT_ENCODING" priority="1" abbrev="Dm" category="I18N" instanceHash="b8d9075a146bc230e5e9f7a8447c312d" instanceOccurrenceNum="0" instanceOccurrenceMax="0" rank="19">
+    <ShortMessage>Reliance on default encoding</ShortMessage>
+    <LongMessage>Found reliance on default encoding in org.androiddaisyreader.testutilities.CreateDaisy202Book.writeEndOfDocument(): new java.io.PrintStream(OutputStream)</LongMessage>
+    <Class classname="org.androiddaisyreader.testutilities.CreateDaisy202Book" primary="true">
+      <SourceLine classname="org.androiddaisyreader.testutilities.CreateDaisy202Book" start="20" end="155" sourcefile="CreateDaisy202Book.java" sourcepath="org/androiddaisyreader/testutilities/CreateDaisy202Book.java" relSourcepath="org\androiddaisyreader\testutilities\CreateDaisy202Book.java">
+        <Message>At CreateDaisy202Book.java:[lines 20-155]</Message>
+      </SourceLine>
+      <Message>In class org.androiddaisyreader.testutilities.CreateDaisy202Book</Message>
+    </Class>
+    <Method classname="org.androiddaisyreader.testutilities.CreateDaisy202Book" name="writeEndOfDocument" signature="()V" isStatic="false" primary="true">
+      <SourceLine classname="org.androiddaisyreader.testutilities.CreateDaisy202Book" start="54" end="55" startBytecode="0" endBytecode="62" sourcefile="CreateDaisy202Book.java" sourcepath="org/androiddaisyreader/testutilities/CreateDaisy202Book.java" relSourcepath="org\androiddaisyreader\testutilities\CreateDaisy202Book.java"/>
+      <Message>In method org.androiddaisyreader.testutilities.CreateDaisy202Book.writeEndOfDocument()</Message>
+    </Method>
+    <Method classname="java.io.PrintStream" name="&lt;init&gt;" signature="(Ljava/io/OutputStream;)V" isStatic="false" role="METHOD_CALLED">
+      <SourceLine classname="java.io.PrintStream" start="62" end="63" startBytecode="0" endBytecode="34" sourcefile="PrintStream.java" sourcepath="java/io/PrintStream.java"/>
+      <Message>Called method new java.io.PrintStream(OutputStream)</Message>
+    </Method>
+    <SourceLine classname="org.androiddaisyreader.testutilities.CreateDaisy202Book" primary="true" start="54" end="54" startBytecode="8" endBytecode="8" sourcefile="CreateDaisy202Book.java" sourcepath="org/androiddaisyreader/testutilities/CreateDaisy202Book.java" relSourcepath="org\androiddaisyreader\testutilities\CreateDaisy202Book.java">
+      <Message>At CreateDaisy202Book.java:[line 54]</Message>
+    </SourceLine>
+  </BugInstance>
+  <BugInstance type="DM_DEFAULT_ENCODING" priority="1" abbrev="Dm" category="I18N" instanceHash="d1973f39b6e0dfe0a4a5a234ee903c36" instanceOccurrenceNum="0" instanceOccurrenceMax="0" rank="19">
+    <ShortMessage>Reliance on default encoding</ShortMessage>
+    <LongMessage>Found reliance on default encoding in org.androiddaisyreader.testutilities.CreateDaisy202Book.writeXmlHeader(): new java.io.PrintStream(OutputStream)</LongMessage>
+    <Class classname="org.androiddaisyreader.testutilities.CreateDaisy202Book" primary="true">
+      <SourceLine classname="org.androiddaisyreader.testutilities.CreateDaisy202Book" start="20" end="155" sourcefile="CreateDaisy202Book.java" sourcepath="org/androiddaisyreader/testutilities/CreateDaisy202Book.java" relSourcepath="org\androiddaisyreader\testutilities\CreateDaisy202Book.java">
+        <Message>At CreateDaisy202Book.java:[lines 20-155]</Message>
+      </SourceLine>
+      <Message>In class org.androiddaisyreader.testutilities.CreateDaisy202Book</Message>
+    </Class>
+    <Method classname="org.androiddaisyreader.testutilities.CreateDaisy202Book" name="writeXmlHeader" signature="()V" isStatic="false" primary="true">
+      <SourceLine classname="org.androiddaisyreader.testutilities.CreateDaisy202Book" start="32" end="33" startBytecode="0" endBytecode="62" sourcefile="CreateDaisy202Book.java" sourcepath="org/androiddaisyreader/testutilities/CreateDaisy202Book.java" relSourcepath="org\androiddaisyreader\testutilities\CreateDaisy202Book.java"/>
+      <Message>In method org.androiddaisyreader.testutilities.CreateDaisy202Book.writeXmlHeader()</Message>
+    </Method>
+    <Method classname="java.io.PrintStream" name="&lt;init&gt;" signature="(Ljava/io/OutputStream;)V" isStatic="false" role="METHOD_CALLED">
+      <SourceLine classname="java.io.PrintStream" start="62" end="63" startBytecode="0" endBytecode="34" sourcefile="PrintStream.java" sourcepath="java/io/PrintStream.java"/>
+      <Message>Called method new java.io.PrintStream(OutputStream)</Message>
+    </Method>
+    <SourceLine classname="org.androiddaisyreader.testutilities.CreateDaisy202Book" primary="true" start="32" end="32" startBytecode="8" endBytecode="8" sourcefile="CreateDaisy202Book.java" sourcepath="org/androiddaisyreader/testutilities/CreateDaisy202Book.java" relSourcepath="org\androiddaisyreader\testutilities\CreateDaisy202Book.java">
+      <Message>At CreateDaisy202Book.java:[line 32]</Message>
+    </SourceLine>
+  </BugInstance>
+  <BugInstance type="DM_DEFAULT_ENCODING" priority="1" abbrev="Dm" category="I18N" instanceHash="137f12da81168247f8d2ce5a125e7f52" instanceOccurrenceNum="0" instanceOccurrenceMax="0" rank="19">
+    <ShortMessage>Reliance on default encoding</ShortMessage>
+    <LongMessage>Found reliance on default encoding in org.androiddaisyreader.testutilities.CreateDaisy202Book.writeXmlns(): new java.io.PrintStream(OutputStream)</LongMessage>
+    <Class classname="org.androiddaisyreader.testutilities.CreateDaisy202Book" primary="true">
+      <SourceLine classname="org.androiddaisyreader.testutilities.CreateDaisy202Book" start="20" end="155" sourcefile="CreateDaisy202Book.java" sourcepath="org/androiddaisyreader/testutilities/CreateDaisy202Book.java" relSourcepath="org\androiddaisyreader\testutilities\CreateDaisy202Book.java">
+        <Message>At CreateDaisy202Book.java:[lines 20-155]</Message>
+      </SourceLine>
+      <Message>In class org.androiddaisyreader.testutilities.CreateDaisy202Book</Message>
+    </Class>
+    <Method classname="org.androiddaisyreader.testutilities.CreateDaisy202Book" name="writeXmlns" signature="()V" isStatic="false" primary="true">
+      <SourceLine classname="org.androiddaisyreader.testutilities.CreateDaisy202Book" start="37" end="38" startBytecode="0" endBytecode="62" sourcefile="CreateDaisy202Book.java" sourcepath="org/androiddaisyreader/testutilities/CreateDaisy202Book.java" relSourcepath="org\androiddaisyreader\testutilities\CreateDaisy202Book.java"/>
+      <Message>In method org.androiddaisyreader.testutilities.CreateDaisy202Book.writeXmlns()</Message>
+    </Method>
+    <Method classname="java.io.PrintStream" name="&lt;init&gt;" signature="(Ljava/io/OutputStream;)V" isStatic="false" role="METHOD_CALLED">
+      <SourceLine classname="java.io.PrintStream" start="62" end="63" startBytecode="0" endBytecode="34" sourcefile="PrintStream.java" sourcepath="java/io/PrintStream.java"/>
+      <Message>Called method new java.io.PrintStream(OutputStream)</Message>
+    </Method>
+    <SourceLine classname="org.androiddaisyreader.testutilities.CreateDaisy202Book" primary="true" start="37" end="37" startBytecode="8" endBytecode="8" sourcefile="CreateDaisy202Book.java" sourcepath="org/androiddaisyreader/testutilities/CreateDaisy202Book.java" relSourcepath="org\androiddaisyreader\testutilities\CreateDaisy202Book.java">
+      <Message>At CreateDaisy202Book.java:[line 37]</Message>
+    </SourceLine>
+  </BugInstance>
+  <BugInstance type="DM_DEFAULT_ENCODING" priority="1" abbrev="Dm" category="I18N" instanceHash="d9fd8d03d77f38305eb251ad48ff0cb7" instanceOccurrenceNum="0" instanceOccurrenceMax="0" rank="19">
+    <ShortMessage>Reliance on default encoding</ShortMessage>
+    <LongMessage>Found reliance on default encoding in org.androiddaisyreader.testutilities.DummyBookContext.getResource(String): String.getBytes()</LongMessage>
+    <Class classname="org.androiddaisyreader.testutilities.DummyBookContext" primary="true">
+      <SourceLine classname="org.androiddaisyreader.testutilities.DummyBookContext" start="19" end="28" sourcefile="DummyBookContext.java" sourcepath="org/androiddaisyreader/testutilities/DummyBookContext.java">
+        <Message>At DummyBookContext.java:[lines 19-28]</Message>
+      </SourceLine>
+      <Message>In class org.androiddaisyreader.testutilities.DummyBookContext</Message>
+    </Class>
+    <Method classname="org.androiddaisyreader.testutilities.DummyBookContext" name="getResource" signature="(Ljava/lang/String;)Ljava/io/InputStream;" isStatic="false" primary="true">
+      <SourceLine classname="org.androiddaisyreader.testutilities.DummyBookContext" start="24" end="24" startBytecode="0" endBytecode="66" sourcefile="DummyBookContext.java" sourcepath="org/androiddaisyreader/testutilities/DummyBookContext.java"/>
+      <Message>In method org.androiddaisyreader.testutilities.DummyBookContext.getResource(String)</Message>
+    </Method>
+    <Method classname="java.lang.String" name="getBytes" signature="()[B" isStatic="false" role="METHOD_CALLED">
+      <SourceLine classname="java.lang.String" start="987" end="987" startBytecode="0" endBytecode="39" sourcefile="String.java" sourcepath="java/lang/String.java"/>
+      <Message>Called method String.getBytes()</Message>
+    </Method>
+    <SourceLine classname="org.androiddaisyreader.testutilities.DummyBookContext" primary="true" start="24" end="24" startBytecode="8" endBytecode="8" sourcefile="DummyBookContext.java" sourcepath="org/androiddaisyreader/testutilities/DummyBookContext.java">
+      <Message>At DummyBookContext.java:[line 24]</Message>
+    </SourceLine>
+  </BugInstance>
+  <BugCategory category="MALICIOUS_CODE">
+    <Description>Malicious code vulnerability</Description>
+  </BugCategory>
+  <BugCategory category="STYLE">
+    <Description>Dodgy code</Description>
+  </BugCategory>
+  <BugCategory category="BAD_PRACTICE">
+    <Description>Bad practice</Description>
+  </BugCategory>
+  <BugCategory category="CORRECTNESS">
+    <Description>Correctness</Description>
+  </BugCategory>
+  <BugCategory category="I18N">
+    <Description>Internationalization</Description>
+  </BugCategory>
+  <BugCategory category="PERFORMANCE">
+    <Description>Performance</Description>
+  </BugCategory>
+  <BugPattern type="NP_NULL_ON_SOME_PATH_EXCEPTION" abbrev="NP" category="CORRECTNESS">
+    <ShortDescription>Possible null pointer dereference in method on exception path</ShortDescription>
+    <Details><![CDATA[
+
+<p> A reference value which is null on some exception control path is
+dereferenced here.&nbsp; This may lead to a <code>NullPointerException</code>
+when the code is executed.&nbsp;
+Note that because FindBugs currently does not prune infeasible exception paths,
+this may be a false warning.</p>
+
+<p> Also note that FindBugs considers the default case of a switch statement to
+be an exception path, since the default case is often infeasible.</p>
+
+    ]]></Details>
+  </BugPattern>
+  <BugPattern type="SS_SHOULD_BE_STATIC" abbrev="SS" category="PERFORMANCE">
+    <ShortDescription>Unread field: should this field be static?</ShortDescription>
+    <Details><![CDATA[
+
+  <p> This class contains an instance final field that
+   is initialized to a compile-time static value.
+   Consider making the field static.</p>
+
+    ]]></Details>
+  </BugPattern>
+  <BugPattern type="EI_EXPOSE_REP" abbrev="EI" category="MALICIOUS_CODE" cweid="374">
+    <ShortDescription>May expose internal representation by returning reference to mutable object</ShortDescription>
+    <Details><![CDATA[
+
+  <p> Returning a reference to a mutable object value stored in one of the object's fields
+  exposes the internal representation of the object.&nbsp;
+   If instances
+   are accessed by untrusted code, and unchecked changes to
+   the mutable object would compromise security or other
+   important properties, you will need to do something different.
+  Returning a new copy of the object is better approach in many situations.</p>
+
+    ]]></Details>
+  </BugPattern>
+  <BugPattern type="RV_RETURN_VALUE_IGNORED" abbrev="RV" category="CORRECTNESS">
+    <ShortDescription>Method ignores return value</ShortDescription>
+    <Details><![CDATA[
+
+   <p> The return value of this method should be checked. One common
+cause of this warning is to invoke a method on an immutable object,
+thinking that it updates the object. For example, in the following code
+fragment,</p>
+<blockquote>
+<pre>
+String dateString = getHeaderField(name);
+dateString.trim();
+</pre>
+</blockquote>
+<p>the programmer seems to be thinking that the trim() method will update
+the String referenced by dateString. But since Strings are immutable, the trim()
+function returns a new String value, which is being ignored here. The code
+should be corrected to: </p>
+<blockquote>
+<pre>
+String dateString = getHeaderField(name);
+dateString = dateString.trim();
+</pre>
+</blockquote>
+
+    ]]></Details>
+  </BugPattern>
+  <BugPattern type="DMI_HARDCODED_ABSOLUTE_FILENAME" abbrev="DMI" category="STYLE">
+    <ShortDescription>Code contains a hard coded reference to an absolute pathname</ShortDescription>
+    <Details><![CDATA[
+
+<p>This code constructs a File object using a hard coded to an absolute pathname
+(e.g., <code>new File("/home/dannyc/workspace/j2ee/src/share/com/sun/enterprise/deployment");</code>
+</p>
+
+    ]]></Details>
+  </BugPattern>
+  <BugPattern type="VA_FORMAT_STRING_EXTRA_ARGUMENTS_PASSED" abbrev="FS" category="CORRECTNESS">
+    <ShortDescription>More arguments are passed than are actually used in the format string</ShortDescription>
+    <Details><![CDATA[
+
+<p>
+A format-string method with a variable number of arguments is called,
+but more arguments are passed than are actually used by the format string.
+This won't cause a runtime exception, but the code may be silently omitting
+information that was intended to be included in the formatted string.
+</p>
+
+     ]]></Details>
+  </BugPattern>
+  <BugPattern type="DM_DEFAULT_ENCODING" abbrev="Dm" category="I18N">
+    <ShortDescription>Reliance on default encoding</ShortDescription>
+    <Details><![CDATA[
+
+<p> Found a call to a method which will perform a byte to String (or String to byte) conversion, and will assume that the default platform encoding is suitable. This will cause the application behaviour to vary between platforms. Use an alternative API and specify a charset name or Charset object explicitly.  </p>
+
+      ]]></Details>
+  </BugPattern>
+  <BugPattern type="URF_UNREAD_PUBLIC_OR_PROTECTED_FIELD" abbrev="UrF" category="STYLE">
+    <ShortDescription>Unread public/protected field</ShortDescription>
+    <Details><![CDATA[
+
+  <p> This field is never read.&nbsp
+The field is public or protected, so perhaps
+    it is intended to be used with classes not seen as part of the analysis. If not,
+consider removing it from the class.</p>
+
+    ]]></Details>
+  </BugPattern>
+  <BugPattern type="URF_UNREAD_FIELD" abbrev="UrF" category="PERFORMANCE">
+    <ShortDescription>Unread field</ShortDescription>
+    <Details><![CDATA[
+
+  <p> This field is never read.&nbsp; Consider removing it from the class.</p>
+
+    ]]></Details>
+  </BugPattern>
+  <BugPattern type="SF_SWITCH_NO_DEFAULT" abbrev="SF" category="STYLE">
+    <ShortDescription>Switch statement found where default case is missing</ShortDescription>
+    <Details><![CDATA[
+
+  <p> This method contains a switch statement where default case is missing.
+  Usually you need to provide a default case.</p>
+
+    ]]></Details>
+  </BugPattern>
+  <BugPattern type="VA_FORMAT_STRING_USES_NEWLINE" abbrev="FS" category="BAD_PRACTICE">
+    <ShortDescription>Format string should use %n rather than \n</ShortDescription>
+    <Details><![CDATA[
+
+<p>
+This format string include a newline character (\n). In format strings, it is generally
+ preferable better to use %n, which will produce the platform-specific line separator.
+</p>
+
+     ]]></Details>
+  </BugPattern>
+  <BugPattern type="OS_OPEN_STREAM" abbrev="OS" category="BAD_PRACTICE">
+    <ShortDescription>Method may fail to close stream</ShortDescription>
+    <Details><![CDATA[
+
+<p> The method creates an IO stream object, does not assign it to any
+fields, pass it to other methods that might close it,
+or return it, and does not appear to close
+the stream on all paths out of the method.&nbsp; This may result in
+a file descriptor leak.&nbsp; It is generally a good
+idea to use a <code>finally</code> block to ensure that streams are
+closed.</p>
+
+    ]]></Details>
+  </BugPattern>
+  <BugPattern type="SIC_INNER_SHOULD_BE_STATIC" abbrev="SIC" category="PERFORMANCE">
+    <ShortDescription>Should be a static inner class</ShortDescription>
+    <Details><![CDATA[
+
+  <p> This class is an inner class, but does not use its embedded reference
+  to the object which created it.&nbsp; This reference makes the instances
+  of the class larger, and may keep the reference to the creator object
+  alive longer than necessary.&nbsp; If possible, the class should be
+   made static.
+</p>
+
+    ]]></Details>
+  </BugPattern>
+  <BugPattern type="DLS_DEAD_LOCAL_STORE" abbrev="DLS" category="STYLE">
+    <ShortDescription>Dead store to local variable</ShortDescription>
+    <Details><![CDATA[
+
+<p>
+This instruction assigns a value to a local variable,
+but the value is not read or used in any subsequent instruction.
+Often, this indicates an error, because the value computed is never
+used.
+</p>
+<p>
+Note that Sun's javac compiler often generates dead stores for
+final local variables.  Because FindBugs is a bytecode-based tool,
+there is no easy way to eliminate these false positives.
+</p>
+
+    ]]></Details>
+  </BugPattern>
+  <BugCode abbrev="FS">
+    <Description>Format string problem</Description>
+  </BugCode>
+  <BugCode abbrev="SS">
+    <Description>Unread field should be static</Description>
+  </BugCode>
+  <BugCode abbrev="SF">
+    <Description>Switch case falls through</Description>
+  </BugCode>
+  <BugCode abbrev="Dm">
+    <Description>Dubious method used</Description>
+  </BugCode>
+  <BugCode abbrev="SIC">
+    <Description>Inner class could be made static</Description>
+  </BugCode>
+  <BugCode abbrev="RV" cweid="440">
+    <Description>Bad use of return value from method</Description>
+  </BugCode>
+  <BugCode abbrev="UrF">
+    <Description>Unread field</Description>
+  </BugCode>
+  <BugCode abbrev="DLS" cweid="563">
+    <Description>Dead local store</Description>
+  </BugCode>
+  <BugCode abbrev="OS">
+    <Description>Stream not closed on all paths</Description>
+  </BugCode>
+  <BugCode abbrev="NP" cweid="476">
+    <Description>Null pointer dereference</Description>
+  </BugCode>
+  <BugCode abbrev="DMI" cweid="440">
+    <Description>Dubious method invocation</Description>
+  </BugCode>
+  <BugCode abbrev="EI">
+    <Description>Method returning array may expose internal representation</Description>
+  </BugCode>
+  <Errors errors="0" missingClasses="4">
+    <MissingClass>org.jsoup.Jsoup</MissingClass>
+    <MissingClass>org.jsoup.nodes.Document</MissingClass>
+    <MissingClass>org.jsoup.nodes.Element</MissingClass>
+    <MissingClass>org.jsoup.safety.Whitelist</MissingClass>
+  </Errors>
+  <FindBugsSummary timestamp="Thu, 17 Oct 2013 17:05:42 +0700" total_classes="102" referenced_classes="195" total_bugs="50" total_size="2797" num_packages="7" vm_version="1.6.0-b105" cpu_seconds="5.90" clock_seconds="5.12" peak_mbytes="152.39" alloc_mbytes="508.06" gc_seconds="0.72" priority_2="21" priority_1="29">
+    <FileStats path="org/androiddaisyreader/AudioCallbackListener.java" bugCount="0" size="2"/>
+    <FileStats path="org/androiddaisyreader/AudioPlayer.java" bugCount="0" size="8"/>
+    <FileStats path="org/androiddaisyreader/DisplaySectionListener.java" bugCount="0" size="2"/>
+    <FileStats path="org/androiddaisyreader/DisplayTextView.java" bugCount="0" size="7"/>
+    <FileStats path="org/androiddaisyreader/LocationInBook.java" bugCount="0" size="1"/>
+    <FileStats path="org/androiddaisyreader/NavigationEventListener.java" bugCount="0" size="3"/>
+    <FileStats path="org/androiddaisyreader/NavigationListener.java" bugCount="0" size="5"/>
+    <FileStats path="org/androiddaisyreader/PresentSnippetListener.java" bugCount="0" size="2"/>
+    <FileStats path="org/androiddaisyreader/PresentationController.java" bugCount="2" size="34" bugHash="e430f80d9983e952e62d8d7bd8616802"/>
+    <FileStats path="org/androiddaisyreader/SnippetCallbackListener.java" bugCount="0" size="2"/>
+    <FileStats path="org/androiddaisyreader/TestController.java" bugCount="1" size="12" bugHash="fa694f9dbb7d236208c246dedf5294c6"/>
+    <FileStats path="org/androiddaisyreader/TextSection.java" bugCount="0" size="2"/>
+    <FileStats path="org/androiddaisyreader/VolumeControlListener.java" bugCount="0" size="4"/>
+    <FileStats path="org/androiddaisyreader/controller/AudioPlayerController.java" bugCount="0" size="57"/>
+    <FileStats path="org/androiddaisyreader/mock/MockAndroidAudioPlayer.java" bugCount="1" size="46" bugHash="a57f6e2f31e41a2064b6582c04bc30c7"/>
+    <FileStats path="org/androiddaisyreader/model/Audio.java" bugCount="0" size="23"/>
+    <FileStats path="org/androiddaisyreader/model/AudioPlayerState.java" bugCount="0" size="20"/>
+    <FileStats path="org/androiddaisyreader/model/Book.java" bugCount="0" size="23"/>
+    <FileStats path="org/androiddaisyreader/model/BookContext.java" bugCount="0" size="3"/>
+    <FileStats path="org/androiddaisyreader/model/Bookmark.java" bugCount="0" size="62"/>
+    <FileStats path="org/androiddaisyreader/model/CurrentInformation.java" bugCount="0" size="84"/>
+    <FileStats path="org/androiddaisyreader/model/DaisyBook.java" bugCount="1" size="37" bugHash="87bfd10d16fbf43dc4010a016efad466"/>
+    <FileStats path="org/androiddaisyreader/model/DaisyBookInfo.java" bugCount="0" size="56"/>
+    <FileStats path="org/androiddaisyreader/model/DaisySection.java" bugCount="1" size="68" bugHash="7d874f8e0eb3f3a8a40041ce1d65c4c3"/>
+    <FileStats path="org/androiddaisyreader/model/DaisySnippet.java" bugCount="0" size="39"/>
+    <FileStats path="org/androiddaisyreader/model/DetailInfo.java" bugCount="0" size="17"/>
+    <FileStats path="org/androiddaisyreader/model/ExtractTimingValues.java" bugCount="0" size="60"/>
+    <FileStats path="org/androiddaisyreader/model/ExtractTimingValuesTest.java" bugCount="0" size="76"/>
+    <FileStats path="org/androiddaisyreader/model/FileSystemContext.java" bugCount="0" size="20"/>
+    <FileStats path="org/androiddaisyreader/model/FullText.java" bugCount="2" size="20" bugHash="a61f8d4615274ce540ecb4f957076ef2"/>
+    <FileStats path="org/androiddaisyreader/model/HeaderInfo.java" bugCount="0" size="16"/>
+    <FileStats path="org/androiddaisyreader/model/Image.java" bugCount="0" size="3"/>
+    <FileStats path="org/androiddaisyreader/model/MockAndroidAudioPlayerStateTest.java" bugCount="1" size="62" bugHash="247991ef7303c3bf1ed5c647898587a2"/>
+    <FileStats path="org/androiddaisyreader/model/Navigable.java" bugCount="0" size="2"/>
+    <FileStats path="org/androiddaisyreader/model/Navigator.java" bugCount="0" size="48"/>
+    <FileStats path="org/androiddaisyreader/model/NavigatorTest.java" bugCount="0" size="116"/>
+    <FileStats path="org/androiddaisyreader/model/NccSpecification.java" bugCount="2" size="259" bugHash="68fd93e6d6ffd24fd71402c8347bd02f"/>
+    <FileStats path="org/androiddaisyreader/model/NccSpecificationTest.java" bugCount="3" size="51" bugHash="fd5e8d7e85763f136b0fed8714b70cf8"/>
+    <FileStats path="org/androiddaisyreader/model/OpfSpecification.java" bugCount="0" size="224"/>
+    <FileStats path="org/androiddaisyreader/model/OpfSpecificationTest.java" bugCount="1" size="36" bugHash="739c956b1afe185007016c94bac12eb4"/>
+    <FileStats path="org/androiddaisyreader/model/ParserUtilities.java" bugCount="0" size="15"/>
+    <FileStats path="org/androiddaisyreader/model/ParserUtilitiesTest.java" bugCount="0" size="68"/>
+    <FileStats path="org/androiddaisyreader/model/Part.java" bugCount="1" size="71" bugHash="7772de29494161e252f4650c0fb192e2"/>
+    <FileStats path="org/androiddaisyreader/model/Section.java" bugCount="0" size="20"/>
+    <FileStats path="org/androiddaisyreader/model/Smil.java" bugCount="1" size="12" bugHash="a6d0d218c8b7e030ca614d5ff2d21eb4"/>
+    <FileStats path="org/androiddaisyreader/model/Smil10Specification.java" bugCount="3" size="175" bugHash="fb74cb4ea467157148c945e75a060d75"/>
+    <FileStats path="org/androiddaisyreader/model/Smil10SpecificationTest.java" bugCount="5" size="62" bugHash="beb729fe606c0793ffdaf2dcae69b5e0"/>
+    <FileStats path="org/androiddaisyreader/model/Smil30Specification.java" bugCount="3" size="194" bugHash="4f433ff49c9cb02673a12578f2d4a338"/>
+    <FileStats path="org/androiddaisyreader/model/Smil30SpecificationTest.java" bugCount="6" size="65" bugHash="dd28f11d20fe8ccc035823c951a513a2"/>
+    <FileStats path="org/androiddaisyreader/model/Snippet.java" bugCount="0" size="6"/>
+    <FileStats path="org/androiddaisyreader/model/Website.java" bugCount="0" size="25"/>
+    <FileStats path="org/androiddaisyreader/model/XmlModel.java" bugCount="0" size="35"/>
+    <FileStats path="org/androiddaisyreader/model/XmlSpecification.java" bugCount="0" size="127"/>
+    <FileStats path="org/androiddaisyreader/model/XmlUtilities.java" bugCount="0" size="40"/>
+    <FileStats path="org/androiddaisyreader/model/XmlUtilitiesTest.java" bugCount="0" size="20"/>
+    <FileStats path="org/androiddaisyreader/model/ZippedBookContext.java" bugCount="0" size="20"/>
+    <FileStats path="org/androiddaisyreader/player/SegmentTimeInfo.java" bugCount="0" size="21"/>
+    <FileStats path="org/androiddaisyreader/testapps/CommandLineUtilities.java" bugCount="0" size="6"/>
+    <FileStats path="org/androiddaisyreader/testapps/ProcessDaisy202Book.java" bugCount="0" size="32"/>
+    <FileStats path="org/androiddaisyreader/testapps/ProcessExternalSmilFile.java" bugCount="1" size="41" bugHash="f512dd02b0030c4d0adbe2c9670914bb"/>
+    <FileStats path="org/androiddaisyreader/testutilities/CreateDaisy202Book.java" bugCount="14" size="77" bugHash="e9d75361f8f8973df7ce9e1ea77cac5e"/>
+    <FileStats path="org/androiddaisyreader/testutilities/CreateEBook.java" bugCount="0" size="17"/>
+    <FileStats path="org/androiddaisyreader/testutilities/DummyBookContext.java" bugCount="1" size="10" bugHash="1a34088b5f166c30b19ccd2ca0893ddc"/>
+    <FileStats path="org/androiddaisyreader/testutilities/NotImplementedException.java" bugCount="0" size="13"/>
+    <FileStats path="org/androiddaisyreader/testutilities/SampleContent.java" bugCount="0" size="7"/>
+    <FileStats path="org/androiddaisyreader/testutilities/SampleContentDaisy30.java" bugCount="0" size="6"/>
+    <PackageStats package="org.androiddaisyreader" total_bugs="3" total_types="14" total_size="84" priority_2="3">
+      <ClassStats class="org.androiddaisyreader.AudioCallbackListener" sourceFile="AudioCallbackListener.java" interface="true" size="2" bugs="0"/>
+      <ClassStats class="org.androiddaisyreader.AudioPlayer" sourceFile="AudioPlayer.java" interface="true" size="8" bugs="0"/>
+      <ClassStats class="org.androiddaisyreader.DisplaySectionListener" sourceFile="DisplaySectionListener.java" interface="true" size="2" bugs="0"/>
+      <ClassStats class="org.androiddaisyreader.DisplayTextView" sourceFile="DisplayTextView.java" interface="false" size="7" bugs="0"/>
+      <ClassStats class="org.androiddaisyreader.LocationInBook" sourceFile="LocationInBook.java" interface="true" size="1" bugs="0"/>
+      <ClassStats class="org.androiddaisyreader.NavigationEventListener" sourceFile="NavigationEventListener.java" interface="false" size="3" bugs="0"/>
+      <ClassStats class="org.androiddaisyreader.NavigationListener" sourceFile="NavigationListener.java" interface="true" size="5" bugs="0"/>
+      <ClassStats class="org.androiddaisyreader.PresentSnippetListener" sourceFile="PresentSnippetListener.java" interface="true" size="2" bugs="0"/>
+      <ClassStats class="org.androiddaisyreader.PresentationController" sourceFile="PresentationController.java" interface="false" size="21" bugs="2" priority_2="2"/>
+      <ClassStats class="org.androiddaisyreader.PresentationController$Builder" sourceFile="PresentationController.java" interface="false" size="13" bugs="0"/>
+      <ClassStats class="org.androiddaisyreader.SnippetCallbackListener" sourceFile="SnippetCallbackListener.java" interface="true" size="2" bugs="0"/>
+      <ClassStats class="org.androiddaisyreader.TestController" sourceFile="TestController.java" interface="false" size="12" bugs="1" priority_2="1"/>
+      <ClassStats class="org.androiddaisyreader.TextSection" sourceFile="TextSection.java" interface="true" size="2" bugs="0"/>
+      <ClassStats class="org.androiddaisyreader.VolumeControlListener" sourceFile="VolumeControlListener.java" interface="true" size="4" bugs="0"/>
+    </PackageStats>
+    <PackageStats package="org.androiddaisyreader.controller" total_bugs="0" total_types="1" total_size="57">
+      <ClassStats class="org.androiddaisyreader.controller.AudioPlayerController" sourceFile="AudioPlayerController.java" interface="false" size="57" bugs="0"/>
+    </PackageStats>
+    <PackageStats package="org.androiddaisyreader.mock" total_bugs="1" total_types="1" total_size="46" priority_2="1">
+      <ClassStats class="org.androiddaisyreader.mock.MockAndroidAudioPlayer" sourceFile="MockAndroidAudioPlayer.java" interface="false" size="46" bugs="1" priority_2="1"/>
+    </PackageStats>
+    <PackageStats package="org.androiddaisyreader.model" total_bugs="30" total_types="76" total_size="2380" priority_2="16" priority_1="14">
+      <ClassStats class="org.androiddaisyreader.model.Audio" sourceFile="Audio.java" interface="false" size="23" bugs="0"/>
+      <ClassStats class="org.androiddaisyreader.model.AudioPlayerState" sourceFile="AudioPlayerState.java" interface="false" size="20" bugs="0"/>
+      <ClassStats class="org.androiddaisyreader.model.Book" sourceFile="Book.java" interface="false" size="23" bugs="0"/>
+      <ClassStats class="org.androiddaisyreader.model.BookContext" sourceFile="BookContext.java" interface="true" size="3" bugs="0"/>
+      <ClassStats class="org.androiddaisyreader.model.Bookmark" sourceFile="Bookmark.java" interface="false" size="62" bugs="0"/>
+      <ClassStats class="org.androiddaisyreader.model.CurrentInformation" sourceFile="CurrentInformation.java" interface="false" size="84" bugs="0"/>
+      <ClassStats class="org.androiddaisyreader.model.DaisyBook" sourceFile="DaisyBook.java" interface="false" size="11" bugs="1" priority_2="1"/>
+      <ClassStats class="org.androiddaisyreader.model.DaisyBook$Builder" sourceFile="DaisyBook.java" interface="false" size="26" bugs="0"/>
+      <ClassStats class="org.androiddaisyreader.model.DaisyBookInfo" sourceFile="DaisyBookInfo.java" interface="false" size="56" bugs="0"/>
+      <ClassStats class="org.androiddaisyreader.model.DaisySection" sourceFile="DaisySection.java" interface="false" size="33" bugs="0"/>
+      <ClassStats class="org.androiddaisyreader.model.DaisySection$Builder" sourceFile="DaisySection.java" interface="false" size="35" bugs="1" priority_2="1"/>
+      <ClassStats class="org.androiddaisyreader.model.DaisySnippet" sourceFile="DaisySnippet.java" interface="false" size="39" bugs="0"/>
+      <ClassStats class="org.androiddaisyreader.model.DetailInfo" sourceFile="DetailInfo.java" interface="false" size="17" bugs="0"/>
+      <ClassStats class="org.androiddaisyreader.model.ExtractTimingValues" sourceFile="ExtractTimingValues.java" interface="false" size="60" bugs="0"/>
+      <ClassStats class="org.androiddaisyreader.model.ExtractTimingValuesTest" sourceFile="ExtractTimingValuesTest.java" interface="false" size="76" bugs="0"/>
+      <ClassStats class="org.androiddaisyreader.model.FileSystemContext" sourceFile="FileSystemContext.java" interface="false" size="20" bugs="0"/>
+      <ClassStats class="org.androiddaisyreader.model.FullText" sourceFile="FullText.java" interface="false" size="20" bugs="2" priority_2="1" priority_1="1"/>
+      <ClassStats class="org.androiddaisyreader.model.HeaderInfo" sourceFile="HeaderInfo.java" interface="false" size="16" bugs="0"/>
+      <ClassStats class="org.androiddaisyreader.model.Image" sourceFile="Image.java" interface="false" size="3" bugs="0"/>
+      <ClassStats class="org.androiddaisyreader.model.MockAndroidAudioPlayerStateTest" sourceFile="MockAndroidAudioPlayerStateTest.java" interface="false" size="50" bugs="0"/>
+      <ClassStats class="org.androiddaisyreader.model.MockAndroidAudioPlayerStateTest$AudioListener" sourceFile="MockAndroidAudioPlayerStateTest.java" interface="false" size="12" bugs="1" priority_2="1"/>
+      <ClassStats class="org.androiddaisyreader.model.Navigable" sourceFile="Navigable.java" interface="true" size="2" bugs="0"/>
+      <ClassStats class="org.androiddaisyreader.model.Navigator" sourceFile="Navigator.java" interface="false" size="48" bugs="0"/>
+      <ClassStats class="org.androiddaisyreader.model.NavigatorTest" sourceFile="NavigatorTest.java" interface="false" size="116" bugs="0"/>
+      <ClassStats class="org.androiddaisyreader.model.NccSpecification" sourceFile="NccSpecification.java" interface="false" size="171" bugs="2" priority_2="2"/>
+      <ClassStats class="org.androiddaisyreader.model.NccSpecification$Element" sourceFile="NccSpecification.java" interface="false" size="22" bugs="0"/>
+      <ClassStats class="org.androiddaisyreader.model.NccSpecification$Meta" sourceFile="NccSpecification.java" interface="false" size="24" bugs="0"/>
+      <ClassStats class="org.androiddaisyreader.model.NccSpecification$Meta$1" sourceFile="NccSpecification.java" interface="false" size="6" bugs="0"/>
+      <ClassStats class="org.androiddaisyreader.model.NccSpecification$Meta$2" sourceFile="NccSpecification.java" interface="false" size="6" bugs="0"/>
+      <ClassStats class="org.androiddaisyreader.model.NccSpecification$Meta$3" sourceFile="NccSpecification.java" interface="false" size="6" bugs="0"/>
+      <ClassStats class="org.androiddaisyreader.model.NccSpecification$Meta$4" sourceFile="NccSpecification.java" interface="false" size="6" bugs="0"/>
+      <ClassStats class="org.androiddaisyreader.model.NccSpecification$Meta$5" sourceFile="NccSpecification.java" interface="false" size="6" bugs="0"/>
+      <ClassStats class="org.androiddaisyreader.model.NccSpecification$Meta$6" sourceFile="NccSpecification.java" interface="false" size="6" bugs="0"/>
+      <ClassStats class="org.androiddaisyreader.model.NccSpecification$Meta$7" sourceFile="NccSpecification.java" interface="false" size="6" bugs="0"/>
+      <ClassStats class="org.androiddaisyreader.model.NccSpecificationTest" sourceFile="NccSpecificationTest.java" interface="false" size="51" bugs="3" priority_2="2" priority_1="1"/>
+      <ClassStats class="org.androiddaisyreader.model.OpfSpecification" sourceFile="OpfSpecification.java" interface="false" size="142" bugs="0"/>
+      <ClassStats class="org.androiddaisyreader.model.OpfSpecification$Element" sourceFile="OpfSpecification.java" interface="false" size="16" bugs="0"/>
+      <ClassStats class="org.androiddaisyreader.model.OpfSpecification$Meta" sourceFile="OpfSpecification.java" interface="false" size="24" bugs="0"/>
+      <ClassStats class="org.androiddaisyreader.model.OpfSpecification$Meta$1" sourceFile="OpfSpecification.java" interface="false" size="6" bugs="0"/>
+      <ClassStats class="org.androiddaisyreader.model.OpfSpecification$Meta$2" sourceFile="OpfSpecification.java" interface="false" size="6" bugs="0"/>
+      <ClassStats class="org.androiddaisyreader.model.OpfSpecification$Meta$3" sourceFile="OpfSpecification.java" interface="false" size="6" bugs="0"/>
+      <ClassStats class="org.androiddaisyreader.model.OpfSpecification$Meta$4" sourceFile="OpfSpecification.java" interface="false" size="6" bugs="0"/>
+      <ClassStats class="org.androiddaisyreader.model.OpfSpecification$Meta$5" sourceFile="OpfSpecification.java" interface="false" size="6" bugs="0"/>
+      <ClassStats class="org.androiddaisyreader.model.OpfSpecification$Meta$6" sourceFile="OpfSpecification.java" interface="false" size="6" bugs="0"/>
+      <ClassStats class="org.androiddaisyreader.model.OpfSpecification$Meta$7" sourceFile="OpfSpecification.java" interface="false" size="6" bugs="0"/>
+      <ClassStats class="org.androiddaisyreader.model.OpfSpecificationTest" sourceFile="OpfSpecificationTest.java" interface="false" size="36" bugs="1" priority_1="1"/>
+      <ClassStats class="org.androiddaisyreader.model.ParserUtilities" sourceFile="ParserUtilities.java" interface="false" size="15" bugs="0"/>
+      <ClassStats class="org.androiddaisyreader.model.ParserUtilitiesTest" sourceFile="ParserUtilitiesTest.java" interface="false" size="18" bugs="0"/>
+      <ClassStats class="org.androiddaisyreader.model.ParserUtilitiesTest$LocalNameAttributes" sourceFile="ParserUtilitiesTest.java" interface="false" size="7" bugs="0"/>
+      <ClassStats class="org.androiddaisyreader.model.ParserUtilitiesTest$QNameAttributes" sourceFile="ParserUtilitiesTest.java" interface="false" size="7" bugs="0"/>
+      <ClassStats class="org.androiddaisyreader.model.ParserUtilitiesTest$TestAttributes" sourceFile="ParserUtilitiesTest.java" interface="false" size="36" bugs="0"/>
+      <ClassStats class="org.androiddaisyreader.model.Part" sourceFile="Part.java" interface="false" size="40" bugs="0"/>
+      <ClassStats class="org.androiddaisyreader.model.Part$Builder" sourceFile="Part.java" interface="false" size="31" bugs="1" priority_2="1"/>
+      <ClassStats class="org.androiddaisyreader.model.Section" sourceFile="Section.java" interface="false" size="20" bugs="0"/>
+      <ClassStats class="org.androiddaisyreader.model.Smil" sourceFile="Smil.java" interface="false" size="4" bugs="0"/>
+      <ClassStats class="org.androiddaisyreader.model.Smil$Builder" sourceFile="Smil.java" interface="false" size="8" bugs="1" priority_2="1"/>
+      <ClassStats class="org.androiddaisyreader.model.Smil10Specification" sourceFile="Smil10Specification.java" interface="false" size="142" bugs="3" priority_2="3"/>
+      <ClassStats class="org.androiddaisyreader.model.Smil10Specification$Element" sourceFile="Smil10Specification.java" interface="false" size="16" bugs="0"/>
+      <ClassStats class="org.androiddaisyreader.model.Smil10Specification$Meta" sourceFile="Smil10Specification.java" interface="false" size="11" bugs="0"/>
+      <ClassStats class="org.androiddaisyreader.model.Smil10Specification$Meta$1" sourceFile="Smil10Specification.java" interface="false" size="6" bugs="0"/>
+      <ClassStats class="org.androiddaisyreader.model.Smil10SpecificationTest" sourceFile="Smil10SpecificationTest.java" interface="false" size="62" bugs="5" priority_1="5"/>
+      <ClassStats class="org.androiddaisyreader.model.Smil30Specification" sourceFile="Smil30Specification.java" interface="false" size="161" bugs="3" priority_2="3"/>
+      <ClassStats class="org.androiddaisyreader.model.Smil30Specification$Element" sourceFile="Smil30Specification.java" interface="false" size="16" bugs="0"/>
+      <ClassStats class="org.androiddaisyreader.model.Smil30Specification$Meta" sourceFile="Smil30Specification.java" interface="false" size="11" bugs="0"/>
+      <ClassStats class="org.androiddaisyreader.model.Smil30Specification$Meta$1" sourceFile="Smil30Specification.java" interface="false" size="6" bugs="0"/>
+      <ClassStats class="org.androiddaisyreader.model.Smil30SpecificationTest" sourceFile="Smil30SpecificationTest.java" interface="false" size="65" bugs="6" priority_1="6"/>
+      <ClassStats class="org.androiddaisyreader.model.Snippet" sourceFile="Snippet.java" interface="false" size="6" bugs="0"/>
+      <ClassStats class="org.androiddaisyreader.model.Website" sourceFile="Website.java" interface="false" size="25" bugs="0"/>
+      <ClassStats class="org.androiddaisyreader.model.XmlModel" sourceFile="XmlModel.java" interface="false" size="35" bugs="0"/>
+      <ClassStats class="org.androiddaisyreader.model.XmlSpecification" sourceFile="XmlSpecification.java" interface="false" size="103" bugs="0"/>
+      <ClassStats class="org.androiddaisyreader.model.XmlSpecification$Element" sourceFile="XmlSpecification.java" interface="false" size="24" bugs="0"/>
+      <ClassStats class="org.androiddaisyreader.model.XmlUtilities" sourceFile="XmlUtilities.java" interface="false" size="34" bugs="0"/>
+      <ClassStats class="org.androiddaisyreader.model.XmlUtilities$1" sourceFile="XmlUtilities.java" interface="false" size="6" bugs="0"/>
+      <ClassStats class="org.androiddaisyreader.model.XmlUtilitiesTest" sourceFile="XmlUtilitiesTest.java" interface="false" size="13" bugs="0"/>
+      <ClassStats class="org.androiddaisyreader.model.XmlUtilitiesTest$1" sourceFile="XmlUtilitiesTest.java" interface="false" size="7" bugs="0"/>
+      <ClassStats class="org.androiddaisyreader.model.ZippedBookContext" sourceFile="ZippedBookContext.java" interface="false" size="20" bugs="0"/>
+    </PackageStats>
+    <PackageStats package="org.androiddaisyreader.player" total_bugs="0" total_types="1" total_size="21">
+      <ClassStats class="org.androiddaisyreader.player.SegmentTimeInfo" sourceFile="SegmentTimeInfo.java" interface="false" size="21" bugs="0"/>
+    </PackageStats>
+    <PackageStats package="org.androiddaisyreader.testapps" total_bugs="1" total_types="3" total_size="79" priority_2="1">
+      <ClassStats class="org.androiddaisyreader.testapps.CommandLineUtilities" sourceFile="CommandLineUtilities.java" interface="false" size="6" bugs="0"/>
+      <ClassStats class="org.androiddaisyreader.testapps.ProcessDaisy202Book" sourceFile="ProcessDaisy202Book.java" interface="false" size="32" bugs="0"/>
+      <ClassStats class="org.androiddaisyreader.testapps.ProcessExternalSmilFile" sourceFile="ProcessExternalSmilFile.java" interface="false" size="41" bugs="1" priority_2="1"/>
+    </PackageStats>
+    <PackageStats package="org.androiddaisyreader.testutilities" total_bugs="15" total_types="6" total_size="130" priority_1="15">
+      <ClassStats class="org.androiddaisyreader.testutilities.CreateDaisy202Book" sourceFile="CreateDaisy202Book.java" interface="false" size="77" bugs="14" priority_1="14"/>
+      <ClassStats class="org.androiddaisyreader.testutilities.CreateEBook" sourceFile="CreateEBook.java" interface="false" size="17" bugs="0"/>
+      <ClassStats class="org.androiddaisyreader.testutilities.DummyBookContext" sourceFile="DummyBookContext.java" interface="false" size="10" bugs="1" priority_1="1"/>
+      <ClassStats class="org.androiddaisyreader.testutilities.NotImplementedException" sourceFile="NotImplementedException.java" interface="false" size="13" bugs="0"/>
+      <ClassStats class="org.androiddaisyreader.testutilities.SampleContent" sourceFile="SampleContent.java" interface="false" size="7" bugs="0"/>
+      <ClassStats class="org.androiddaisyreader.testutilities.SampleContentDaisy30" sourceFile="SampleContentDaisy30.java" interface="false" size="6" bugs="0"/>
+    </PackageStats>
+    <FindBugsProfile>
+      <ClassProfile name="edu.umd.cs.findbugs.classfile.engine.bcel.ValueNumberDataflowFactory" totalMilliseconds="417" invocations="570" avgMicrosecondsPerInvocation="731" maxMicrosecondsPerInvocation="253620" standardDeviationMircosecondsPerInvocation="10633"/>
+      <ClassProfile name="edu.umd.cs.findbugs.classfile.engine.ClassDataAnalysisEngine" totalMilliseconds="348" invocations="723" avgMicrosecondsPerInvocation="482" maxMicrosecondsPerInvocation="27020" standardDeviationMircosecondsPerInvocation="1399"/>
+      <ClassProfile name="edu.umd.cs.findbugs.classfile.engine.ClassInfoAnalysisEngine" totalMilliseconds="287" invocations="720" avgMicrosecondsPerInvocation="398" maxMicrosecondsPerInvocation="12251" standardDeviationMircosecondsPerInvocation="1018"/>
+      <ClassProfile name="edu.umd.cs.findbugs.ba.npe.NullDerefAndRedundantComparisonFinder" totalMilliseconds="228" invocations="552" avgMicrosecondsPerInvocation="414" maxMicrosecondsPerInvocation="11007" standardDeviationMircosecondsPerInvocation="999"/>
+      <ClassProfile name="edu.umd.cs.findbugs.classfile.engine.bcel.IsNullValueDataflowFactory" totalMilliseconds="178" invocations="552" avgMicrosecondsPerInvocation="323" maxMicrosecondsPerInvocation="9517" standardDeviationMircosecondsPerInvocation="717"/>
+      <ClassProfile name="edu.umd.cs.findbugs.classfile.engine.bcel.TypeDataflowFactory" totalMilliseconds="174" invocations="563" avgMicrosecondsPerInvocation="310" maxMicrosecondsPerInvocation="24583" standardDeviationMircosecondsPerInvocation="1260"/>
+      <ClassProfile name="edu.umd.cs.findbugs.classfile.engine.bcel.UnconditionalValueDerefDataflowFactory" totalMilliseconds="173" invocations="552" avgMicrosecondsPerInvocation="314" maxMicrosecondsPerInvocation="10846" standardDeviationMircosecondsPerInvocation="847"/>
+      <ClassProfile name="edu.umd.cs.findbugs.detect.FieldItemSummary" totalMilliseconds="154" invocations="195" avgMicrosecondsPerInvocation="791" maxMicrosecondsPerInvocation="13662" standardDeviationMircosecondsPerInvocation="1801"/>
+      <ClassProfile name="edu.umd.cs.findbugs.detect.FindRefComparison$SpecialTypeAnalysis" totalMilliseconds="110" invocations="375" avgMicrosecondsPerInvocation="294" maxMicrosecondsPerInvocation="7680" standardDeviationMircosecondsPerInvocation="656"/>
+      <ClassProfile name="edu.umd.cs.findbugs.detect.ExplicitSerialization" totalMilliseconds="101" invocations="195" avgMicrosecondsPerInvocation="521" maxMicrosecondsPerInvocation="7049" standardDeviationMircosecondsPerInvocation="1070"/>
+      <ClassProfile name="edu.umd.cs.findbugs.classfile.engine.bcel.CFGFactory" totalMilliseconds="96" invocations="552" avgMicrosecondsPerInvocation="175" maxMicrosecondsPerInvocation="11826" standardDeviationMircosecondsPerInvocation="533"/>
+      <ClassProfile name="edu.umd.cs.findbugs.detect.NoteDirectlyRelevantTypeQualifiers" totalMilliseconds="82" invocations="195" avgMicrosecondsPerInvocation="423" maxMicrosecondsPerInvocation="10612" standardDeviationMircosecondsPerInvocation="1088"/>
+      <ClassProfile name="edu.umd.cs.findbugs.OpcodeStack$JumpInfoFactory" totalMilliseconds="81" invocations="780" avgMicrosecondsPerInvocation="104" maxMicrosecondsPerInvocation="6545" standardDeviationMircosecondsPerInvocation="313"/>
+      <ClassProfile name="edu.umd.cs.findbugs.classfile.engine.bcel.MethodGenFactory" totalMilliseconds="61" invocations="577" avgMicrosecondsPerInvocation="106" maxMicrosecondsPerInvocation="35016" standardDeviationMircosecondsPerInvocation="1455"/>
+      <ClassProfile name="edu.umd.cs.findbugs.detect.DefaultEncodingDetector" totalMilliseconds="57" invocations="102" avgMicrosecondsPerInvocation="567" maxMicrosecondsPerInvocation="8097" standardDeviationMircosecondsPerInvocation="1289"/>
+      <ClassProfile name="edu.umd.cs.findbugs.detect.FunctionsThatMightBeMistakenForProcedures" totalMilliseconds="52" invocations="195" avgMicrosecondsPerInvocation="271" maxMicrosecondsPerInvocation="9461" standardDeviationMircosecondsPerInvocation="1046"/>
+      <ClassProfile name="edu.umd.cs.findbugs.classfile.engine.bcel.ConstantDataflowFactory" totalMilliseconds="51" invocations="552" avgMicrosecondsPerInvocation="93" maxMicrosecondsPerInvocation="4948" standardDeviationMircosecondsPerInvocation="275"/>
+      <ClassProfile name="edu.umd.cs.findbugs.detect.FindNullDeref" totalMilliseconds="51" invocations="102" avgMicrosecondsPerInvocation="505" maxMicrosecondsPerInvocation="10875" standardDeviationMircosecondsPerInvocation="1567"/>
+      <ClassProfile name="edu.umd.cs.findbugs.classfile.engine.bcel.JavaClassAnalysisEngine" totalMilliseconds="49" invocations="223" avgMicrosecondsPerInvocation="224" maxMicrosecondsPerInvocation="12793" standardDeviationMircosecondsPerInvocation="978"/>
+      <ClassProfile name="edu.umd.cs.findbugs.detect.FindOpenStream" totalMilliseconds="41" invocations="102" avgMicrosecondsPerInvocation="409" maxMicrosecondsPerInvocation="10354" standardDeviationMircosecondsPerInvocation="1343"/>
+      <ClassProfile name="edu.umd.cs.findbugs.ba.npe.TypeQualifierNullnessAnnotationDatabase" totalMilliseconds="41" invocations="5259" avgMicrosecondsPerInvocation="7" maxMicrosecondsPerInvocation="11947" standardDeviationMircosecondsPerInvocation="168"/>
+      <ClassProfile name="edu.umd.cs.findbugs.detect.FindInconsistentSync2" totalMilliseconds="40" invocations="102" avgMicrosecondsPerInvocation="398" maxMicrosecondsPerInvocation="5120" standardDeviationMircosecondsPerInvocation="674"/>
+      <ClassProfile name="edu.umd.cs.findbugs.detect.FindBadForLoop" totalMilliseconds="37" invocations="102" avgMicrosecondsPerInvocation="364" maxMicrosecondsPerInvocation="22790" standardDeviationMircosecondsPerInvocation="2241"/>
+      <ClassProfile name="edu.umd.cs.findbugs.detect.FindDeadLocalStores" totalMilliseconds="36" invocations="102" avgMicrosecondsPerInvocation="356" maxMicrosecondsPerInvocation="11791" standardDeviationMircosecondsPerInvocation="1208"/>
+      <ClassProfile name="edu.umd.cs.findbugs.detect.FindNullDeref$CheckCallSitesAndReturnInstructions" totalMilliseconds="36" invocations="552" avgMicrosecondsPerInvocation="65" maxMicrosecondsPerInvocation="1130" standardDeviationMircosecondsPerInvocation="90"/>
+      <ClassProfile name="edu.umd.cs.findbugs.detect.DumbMethods" totalMilliseconds="35" invocations="102" avgMicrosecondsPerInvocation="351" maxMicrosecondsPerInvocation="8146" standardDeviationMircosecondsPerInvocation="851"/>
+      <ClassProfile name="edu.umd.cs.findbugs.detect.UnreadFields" totalMilliseconds="34" invocations="102" avgMicrosecondsPerInvocation="335" maxMicrosecondsPerInvocation="1847" standardDeviationMircosecondsPerInvocation="413"/>
+      <ClassProfile name="edu.umd.cs.findbugs.detect.LoadOfKnownNullValue" totalMilliseconds="33" invocations="102" avgMicrosecondsPerInvocation="324" maxMicrosecondsPerInvocation="6023" standardDeviationMircosecondsPerInvocation="688"/>
+      <ClassProfile name="edu.umd.cs.findbugs.detect.OverridingEqualsNotSymmetrical" totalMilliseconds="32" invocations="195" avgMicrosecondsPerInvocation="167" maxMicrosecondsPerInvocation="8365" standardDeviationMircosecondsPerInvocation="623"/>
+      <ClassProfile name="edu.umd.cs.findbugs.classfile.impl.ZipCodeBaseFactory" totalMilliseconds="31" invocations="13" avgMicrosecondsPerInvocation="2438" maxMicrosecondsPerInvocation="29288" standardDeviationMircosecondsPerInvocation="7752"/>
+      <ClassProfile name="edu.umd.cs.findbugs.detect.FormatStringChecker" totalMilliseconds="30" invocations="102" avgMicrosecondsPerInvocation="302" maxMicrosecondsPerInvocation="6988" standardDeviationMircosecondsPerInvocation="986"/>
+      <ClassProfile name="edu.umd.cs.findbugs.detect.BuildObligationPolicyDatabase" totalMilliseconds="30" invocations="195" avgMicrosecondsPerInvocation="157" maxMicrosecondsPerInvocation="3082" standardDeviationMircosecondsPerInvocation="293"/>
+      <ClassProfile name="edu.umd.cs.findbugs.detect.SwitchFallthrough" totalMilliseconds="28" invocations="102" avgMicrosecondsPerInvocation="280" maxMicrosecondsPerInvocation="5879" standardDeviationMircosecondsPerInvocation="659"/>
+      <ClassProfile name="edu.umd.cs.findbugs.util.TopologicalSort" totalMilliseconds="28" invocations="686" avgMicrosecondsPerInvocation="41" maxMicrosecondsPerInvocation="919" standardDeviationMircosecondsPerInvocation="79"/>
+    </FindBugsProfile>
+  </FindBugsSummary>
+  <ClassFeatures></ClassFeatures>
+  <History></History>
+</BugCollection>

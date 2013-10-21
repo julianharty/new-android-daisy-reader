@@ -10,79 +10,109 @@ package org.androiddaisyreader.utils;
  * The Class Constants.
  */
 public class Constants {
-    /** The Constant BUGSENSE_API_KEY. */
+    /** This key will help you apply bugsense to project */
     public static final String BUGSENSE_API_KEY = "cdc7bdaf";
-    /** The Constant COUNTLY_APP_KEY. */
+    /** This key will help you apply countly to project */
     public static final String COUNTLY_APP_KEY = "95e39510858637ad9477871f296a7991db8e1d37";
-    /** The Constant COUNTLY_URL_SERVER. */
+    /** Server of count ly */
     public static final String COUNTLY_URL_SERVER = "https://cloud.count.ly";
     /** The Constant MY_DATA_CHECK_CODE. */
     public static final int MY_DATA_CHECK_CODE = 1234;
-    /** The Constant NUMBER_OF_RECENT_BOOKS. */
+    /**
+     * This key will help you to get value of number recent books from
+     * SharedPreferences
+     */
     public static final String NUMBER_OF_RECENT_BOOKS = "numberOfRecentBooks";
-    /** The Constant NUMBER_OF_BOOKMARKS. */
+    /**
+     * This key will help you to get value of number bookmarks from
+     * SharedPreferences
+     */
     public static final String NUMBER_OF_BOOKMARKS = "numberOfBookmarks";
-    /** The Constant DAISY_PATH. */
+    /** This key will help you to get value of daisy path from SharedPreferences */
     public static final String DAISY_PATH = "daisyPath";
-    /** The Constant LIST_CONTENTS. */
+    /**
+     * This key will help you to get value of list content from
+     * SharedPreferences
+     */
     public static final String LIST_CONTENTS = "listContents";
-    /** The Constant POSITION_SECTION. */
+    /**
+     * This key will help you to get value of position section from
+     * SharedPreferences
+     */
     public static final String POSITION_SECTION = "positionSection";
-    /** The Constant POSITION_SENTENCE. */
+    /**
+     * This key will help you to get value of position sentence from
+     * SharedPreferences
+     */
     public static final String POSITION_SENTENCE = "positionSentence";
-    /** The Constant AUDIO_FILE_NAME. */
+    /**
+     * This key will help you to get value of audio file name from
+     * SharedPreferences
+     */
     public static final String AUDIO_FILE_NAME = "audioFileName";
-    /** The Constant TARGET_ACTIVITY. */
+    /**
+     * This key will help you to get value of target activity from
+     * SharedPreferences
+     */
     public static final String TARGET_ACTIVITY = "targetActivity";
-    /** The Constant BOOK. */
-    public static final String BOOK = "book";
-    /** The Constant SENTENCE. */
+    /** This key will help you to get value of sentence from SharedPreferences */
     public static final String SENTENCE = "sentence";
-    /** The Constant TIME. */
+    /** This key will help you to get value of time from SharedPreferences */
     public static final String TIME = "time";
-    /** The Constant SECTION. */
+    /** This key will help you to get value of section from SharedPreferences */
     public static final String SECTION = "section";
-    /** The Constant POSITION. */
+    /** This key will help you to get value of position from SharedPreferences */
     public static final String POSITION = "position";
-    /** The Constant BRIGHTNESS. */
+    /** This key will help you to get value of brightness from SharedPreferences */
     public static final String BRIGHTNESS = "brightness";
-    /** The Constant CURRRENT_BRIGHTNESS. */
+    /**
+     * This key will help you to get value of current brightness from
+     * SharedPreferences
+     */
     public static final String CURRRENT_BRIGHTNESS = "currentBrightness";
-    /** The Constant FONT_SIZE. */
+    /** This key will help you to get value of font size from SharedPreferences */
     public static final String FONT_SIZE = "fontsize";
-    /** The Constant FIRST_RUN. */
-    public static final String FIRST_RUN = "firstRun";
-    /** The Constant TEXT_COLOR. */
+    /** This key will help you to get value of text color from SharedPreferences */
     public static final String TEXT_COLOR = "textColor";
-    /** The Constant BACKGROUND_COLOR. */
+    /**
+     * This key will help you to get value of background color from
+     * SharedPreferences
+     */
     public static final String BACKGROUND_COLOR = "backgroundColor";
-    /** The Constant HIGHLIGHT_COLOR. */
+    /**
+     * This key will help you to get value of high light color from
+     * SharedPreferences
+     */
     public static final String HIGHLIGHT_COLOR = "highlightColor";
-    /** The Constant NIGHT_MODE. */
+    /** This key will help you to get value of night mode from SharedPreferences */
     public static final String NIGHT_MODE = "nightMode";
-    /** The Constant FILE_NCC_NAME_NOT_CAPS. */
+    /** File ncc of daisy book format 2.02 not cap */
     public static final String FILE_NCC_NAME_NOT_CAPS = "ncc.html";
-    /** The Constant FILE_NCC_NAME_CAPS. */
+    /** File ncc of daisy book format 2.02 with cap */
     public static final String FILE_NCC_NAME_CAPS = "NCC.HTML";
-    /** The Constant PREFIX_AUDIO_TEMP_FILE. */
+    /** The prefix of audio temp file */
     public static final String PREFIX_AUDIO_TEMP_FILE = "_DAISYTEMPAUDIO_";
-    /** The Constant SUFFIX_AUDIO_TEMP_FILE. */
+    /** The suffix of audio temp file */
     public static final String SUFFIX_AUDIO_TEMP_FILE = ".mp3";
-    /** The Constant SUFFIX_ZIP_FILE. */
+    /** The suffix of audio zip file */
     public static final String SUFFIX_ZIP_FILE = ".zip";
-    /** The Constant LINK_WEBSITE. */
+    /**
+     * This key will help you to get value of link website from
+     * SharedPreferences
+     */
     public static final String LINK_WEBSITE = "link";
-    /** The Constant NAME_WEBSITE. */
+    /**
+     * This key will help you to get value of name website from
+     * SharedPreferences
+     */
     public static final String NAME_WEBSITE = "name";
-    /** The Constant SERVICE_DONE. */
+    /** This key will help you to get value of service when it is done. */
     public static final String SERVICE_DONE = "serviceDone";
-    /** The Constant IS_RUN. */
-    public static final String IS_RUN = "isRun";
-    /** The Constant FONTSIZE_DEFAULT. */
+    /** the fontsize default */
     public static final int FONTSIZE_DEFAULT = 20;
-    /** The Constant NUMBER_OF_BOOKMARK_DEFAULT. */
+    /** The number bookmark default */
     public static final int NUMBER_OF_BOOKMARK_DEFAULT = 10;
-    /** The Constant NUMBER_OF_RECENTBOOK_DEFAULT. */
+    /** the number recent book default */
     public static final int NUMBER_OF_RECENTBOOK_DEFAULT = 10;
     /** The Constant TIME_WAIT_FOR_CLICK_SECTION. */
     public static final int TIME_WAIT_FOR_CLICK_SECTION = 2000;
@@ -95,103 +125,86 @@ public class Constants {
     /** The Constant DAISY_30_FORMAT. */
     public static final int DAISY_30_FORMAT = 3;
 
-    /** The Constant SUBMENU_MENU. */
+    /** Id item menu of sub menu */
     public static final int SUBMENU_MENU = 1;
-    /** The Constant SUBMENU_LIBRARY. */
+    /** Id item menu library of sub menu */
     public static final int SUBMENU_LIBRARY = 2;
-    /** The Constant SUBMENU_BOOKMARKS. */
+    /** Id item menu bookmark of sub menu */
     public static final int SUBMENU_BOOKMARKS = 3;
-    /** The Constant SUBMENU_TABLE_OF_CONTENTS. */
+    /** Id item menu table of content of sub menu */
     public static final int SUBMENU_TABLE_OF_CONTENTS = 4;
-    /** The Constant SUBMENU_SIMPLE_MODE. */
+    /** Id item menu simple mode of sub menu */
     public static final int SUBMENU_SIMPLE_MODE = 5;
-    /** The Constant SUBMENU_SEARCH. */
+    /** Id item menu search of sub menu */
     public static final int SUBMENU_SEARCH = 6;
-    /** The Constant SUBMENU_SETTINGS. */
+    /** Id item menu setting of sub menu */
     public static final int SUBMENU_SETTINGS = 7;
 
     // All message on simple mode activity.
-    /** The Constant SIMPLE_MODE. */
+    /** Id of message "simple mode" to speak by tts on simple mode */
     public static final int SIMPLE_MODE = 3;
-    /** The Constant ERROR_WRONG_FORMAT_AUDIO. */
+    /** Id of message "error wrong format audio" to speak by tts on simple mode */
     public static final int ERROR_WRONG_FORMAT_AUDIO = 4;
-    /** The Constant ERROR_NO_AUDIO_FOUND. */
+    /** Id of message "error no audio found" to speak by tts on simple mode */
     public static final int ERROR_NO_AUDIO_FOUND = 5;
-    /** The Constant AT_THE_END. */
+    /** Id of message "at the end" to speak by tts on simple mode */
     public static final int AT_THE_END = 6;
-    /** The Constant AT_THE_BEGIN. */
+    /** Id of message "at the begin" to speak by tts on simple mode */
     public static final int AT_THE_BEGIN = 7;
-    /** The Constant NEXT_SECTION. */
+    /** Id of message "next section" to speak by tts on simple mode */
     public static final int NEXT_SECTION = 8;
-    /** The Constant PREVIOUS_SECTION. */
+    /** Id of message "previous section" to speak by tts on simple mode */
     public static final int PREVIOUS_SECTION = 9;
-    /** The Constant NEXT_SENTENCE. */
+    /** Id of message "next sentence" to speak by tts on simple mode */
     public static final int NEXT_SENTENCE = 10;
-    /** The Constant PREVIOUS_SENTENCE. */
+    /** Id of message "previous sentence" to speak by tts on simple mode */
     public static final int PREVIOUS_SENTENCE = 11;
-    /** The Constant PLAY. */
+    /** Id of message "play" to speak by tts on simple mode */
     public static final int PLAY = 12;
-    /** The Constant PAUSE. */
+    /** Id of message "pause" to speak by tts on simple mode */
     public static final int PAUSE = 13;
-
-    // All message on reader activity.
-    /** The Constant VISUAL_MODE. */
-    public static final int VISUAL_MODE = 14;
-    /** The Constant READER_ACTIVITY. */
-    public static final int READER_ACTIVITY = 15;
-
-    // All type of metadata.xml
-    /** The Constant TYPE_DOWNLOAD_BOOK. */
+    // The type of daisy book in file metadata.xml will help us to distinguish
+    // when we load daisy book from metadata file
     public static final String TYPE_DOWNLOAD_BOOK = "1";
-    /** The Constant TYPE_RECENT_BOOK. */
     public static final String TYPE_RECENT_BOOK = "2";
-    /** The Constant TYPE_SCAN_BOOK. */
     public static final String TYPE_SCAN_BOOK = "3";
-    /** The Constant TYPE_DOWNLOADED_BOOK. */
     public static final String TYPE_DOWNLOADED_BOOK = "4";
 
     // All node in metadata.xml file.
-    /** The Constant ATT_BOOKS. */
     public static final String ATT_BOOKS = "books";
-    /** The Constant ATT_WEBSITE. */
     public static final String ATT_WEBSITE = "website";
-    /** The Constant ATT_URL. */
     public static final String ATT_URL = "url";
-    /** The Constant ATT_BOOK. */
     public static final String ATT_BOOK = "book";
-    /** The Constant ATT_LINK. */
     public static final String ATT_LINK = "link";
-    /** The Constant ATT_PATH. */
     public static final String ATT_PATH = "path";
-    /** The Constant ATT_TITLE. */
     public static final String ATT_TITLE = "title";
-    /** The Constant ATT_AUTHOR. */
     public static final String ATT_AUTHOR = "author";
-    /** The Constant ATT_PUBLISHER. */
     public static final String ATT_PUBLISHER = "publisher";
-    /** The Constant ATT_DATE. */
     public static final String ATT_DATE = "date";
-    /** The Constant ATT_TYPE. */
     public static final String ATT_TYPE = "type";
-    /** The Constant META_DATA_FILE_NAME. */
+    /** The name of file was saved to help load all books to download */
     public static final String META_DATA_FILE_NAME = "metadata.xml";
-    /** The Constant META_DATA_SCAN_BOOK_FILE_NAME. */
+    /**
+     * The name of file was saved to help increase performance when we load book
+     * from sdcard
+     */
     public static final String META_DATA_SCAN_BOOK_FILE_NAME = "metadata_scanbook.xml";
-    /** The Constant FOLDER_DOWNLOADED. */
+    /** The name of folder contains all book downloaded */
     public static final String FOLDER_DOWNLOADED = "/download";
-    /** The Constant FOLDER_NAME. */
+    /** the name of folder contains metadata.xml, metadata_scanbook.xml */
     public static final String FOLDER_NAME = "dataDaisyBooks";
-    /** The folder contain metadata. */
+    /** the full path of folder contains metadata.xml, metadata_scanbook.xml */
     public static String folderContainMetadata = "";
     /** The Constant DAISY_TEMP_MP3. */
     public static final String DAISY_TEMP_MP3 = "daisyTemp.mp3";
-    /** The Constant TYPE_WIFI. */
-    public static final int TYPE_WIFI = 1;
-    /** The Constant TYPE_MOBILE. */
-    public static final int TYPE_MOBILE = 2;
-    /** The Constant TYPE_NOT_CONNECTED. */
-    public static final int TYPE_NOT_CONNECTED = 0;
+    /** If device connected by wifi, the value is 1 */
+    public static final int CONNECT_TYPE_WIFI = 1;
+    /** If device connected by cellular, the value is 2 */
+    public static final int CONNECT_TYPE_MOBILE = 2;
+    /** If device is not connected, the value is 2 */
+    public static final int CONNECT_TYPE_NOT_CONNECTED = 0;
+
     // The following section are used to record statistical data for Analytics
-	public static final String RECORD_BOOK_DOWNLOAD_COMPLETED = "BookDownloadCompleted";
-	public static final String RECORD_BOOK_DOWNLOAD_FAILED = "BookDownloadFailed";
+    public static final String RECORD_BOOK_DOWNLOAD_COMPLETED = "BookDownloadCompleted";
+    public static final String RECORD_BOOK_DOWNLOAD_FAILED = "BookDownloadFailed";
 }

@@ -63,14 +63,14 @@ public class DaisyBookUtil {
         NetworkInfo activeNetwork = cm.getActiveNetworkInfo();
         if (null != activeNetwork) {
             if (activeNetwork.getType() == ConnectivityManager.TYPE_WIFI) {
-                return Constants.TYPE_WIFI;
+                return Constants.CONNECT_TYPE_WIFI;
             }
 
             if (activeNetwork.getType() == ConnectivityManager.TYPE_MOBILE) {
-                return Constants.TYPE_MOBILE;
+                return Constants.CONNECT_TYPE_MOBILE;
             }
         }
-        return Constants.TYPE_NOT_CONNECTED;
+        return Constants.CONNECT_TYPE_NOT_CONNECTED;
     }
 
     /**
@@ -148,6 +148,7 @@ public class DaisyBookUtil {
                     return true;
                 }
             }
+            zipContents.close();
         } catch (IOException e) {
             Log.d("IOException", e.getMessage());
         }
@@ -172,6 +173,7 @@ public class DaisyBookUtil {
                     result = entry.getName();
                 }
             }
+            zipContents.close();
         } catch (IOException e) {
             Log.d("IOException", e.getMessage());
         }

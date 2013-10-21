@@ -9,6 +9,7 @@ import java.io.OutputStream;
 import java.net.URLConnection;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 
@@ -19,6 +20,7 @@ import org.androiddaisyreader.model.DaisyBookInfo;
 import org.androiddaisyreader.player.IntentController;
 import org.androiddaisyreader.sqlite.SQLiteDaisyBookHelper;
 import org.androiddaisyreader.utils.Constants;
+import org.androiddaisyreader.utils.Countly;
 import org.androiddaisyreader.utils.DaisyBookUtil;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
@@ -276,11 +278,12 @@ public class DaisyReaderDownloadBooks extends DaisyEbookReaderBaseActivity {
         protected Boolean doInBackground(String... params) {
             int count;
             boolean result = false;
+            String link = params[0];
             try {
-                String link = params[0];
                 java.net.URL url = new java.net.URL(link);
                 URLConnection conection = url.openConnection();
                 conection.connect();
+                long startTime = System.currentTimeMillis();
                 // this will be useful so that you can show a tipical 0-100%
                 // progress bar
                 int lenghtOfFile = conection.getContentLength();
@@ -306,13 +309,29 @@ public class DaisyReaderDownloadBooks extends DaisyEbookReaderBaseActivity {
                         output.write(data, 0, count);
                     }
                 }
+                // Record the time taken for the download excluding local cleanup.
+                long stopTime = System.currentTimeMillis();
+                long elapsedTime = stopTime - startTime;
+                String timeTaken = Long.toString(elapsedTime);
+                
                 // flushing output
                 output.flush();
                 // closing streams
                 output.close();
                 input.close();
+                
+                // Record the book download completed successfully 
+                HashMap<String, String> results = new HashMap<String, String> ();
+                results.put("URL", link);
+                results.put("FileSize", Integer.toString(count));
+                results.put("DurationIn(ms)", timeTaken);
+                Countly.sharedInstance().recordEvent(Constants.RECORD_BOOK_DOWNLOAD_COMPLETED, results, 1);
                 result = true;
             } catch (Exception e) {
+            	HashMap<String, String> results = new HashMap<String, String> ();
+            	results.put("URL", link);
+            	results.put("Exception", e.getMessage());
+            	Countly.sharedInstance().recordEvent(Constants.RECORD_BOOK_DOWNLOAD_FAILED, results, 1);
                 result = false;
                 mTask.cancel(true);
                 mProgressDialog.dismiss();
@@ -327,7 +346,6 @@ public class DaisyReaderDownloadBooks extends DaisyEbookReaderBaseActivity {
                     }
                 });
             }
-
             return result;
         }
 

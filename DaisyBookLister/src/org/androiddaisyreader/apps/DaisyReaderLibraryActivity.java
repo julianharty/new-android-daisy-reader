@@ -61,12 +61,15 @@ public class DaisyReaderLibraryActivity extends DaisyEbookReaderBaseActivity {
     private void createFolderContainXml() {
         if (Environment.getExternalStorageState().equals(Environment.MEDIA_MOUNTED)) {
             File directory = new File(Constants.folderContainMetadata);
+            boolean result = true;
             if (!directory.exists()) {
                 // Create a File object for the parent directory
-                directory.mkdirs();
+                result = directory.mkdirs();
             }
             // Then run the method to copy the file.
-            copyFileFromAssets();
+            if (result) {
+                copyFileFromAssets();
+            }
 
         } else if (Environment.getExternalStorageState()
                 .equals(Environment.MEDIA_MOUNTED_READ_ONLY)) {

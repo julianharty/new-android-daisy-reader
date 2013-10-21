@@ -36,6 +36,7 @@ import android.os.Environment;
 import android.os.StatFs;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
@@ -295,7 +296,11 @@ public class DaisyReaderDownloadBooks extends DaisyEbookReaderBaseActivity {
                 while ((count = input.read(data)) != -1) {
                     if (isCancelled()) {
                         File file = new File(PATH + mName);
-                        file.delete();
+                        if (file.delete()) {
+                            Log.i("Delete", "Deleted temporary file, " + mName);
+                        } else {
+                            Log.i("Delete", "Cannot delete temporary file, " + mName);
+                        }
                         break;
                     } else {
                         total += count;
@@ -447,7 +452,7 @@ public class DaisyReaderDownloadBooks extends DaisyEbookReaderBaseActivity {
     }
 
     private void downloadABook(int position) {
-        boolean isConnected = DaisyBookUtil.getConnectivityStatus(DaisyReaderDownloadBooks.this) != Constants.TYPE_NOT_CONNECTED;
+        boolean isConnected = DaisyBookUtil.getConnectivityStatus(DaisyReaderDownloadBooks.this) != Constants.CONNECT_TYPE_NOT_CONNECTED;
         IntentController intent = new IntentController(DaisyReaderDownloadBooks.this);
         if (isConnected) {
             if (checkFolderIsExist()) {

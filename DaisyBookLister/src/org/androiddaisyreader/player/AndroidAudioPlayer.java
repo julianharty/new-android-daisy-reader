@@ -102,8 +102,12 @@ public class AndroidAudioPlayer implements AudioPlayer, OnCompletionListener {
         // Seems we can delete the temporary file now.
         if (doesContentNeedUnzipping) {
             File deleteMe = new File(filenameToPlay);
-            deleteMe.delete();
-            Log.i(TAG, "Deleting temporary file, " + filenameToPlay);
+            boolean result = deleteMe.delete();
+            if (result) {
+                Log.i(TAG, "Deleting temporary file, " + filenameToPlay);
+            } else {
+                Log.i(TAG, "Cannot Delete temporary file, " + filenameToPlay);
+            }
         }
     }
 

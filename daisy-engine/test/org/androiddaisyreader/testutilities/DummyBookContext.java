@@ -4,6 +4,7 @@ import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.InputStream;
+import java.nio.charset.Charset;
 
 import org.androiddaisyreader.model.BookContext;
 
@@ -14,19 +15,18 @@ import org.androiddaisyreader.model.BookContext;
  */
 public class DummyBookContext implements BookContext {
 
-	private String contents;
+    private String contents;
 
-	public DummyBookContext(String contents) {
-		this.contents = contents;
-	}
+    public DummyBookContext(String contents) {
+        this.contents = contents;
+    }
 
-	public InputStream getResource(String uri) throws FileNotFoundException {
-		return new ByteArrayInputStream(contents.getBytes());
-	}
+    public InputStream getResource(String uri) throws FileNotFoundException {
+        return new ByteArrayInputStream(contents.getBytes(Charset.forName("UTF-8")));
+    }
 
-	public String getBaseUri() {
-		return File.separator;
-	}
+    public String getBaseUri() {
+        return File.separator;
+    }
 
-	
 }

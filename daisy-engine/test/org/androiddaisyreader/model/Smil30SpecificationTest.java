@@ -3,6 +3,7 @@ package org.androiddaisyreader.model;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.nio.charset.Charset;
 
 import javax.xml.parsers.ParserConfigurationException;
 
@@ -65,14 +66,14 @@ public class Smil30SpecificationTest extends TestCase {
 
 	public void testParsingOfSimpleSmil30WithTwoPart() throws IOException, SAXException,
 			ParserConfigurationException {
-		InputStream contents = new ByteArrayInputStream(SMIL_FILE_WITH_TWO_PARTS.getBytes());
+		InputStream contents = new ByteArrayInputStream(SMIL_FILE_WITH_TWO_PARTS.getBytes(Charset.forName("UTF-8")));
 		Part[] parts = parseSmilContents(contents);
 		assertEquals("Expected two part", 2, parts.length);
 	}
 
 	public void testParsingOfSimpleSmil30WithSimpleSection() throws IOException, SAXException,
 			ParserConfigurationException {
-		InputStream contents = new ByteArrayInputStream(SMIL_WITH_1_AUDIO_1_TEXT.getBytes());
+		InputStream contents = new ByteArrayInputStream(SMIL_WITH_1_AUDIO_1_TEXT.getBytes(Charset.forName("UTF-8")));
 		Part[] parts = parseSmilContents(contents);
 		assertEquals("Expected one part", 1, parts.length);
 		Part part = parts[0];
@@ -82,7 +83,7 @@ public class Smil30SpecificationTest extends TestCase {
 
 	public void testParsingOfSimpleSmil30WithAudio() throws IOException, SAXException,
 			ParserConfigurationException {
-		InputStream contents = new ByteArrayInputStream(SMIL_WITH_1_AUDIO_SECTION.getBytes());
+		InputStream contents = new ByteArrayInputStream(SMIL_WITH_1_AUDIO_SECTION.getBytes(Charset.forName("UTF-8")));
 		Part[] parts = parseSmilContents(contents);
 		assertEquals("Expected one part", 1, parts.length);
 		Part part = parts[0];
@@ -92,7 +93,7 @@ public class Smil30SpecificationTest extends TestCase {
 
 	public void testParsingOfSimpleSmil30With2Audio() throws IOException, SAXException,
 			ParserConfigurationException {
-		InputStream contents = new ByteArrayInputStream(SMIL_WITH_2_AUDIO_SECTION.getBytes());
+		InputStream contents = new ByteArrayInputStream(SMIL_WITH_2_AUDIO_SECTION.getBytes(Charset.forName("UTF-8")));
 		Part[] parts = parseSmilContents(contents);
 		assertEquals("Expected one part", 1, parts.length);
 		Part part = parts[0];
@@ -102,7 +103,7 @@ public class Smil30SpecificationTest extends TestCase {
 
 	public void testParsingOfSimpleSmil30WithText() throws IOException, SAXException,
 			ParserConfigurationException {
-		InputStream contents = new ByteArrayInputStream(SMIL_WITH_1_TEXT_SECTION.getBytes());
+		InputStream contents = new ByteArrayInputStream(SMIL_WITH_1_TEXT_SECTION.getBytes(Charset.forName("UTF-8")));
 		Part[] parts = parseSmilContents(contents);
 
 		assertEquals("Expected one part", 1, parts.length);
@@ -114,7 +115,7 @@ public class Smil30SpecificationTest extends TestCase {
 
 	public void testParsingOfSimpleSmil30With2Text() throws IOException, SAXException,
 			ParserConfigurationException {
-		InputStream contents = new ByteArrayInputStream(SMIL_WITH_2_TEXT_SECTION.getBytes());
+		InputStream contents = new ByteArrayInputStream(SMIL_WITH_2_TEXT_SECTION.getBytes(Charset.forName("UTF-8")));
 		Part[] parts = parseSmilContents(contents);
 
 		assertEquals("Expected one part", 1, parts.length);

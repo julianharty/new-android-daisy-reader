@@ -18,7 +18,7 @@ import java.util.zip.ZipFile;
  * 
  */
 public class ZippedBookContext implements BookContext {
-    ZipFile zipContents;
+    private ZipFile zipContents;
 
     protected ZippedBookContext() {
         // Do nothing.

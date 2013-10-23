@@ -11,8 +11,8 @@ public class Part implements Navigable {
     private List<String> textElements = new ArrayList<String>();
     private List<String> unhandledElements = new ArrayList<String>();
     private Image image;
-    public String id;
-    public String timingMode;
+    private String id;
+    private String timingMode;
 
     private Part() {
     }

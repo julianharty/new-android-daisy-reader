@@ -32,7 +32,7 @@ public class Smil10Specification extends DefaultHandler {
     private List<Part> parts = new ArrayList<Part>();
     private BookContext context;
 
-    boolean handlingPar = false;
+    private boolean handlingPar = false;
 
     private String currentContentsFilename;
     private Document doc;

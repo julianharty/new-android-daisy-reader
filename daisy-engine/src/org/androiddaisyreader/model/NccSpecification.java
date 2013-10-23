@@ -52,7 +52,7 @@ public class NccSpecification extends DefaultHandler {
     private StringBuilder buffer = new StringBuilder();
     private static final Integer NUM_LEVELS_AVAILABLE_IN_DAISY202 = 6;
 
-    DaisyBook.Builder bookBuilder = new DaisyBook.Builder();
+    private DaisyBook.Builder bookBuilder = new DaisyBook.Builder();
     private String href;
 
     private enum Element {

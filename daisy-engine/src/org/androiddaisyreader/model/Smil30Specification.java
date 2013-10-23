@@ -27,8 +27,8 @@ public class Smil30Specification extends DefaultHandler {
     private List<Part> parts = new ArrayList<Part>();
     private BookContext context;
 
-    boolean handlingPar = false;
-    boolean isProdNote = false;
+    private boolean handlingPar = false;
+    private boolean isProdNote = false;
     private String textProdNote = null;
     private String idPrevious = null;
 

@@ -4,6 +4,7 @@ import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
+import java.nio.charset.Charset;
 import java.util.Date;
 
 import junit.framework.TestCase;
@@ -21,7 +22,7 @@ public class OpfSpecificationTest extends TestCase {
 	@SuppressWarnings("deprecation")
 	public void testUsingValidSampleContentDaisy30() throws IOException {
 		ByteArrayInputStream content = new ByteArrayInputStream(
-				(SampleContentDaisy30.simpleValidOpf).getBytes());
+				(SampleContentDaisy30.simpleValidOpf).getBytes(Charset.forName("UTF-8")));
 		// This testcase must get title of daisybook, so we don't need bookcontext.
 		DaisyBook daisybook = OpfSpecification.readFromStream(content, null);
 		assertEquals("The Code Talkers", daisybook.getTitle());

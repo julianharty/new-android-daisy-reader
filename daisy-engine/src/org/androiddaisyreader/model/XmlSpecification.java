@@ -18,8 +18,8 @@ import org.xml.sax.XMLReader;
 import org.xml.sax.helpers.DefaultHandler;
 
 public class XmlSpecification extends DefaultHandler {
-    XmlModel model;
-    ArrayList<XmlModel> listModel = new ArrayList<XmlModel>();
+    private XmlModel model;
+    private ArrayList<XmlModel> listModel = new ArrayList<XmlModel>();
     private static final int NUM_LEVELS_AVAILABLE_IN_DAISY202 = 6;
     private Element current;
     private StringBuilder buffer = new StringBuilder();

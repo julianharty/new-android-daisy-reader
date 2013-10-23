@@ -18,7 +18,7 @@ import org.androiddaisyreader.model.AudioPlayerState;
 public class AudioPlayerController {
 
     private AudioPlayer player;
-    Logger log = Logger.getLogger("AudioPlayerController");
+    private Logger log = Logger.getLogger("AudioPlayerController");
 
     @SuppressWarnings("unused")
     private AudioPlayerController() {

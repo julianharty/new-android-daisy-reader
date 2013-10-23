@@ -2,9 +2,11 @@ package org.androiddaisyreader.model;
 
 import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
-import java.io.FileReader;
 import java.io.IOException;
+import java.io.InputStreamReader;
+import java.nio.charset.Charset;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -32,7 +34,8 @@ public class FullText {
     StringBuilder getContentsOfHTMLFile(File fileToReadFrom) throws FileNotFoundException,
             IOException {
         StringBuilder fileContents = new StringBuilder();
-        BufferedReader reader = new BufferedReader(new FileReader(fileToReadFrom));
+        BufferedReader reader = new BufferedReader(new InputStreamReader(new FileInputStream(
+                fileToReadFrom), Charset.forName("UTF-8")));
         String line;
 
         while ((line = reader.readLine()) != null) {
@@ -41,6 +44,7 @@ public class FullText {
         }
 
         fileToReadFrom = null;
+        reader.close();
         reader = null;
         return fileContents;
     }

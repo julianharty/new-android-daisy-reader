@@ -132,11 +132,11 @@ public class DaisyEbookReaderVisualModeActivity extends DaisyEbookReaderBaseActi
         mSql = new SQLiteCurrentInformationHelper(DaisyEbookReaderVisualModeActivity.this);
         mPath = getIntent().getStringExtra(Constants.DAISY_PATH);
         isFormat202 = DaisyBookUtil.findDaisyFormat(mPath) == Constants.DAISY_202_FORMAT;
+        mContents = (TextView) this.findViewById(R.id.contents);
         openBook();
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         if (mBook != null) {
             getSupportActionBar().setTitle(mBook.getTitle());
-            mContents = (TextView) this.findViewById(R.id.contents);
             mScrollView = (ScrollView) findViewById(R.id.scrollView);
             mImgButton = (ImageButton) this.findViewById(R.id.btnPlay);
             mImgButton.setOnClickListener(imgButtonClick);

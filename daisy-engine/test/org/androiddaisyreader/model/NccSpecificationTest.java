@@ -5,6 +5,8 @@ import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
 import java.nio.charset.Charset;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.Date;
 
 import org.androiddaisyreader.testutilities.CreateDaisy202Book;
@@ -31,20 +33,23 @@ public class NccSpecificationTest extends TestCase {
         } catch (NotImplementedException e) {
             e.printStackTrace();
         }
-        eBookContents.writeXmlHeader();
-        eBookContents.writeDoctype();
-        eBookContents.writeXmlns();
-        eBookContents.writeBasicMetadata();
-        eBookContents.addTheseLevels(FIVE_SECTIONS);
-        eBookContents.writeEndOfDocument();
+        if (eBookContents != null) {
+            eBookContents.writeXmlHeader();
+            eBookContents.writeDoctype();
+            eBookContents.writeXmlns();
+            eBookContents.writeBasicMetadata();
+            eBookContents.addTheseLevels(FIVE_SECTIONS);
+            eBookContents.writeEndOfDocument();
+        }
         return new ByteArrayInputStream(out.toByteArray());
     }
 
     // This is a spike, and intended to be replaced once we integrate this code
     // with the main project.
     public void testReadFromFile() throws IOException {
-        File inputFile = new File(
-                "/sdcard/files-used-for-testing/testfiles/minidaisyaudiobook/ncc.html");
+        Path path = Paths
+                .get("/sdcard/files-used-for-testing/testfiles/minidaisyaudiobook/ncc.html");
+        File inputFile = new File(path.toString());
         DaisyBook thingy = NccSpecification.readFromFile(inputFile);
         assertEquals("A mini DAISY book for testing", thingy.getTitle());
 

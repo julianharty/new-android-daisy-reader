@@ -8,9 +8,9 @@ import java.io.InputStream;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.xml.parsers.SAXParserFactory;
@@ -28,7 +28,7 @@ public class OpfSpecification extends DefaultHandler {
     private Map<String, String> manifestItem = new HashMap<String, String>();
     // TODO 20120124 (jharty):replace with something that doesn't use Vector
     private StringBuilder buffer = new StringBuilder();
-    private ArrayList<XmlModel> listModel;
+    private List<XmlModel> listModel;
     private DaisyBook.Builder bookBuilder = new DaisyBook.Builder();
     private BookContext bookContext;
 
@@ -124,7 +124,7 @@ public class OpfSpecification extends DefaultHandler {
             handleItemOfHeading(attributes);
             break;
         case ITEMREF:
-            handleStartOfSpine(current, attributes);
+            handleStartOfSpine(attributes);
             break;
         case SPINE:
             buffer.setLength(0);
@@ -148,7 +148,7 @@ public class OpfSpecification extends DefaultHandler {
         manifestItem.put(getId(attributes), getHref(attributes));
     }
 
-    private void handleStartOfSpine(Element heading, Attributes attributes) {
+    private void handleStartOfSpine(Attributes attributes) {
         // Create the new header
         String smilHref = manifestItem.get(getIdRef(attributes));
         XmlModel model = getXmlModelBySmilHref(smilHref);

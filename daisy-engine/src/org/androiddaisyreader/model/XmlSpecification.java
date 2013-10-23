@@ -7,6 +7,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.xml.parsers.SAXParserFactory;
@@ -19,7 +20,7 @@ import org.xml.sax.helpers.DefaultHandler;
 
 public class XmlSpecification extends DefaultHandler {
     private XmlModel model;
-    private ArrayList<XmlModel> listModel = new ArrayList<XmlModel>();
+    private List<XmlModel> listModel = new ArrayList<XmlModel>();
     private static final int NUM_LEVELS_AVAILABLE_IN_DAISY202 = 6;
     private Element current;
     private StringBuilder buffer = new StringBuilder();
@@ -80,7 +81,7 @@ public class XmlSpecification extends DefaultHandler {
             addSmilHref(attributes);
             break;
         case SENT:
-            handleStartOfSend(current, attributes);
+            handleStartOfSend(attributes);
             break;
         default:
             // do nothing for now for unmatched elements
@@ -102,7 +103,7 @@ public class XmlSpecification extends DefaultHandler {
         model.setSmilHref(smilHref);
     }
 
-    private void handleStartOfSend(Element heading, Attributes attributes) {
+    private void handleStartOfSend(Attributes attributes) {
         if (model != null && model.getSmilHref() == null) {
             model.setSmilHref(getSmilHref(attributes));
             model.setId(getId(attributes));
@@ -165,18 +166,18 @@ public class XmlSpecification extends DefaultHandler {
         // listModel.add(model);
     }
 
-    private ArrayList<XmlModel> build() {
+    private List<XmlModel> build() {
         return listModel;
     }
 
-    public static ArrayList<XmlModel> readFromStream(InputStream contents) throws IOException {
+    public static List<XmlModel> readFromStream(InputStream contents) throws IOException {
         String encoding = obtainEncodingStringFromInputStream(contents);
         encoding = mapUnsupportedEncoding(encoding);
         return readFromStream(contents, encoding);
 
     }
 
-    public static ArrayList<XmlModel> readFromStream(InputStream contents, String encoding)
+    public static List<XmlModel> readFromStream(InputStream contents, String encoding)
             throws IOException {
         SAXParserFactory factory = SAXParserFactory.newInstance();
         XmlSpecification specification = new XmlSpecification();

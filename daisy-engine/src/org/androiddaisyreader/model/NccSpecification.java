@@ -253,8 +253,7 @@ public class NccSpecification extends DefaultHandler {
         Integer currentLevel = levelMap.get(current);
         if (levelOnStack != currentLevel) {
             throw new IllegalStateException(String.format(
-                    "Expected the same level as [%s] found [%s]", currentLevel, levelOnStack,
-                    currentBuilder));
+                    "Expected the same level as [%s] found [%s]", currentLevel, currentBuilder));
         }
 
         currentBuilder.setTitle(buffer.toString());

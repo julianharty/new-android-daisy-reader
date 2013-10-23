@@ -45,8 +45,7 @@ public class ZippedBookContext implements BookContext {
             // 20130912: add "toLowerCase" to increase exactly when compare two
             // text.
             if (entry.getName().toLowerCase().contains(uri.toLowerCase())) {
-                BufferedInputStream bis = new BufferedInputStream(zipContents.getInputStream(entry));
-                return bis;
+                return new BufferedInputStream(zipContents.getInputStream(entry));
             }
         }
         return null;

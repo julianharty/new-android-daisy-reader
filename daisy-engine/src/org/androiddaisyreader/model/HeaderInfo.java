@@ -1,11 +1,12 @@
 package org.androiddaisyreader.model;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class HeaderInfo {
 
     private String name;
-    private ArrayList<DetailInfo> bookList = new ArrayList<DetailInfo>();;
+    private List<DetailInfo> bookList = new ArrayList<DetailInfo>();;
 
     public String getName() {
         return name;
@@ -15,11 +16,11 @@ public class HeaderInfo {
         this.name = name;
     }
 
-    public ArrayList<DetailInfo> getBookList() {
+    public List<DetailInfo> getBookList() {
         return bookList;
     }
 
-    public void setBookList(ArrayList<DetailInfo> bookList) {
+    public void setBookList(List<DetailInfo> bookList) {
         this.bookList = bookList;
     }
 

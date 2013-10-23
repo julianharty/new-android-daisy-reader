@@ -58,7 +58,7 @@ public class DaisyBook extends Book {
     }
 
     public Date getDate() {
-        return date;
+        return (Date) date.clone();
     }
 
 }

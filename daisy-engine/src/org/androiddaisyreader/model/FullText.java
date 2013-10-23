@@ -33,9 +33,10 @@ public class FullText {
      */
     StringBuilder getContentsOfHTMLFile(File fileToReadFrom) throws FileNotFoundException,
             IOException {
+        File file = fileToReadFrom;
         StringBuilder fileContents = new StringBuilder();
-        BufferedReader reader = new BufferedReader(new InputStreamReader(new FileInputStream(
-                fileToReadFrom), Charset.forName("UTF-8")));
+        BufferedReader reader = new BufferedReader(new InputStreamReader(new FileInputStream(file),
+                Charset.forName("UTF-8")));
         String line;
 
         while ((line = reader.readLine()) != null) {
@@ -43,7 +44,7 @@ public class FullText {
             fileContents.append('\n');
         }
 
-        fileToReadFrom = null;
+        file = null;
         reader.close();
         reader = null;
         return fileContents;
@@ -67,8 +68,7 @@ public class FullText {
      */
     public String getHtmlFor(String reference) {
         String contents = documentContents.getElementById(reference).html();
-        String cleanedContents = Jsoup.clean(contents, Whitelist.simpleText());
-        return cleanedContents;
+        return Jsoup.clean(contents, Whitelist.simpleText());
     }
 
 }

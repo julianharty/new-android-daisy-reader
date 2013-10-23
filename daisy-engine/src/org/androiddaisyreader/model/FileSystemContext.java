@@ -30,8 +30,7 @@ public class FileSystemContext implements BookContext {
         // A BufferedInputStream adds functionality to another input
         // stream-namely, the ability to buffer the input and to support the
         // mark and reset methods.
-        BufferedInputStream bis = new BufferedInputStream(contents);
-        return bis;
+        return new BufferedInputStream(contents);
     }
 
     public String getBaseUri() {

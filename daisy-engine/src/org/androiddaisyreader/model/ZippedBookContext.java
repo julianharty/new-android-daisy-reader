@@ -18,42 +18,42 @@ import java.util.zip.ZipFile;
  * 
  */
 public class ZippedBookContext implements BookContext {
-	ZipFile zipContents;
+    ZipFile zipContents;
 
-	protected ZippedBookContext() {
-		// Do nothing.
-	}
+    protected ZippedBookContext() {
+        // Do nothing.
+    }
 
-	public ZippedBookContext(String zipFilename) throws IOException {
-		zipContents = new ZipFile(zipFilename);
-	}
+    public ZippedBookContext(String zipFilename) throws IOException {
+        zipContents = new ZipFile(zipFilename);
+    }
 
-	public InputStream getResource(String uri) throws IOException {
-		ZipEntry entry;
+    public InputStream getResource(String uri) throws IOException {
+        ZipEntry entry;
 
-		Enumeration<? extends ZipEntry> e = zipContents.entries();
-		while (e.hasMoreElements()) {
-			entry = (ZipEntry) e.nextElement();
-			System.out.println("Checking: " + entry);
+        Enumeration<? extends ZipEntry> e = zipContents.entries();
+        while (e.hasMoreElements()) {
+            entry = (ZipEntry) e.nextElement();
+            System.out.println("Checking: " + entry);
 
-			// Note: we're blindly stripping off any folder prefix and
-			// assuming that each filename in the zip file is unique. These
-			// assumptions may bite us in the end with some books.
-			// TODO 20120218 (jharty): Consider ways to make the algorithm more
-			// robust.
+            // Note: we're blindly stripping off any folder prefix and
+            // assuming that each filename in the zip file is unique. These
+            // assumptions may bite us in the end with some books.
+            // TODO 20120218 (jharty): Consider ways to make the algorithm more
+            // robust.
 
-			// 20130912: add "toLowerCase" to increase exactly when compare two
-			// text.
-			if (entry.getName().toLowerCase().contains(uri.toLowerCase())) {
-				BufferedInputStream bis = new BufferedInputStream(zipContents.getInputStream(entry));
-				return bis;
-			}
-		}
-		return null;
-	}
+            // 20130912: add "toLowerCase" to increase exactly when compare two
+            // text.
+            if (entry.getName().toLowerCase().contains(uri.toLowerCase())) {
+                BufferedInputStream bis = new BufferedInputStream(zipContents.getInputStream(entry));
+                return bis;
+            }
+        }
+        return null;
+    }
 
-	public String getBaseUri() {
-		return zipContents.getName();
-	}
+    public String getBaseUri() {
+        return zipContents.getName();
+    }
 
 }

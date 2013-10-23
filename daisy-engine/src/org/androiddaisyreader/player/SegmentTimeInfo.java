@@ -8,18 +8,21 @@ package org.androiddaisyreader.player;
  * @author jharty
  */
 public enum SegmentTimeInfo {
-	OVERLAPPING,  // The time intervals overlap
-	CONTIGUOUS,  // The times are contiguous
-	GAP;  // There is a gap between the 2 times.
-	
-	public static SegmentTimeInfo compareTimesForAudioSegments(int timeToStartPlayingFrom, int timeLastSegmentFinished) {
-		int difference = Math.abs(timeToStartPlayingFrom - timeLastSegmentFinished);
-		if (difference <= 1) {
-			return SegmentTimeInfo.CONTIGUOUS;
-		}
-		else if (timeToStartPlayingFrom > timeLastSegmentFinished) {
-			return SegmentTimeInfo.GAP;
-		}
-		return SegmentTimeInfo.OVERLAPPING;
-	}
+    // The time intervals overlap
+    OVERLAPPING,
+    // The times are contiguous
+    CONTIGUOUS,
+    // There is a gap between the 2 times.
+    GAP;
+
+    public static SegmentTimeInfo compareTimesForAudioSegments(int timeToStartPlayingFrom,
+            int timeLastSegmentFinished) {
+        int difference = Math.abs(timeToStartPlayingFrom - timeLastSegmentFinished);
+        if (difference <= 1) {
+            return SegmentTimeInfo.CONTIGUOUS;
+        } else if (timeToStartPlayingFrom > timeLastSegmentFinished) {
+            return SegmentTimeInfo.GAP;
+        }
+        return SegmentTimeInfo.OVERLAPPING;
+    }
 }

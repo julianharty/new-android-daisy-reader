@@ -46,336 +46,336 @@ import org.xml.sax.helpers.DefaultHandler;
  * @author jharty
  */
 public class NccSpecification extends DefaultHandler {
-	private Element current;
-	private Stack<DaisySection.Builder> headingStack = new Stack<DaisySection.Builder>();
-	// TODO 20120124 (jharty):replace with something that doesn't use Vector
-	private StringBuilder buffer = new StringBuilder();
-	private static Integer NUM_LEVELS_AVAILABLE_IN_DAISY202 = 6;
+    private Element current;
+    private Stack<DaisySection.Builder> headingStack = new Stack<DaisySection.Builder>();
+    // TODO 20120124 (jharty):replace with something that doesn't use Vector
+    private StringBuilder buffer = new StringBuilder();
+    private static final Integer NUM_LEVELS_AVAILABLE_IN_DAISY202 = 6;
 
-	DaisyBook.Builder bookBuilder = new DaisyBook.Builder();
-	private String href;
+    DaisyBook.Builder bookBuilder = new DaisyBook.Builder();
+    private String href;
 
-	private enum Element {
-		A, HTML, META, TITLE, H1, H2, H3, H4, H5, H6, SPAN;
-		@Override
-		public String toString() {
-			return this.name().toLowerCase();
-		}
-	}
+    private enum Element {
+        A, HTML, META, TITLE, H1, H2, H3, H4, H5, H6, SPAN;
+        @Override
+        public String toString() {
+            return this.name().toLowerCase();
+        }
+    }
 
-	private static Map<String, Element> elementMap = new HashMap<String, Element>(
-			Element.values().length);
-	static {
-		for (Element e : Element.values()) {
-			elementMap.put(e.toString(), e);
-		}
-	}
+    private static Map<String, Element> elementMap = new HashMap<String, Element>(
+            Element.values().length);
+    static {
+        for (Element e : Element.values()) {
+            elementMap.put(e.toString(), e);
+        }
+    }
 
-	private static Map<Element, Integer> levelMap = new HashMap<Element, Integer>(
-			NUM_LEVELS_AVAILABLE_IN_DAISY202);
-	static {
-		levelMap.put(Element.H1, 1);
-		levelMap.put(Element.H2, 2);
-		levelMap.put(Element.H3, 3);
-		levelMap.put(Element.H4, 4);
-		levelMap.put(Element.H5, 5);
-		levelMap.put(Element.H6, 6);
-	}
+    private static Map<Element, Integer> levelMap = new HashMap<Element, Integer>(
+            NUM_LEVELS_AVAILABLE_IN_DAISY202);
+    static {
+        levelMap.put(Element.H1, 1);
+        levelMap.put(Element.H2, 2);
+        levelMap.put(Element.H3, 3);
+        levelMap.put(Element.H4, 4);
+        levelMap.put(Element.H5, 5);
+        levelMap.put(Element.H6, 6);
+    }
 
-	private enum Meta {
-		TITLE {
-			@Override
-			public String toString() {
-				return "dc:title";
-			}
-		},
-		CREATOR {
-			@Override
-			public String toString() {
-				return "dc:creator";
-			}
-		},
-		LANGUAGE {
-			@Override
-			public String toString() {
-				return "dc:language";
-			}
-		},
-		CHARACTERSET {
-			@Override
-			public String toString() {
-				return "ncc:charset";
-			}
-		},
-		DATE {
-			@Override
-			public String toString() {
-				return "dc:date";
-			}
-		},
-		// Added by Logigear to resolve case: the daisy book is not audio.
-		// Date: Jun-13-2013
-		TOTALTIME {
-			@Override
-			public String toString() {
-				return "ncc:totalTime";
-			}
-		},
-		PUBLISHER {
-			@Override
-			public String toString() {
-				return "dc:publisher";
-			}
-		}
-		// Add more enums as we need them.
-	}
+    private enum Meta {
+        TITLE {
+            @Override
+            public String toString() {
+                return "dc:title";
+            }
+        },
+        CREATOR {
+            @Override
+            public String toString() {
+                return "dc:creator";
+            }
+        },
+        LANGUAGE {
+            @Override
+            public String toString() {
+                return "dc:language";
+            }
+        },
+        CHARACTERSET {
+            @Override
+            public String toString() {
+                return "ncc:charset";
+            }
+        },
+        DATE {
+            @Override
+            public String toString() {
+                return "dc:date";
+            }
+        },
+        // Added by Logigear to resolve case: the daisy book is not audio.
+        // Date: Jun-13-2013
+        TOTALTIME {
+            @Override
+            public String toString() {
+                return "ncc:totalTime";
+            }
+        },
+        PUBLISHER {
+            @Override
+            public String toString() {
+                return "dc:publisher";
+            }
+        }
+        // Add more enums as we need them.
+    }
 
-	private static Map<String, Meta> metaMap = new HashMap<String, Meta>(Meta.values().length);
-	static {
-		for (Meta m : Meta.values()) {
-			metaMap.put(m.toString(), m);
-		}
-	}
+    private static Map<String, Meta> metaMap = new HashMap<String, Meta>(Meta.values().length);
+    static {
+        for (Meta m : Meta.values()) {
+            metaMap.put(m.toString(), m);
+        }
+    }
 
-	@Override
-	public void startElement(String uri, String localName, String name, Attributes attributes) {
-		current = elementMap.get(ParserUtilities.getName(localName, name));
-		if (current == null) {
-			return;
-		}
+    @Override
+    public void startElement(String uri, String localName, String name, Attributes attributes) {
+        current = elementMap.get(ParserUtilities.getName(localName, name));
+        if (current == null) {
+            return;
+        }
 
-		switch (current) {
-		case A:
-			handleAnchor(attributes);
-			break;
-		case H1:
-		case H2:
-		case H3:
-		case H4:
-		case H5:
-		case H6:
-			buffer.setLength(0);
-			href = null;
-			handleStartOfHeading(current, attributes);
-			break;
-		case META:
-			handleMeta(attributes);
-			break;
-		case SPAN:
-			// TODO 20120124 (jharty): We need to handle page numbers at some
-			// point.
-			break;
-		default:
-			// do nothing for now for unmatched elements
-			break;
-		}
-	}
+        switch (current) {
+        case A:
+            handleAnchor(attributes);
+            break;
+        case H1:
+        case H2:
+        case H3:
+        case H4:
+        case H5:
+        case H6:
+            buffer.setLength(0);
+            href = null;
+            handleStartOfHeading(current, attributes);
+            break;
+        case META:
+            handleMeta(attributes);
+            break;
+        case SPAN:
+            // TODO 20120124 (jharty): We need to handle page numbers at some
+            // point.
+            break;
+        default:
+            // do nothing for now for unmatched elements
+            break;
+        }
+    }
 
-	private void handleAnchor(Attributes attributes) {
-		href = ParserUtilities.getValueForName("href", attributes);
-	}
+    private void handleAnchor(Attributes attributes) {
+        href = ParserUtilities.getValueForName("href", attributes);
+    }
 
-	private void handleStartOfHeading(Element heading, Attributes attributes) {
-		// Create the new header
-		DaisySection.Builder builder = new DaisySection.Builder();
-		builder.setId(getId(attributes));
-		builder.setLevel(levelMap.get(heading));
+    private void handleStartOfHeading(Element heading, Attributes attributes) {
+        // Create the new header
+        DaisySection.Builder builder = new DaisySection.Builder();
+        builder.setId(getId(attributes));
+        builder.setLevel(levelMap.get(heading));
 
-		attachParents(levelMap.get(heading));
-		headingStack.push(builder);
-	}
+        attachParents(levelMap.get(heading));
+        headingStack.push(builder);
+    }
 
-	private void attachParents(Integer level) {
-		if (headingStack.empty()) {
-			return;
-		}
-		Builder parent = headingStack.peek();
-		if (parent.getLevel() >= level) {
-			attachSectionToParent();
-		} else {
-			return;
-		}
-		attachParents(level);
+    private void attachParents(Integer level) {
+        if (headingStack.empty()) {
+            return;
+        }
+        Builder parent = headingStack.peek();
+        if (parent.getLevel() >= level) {
+            attachSectionToParent();
+        } else {
+            return;
+        }
+        attachParents(level);
 
-	}
+    }
 
-	private void attachSectionToParent() {
-		DaisySection.Builder sibblingBuilder = headingStack.pop();
-		Section sibbling = sibblingBuilder.build();
-		if (headingStack.empty()) {
-			bookBuilder.addSection(sibbling);
-		} else {
-			headingStack.peek().addSection(sibbling);
-		}
-	}
+    private void attachSectionToParent() {
+        DaisySection.Builder sibblingBuilder = headingStack.pop();
+        Section sibbling = sibblingBuilder.build();
+        if (headingStack.empty()) {
+            bookBuilder.addSection(sibbling);
+        } else {
+            headingStack.peek().addSection(sibbling);
+        }
+    }
 
-	private String getId(Attributes attributes) {
-		return ParserUtilities.getValueForName("id", attributes);
-	}
+    private String getId(Attributes attributes) {
+        return ParserUtilities.getValueForName("id", attributes);
+    }
 
-	@Override
-	public void characters(char[] ch, int start, int length) throws SAXException {
-		super.characters(ch, start, length);
-		buffer.append(ch, start, length);
-	}
+    @Override
+    public void characters(char[] ch, int start, int length) throws SAXException {
+        super.characters(ch, start, length);
+        buffer.append(ch, start, length);
+    }
 
-	@Override
-	public void endElement(String uri, String localName, String name) throws SAXException {
+    @Override
+    public void endElement(String uri, String localName, String name) throws SAXException {
 
-		// add current element type to the book model.
-		current = elementMap.get(ParserUtilities.getName(localName, name));
-		if (current == null) {
-			return;
-		}
+        // add current element type to the book model.
+        current = elementMap.get(ParserUtilities.getName(localName, name));
+        if (current == null) {
+            return;
+        }
 
-		switch (current) {
-		case H1:
-		case H2:
-		case H3:
-		case H4:
-		case H5:
-		case H6:
-			handleEndOfHeading(current);
-			break;
-		case HTML:
-			while (!headingStack.empty()) {
-				attachSectionToParent();
-			}
-			break;
-		default:
-			break;
-		}
-	}
+        switch (current) {
+        case H1:
+        case H2:
+        case H3:
+        case H4:
+        case H5:
+        case H6:
+            handleEndOfHeading(current);
+            break;
+        case HTML:
+            while (!headingStack.empty()) {
+                attachSectionToParent();
+            }
+            break;
+        default:
+            break;
+        }
+    }
 
-	private void handleEndOfHeading(Element current) {
-		Builder currentBuilder = headingStack.peek();
-		int levelOnStack = currentBuilder.getLevel();
-		Integer currentLevel = levelMap.get(current);
-		if (levelOnStack != currentLevel) {
-			throw new IllegalStateException(String.format(
-					"Expected the same level as [%s] found [%s]", currentLevel, levelOnStack,
-					currentBuilder));
-		}
+    private void handleEndOfHeading(Element current) {
+        Builder currentBuilder = headingStack.peek();
+        int levelOnStack = currentBuilder.getLevel();
+        Integer currentLevel = levelMap.get(current);
+        if (levelOnStack != currentLevel) {
+            throw new IllegalStateException(String.format(
+                    "Expected the same level as [%s] found [%s]", currentLevel, levelOnStack,
+                    currentBuilder));
+        }
 
-		currentBuilder.setTitle(buffer.toString());
-		if (href != null) {
-			currentBuilder.setHref(href);
-		}
-	}
+        currentBuilder.setTitle(buffer.toString());
+        if (href != null) {
+            currentBuilder.setHref(href);
+        }
+    }
 
-	private void handleMeta(Attributes attributes) {
-		String metaName = null;
-		String content = null;
-		String scheme = null;
+    private void handleMeta(Attributes attributes) {
+        String metaName = null;
+        String content = null;
+        String scheme = null;
 
-		for (int i = 0; i < attributes.getLength(); i++) {
-			String name = attributes.getLocalName(i);
-			// The following code fixes the failure in travis-ci. Newer parsers
-			// don't return data for getLocalName. Instead they return the 
-			// Qualified Name. 
+        for (int i = 0; i < attributes.getLength(); i++) {
+            String name = attributes.getLocalName(i);
+            // The following code fixes the failure in travis-ci. Newer parsers
+            // don't return data for getLocalName. Instead they return the
+            // Qualified Name.
             if (name.length() == 0) {
                 name = attributes.getQName(i);
             }
-            
-			if (name.equalsIgnoreCase("name") || name.equalsIgnoreCase("Content-type")) {
-				metaName = attributes.getValue(i);
-			}
 
-			if (name.equalsIgnoreCase("content")) {
-				content = attributes.getValue(i);
-			}
+            if (name.equalsIgnoreCase("name") || name.equalsIgnoreCase("Content-type")) {
+                metaName = attributes.getValue(i);
+            }
 
-			if (name.equalsIgnoreCase("scheme")) {
-				scheme = attributes.getValue(i);
-			}
-		}
+            if (name.equalsIgnoreCase("content")) {
+                content = attributes.getValue(i);
+            }
 
-		Meta meta = metaMap.get(metaName);
-		if (meta == null) {
-			return;
-		}
+            if (name.equalsIgnoreCase("scheme")) {
+                scheme = attributes.getValue(i);
+            }
+        }
 
-		switch (meta) {
-		case DATE:
-			Date date = parseDate(content, scheme);
-			bookBuilder.setDate(date);
-			break;
-		case TITLE:
-			bookBuilder.setTitle(content);
-			break;
-		// Added by Logigear to resolve case: the daisy book is not audio.
-		// Date: Jun-13-2013
-		case TOTALTIME:
-			bookBuilder.setTotalTime(content);
-			break;
-		case CREATOR:
-			bookBuilder.setCreator(content);
-			break;
-		case PUBLISHER:
-			bookBuilder.setPublisher(content);
-			break;
+        Meta meta = metaMap.get(metaName);
+        if (meta == null) {
+            return;
+        }
 
-		default:
-			// this handles null (apparently :)
-		}
-	}
+        switch (meta) {
+        case DATE:
+            Date date = parseDate(content, scheme);
+            bookBuilder.setDate(date);
+            break;
+        case TITLE:
+            bookBuilder.setTitle(content);
+            break;
+        // Added by Logigear to resolve case: the daisy book is not audio.
+        // Date: Jun-13-2013
+        case TOTALTIME:
+            bookBuilder.setTotalTime(content);
+            break;
+        case CREATOR:
+            bookBuilder.setCreator(content);
+            break;
+        case PUBLISHER:
+            bookBuilder.setPublisher(content);
+            break;
 
-	private Date parseDate(String content, String scheme) {
-		String format;
+        default:
+            // this handles null (apparently :)
+        }
+    }
 
-		if (scheme == null) {
-			// Assume this structure, see
-			// http://www.daisy.org/z3986/specifications/daisy_202.html#dtbclass
-			// Note: Java uses MM for month, unlike ISO8601
-			format = "yyyy-MM-dd";
-		} else {
-			format = scheme.replaceAll("m", "M");
-		}
+    private Date parseDate(String content, String scheme) {
+        String format;
 
-		DateFormat formatter = new SimpleDateFormat(format);
-		try {
-			return formatter.parse(content);
-		} catch (ParseException pe) {
-			throw new IllegalArgumentException(String.format(
-					"Problem parsing the date[%s] using scheme [%s]", content, scheme), pe);
-		}
+        if (scheme == null) {
+            // Assume this structure, see
+            // http://www.daisy.org/z3986/specifications/daisy_202.html#dtbclass
+            // Note: Java uses MM for month, unlike ISO8601
+            format = "yyyy-MM-dd";
+        } else {
+            format = scheme.replaceAll("m", "M");
+        }
 
-	}
+        DateFormat formatter = new SimpleDateFormat(format);
+        try {
+            return formatter.parse(content);
+        } catch (ParseException pe) {
+            throw new IllegalArgumentException(String.format(
+                    "Problem parsing the date[%s] using scheme [%s]", content, scheme), pe);
+        }
 
-	public DaisyBook build() {
-		return bookBuilder.build();
-	}
+    }
 
-	public static DaisyBook readFromFile(File file) throws IOException {
-		InputStream contents = new BufferedInputStream(new FileInputStream(file));
-		String encoding = obtainEncodingStringFromInputStream(contents);
-		encoding = mapUnsupportedEncoding(encoding);
-		return readFromStream(contents, encoding);
-	}
+    public DaisyBook build() {
+        return bookBuilder.build();
+    }
 
-	public static DaisyBook readFromStream(InputStream contents) throws IOException {
-		String encoding = obtainEncodingStringFromInputStream(contents);
-		encoding = mapUnsupportedEncoding(encoding);
-		return readFromStream(contents, encoding);
+    public static DaisyBook readFromFile(File file) throws IOException {
+        InputStream contents = new BufferedInputStream(new FileInputStream(file));
+        String encoding = obtainEncodingStringFromInputStream(contents);
+        encoding = mapUnsupportedEncoding(encoding);
+        return readFromStream(contents, encoding);
+    }
 
-	}
+    public static DaisyBook readFromStream(InputStream contents) throws IOException {
+        String encoding = obtainEncodingStringFromInputStream(contents);
+        encoding = mapUnsupportedEncoding(encoding);
+        return readFromStream(contents, encoding);
 
-	public static DaisyBook readFromStream(InputStream contents, String encoding)
-			throws IOException {
-		SAXParserFactory factory = SAXParserFactory.newInstance();
-		NccSpecification specification = new NccSpecification();
-		try {
-			XMLReader saxParser = factory.newSAXParser().getXMLReader();
-			saxParser.setEntityResolver(XmlUtilities.dummyEntityResolver());
-			saxParser.setContentHandler(specification);
-			InputSource input = new InputSource(contents);
-			input.setEncoding(encoding);
-			saxParser.parse(input);
-			return specification.build();
+    }
 
-		} catch (Exception e) {
-			throw new IOException("Couldn't parse the ncc.html contents.", e);
-		}
-	}
+    public static DaisyBook readFromStream(InputStream contents, String encoding)
+            throws IOException {
+        SAXParserFactory factory = SAXParserFactory.newInstance();
+        NccSpecification specification = new NccSpecification();
+        try {
+            XMLReader saxParser = factory.newSAXParser().getXMLReader();
+            saxParser.setEntityResolver(XmlUtilities.dummyEntityResolver());
+            saxParser.setContentHandler(specification);
+            InputSource input = new InputSource(contents);
+            input.setEncoding(encoding);
+            saxParser.parse(input);
+            return specification.build();
+
+        } catch (Exception e) {
+            throw new IOException("Couldn't parse the ncc.html contents.", e);
+        }
+    }
 
 }

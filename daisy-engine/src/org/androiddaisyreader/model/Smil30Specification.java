@@ -1,6 +1,5 @@
 package org.androiddaisyreader.model;
 
-import static org.androiddaisyreader.model.XmlUtilities.mapUnsupportedEncoding;
 import static org.androiddaisyreader.model.XmlUtilities.obtainEncodingStringFromInputStream;
 
 import java.io.IOException;
@@ -10,13 +9,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import javax.xml.parsers.ParserConfigurationException;
-import javax.xml.parsers.SAXParserFactory;
-
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.xml.sax.Attributes;
-import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 import org.xml.sax.XMLReader;
 import org.xml.sax.helpers.DefaultHandler;
@@ -60,26 +55,15 @@ public class Smil30Specification extends DefaultHandler {
      * @return The parts discovered in the contents.
      */
     public static Part[] getParts(BookContext context, InputStream contents) {
-        SAXParserFactory factory = SAXParserFactory.newInstance();
         Smil30Specification smil = new Smil30Specification(context);
         try {
-            XMLReader saxParser;
-            saxParser = factory.newSAXParser().getXMLReader();
-            saxParser.setEntityResolver(XmlUtilities.dummyEntityResolver());
+            XMLReader saxParser = Smil.getSaxParser();
             saxParser.setContentHandler(smil);
-            InputSource input = new InputSource(contents);
-
-            String encoding = obtainEncodingStringFromInputStream(contents);
-            encoding = mapUnsupportedEncoding(encoding);
-            input.setEncoding(encoding);
-
-            saxParser.parse(input);
+            saxParser.parse(Smil.getInputSource(contents));
             contents.close();
             return smil.getParts();
 
         } catch (SAXException e) {
-            throw new RuntimeException(e);
-        } catch (ParserConfigurationException e) {
             throw new RuntimeException(e);
         } catch (IOException e) {
             throw new RuntimeException(e);

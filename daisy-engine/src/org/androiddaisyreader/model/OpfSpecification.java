@@ -5,18 +5,12 @@ import static org.androiddaisyreader.model.XmlUtilities.obtainEncodingStringFrom
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.text.DateFormat;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import javax.xml.parsers.SAXParserFactory;
-
 import org.xml.sax.Attributes;
-import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 import org.xml.sax.XMLReader;
 import org.xml.sax.helpers.DefaultHandler;
@@ -52,57 +46,10 @@ public class OpfSpecification extends DefaultHandler {
         }
     }
 
-    private enum Meta {
-        TITLE {
-            @Override
-            public String toString() {
-                return "dc:title";
-            }
-        },
-        CREATOR {
-            @Override
-            public String toString() {
-                return "dc:creator";
-            }
-        },
-        LANGUAGE {
-            @Override
-            public String toString() {
-                return "dc:language";
-            }
-        },
-        CHARACTERSET {
-            @Override
-            public String toString() {
-                return "ncc:charset";
-            }
-        },
-        DATE {
-            @Override
-            public String toString() {
-                return "dc:date";
-            }
-        },
-        // Added by Logigear to resolve case: the daisy book is not audio.
-        // Date: Jun-13-2013
-        TOTALTIME {
-            @Override
-            public String toString() {
-                return "ncc:totalTime";
-            }
-        },
-        PUBLISHER {
-            @Override
-            public String toString() {
-                return "dc:publisher";
-            }
-        }
-        // Add more enums as we need them.
-    }
-
-    private static Map<String, Meta> metaMap = new HashMap<String, Meta>(Meta.values().length);
+    private static Map<String, Smil.Meta> metaMap = new HashMap<String, Smil.Meta>(
+            Smil.Meta.values().length);
     static {
-        for (Meta m : Meta.values()) {
+        for (Smil.Meta m : Smil.Meta.values()) {
             metaMap.put(m.toString(), m);
         }
     }
@@ -193,14 +140,14 @@ public class OpfSpecification extends DefaultHandler {
 
     private void handleMetadata(String tagName) {
         String content = buffer.toString();
-        Meta meta = metaMap.get(tagName.toLowerCase());
+        Smil.Meta meta = metaMap.get(tagName.toLowerCase());
 
         if (meta == null) {
             return;
         }
         switch (meta) {
         case DATE:
-            Date date = parseDate(content, null);
+            Date date = Smil.parseDate(content, null);
             bookBuilder.setDate(date);
             break;
         case TITLE:
@@ -252,28 +199,6 @@ public class OpfSpecification extends DefaultHandler {
 
     }
 
-    private Date parseDate(String content, String scheme) {
-        String format;
-
-        if (scheme == null) {
-            // Assume this structure, see
-            // http://www.daisy.org/z3986/specifications/daisy_202.html#dtbclass
-            // Note: Java uses MM for month, unlike ISO8601
-            format = "yyyy-MM-dd";
-        } else {
-            format = scheme.replaceAll("m", "M");
-        }
-
-        DateFormat formatter = new SimpleDateFormat(format);
-        try {
-            return formatter.parse(content);
-        } catch (ParseException pe) {
-            throw new IllegalArgumentException(String.format(
-                    "Problem parsing the date[%s] using scheme [%s]", content, scheme), pe);
-        }
-
-    }
-
     public DaisyBook build() {
         return bookBuilder.build();
     }
@@ -288,15 +213,12 @@ public class OpfSpecification extends DefaultHandler {
 
     public static DaisyBook readFromStream(InputStream contents, String encoding,
             BookContext bookContext) throws IOException {
-        SAXParserFactory factory = SAXParserFactory.newInstance();
         OpfSpecification specification = new OpfSpecification(bookContext);
         try {
-            XMLReader saxParser = factory.newSAXParser().getXMLReader();
-            saxParser.setEntityResolver(XmlUtilities.dummyEntityResolver());
+            XMLReader saxParser = Smil.getSaxParser();
             saxParser.setContentHandler(specification);
-            InputSource input = new InputSource(contents);
-            input.setEncoding(encoding);
-            saxParser.parse(input);
+            saxParser.parse(Smil.getInputSource(contents));
+            contents.close();
             return specification.build();
 
         } catch (Exception e) {

@@ -9,15 +9,13 @@ import java.io.InputStream;
 public class FileSystemContext implements BookContext {
     // TODO 20120214 (jharty): use more general
     private String directoryName;
-    // uri rather than assuming files.
-    private File directory;
 
     protected FileSystemContext() {
         // Do nothing.
     }
 
     public FileSystemContext(String directoryName) {
-        directory = new File(directoryName);
+        File directory = new File(directoryName);
         if (!directory.isDirectory()) {
             throw new IllegalStateException("A valid directory is required");
         }

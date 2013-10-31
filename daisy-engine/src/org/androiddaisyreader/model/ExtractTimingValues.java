@@ -89,7 +89,7 @@ public class ExtractTimingValues {
      */
     static int extractTimingAsMilliSeconds(String elementName, Attributes attributes,
             int daisyFormat) {
-        final int CONVERT_TO_SECOND = 1000;
+        final int convertToSecond = 1000;
         Double temp = getExtractTiming(elementName, attributes, daisyFormat);
         DecimalFormat milliseconds = new DecimalFormat("###.###");
 
@@ -105,10 +105,10 @@ public class ExtractTimingValues {
         }
 
         if (values.length == 1) {
-            return Integer.parseInt(values[0]) * CONVERT_TO_SECOND;
+            return Integer.parseInt(values[0]) * convertToSecond;
         }
 
-        return Integer.parseInt(values[0]) * CONVERT_TO_SECOND + extractMilliSeconds(values[1]);
+        return Integer.parseInt(values[0]) * convertToSecond + extractMilliSeconds(values[1]);
     }
 
     /**
@@ -173,10 +173,10 @@ public class ExtractTimingValues {
      * @return the value as a double
      */
     private static double parseToMilliseconds(String hours, String minutes, String seconds) {
-        final int NUMBER_CONVERT_TO_MINUTE = 60;
-        final int NUMBER_CONVERT_TO_HOUR = 3600;
-        double result = (Double.parseDouble(hours) * NUMBER_CONVERT_TO_HOUR)
-                + (Double.parseDouble(minutes) * NUMBER_CONVERT_TO_MINUTE)
+        final int convertToMinute = 60;
+        final int convertToHour = 3600;
+        double result = (Double.parseDouble(hours) * convertToHour)
+                + (Double.parseDouble(minutes) * convertToMinute)
                 + Double.parseDouble(seconds);
         return result;
     }

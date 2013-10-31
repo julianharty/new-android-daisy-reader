@@ -219,29 +219,10 @@ public class Smil10Specification extends DefaultHandler {
     }
 
     private void handleMeta(Attributes attributes) {
-        String metaName = null;
-
-        for (int i = 0; i < attributes.getLength(); i++) {
-            String name = attributes.getLocalName(i);
-            if (name.equalsIgnoreCase("name")) {
-                metaName = attributes.getValue(i);
-            }
-
-            if (name.equalsIgnoreCase("content")) {
-            }
-        }
-
+        String metaName = Smil.handleMeta(attributes);
         Meta meta = metaMap.get(metaName);
         if (meta == null) {
             return;
-        }
-
-        switch (meta) {
-        case FORMAT:
-            // TODO 20120207 (jharty): store the format.
-            break;
-        default:
-            break;
         }
     }
 

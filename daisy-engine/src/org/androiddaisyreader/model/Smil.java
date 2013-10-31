@@ -13,6 +13,7 @@ import java.util.Date;
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.parsers.SAXParserFactory;
 
+import org.xml.sax.Attributes;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 import org.xml.sax.XMLReader;
@@ -134,7 +135,20 @@ public class Smil {
             throw new IllegalArgumentException(String.format(
                     "Problem parsing the date[%s] using scheme [%s]", content, scheme), pe);
         }
-
     }
 
+    public static String handleMeta(Attributes attributes) {
+        String metaName = null;
+
+        for (int i = 0; i < attributes.getLength(); i++) {
+            String name = attributes.getLocalName(i);
+            if (name.equalsIgnoreCase("name")) {
+                metaName = attributes.getValue(i);
+            }
+
+            if (name.equalsIgnoreCase("content")) {
+            }
+        }
+        return metaName;
+    }
 }

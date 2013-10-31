@@ -153,7 +153,6 @@ public class Smil30Specification extends DefaultHandler {
         newPart();
         String id = ParserUtilities.getValueForName("id", attributes);
         partBuilder.setId(id);
-
         if (getClass(attributes) != null && getClass(attributes).equals("prodnote")) {
             isProdNote = true;
         }
@@ -181,7 +180,7 @@ public class Smil30Specification extends DefaultHandler {
 
         // We need to create the jsoup document if it's not initialised, or if
         // the filename has changed (which means the contents are no longer
-        // valid).
+        // valid.
         if (doc == null || !uri.equalsIgnoreCase(currentContentsFilename)) {
             try {
                 InputStream contents = context.getResource(uri);
@@ -229,29 +228,10 @@ public class Smil30Specification extends DefaultHandler {
     }
 
     private void handleMeta(Attributes attributes) {
-        String metaName = null;
-
-        for (int i = 0; i < attributes.getLength(); i++) {
-            String name = attributes.getLocalName(i);
-            if (name.equalsIgnoreCase("name")) {
-                metaName = attributes.getValue(i);
-            }
-
-            if (name.equalsIgnoreCase("content")) {
-            }
-        }
-
+        String metaName = Smil.handleMeta(attributes);
         Meta meta = metaMap.get(metaName);
         if (meta == null) {
             return;
-        }
-
-        switch (meta) {
-        case FORMAT:
-            // TODO 20120207 (jharty): store the format.
-            break;
-        default:
-            break;
         }
     }
 

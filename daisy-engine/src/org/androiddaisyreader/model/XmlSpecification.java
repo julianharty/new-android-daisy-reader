@@ -145,7 +145,6 @@ public class XmlSpecification extends DefaultHandler {
         case LEVEL4:
         case LEVEL5:
         case LEVEL6:
-            handleEndOfHeading();
             break;
         default:
             break;
@@ -157,10 +156,6 @@ public class XmlSpecification extends DefaultHandler {
             model.setText(buffer.toString());
         }
         listModel.add(model);
-    }
-
-    private void handleEndOfHeading() {
-        // listModel.add(model);
     }
 
     private List<XmlModel> build() {

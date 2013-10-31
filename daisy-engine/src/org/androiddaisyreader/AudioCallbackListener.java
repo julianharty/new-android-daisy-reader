@@ -9,5 +9,5 @@ public interface AudioCallbackListener {
     /**
      * Called when the current audio track has ended.
      */
-    public void endOfAudio();
+    void endOfAudio();
 }

@@ -19,14 +19,14 @@ public interface NavigationListener {
      * 
      * If there are no suitable elements, fire an AT_END event.
      */
-    public void next();
+    void next();
 
     /**
      * Navigate to the previous logical element of the book.
      * 
      * If there are no suitable elements, fire an AT_START event.
      */
-    public void previous();
+    void previous();
 
     /**
      * GoTo a specified location in the book.
@@ -36,7 +36,7 @@ public interface NavigationListener {
      * 
      * @param location The location to go to.
      */
-    public void goTo(LocationInBook location);
+    void goTo(LocationInBook location);
 
     // TODO 20120220 (jharty): do we need to pass in a listener when
     // instantiating this interface?
@@ -44,5 +44,5 @@ public interface NavigationListener {
     // Also do we need to allow the caller to specify the DAISY level they want
     // to use as a filter?
 
-    public NavigationListener build(NavigationEventListener navigationEventListener);
+    NavigationListener build(NavigationEventListener navigationEventListener);
 }

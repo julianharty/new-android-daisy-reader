@@ -137,6 +137,12 @@ public class Smil {
         }
     }
 
+    /**
+     * Handle meta.
+     * 
+     * @param attributes the attributes
+     * @return the string
+     */
     public static String handleMeta(Attributes attributes) {
         String metaName = null;
 

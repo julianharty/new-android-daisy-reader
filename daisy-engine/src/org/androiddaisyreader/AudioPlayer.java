@@ -12,14 +12,14 @@ public interface AudioPlayer extends VolumeControlListener {
      * 
      * @param listener
      */
-    public void addCallbackListener(AudioCallbackListener listener);
+    void addCallbackListener(AudioCallbackListener listener);
 
     /**
      * Get details of the current Audio segment.
      * 
      * @return the Audio object containing details of the current segment.
      */
-    public Audio getCurrentSegment();
+    Audio getCurrentSegment();
 
     /**
      * Get the internal state of the player.
@@ -28,26 +28,26 @@ public interface AudioPlayer extends VolumeControlListener {
      * 
      * @return the state of the model representing the audio player.
      */
-    public AudioPlayerState getInternalPlayerState();
+    AudioPlayerState getInternalPlayerState();
 
     /**
      * Start playing the audio.
      */
-    public void play();
+    void play();
 
     /**
      * Seek To a new location in the current audio file.
      * 
      * @param newTimeInMilliseconds The new time offset to use.
      */
-    public void seekTo(int newTimeInMilliseconds);
+    void seekTo(int newTimeInMilliseconds);
 
     /**
      * Sets the player to use this audio segment.
      * 
      * @param audioSegment we want the player to play.
      */
-    public void setCurrentSegment(Audio audioSegment);
+    void setCurrentSegment(Audio audioSegment);
 
     /**
      * Set the internal player state.
@@ -57,6 +57,6 @@ public interface AudioPlayer extends VolumeControlListener {
      * 
      * @param audioState the new state to set the model to.
      */
-    public void setInternalPlayerState(AudioPlayerState audioState);
+    void setInternalPlayerState(AudioPlayerState audioState);
 
 }

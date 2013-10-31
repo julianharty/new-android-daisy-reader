@@ -24,7 +24,7 @@ public interface BookContext {
      * @throws IOException if the resource is not found or other problems
      *             related to obtaining the contents.
      */
-    public InputStream getResource(String uri) throws IOException;
+    InputStream getResource(String uri) throws IOException;
 
     /**
      * Obtain the base URI for the Book's Context. e.g. the directory name or
@@ -32,6 +32,6 @@ public interface BookContext {
      * 
      * @return the base URI, or null if none is available/relevant.
      */
-    public String getBaseUri();
+    String getBaseUri();
 
 }

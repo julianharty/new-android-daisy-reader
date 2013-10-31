@@ -1,9 +1,9 @@
 package org.androiddaisyreader;
 
 public interface VolumeControlListener {
-    public void increaseVolume();
+    void increaseVolume();
 
-    public void decreaseVolume();
+    void decreaseVolume();
 
-    public void toggleMute();
+    void toggleMute();
 }

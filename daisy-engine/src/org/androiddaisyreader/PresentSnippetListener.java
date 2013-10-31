@@ -7,5 +7,5 @@ public interface PresentSnippetListener {
      * 
      * @param section
      */
-    public void present(TextSection section);
+    void present(TextSection section);
 }

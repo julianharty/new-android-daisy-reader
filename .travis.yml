@@ -6,7 +6,7 @@ before_install:
   - wget http://dl.google.com/android/android-sdk_r18-linux.tgz
   - tar -zxf android-sdk_r18-linux.tgz
   - export ANDROID_HOME=`pwd`/android-sdk-linux
-  - export PATH=${PATH}:${ANDROID_HOME}/tools:${ANDROID_HOME}/platform-tools:${ANDROID_HOME}/build-tools/18.1.1
+  - export PATH=${PATH}:${ANDROID_HOME}/tools:${ANDROID_HOME}/platform-tools:${ANDROID_HOME}/build-tools/18.0.1
   # only update the sdk for the tools and platform-tools (1,2) and whatever api level
   # you are building for android (run "android list sdk" to get the full list.  9 = 2.3.3 or API level 10
   - android update sdk --filter 1,2,8,9 --no-ui --force
@@ -22,8 +22,8 @@ before_script:
   - ls -la  android-sdk-linux
   - ls -la  android-sdk-linux/platform-tools
   - ls -laR android-sdk-linux/build-tools/
-  - ls -laR android-sdk-linux/build-tools/18.1.1/
-  - ls -la  android-sdk-linux/build-tools/18.1.1/aapt
+  #- ls -laR android-sdk-linux/build-tools/18.1.1/
+  #- ls -la  android-sdk-linux/build-tools/18.1.1/aapt
   # Just see if aapt can be run now it's been installed
   - file ./android-sdk-linux/build-tools/18.1.1/aapt
 script: "./buildstuff.sh"

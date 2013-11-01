@@ -36,6 +36,7 @@ import java.net.Socket;
 import java.net.URI;
 import java.net.URL;
 import java.nio.channels.Selector;
+import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -1777,7 +1778,7 @@ public class IOUtils {
      * @since 1.1
      */
     public static void copy(Reader input, OutputStream output) throws IOException {
-        OutputStreamWriter out = new OutputStreamWriter(output);
+        OutputStreamWriter out = new OutputStreamWriter(output, Charset.forName("UTF-8"));
         copy(input, out);
         // XXX Unless anyone is planning on rewriting OutputStreamWriter, we
         // have to flush here.
@@ -1873,19 +1874,19 @@ public class IOUtils {
      */
     public static boolean contentEquals(Reader input1, Reader input2) throws IOException {
 
-        input1 = toBufferedReader(input1);
-        input2 = toBufferedReader(input2);
+        Reader readerInput1 = toBufferedReader(input1);
+        Reader readerInput2 = toBufferedReader(input2);
 
-        int ch = input1.read();
+        int ch = readerInput1.read();
         while (EOF != ch) {
-            int ch2 = input2.read();
+            int ch2 = readerInput2.read();
             if (ch != ch2) {
                 return false;
             }
-            ch = input1.read();
+            ch = readerInput1.read();
         }
 
-        int ch2 = input2.read();
+        int ch2 = readerInput2.read();
         return ch2 == EOF;
     }
 

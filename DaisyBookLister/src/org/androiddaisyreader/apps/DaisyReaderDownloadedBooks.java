@@ -105,13 +105,11 @@ public class DaisyReaderDownloadedBooks extends DaisyEbookReaderBaseActivity {
         @Override
         public void onItemClick(AdapterView<?> arg0, View arg1, int arg2, long arg3) {
             speakText(mlistDaisyBook.get(arg2).getTitle());
-
             final DaisyBookInfo daisyBook = mlistDaisyBook.get(arg2);
             boolean isDoubleTap = handleClickItem(arg2);
             if (isDoubleTap) {
                 // add to sqlite
                 DaisyBookUtil.addRecentBookToSQLite(daisyBook, mNumberOfRecentBooks, mSql);
-
                 // push to reader activity
                 IntentController intentController = new IntentController(
                         DaisyReaderDownloadedBooks.this);

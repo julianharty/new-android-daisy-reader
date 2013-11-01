@@ -36,7 +36,6 @@ import com.bugsense.trace.BugSenseHandler;
 public class DaisyEbookReaderBaseActivity extends SherlockActivity implements OnClickListener,
         TextToSpeech.OnInitListener {
     protected TextToSpeech mTts;
-    // in millis
     private static final long DOUBLE_PRESS_INTERVAL = 1000;
     private static final long DELAY_MILLIS = 500;
     private static long lastPressTime;

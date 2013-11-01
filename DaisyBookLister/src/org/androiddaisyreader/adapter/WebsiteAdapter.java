@@ -75,22 +75,22 @@ public class WebsiteAdapter extends BaseAdapter {
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         final ViewItem item;
-
-        if (convertView == null) {
-            convertView = mInflater.inflate(R.layout.item_website, null);
+        View view = convertView;
+        if (view == null) {
+            view = mInflater.inflate(R.layout.item_website, null);
             item = new ViewItem();
-            item.txtWebsiteName = (TextView) convertView.findViewById(R.id.text_website_name);
-            item.txtWebsiteURL = (TextView) convertView.findViewById(R.id.text_website_url);
-            convertView.setTag(item);
+            item.txtWebsiteName = (TextView) view.findViewById(R.id.text_website_name);
+            item.txtWebsiteURL = (TextView) view.findViewById(R.id.text_website_url);
+            view.setTag(item);
         } else {
-            item = (ViewItem) convertView.getTag();
+            item = (ViewItem) view.getTag();
         }
 
         final Website curWebsite = listWebsite.get(position);
         item.txtWebsiteName.setText(curWebsite.getSiteName());
         item.txtWebsiteURL.setText(curWebsite.getSiteURL());
 
-        return convertView;
+        return view;
     }
 
     /**

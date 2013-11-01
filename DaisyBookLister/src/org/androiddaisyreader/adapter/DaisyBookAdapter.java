@@ -25,20 +25,21 @@ public class DaisyBookAdapter extends ArrayAdapter<DaisyBookInfo> {
     @Override
     public View getView(final int position, View convertView, ViewGroup parent) {
         final ViewItem item;
-        if (convertView == null) {
-            convertView = mVi.inflate(R.layout.item_book, null);
+        View view = convertView;
+        if (view == null) {
+            view = mVi.inflate(R.layout.item_book, null);
             item = new ViewItem();
-            item.txtBookTitle = (TextView) convertView.findViewById(R.id.daisy_book_title);
-            item.txtBookAuthor = (TextView) convertView.findViewById(R.id.daisy_book_author);
-            item.txtBookDate = (TextView) convertView.findViewById(R.id.daisy_book_date);
-            item.txtBookPublisher = (TextView) convertView.findViewById(R.id.daisy_book_publisher);
-            item.viewBookAuthor = (View) convertView.findViewById(R.id.daisy_book_view_author);
-            item.viewBookDate = (View) convertView.findViewById(R.id.daisy_book_view_date);
-            item.viewBookPublisher = (View) convertView
+            item.txtBookTitle = (TextView) view.findViewById(R.id.daisy_book_title);
+            item.txtBookAuthor = (TextView) view.findViewById(R.id.daisy_book_author);
+            item.txtBookDate = (TextView) view.findViewById(R.id.daisy_book_date);
+            item.txtBookPublisher = (TextView) view.findViewById(R.id.daisy_book_publisher);
+            item.viewBookAuthor = (View) view.findViewById(R.id.daisy_book_view_author);
+            item.viewBookDate = (View) view.findViewById(R.id.daisy_book_view_date);
+            item.viewBookPublisher = (View) view
                     .findViewById(R.id.daisy_book_view_publisher);
-            convertView.setTag(item);
+            view.setTag(item);
         } else {
-            item = (ViewItem) convertView.getTag();
+            item = (ViewItem) view.getTag();
         }
 
         DaisyBookInfo curDaisyBook = mListDaisyBook.get(position);
@@ -81,7 +82,7 @@ public class DaisyBookAdapter extends ArrayAdapter<DaisyBookInfo> {
             item.viewBookPublisher.setVisibility(View.GONE);
         }
 
-        return convertView;
+        return view;
     }
 
     private class ViewItem {

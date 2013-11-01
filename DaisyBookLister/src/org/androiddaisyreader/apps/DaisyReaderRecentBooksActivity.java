@@ -90,7 +90,7 @@ public class DaisyReaderRecentBooksActivity extends DaisyEbookReaderBaseActivity
         deleteCurrentInformation();
         speakText(getString(R.string.title_activity_daisy_reader_recent_book));
         mListRecentBooks = loadRecentBooks();
-        mListRecentBookOriginal = new ArrayList<DaisyBookInfo>(loadRecentBooks());
+        mListRecentBookOriginal = new ArrayList<DaisyBookInfo>(mListRecentBooks);
         mDaisyBookAdapter = new DaisyBookAdapter(DaisyReaderRecentBooksActivity.this,
                 mListRecentBooks);
 

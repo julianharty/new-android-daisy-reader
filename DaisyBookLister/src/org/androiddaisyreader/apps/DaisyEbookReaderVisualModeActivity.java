@@ -724,11 +724,17 @@ public class DaisyEbookReaderVisualModeActivity extends DaisyEbookReaderBaseActi
      * open book from path.
      */
     private void openBook() {
-        if (isFormat202) {
-            openBook202();
-        } else {
-            openBook30();
-        }
+    	try {
+    		if (isFormat202) {
+    			openBook202();
+    		} else {
+    			openBook30();
+    		}
+    	} catch (PrivateException e) {
+    		e.showDialogException(mIntentController);
+    		this.finish();
+    	}
+    	
         AndroidAudioPlayer androidAudioPlayer = new AndroidAudioPlayer(mBookContext);
         androidAudioPlayer.addCallbackListener(audioCallbackListener);
         mAudioPlayer = new AudioPlayerController(androidAudioPlayer);
@@ -758,55 +764,51 @@ public class DaisyEbookReaderVisualModeActivity extends DaisyEbookReaderBaseActi
 
     /**
      * Open Daisy book with format 2.02.
+     * @throws PrivateException 
      */
-    private void openBook202() {
-        try {
-            try {
-                InputStream contents;
-                mBookContext = DaisyBookUtil.openBook(mPath);
-                contents = mBookContext.getResource(Constants.FILE_NCC_NAME_NOT_CAPS);
-                mBook = NccSpecification.readFromStream(contents);
-                if (!mBook.hasTotalTime()) {
-                    mIntentController.pushToDialog(getString(R.string.error_wrong_format_audio),
-                            getString(R.string.error_title), R.raw.error, false, false, null);
-                }
+    private void openBook202() throws PrivateException {
 
-            } catch (Exception e) {
-                PrivateException ex = new PrivateException(e,
-                        DaisyEbookReaderVisualModeActivity.this, mPath);
-                throw ex;
-            }
-        } catch (PrivateException e) {
-            e.showDialogException(mIntentController);
-        }
+    	try {
+    		InputStream contents;
+    		mBookContext = DaisyBookUtil.openBook(mPath);
+    		contents = mBookContext.getResource(Constants.FILE_NCC_NAME_NOT_CAPS);
+    		mBook = NccSpecification.readFromStream(contents);
+    		if (!mBook.hasTotalTime()) {
+    			mIntentController.pushToDialog(getString(R.string.error_wrong_format_audio),
+    					getString(R.string.error_title), R.raw.error, false, false, null);
+    		}
+
+    	} catch (Exception e) {
+    		PrivateException ex = new PrivateException(e,
+    				DaisyEbookReaderVisualModeActivity.this, mPath);
+    		throw ex;
+    	}
+
     }
 
     /**
      * Open Daisy book with format 3.0.
+     * @throws PrivateException if there are problems opening the DAISY 3 book.
      */
-    private void openBook30() {
-        try {
-            try {
-                InputStream contents;
-                String opfName = "";
-                if (mPath.endsWith(Constants.SUFFIX_ZIP_FILE)) {
-                    mBookContext = DaisyBookUtil.openBook(mPath);
-                    opfName = DaisyBookUtil.getOpfFileNameInZipFolder(mPath);
-                } else {
-                    opfName = DaisyBookUtil.getOpfFileName(mPath);
-                    mBookContext = DaisyBookUtil.openBook(mPath + File.separator + opfName);
-                }
-                contents = mBookContext.getResource(opfName);
-                mBook = OpfSpecification.readFromStream(contents, mBookContext);
+    private void openBook30() throws PrivateException {
+    	try {
+    		InputStream contents;
+    		String opfName = "";
+    		if (mPath.endsWith(Constants.SUFFIX_ZIP_FILE)) {
+    			mBookContext = DaisyBookUtil.openBook(mPath);
+    			opfName = DaisyBookUtil.getOpfFileNameInZipFolder(mPath);
+    		} else {
+    			opfName = DaisyBookUtil.getOpfFileName(mPath);
+    			mBookContext = DaisyBookUtil.openBook(mPath + File.separator + opfName);
+    		}
+    		contents = mBookContext.getResource(opfName);
+    		mBook = OpfSpecification.readFromStream(contents, mBookContext);
 
-            } catch (Exception e) {
-                PrivateException ex = new PrivateException(e,
-                        DaisyEbookReaderVisualModeActivity.this, mPath);
-                throw ex;
-            }
-        } catch (PrivateException e) {
-            e.showDialogException(mIntentController);
-        }
+    	} catch (Exception e) {
+    		PrivateException ex = new PrivateException(e,
+    				DaisyEbookReaderVisualModeActivity.this, mPath);
+    		throw ex;
+    	}
     }
 
     /**

@@ -5,8 +5,6 @@ import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
 import java.nio.charset.Charset;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.Date;
 
 import org.androiddaisyreader.testutilities.CreateDaisy202Book;
@@ -47,9 +45,7 @@ public class NccSpecificationTest extends TestCase {
     // This is a spike, and intended to be replaced once we integrate this code
     // with the main project.
     public void testReadFromFile() throws IOException {
-        Path path = Paths
-                .get("/sdcard/files-used-for-testing/testfiles/minidaisyaudiobook/ncc.html");
-        File inputFile = new File(path.toString());
+        File inputFile = new File("/sdcard/files-used-for-testing/testfiles/minidaisyaudiobook/ncc.html");
         DaisyBook thingy = NccSpecification.readFromFile(inputFile);
         assertEquals("A mini DAISY book for testing", thingy.getTitle());
 

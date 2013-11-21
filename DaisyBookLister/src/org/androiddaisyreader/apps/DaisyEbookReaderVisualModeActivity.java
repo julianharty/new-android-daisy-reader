@@ -1,7 +1,5 @@
 package org.androiddaisyreader.apps;
 
-import java.io.File;
-import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -19,8 +17,6 @@ import org.androiddaisyreader.model.DaisyBook;
 import org.androiddaisyreader.model.DaisySection;
 import org.androiddaisyreader.model.Navigable;
 import org.androiddaisyreader.model.Navigator;
-import org.androiddaisyreader.model.NccSpecification;
-import org.androiddaisyreader.model.OpfSpecification;
 import org.androiddaisyreader.model.Part;
 import org.androiddaisyreader.model.Section;
 import org.androiddaisyreader.player.AndroidAudioPlayer;
@@ -72,7 +68,6 @@ public class DaisyEbookReaderVisualModeActivity extends DaisyEbookReaderBaseActi
 
     private boolean mIsFirstNext = false;
     private boolean mIsFirstPrevious = true;
-    private BookContext mBookContext;
     private DaisyBook mBook;
     private Navigator mNavigator;
     private Navigator mNavigatorOfTableContents;
@@ -724,31 +719,49 @@ public class DaisyEbookReaderVisualModeActivity extends DaisyEbookReaderBaseActi
      * open book from path.
      */
     private void openBook() {
-    	try {
-    		if (isFormat202) {
-    			openBook202();
-    		} else {
-    			openBook30();
-    		}
-    	} catch (PrivateException e) {
-    		e.showDialogException(mIntentController);
-    		this.finish();
-    	}
-    	
-        AndroidAudioPlayer androidAudioPlayer = new AndroidAudioPlayer(mBookContext);
-        androidAudioPlayer.addCallbackListener(audioCallbackListener);
-        mAudioPlayer = new AudioPlayerController(androidAudioPlayer);
-        mPlayer = androidAudioPlayer.getCurrentPlayer();
-        // get all navigator of book to push to table of contents.
-        mNavigatorOfTableContents = new Navigator(mBook);
-        mNavigator = mNavigatorOfTableContents;
-        if (!isFormat202) {
-            Navigator temp = new Navigator(mBook);
-            listId = new ArrayList<String>();
-            while (temp.hasNext()) {
-                Section n = (Section) temp.next();
-                listId.add(splitHref(n.getHref())[1]);
+        DaisyEbookReaderBaseMode baseMode = new DaisyEbookReaderBaseMode(mPath,
+                DaisyEbookReaderVisualModeActivity.this);
+        try {
+            if (isFormat202) {
+                mBook = baseMode.openBook202();
+                if (!mBook.hasTotalTime()) {
+                    mIntentController.pushToDialog(getString(R.string.error_wrong_format_audio),
+                            getString(R.string.error_title), R.raw.error, false, false, null);
+                }
+                // openBook202();
+            } else {
+                mBook = baseMode.openBook30();
+                mPath = baseMode.getPathExactlyDaisy30(mPath);
+                Navigator temp = new Navigator(mBook);
+                listId = new ArrayList<String>();
+                while (temp.hasNext()) {
+                    Section n = (Section) temp.next();
+                    listId.add(splitHref(n.getHref())[1]);
+                }
+                // openBook30();
             }
+
+            // AndroidAudioPlayer androidAudioPlayer = new
+            // AndroidAudioPlayer(mBookContext);
+            AndroidAudioPlayer androidAudioPlayer = new AndroidAudioPlayer(
+                    baseMode.getBookContext(mPath));
+            androidAudioPlayer.addCallbackListener(audioCallbackListener);
+            mAudioPlayer = new AudioPlayerController(androidAudioPlayer);
+            mPlayer = androidAudioPlayer.getCurrentPlayer();
+            // get all navigator of book to push to table of contents.
+            mNavigatorOfTableContents = new Navigator(mBook);
+            mNavigator = mNavigatorOfTableContents;
+            // if (!isFormat202) {
+            // Navigator temp = new Navigator(mBook);
+            // listId = new ArrayList<String>();
+            // while (temp.hasNext()) {
+            // Section n = (Section) temp.next();
+            // listId.add(splitHref(n.getHref())[1]);
+            // }
+            // }
+        } catch (PrivateException e) {
+            e.showDialogException(mIntentController);
+            this.finish();
         }
     }
 
@@ -760,55 +773,6 @@ public class DaisyEbookReaderVisualModeActivity extends DaisyEbookReaderBaseActi
      */
     private String[] splitHref(String href) {
         return href.split("#");
-    }
-
-    /**
-     * Open Daisy book with format 2.02.
-     * @throws PrivateException 
-     */
-    private void openBook202() throws PrivateException {
-
-    	try {
-    		InputStream contents;
-    		mBookContext = DaisyBookUtil.openBook(mPath);
-    		contents = mBookContext.getResource(Constants.FILE_NCC_NAME_NOT_CAPS);
-    		mBook = NccSpecification.readFromStream(contents);
-    		if (!mBook.hasTotalTime()) {
-    			mIntentController.pushToDialog(getString(R.string.error_wrong_format_audio),
-    					getString(R.string.error_title), R.raw.error, false, false, null);
-    		}
-
-    	} catch (Exception e) {
-    		PrivateException ex = new PrivateException(e,
-    				DaisyEbookReaderVisualModeActivity.this, mPath);
-    		throw ex;
-    	}
-
-    }
-
-    /**
-     * Open Daisy book with format 3.0.
-     * @throws PrivateException if there are problems opening the DAISY 3 book.
-     */
-    private void openBook30() throws PrivateException {
-    	try {
-    		InputStream contents;
-    		String opfName = "";
-    		if (mPath.endsWith(Constants.SUFFIX_ZIP_FILE)) {
-    			mBookContext = DaisyBookUtil.openBook(mPath);
-    			opfName = DaisyBookUtil.getOpfFileNameInZipFolder(mPath);
-    		} else {
-    			opfName = DaisyBookUtil.getOpfFileName(mPath);
-    			mBookContext = DaisyBookUtil.openBook(mPath + File.separator + opfName);
-    		}
-    		contents = mBookContext.getResource(opfName);
-    		mBook = OpfSpecification.readFromStream(contents, mBookContext);
-
-    	} catch (Exception e) {
-    		PrivateException ex = new PrivateException(e,
-    				DaisyEbookReaderVisualModeActivity.this, mPath);
-    		throw ex;
-    	}
     }
 
     /**
@@ -863,13 +827,17 @@ public class DaisyEbookReaderVisualModeActivity extends DaisyEbookReaderBaseActi
          * @param section the section
          */
         private void getSnippetAndAudioForDaisy202(Section section) {
-            Part[] parts = null;
-            DaisySection currentSection = null;
-            currentSection = new DaisySection.Builder().setHref(section.getHref())
-                    .setContext(mBookContext).build();
-            parts = currentSection.getParts(isFormat202);
-            getSnippetsOfCurrentSection(parts);
-            getAudioElementsOfCurrentSectionForDaisy202(parts);
+            DaisyEbookReaderBaseMode baseMode = new DaisyEbookReaderBaseMode(mPath,
+                    DaisyEbookReaderVisualModeActivity.this);
+            try {
+                Part[] parts = baseMode.getPartsFromSection(section, mPath, isFormat202);
+                getSnippetsOfCurrentSection(parts);
+                getAudioElementsOfCurrentSectionForDaisy202(parts);
+            } catch (PrivateException e) {
+                PrivateException ex = new PrivateException(e,
+                        DaisyEbookReaderVisualModeActivity.this);
+                ex.showDialogException(mIntentController);
+            }
         }
 
         /**
@@ -881,27 +849,37 @@ public class DaisyEbookReaderVisualModeActivity extends DaisyEbookReaderBaseActi
             Part[] parts = null;
             DaisySection currentSection = null;
             boolean isCurrentPart = false;
-            currentSection = new DaisySection.Builder().setHref(section.getHref())
-                    .setContext(mBookContext).build();
-            Part[] tempParts = currentSection.getParts(isFormat202);
-            List<Part> listPart = new ArrayList<Part>();
-            for (Part part : tempParts) {
-                if (part.getId().equals(listId.get(mPositionSection - 1))) {
-                    isCurrentPart = true;
-                }
-                if (isCurrentPart) {
-                    if (listId.size() == mPositionSection) {
-                        listPart.add(part);
-                    } else if (!part.getId().equals(listId.get(mPositionSection))) {
-                        listPart.add(part);
-                    } else {
-                        break;
+            DaisyEbookReaderBaseMode baseMode = new DaisyEbookReaderBaseMode(mPath,
+                    DaisyEbookReaderVisualModeActivity.this);
+            BookContext bookContext = null;
+            try {
+                bookContext = baseMode.getBookContext(mPath);
+                currentSection = new DaisySection.Builder().setHref(section.getHref())
+                        .setContext(bookContext).build();
+                Part[] tempParts = currentSection.getParts(isFormat202);
+                List<Part> listPart = new ArrayList<Part>();
+                for (Part part : tempParts) {
+                    if (part.getId().equals(listId.get(mPositionSection - 1))) {
+                        isCurrentPart = true;
+                    }
+                    if (isCurrentPart) {
+                        if (listId.size() == mPositionSection) {
+                            listPart.add(part);
+                        } else if (!part.getId().equals(listId.get(mPositionSection))) {
+                            listPart.add(part);
+                        } else {
+                            break;
+                        }
                     }
                 }
+                parts = listPart.toArray(new Part[0]);
+                getSnippetsOfCurrentSection(parts);
+                getAudioElementsOfCurrentSectionForDaisy30(parts);
+            } catch (Exception e) {
+                PrivateException ex = new PrivateException(e,
+                        DaisyEbookReaderVisualModeActivity.this);
+                ex.showDialogException(mIntentController);
             }
-            parts = listPart.toArray(new Part[0]);
-            getSnippetsOfCurrentSection(parts);
-            getAudioElementsOfCurrentSectionForDaisy30(parts);
         }
 
         /**
@@ -941,7 +919,6 @@ public class DaisyEbookReaderVisualModeActivity extends DaisyEbookReaderBaseActi
                             snippetText.append(getString(R.string.space));
                         }
                         String text = part.getSnippets().get(i).getText().toString();
-                        part.getSnippets().get(i).getId().toString();
                         snippetText.append(text);
                         mListStringText.add(text);
                     }

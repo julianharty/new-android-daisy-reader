@@ -5,8 +5,11 @@ import java.io.InputStream;
 
 import org.androiddaisyreader.model.BookContext;
 import org.androiddaisyreader.model.DaisyBook;
+import org.androiddaisyreader.model.DaisySection;
 import org.androiddaisyreader.model.NccSpecification;
 import org.androiddaisyreader.model.OpfSpecification;
+import org.androiddaisyreader.model.Part;
+import org.androiddaisyreader.model.Section;
 import org.androiddaisyreader.utils.Constants;
 import org.androiddaisyreader.utils.DaisyBookUtil;
 import android.content.Context;
@@ -109,6 +112,32 @@ public class DaisyEbookReaderBaseMode {
             result = path + File.separator + DaisyBookUtil.getOpfFileName(path);
         }
         return result;
+    }
+
+    /**
+     * Gets the parts from section.
+     * 
+     * @param section the current section
+     * @param path the path of the book
+     * @param isFormat202 true if books' format is Daisy 2.02.
+     * @return the parts from section
+     * @throws PrivateException
+     */
+    public Part[] getPartsFromSection(Section section, String path, boolean isFormat202)
+            throws PrivateException {
+        Part[] parts = null;
+        DaisySection currentSection = null;
+        BookContext bookContext = null;
+        try {
+            bookContext = getBookContext(path);
+            currentSection = new DaisySection.Builder().setHref(section.getHref())
+                    .setContext(bookContext).build();
+            parts = currentSection.getParts(isFormat202);
+            return parts;
+        } catch (PrivateException e) {
+            PrivateException ex = new PrivateException(e, mContext, path);
+            throw ex;
+        }
     }
 
     private String getOpfFileName(String path) {

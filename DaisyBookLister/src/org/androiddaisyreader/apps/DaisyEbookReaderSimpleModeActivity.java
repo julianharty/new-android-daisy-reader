@@ -465,19 +465,15 @@ public class DaisyEbookReaderSimpleModeActivity extends DaisyEbookReaderBaseActi
         private void getSnippetAndAudioForDaisy202(Section section) {
             DaisyEbookReaderBaseMode baseMode = new DaisyEbookReaderBaseMode(mPath,
                     DaisyEbookReaderSimpleModeActivity.this);
-            BookContext bookContext = null;
             try {
-                bookContext = baseMode.getBookContext(mPath);
+                Part[] parts = baseMode.getPartsFromSection(section, mPath, isFormat202);
+                getSnippetsOfCurrentSection(parts);
+                getAudioElementsOfCurrentSectionForDaisy202(parts);
             } catch (PrivateException e) {
-                e.printStackTrace();
+                PrivateException ex = new PrivateException(e,
+                        DaisyEbookReaderSimpleModeActivity.this);
+                ex.showDialogException(mIntentController);
             }
-            Part[] parts = null;
-            DaisySection currentSection = null;
-            currentSection = new DaisySection.Builder().setHref(section.getHref())
-                    .setContext(bookContext).build();
-            parts = currentSection.getParts(isFormat202);
-            getSnippetsOfCurrentSection(parts);
-            getAudioElementsOfCurrentSectionForDaisy202(parts);
         }
 
         /**
@@ -494,33 +490,32 @@ public class DaisyEbookReaderSimpleModeActivity extends DaisyEbookReaderBaseActi
             BookContext bookContext = null;
             try {
                 bookContext = baseMode.getBookContext(mPath);
+                currentSection = new DaisySection.Builder().setHref(section.getHref())
+                        .setContext(bookContext).build();
+                Part[] tempParts = currentSection.getParts(isFormat202);
+                List<Part> listPart = new ArrayList<Part>();
+                for (Part part : tempParts) {
+                    if (part.getId().equals(listId.get(mPositionSection - 1))) {
+                        isCurrentPart = true;
+                    }
+                    if (isCurrentPart) {
+                        if (listId.size() == mPositionSection) {
+                            listPart.add(part);
+                        } else if (!part.getId().equals(listId.get(mPositionSection))) {
+                            listPart.add(part);
+                        } else {
+                            break;
+                        }
+                    }
+                }
+                parts = listPart.toArray(new Part[0]);
+                getSnippetsOfCurrentSection(parts);
+                getAudioElementsOfCurrentSectionForDaisy30(parts);
             } catch (Exception e) {
                 PrivateException ex = new PrivateException(e,
                         DaisyEbookReaderSimpleModeActivity.this);
                 ex.showDialogException(mIntentController);
             }
-
-            currentSection = new DaisySection.Builder().setHref(section.getHref())
-                    .setContext(bookContext).build();
-            Part[] tempParts = currentSection.getParts(isFormat202);
-            List<Part> listPart = new ArrayList<Part>();
-            for (Part part : tempParts) {
-                if (part.getId().equals(listId.get(mPositionSection - 1))) {
-                    isCurrentPart = true;
-                }
-                if (isCurrentPart) {
-                    if (listId.size() == mPositionSection) {
-                        listPart.add(part);
-                    } else if (!part.getId().equals(listId.get(mPositionSection))) {
-                        listPart.add(part);
-                    } else {
-                        break;
-                    }
-                }
-            }
-            parts = listPart.toArray(new Part[0]);
-            getSnippetsOfCurrentSection(parts);
-            getAudioElementsOfCurrentSectionForDaisy30(parts);
         }
 
         /**
@@ -545,7 +540,7 @@ public class DaisyEbookReaderSimpleModeActivity extends DaisyEbookReaderBaseActi
                         if (i > 0) {
                             snippetText.append(getString(R.string.space));
                         }
-                        String text = part.getSnippets().get(i).getText();
+                        String text = part.getSnippets().get(i).getText().toString();
                         snippetText.append(text);
                         mListStringText.add(text);
                     }

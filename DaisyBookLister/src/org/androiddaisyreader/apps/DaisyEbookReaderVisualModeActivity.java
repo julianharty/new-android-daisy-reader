@@ -550,16 +550,21 @@ public class DaisyEbookReaderVisualModeActivity extends DaisyEbookReaderBaseActi
      * Update current information.
      */
     private void updateCurrentInformation() {
-        if (isFormat202) {
-            mCurrent.setAudioName("");
-        } else {
-            mCurrent.setAudioName(listAudio.get(countAudio).getAudioFilename());
+        try {
+            if (isFormat202) {
+                mCurrent.setAudioName("");
+            } else {
+                mCurrent.setAudioName(listAudio.get(countAudio).getAudioFilename());
+            }
+            mCurrent.setTime(mPlayer.getCurrentPosition());
+            mCurrent.setSection(mPositionSection);
+            mCurrent.setSentence(mPositionSentence);
+            mCurrent.setActivity(getString(R.string.title_activity_daisy_ebook_reader_visual_mode));
+            mCurrent.setPlaying(mIsPlaying);
+        } catch (Exception e) {
+            PrivateException ex = new PrivateException(e, DaisyEbookReaderVisualModeActivity.this);
+            ex.writeLogException();
         }
-        mCurrent.setTime(mPlayer.getCurrentPosition());
-        mCurrent.setSection(mPositionSection);
-        mCurrent.setSentence(mPositionSentence);
-        mCurrent.setActivity(getString(R.string.title_activity_daisy_ebook_reader_visual_mode));
-        mCurrent.setPlaying(mIsPlaying);
         mSql.updateCurrentInformation(mCurrent);
     }
 
@@ -728,7 +733,6 @@ public class DaisyEbookReaderVisualModeActivity extends DaisyEbookReaderBaseActi
                     mIntentController.pushToDialog(getString(R.string.error_wrong_format_audio),
                             getString(R.string.error_title), R.raw.error, false, false, null);
                 }
-                // openBook202();
             } else {
                 mBook = baseMode.openBook30();
                 mPath = baseMode.getPathExactlyDaisy30(mPath);
@@ -738,11 +742,8 @@ public class DaisyEbookReaderVisualModeActivity extends DaisyEbookReaderBaseActi
                     Section n = (Section) temp.next();
                     listId.add(splitHref(n.getHref())[1]);
                 }
-                // openBook30();
             }
 
-            // AndroidAudioPlayer androidAudioPlayer = new
-            // AndroidAudioPlayer(mBookContext);
             AndroidAudioPlayer androidAudioPlayer = new AndroidAudioPlayer(
                     baseMode.getBookContext(mPath));
             androidAudioPlayer.addCallbackListener(audioCallbackListener);
@@ -751,17 +752,10 @@ public class DaisyEbookReaderVisualModeActivity extends DaisyEbookReaderBaseActi
             // get all navigator of book to push to table of contents.
             mNavigatorOfTableContents = new Navigator(mBook);
             mNavigator = mNavigatorOfTableContents;
-            // if (!isFormat202) {
-            // Navigator temp = new Navigator(mBook);
-            // listId = new ArrayList<String>();
-            // while (temp.hasNext()) {
-            // Section n = (Section) temp.next();
-            // listId.add(splitHref(n.getHref())[1]);
-            // }
-            // }
         } catch (PrivateException e) {
-            e.showDialogException(mIntentController);
-            this.finish();
+            if (!isFinishing()) {
+                e.showDialogException(mIntentController);
+            }
         }
     }
 
@@ -814,10 +808,10 @@ public class DaisyEbookReaderVisualModeActivity extends DaisyEbookReaderBaseActi
                     setMediaPlay();
                 }
                 autoHighlightAndScroll();
-            } catch (Exception e) {
-                PrivateException ex = new PrivateException(e,
-                        DaisyEbookReaderVisualModeActivity.this);
-                ex.showDialogException(mIntentController);
+            } catch (PrivateException e) {
+                if (!isFinishing()) {
+                    e.showDialogException(mIntentController);
+                }
             }
         }
 
@@ -826,7 +820,7 @@ public class DaisyEbookReaderVisualModeActivity extends DaisyEbookReaderBaseActi
          * 
          * @param section the section
          */
-        private void getSnippetAndAudioForDaisy202(Section section) {
+        private void getSnippetAndAudioForDaisy202(Section section) throws PrivateException {
             DaisyEbookReaderBaseMode baseMode = new DaisyEbookReaderBaseMode(mPath,
                     DaisyEbookReaderVisualModeActivity.this);
             try {
@@ -835,8 +829,8 @@ public class DaisyEbookReaderVisualModeActivity extends DaisyEbookReaderBaseActi
                 getAudioElementsOfCurrentSectionForDaisy202(parts);
             } catch (PrivateException e) {
                 PrivateException ex = new PrivateException(e,
-                        DaisyEbookReaderVisualModeActivity.this);
-                ex.showDialogException(mIntentController);
+                        DaisyEbookReaderVisualModeActivity.this, mPath);
+                throw ex;
             }
         }
 
@@ -845,7 +839,7 @@ public class DaisyEbookReaderVisualModeActivity extends DaisyEbookReaderBaseActi
          * 
          * @param section the section
          */
-        private void getSnippetAndAudioForDaisy30(Section section) {
+        private void getSnippetAndAudioForDaisy30(Section section) throws PrivateException {
             Part[] parts = null;
             DaisySection currentSection = null;
             boolean isCurrentPart = false;
@@ -877,8 +871,8 @@ public class DaisyEbookReaderVisualModeActivity extends DaisyEbookReaderBaseActi
                 getAudioElementsOfCurrentSectionForDaisy30(parts);
             } catch (Exception e) {
                 PrivateException ex = new PrivateException(e,
-                        DaisyEbookReaderVisualModeActivity.this);
-                ex.showDialogException(mIntentController);
+                        DaisyEbookReaderVisualModeActivity.this, mPath);
+                throw ex;
             }
         }
 
@@ -969,7 +963,9 @@ public class DaisyEbookReaderVisualModeActivity extends DaisyEbookReaderBaseActi
             } catch (Exception e) {
                 PrivateException ex = new PrivateException(e,
                         DaisyEbookReaderVisualModeActivity.this, mPath);
-                ex.showDialogException(mIntentController);
+                if (!isFinishing()) {
+                    ex.showDialogException(mIntentController);
+                }
                 mIsFound = false;
                 mImgButton.setImageResource(R.raw.media_play);
             }
@@ -1001,7 +997,9 @@ public class DaisyEbookReaderVisualModeActivity extends DaisyEbookReaderBaseActi
             } catch (Exception e) {
                 PrivateException ex = new PrivateException(e,
                         DaisyEbookReaderVisualModeActivity.this, mPath);
-                ex.showDialogException(mIntentController);
+                if (!isFinishing()) {
+                    ex.showDialogException(mIntentController);
+                }
                 mIsFound = false;
                 mImgButton.setImageResource(R.raw.media_play);
             }
@@ -1288,7 +1286,9 @@ public class DaisyEbookReaderVisualModeActivity extends DaisyEbookReaderBaseActi
             } catch (Exception e) {
                 PrivateException ex = new PrivateException(e,
                         DaisyEbookReaderVisualModeActivity.this, mPath);
-                ex.showDialogException(mIntentController);
+                if (!isFinishing()) {
+                    ex.showDialogException(mIntentController);
+                }
             }
         }
     }

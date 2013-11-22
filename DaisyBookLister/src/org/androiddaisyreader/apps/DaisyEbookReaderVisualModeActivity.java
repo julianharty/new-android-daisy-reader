@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.UUID;
 import java.util.Map.Entry;
 
 import org.androiddaisyreader.AudioCallbackListener;
@@ -229,11 +228,7 @@ public class DaisyEbookReaderVisualModeActivity extends DaisyEbookReaderBaseActi
      * Push to settings.
      */
     private void pushToSettings() {
-        if (mCurrent != null) {
-            updateCurrentInformation();
-        } else {
-            createCurrentInformation();
-        }
+        handleCurrentInformation(mCurrent);
         mIntentController.pushToDaisyReaderSettingIntent();
     }
 
@@ -241,11 +236,7 @@ public class DaisyEbookReaderVisualModeActivity extends DaisyEbookReaderBaseActi
      * Push to simple mode.
      */
     private void pushToSimpleMode() {
-        if (mCurrent != null) {
-            updateCurrentInformation();
-        } else {
-            createCurrentInformation();
-        }
+        handleCurrentInformation(mCurrent);
         mIntentController.pushToDaisyEbookReaderSimpleModeIntent(getIntent().getStringExtra(
                 Constants.DAISY_PATH));
     }
@@ -269,30 +260,30 @@ public class DaisyEbookReaderVisualModeActivity extends DaisyEbookReaderBaseActi
     /**
      * Start reading book.
      */
-    public void readBook() {
+    private void readBook() {
         String section;
         mCurrent = mSql.getCurrentInformation();
-        if (mCurrent != null
-                && mCurrent.getActivity().equals(
-                        getString(R.string.title_activity_daisy_ebook_reader_visual_mode))) {
-            mCurrent.setAtTheEnd(false);
-            mSql.updateCurrentInformation(mCurrent);
-        }
-        if (mCurrent != null
-                && !mCurrent.getActivity().equals(
-                        getString(R.string.title_activity_daisy_ebook_reader_visual_mode))) {
-            section = String.valueOf(mCurrent.getSection());
-            mTime = mCurrent.getTime();
-            mAudioFileName = mCurrent.getAudioName();
-            mPositionSentence = 0;
-        } else {
-            section = getIntent().getStringExtra(Constants.POSITION_SECTION);
-            mTime = getIntent().getIntExtra(Constants.TIME, -1);
-            if (!isFormat202) {
-                mAudioFileName = getIntent().getStringExtra(Constants.AUDIO_FILE_NAME);
-            }
-        }
         try {
+            if (mCurrent != null
+                    && mCurrent.getActivity().equals(
+                            getString(R.string.title_activity_daisy_ebook_reader_visual_mode))) {
+                mCurrent.setAtTheEnd(false);
+                mSql.updateCurrentInformation(mCurrent);
+            }
+            if (mCurrent != null
+                    && !mCurrent.getActivity().equals(
+                            getString(R.string.title_activity_daisy_ebook_reader_visual_mode))) {
+                section = String.valueOf(mCurrent.getSection());
+                mTime = mCurrent.getTime();
+                mAudioFileName = mCurrent.getAudioName();
+                mPositionSentence = 0;
+            } else {
+                section = getIntent().getStringExtra(Constants.POSITION_SECTION);
+                mTime = getIntent().getIntExtra(Constants.TIME, -1);
+                if (!isFormat202) {
+                    mAudioFileName = getIntent().getStringExtra(Constants.AUDIO_FILE_NAME);
+                }
+            }
             if (section != null) {
                 int countLoop = Integer.valueOf(section) - mPositionSection;
                 Navigable n = getNavigable(countLoop);
@@ -432,11 +423,7 @@ public class DaisyEbookReaderVisualModeActivity extends DaisyEbookReaderBaseActi
      * Push to table of contents.
      */
     private void pushToTableOfContents() {
-        if (mCurrent != null) {
-            updateCurrentInformation();
-        } else {
-            createCurrentInformation();
-        }
+        handleCurrentInformation(mCurrent);
         mIntentController.pushToTableOfContentsIntent(mPath, mNavigatorOfTableContents,
                 getString(R.string.visual_mode));
     }
@@ -450,11 +437,7 @@ public class DaisyEbookReaderVisualModeActivity extends DaisyEbookReaderBaseActi
                     String.format(this.getString(R.string.error_save_bookmark), mBook.getTitle()),
                     this.getString(R.string.error_title), R.raw.error, false, false, null);
         } else {
-            if (mCurrent != null) {
-                updateCurrentInformation();
-            } else {
-                createCurrentInformation();
-            }
+            handleCurrentInformation(mCurrent);
             mIntentController.pushToDaisyReaderBookmarkIntent(getBookmark(), getIntent()
                     .getStringExtra(Constants.DAISY_PATH));
         }
@@ -505,11 +488,7 @@ public class DaisyEbookReaderVisualModeActivity extends DaisyEbookReaderBaseActi
                 setMediaPause();
             }
             super.onBackPressed();
-            if (mCurrent == null) {
-                createCurrentInformation();
-            } else {
-                updateCurrentInformation();
-            }
+            handleCurrentInformation(mCurrent);
             finish();
         } else {
             super.onBackPressed();
@@ -517,55 +496,27 @@ public class DaisyEbookReaderVisualModeActivity extends DaisyEbookReaderBaseActi
 
     }
 
-    /**
-     * Create current information.
-     */
-    private void createCurrentInformation() {
-        // create a current information
-        CurrentInformation current = new CurrentInformation();
-        try {
-            if (isFormat202) {
-                current.setAudioName("");
-            } else {
-                current.setAudioName(listAudio.get(countAudio).getAudioFilename());
-            }
-            current.setPath(mPath);
-            current.setSection(mPositionSection);
-            current.setTime(mPlayer.getCurrentPosition());
-            current.setPlaying(mIsPlaying);
-            current.setSentence(1);
-            current.setActivity(getString(R.string.title_activity_daisy_ebook_reader_visual_mode));
-            current.setFirstNext(false);
-            current.setFirstPrevious(true);
-            current.setAtTheEnd(false);
-            current.setId(UUID.randomUUID().toString());
-        } catch (Exception e) {
-            PrivateException ex = new PrivateException(e, DaisyEbookReaderVisualModeActivity.this);
-            ex.writeLogException();
+    private void handleCurrentInformation(CurrentInformation current) {
+        DaisyEbookReaderBaseMode baseMode = new DaisyEbookReaderBaseMode(mPath,
+                DaisyEbookReaderVisualModeActivity.this);
+        CurrentInformation currentInformation;
+        String audioName = "";
+        if (!isFormat202) {
+            audioName = listAudio.get(countAudio).getAudioFilename();
         }
-        mSql.addCurrentInformation(current);
-    }
+        String activity = getString(R.string.title_activity_daisy_ebook_reader_visual_mode);
+        if (current == null) {
+            currentInformation = baseMode.createCurrentInformation(audioName, activity,
+                    mPositionSection, mPlayer.getCurrentPosition(), mIsPlaying);
+            mSql.addCurrentInformation(currentInformation);
+        } else {
+            currentInformation = baseMode.getCurrentInformationUpdated(current, audioName,
+                    activity, mPositionSection, mPositionSentence, mPlayer.getCurrentPosition(),
+                    mIsPlaying);
+            mSql.updateCurrentInformation(currentInformation);
+        }
+        // mCurrent = currentInformation;
 
-    /**
-     * Update current information.
-     */
-    private void updateCurrentInformation() {
-        try {
-            if (isFormat202) {
-                mCurrent.setAudioName("");
-            } else {
-                mCurrent.setAudioName(listAudio.get(countAudio).getAudioFilename());
-            }
-            mCurrent.setTime(mPlayer.getCurrentPosition());
-            mCurrent.setSection(mPositionSection);
-            mCurrent.setSentence(mPositionSentence);
-            mCurrent.setActivity(getString(R.string.title_activity_daisy_ebook_reader_visual_mode));
-            mCurrent.setPlaying(mIsPlaying);
-        } catch (Exception e) {
-            PrivateException ex = new PrivateException(e, DaisyEbookReaderVisualModeActivity.this);
-            ex.writeLogException();
-        }
-        mSql.updateCurrentInformation(mCurrent);
     }
 
     /**
@@ -633,13 +584,13 @@ public class DaisyEbookReaderVisualModeActivity extends DaisyEbookReaderBaseActi
             mNavigatorOfTableContents = new Navigator(mBook);
         }
 
-        handleCurrentInformation();
+        getStatusOfAudio();
     }
 
     /**
      * Handle current information.
      */
-    private void handleCurrentInformation() {
+    private void getStatusOfAudio() {
         mCurrent = mSql.getCurrentInformation();
         if (mCurrent != null) {
             if (mCurrent.getPlaying()) {

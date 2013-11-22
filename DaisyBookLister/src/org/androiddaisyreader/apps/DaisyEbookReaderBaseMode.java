@@ -2,8 +2,10 @@ package org.androiddaisyreader.apps;
 
 import java.io.File;
 import java.io.InputStream;
+import java.util.UUID;
 
 import org.androiddaisyreader.model.BookContext;
+import org.androiddaisyreader.model.CurrentInformation;
 import org.androiddaisyreader.model.DaisyBook;
 import org.androiddaisyreader.model.DaisySection;
 import org.androiddaisyreader.model.NccSpecification;
@@ -148,5 +150,68 @@ public class DaisyEbookReaderBaseMode {
             result = DaisyBookUtil.getOpfFileName(path);
         }
         return result;
+    }
+
+    /**
+     * Creates the current information.
+     * 
+     * @param audioName the audio name
+     * @param activity the activity
+     * @param section the section
+     * @param time the time
+     * @param isPlaying the is playing
+     * @return the current information
+     */
+    public CurrentInformation createCurrentInformation(String audioName, String activity,
+            int section, int time, boolean isPlaying) {
+        // create a current information
+        CurrentInformation current = new CurrentInformation();
+        try {
+            current.setAudioName(audioName);
+            current.setPath(mPath);
+            current.setSection(section);
+            current.setTime(time);
+            current.setPlaying(isPlaying);
+            current.setSentence(1);
+            current.setActivity(activity);
+            current.setFirstNext(false);
+            current.setFirstPrevious(true);
+            current.setAtTheEnd(false);
+            current.setId(UUID.randomUUID().toString());
+        } catch (Exception e) {
+            PrivateException ex = new PrivateException(e, mContext);
+            ex.writeLogException();
+        }
+        return current;
+    }
+
+    /**
+     * Update current information.
+     * 
+     * @param current the current
+     * @param audioName the audio name
+     * @param activity the activity
+     * @param section the section
+     * @param sentence the sentence
+     * @param time the time
+     * @param isPlaying the is playing
+     * @return the current information updated
+     */
+    public CurrentInformation getCurrentInformationUpdated(CurrentInformation current,
+            String audioName, String activity, int section, int sentence, int time,
+            boolean isPlaying) {
+        CurrentInformation newCurrentInfomation = current;
+        try {
+            newCurrentInfomation.setAudioName(audioName);
+            newCurrentInfomation.setTime(time);
+            newCurrentInfomation.setSection(section);
+            newCurrentInfomation.setSentence(sentence);
+            newCurrentInfomation.setActivity(activity);
+            newCurrentInfomation.setPlaying(isPlaying);
+        } catch (Exception e) {
+            PrivateException ex = new PrivateException(e, mContext);
+            ex.writeLogException();
+        }
+        return newCurrentInfomation;
     }
 }

@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.UUID;
 import java.util.Map.Entry;
 
 import org.androiddaisyreader.AudioCallbackListener;
@@ -116,9 +115,9 @@ public class DaisyEbookReaderSimpleModeActivity extends DaisyEbookReaderBaseActi
      * Start reading book.
      */
     private void readBook() {
+        String section;
+        mCurrent = mSql.getCurrentInformation();
         try {
-            String section;
-            mCurrent = mSql.getCurrentInformation();
             if (mCurrent != null
                     && mCurrent.getActivity().equals(
                             getString(R.string.title_activity_daisy_ebook_reader_simple_mode))) {
@@ -262,65 +261,32 @@ public class DaisyEbookReaderSimpleModeActivity extends DaisyEbookReaderBaseActi
             if (mIsPlaying) {
                 setMediaPause();
             }
-
-            if (mCurrent == null) {
-                createCurrentInformation();
-            } else {
-                updateCurrentInformation();
-            }
+            handleCurrentInformation(mCurrent);
             finish();
         } else {
             super.onBackPressed();
         }
     }
 
-    /**
-     * Create current information.
-     */
-    private void createCurrentInformation() {
-        // create a current information
-        CurrentInformation current = new CurrentInformation();
-        try {
-            if (isFormat202) {
-                current.setAudioName("");
-            } else {
-                current.setAudioName(listAudio.get(countAudio).getAudioFilename());
-            }
-            current.setPath(getIntent().getStringExtra(Constants.DAISY_PATH));
-            current.setSection(mPositionSection);
-            current.setTime(mPlayer.getCurrentPosition());
-            current.setPlaying(mIsPlaying);
-            current.setSentence(1);
-            current.setActivity(getString(R.string.title_activity_daisy_ebook_reader_simple_mode));
-            current.setAtTheEnd(false);
-            current.setId(UUID.randomUUID().toString());
-        } catch (Exception e) {
-            PrivateException ex = new PrivateException(e, DaisyEbookReaderSimpleModeActivity.this);
-            ex.writeLogException();
+    private void handleCurrentInformation(CurrentInformation current) {
+        DaisyEbookReaderBaseMode baseMode = new DaisyEbookReaderBaseMode(mPath,
+                DaisyEbookReaderSimpleModeActivity.this);
+        CurrentInformation currentInformation;
+        String audioName = "";
+        if (!isFormat202) {
+            audioName = listAudio.get(countAudio).getAudioFilename();
         }
-        mSql.addCurrentInformation(current);
-    }
-
-    /**
-     * Update current information.
-     */
-    private void updateCurrentInformation() {
-        try {
-            if (isFormat202) {
-                mCurrent.setAudioName("");
-            } else {
-                mCurrent.setAudioName(listAudio.get(countAudio).getAudioFilename());
-            }
-            mCurrent.setPlaying(mIsPlaying);
-            mCurrent.setTime(mPlayer.getCurrentPosition());
-            mCurrent.setSection(mPositionSection);
-            mCurrent.setSentence(mPositionSentence);
-            mCurrent.setActivity(getString(R.string.title_activity_daisy_ebook_reader_simple_mode));
-        } catch (Exception e) {
-            PrivateException ex = new PrivateException(e, DaisyEbookReaderSimpleModeActivity.this);
-            ex.writeLogException();
+        String activity = getString(R.string.title_activity_daisy_ebook_reader_simple_mode);
+        if (current == null) {
+            currentInformation = baseMode.createCurrentInformation(audioName, activity,
+                    mPositionSection, mPlayer.getCurrentPosition(), mIsPlaying);
+            mSql.addCurrentInformation(currentInformation);
+        } else {
+            currentInformation = baseMode.getCurrentInformationUpdated(current, audioName,
+                    activity, mPositionSection, mPositionSentence, mPlayer.getCurrentPosition(),
+                    mIsPlaying);
+            mSql.updateCurrentInformation(currentInformation);
         }
-        mSql.updateCurrentInformation(mCurrent);
     }
 
     @Override
@@ -765,11 +731,7 @@ public class DaisyEbookReaderSimpleModeActivity extends DaisyEbookReaderBaseActi
                     if (mIsPlaying) {
                         setMediaPause();
                     }
-                    if (mCurrent != null) {
-                        updateCurrentInformation();
-                    } else {
-                        createCurrentInformation();
-                    }
+                    handleCurrentInformation(mCurrent);
                     String path = getIntent().getStringExtra(Constants.DAISY_PATH);
                     mIntentController.pushToTableOfContentsIntent(path, mNavigatorOfTableContents,
                             getString(R.string.simple_mode));

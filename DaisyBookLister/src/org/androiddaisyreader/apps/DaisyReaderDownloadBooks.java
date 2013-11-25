@@ -14,6 +14,7 @@ import java.util.List;
 import java.util.Locale;
 
 import org.androiddaisyreader.adapter.DaisyBookAdapter;
+import org.androiddaisyreader.base.DaisyEbookReaderBaseActivity;
 import org.androiddaisyreader.metadata.MetaDataHandler;
 import org.androiddaisyreader.model.DaisyBook;
 import org.androiddaisyreader.model.DaisyBookInfo;

@@ -1,5 +1,6 @@
 package org.androiddaisyreader.apps;
 
+import org.androiddaisyreader.base.DaisyEbookReaderBaseActivity;
 import org.androiddaisyreader.utils.Constants;
 
 import android.app.AlertDialog;

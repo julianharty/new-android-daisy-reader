@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.androiddaisyreader.adapter.DaisyBookAdapter;
+import org.androiddaisyreader.base.DaisyEbookReaderBaseActivity;
 import org.androiddaisyreader.metadata.MetaDataHandler;
 import org.androiddaisyreader.model.DaisyBookInfo;
 import org.androiddaisyreader.player.IntentController;

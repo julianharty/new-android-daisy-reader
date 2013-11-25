@@ -1,9 +1,10 @@
-package org.androiddaisyreader.apps;
+package org.androiddaisyreader.base;
 
 import java.io.File;
 import java.io.InputStream;
 import java.util.UUID;
 
+import org.androiddaisyreader.apps.PrivateException;
 import org.androiddaisyreader.model.BookContext;
 import org.androiddaisyreader.model.CurrentInformation;
 import org.androiddaisyreader.model.DaisyBook;

@@ -2,6 +2,7 @@ package org.androiddaisyreader.apps;
 
 import java.util.List;
 
+import org.androiddaisyreader.base.DaisyEbookReaderBaseActivity;
 import org.androiddaisyreader.model.Bookmark;
 import org.androiddaisyreader.model.CurrentInformation;
 import org.androiddaisyreader.model.DaisyBook;

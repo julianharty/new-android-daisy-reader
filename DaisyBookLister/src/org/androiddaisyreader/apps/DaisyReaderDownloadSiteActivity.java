@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.androiddaisyreader.adapter.WebsiteAdapter;
+import org.androiddaisyreader.base.DaisyEbookReaderBaseActivity;
 import org.androiddaisyreader.model.Website;
 import org.androiddaisyreader.utils.Constants;
 

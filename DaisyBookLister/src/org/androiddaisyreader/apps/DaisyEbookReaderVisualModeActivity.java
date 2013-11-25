@@ -7,6 +7,8 @@ import java.util.Map;
 import java.util.Map.Entry;
 
 import org.androiddaisyreader.AudioCallbackListener;
+import org.androiddaisyreader.base.DaisyEbookReaderBaseActivity;
+import org.androiddaisyreader.base.DaisyEbookReaderBaseMode;
 import org.androiddaisyreader.controller.AudioPlayerController;
 import org.androiddaisyreader.model.Audio;
 import org.androiddaisyreader.model.BookContext;

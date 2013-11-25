@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.UUID;
 
 import org.androiddaisyreader.adapter.BookmarkListAdapter;
+import org.androiddaisyreader.base.DaisyEbookReaderBaseActivity;
 import org.androiddaisyreader.model.Bookmark;
 import org.androiddaisyreader.model.DaisyBook;
 import org.androiddaisyreader.model.Navigator;

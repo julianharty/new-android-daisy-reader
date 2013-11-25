@@ -6,6 +6,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 
+import org.androiddaisyreader.base.DaisyEbookReaderBaseActivity;
 import org.androiddaisyreader.player.IntentController;
 import org.androiddaisyreader.service.DaisyEbookReaderService;
 import org.androiddaisyreader.utils.Constants;

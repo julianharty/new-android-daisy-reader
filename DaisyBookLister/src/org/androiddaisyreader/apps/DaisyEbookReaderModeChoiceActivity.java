@@ -1,5 +1,6 @@
 package org.androiddaisyreader.apps;
 
+import org.androiddaisyreader.base.DaisyEbookReaderBaseActivity;
 import org.androiddaisyreader.model.CurrentInformation;
 import org.androiddaisyreader.player.IntentController;
 import org.androiddaisyreader.sqlite.SQLiteCurrentInformationHelper;

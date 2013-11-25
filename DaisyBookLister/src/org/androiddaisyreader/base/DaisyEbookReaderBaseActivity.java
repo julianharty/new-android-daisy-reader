@@ -1,6 +1,9 @@
-package org.androiddaisyreader.apps;
+package org.androiddaisyreader.base;
 
 import java.util.Locale;
+
+import org.androiddaisyreader.apps.DaisyReaderLibraryActivity;
+import org.androiddaisyreader.apps.PrivateException;
 import org.androiddaisyreader.model.CurrentInformation;
 import org.androiddaisyreader.sqlite.SQLiteCurrentInformationHelper;
 import org.androiddaisyreader.utils.Constants;
@@ -85,7 +88,6 @@ public class DaisyEbookReaderBaseActivity extends SherlockActivity implements On
 
     @Override
     protected void onDestroy() {
-
         super.onDestroy();
         try {
             if (mTts != null) {

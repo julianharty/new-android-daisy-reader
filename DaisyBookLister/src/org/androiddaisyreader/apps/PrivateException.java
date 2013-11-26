@@ -40,12 +40,14 @@ public class PrivateException extends Exception {
     public PrivateException(Exception ex, Context context, String path) {
         this.ex = ex;
         this.mContext = context;
-        if (path.contains(Constants.FILE_NCC_NAME_NOT_CAPS)) {
-            this.path = path.replace(Constants.FILE_NCC_NAME_NOT_CAPS, "");
-        } else if (path.contains(Constants.FILE_NCC_NAME_CAPS)) {
-            this.path = path.replace(Constants.FILE_NCC_NAME_CAPS, "");
-        } else {
-            this.path = path;
+        if (path != null) {
+            if (path.contains(Constants.FILE_NCC_NAME_NOT_CAPS)) {
+                this.path = path.replace(Constants.FILE_NCC_NAME_NOT_CAPS, "");
+            } else if (path.contains(Constants.FILE_NCC_NAME_CAPS)) {
+                this.path = path.replace(Constants.FILE_NCC_NAME_CAPS, "");
+            } else {
+                this.path = path;
+            }
         }
     }
 

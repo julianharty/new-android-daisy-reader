@@ -18,9 +18,7 @@ import org.androiddaisyreader.utils.DaisyBookUtil;
 import android.content.Context;
 
 public class DaisyEbookReaderBaseMode {
-    // private BookContext mBookContext;
     private String mPath;
-    // private DaisyBook mBook;
     private Context mContext;
 
     public DaisyEbookReaderBaseMode(String path, Context context) {
@@ -156,11 +154,11 @@ public class DaisyEbookReaderBaseMode {
     /**
      * Creates the current information.
      * 
-     * @param audioName the audio name
-     * @param activity the activity
-     * @param section the section
-     * @param time the time
-     * @param isPlaying the is playing
+     * @param audioName the name of audio
+     * @param activity the name of activity which call this function
+     * @param section the current section of book
+     * @param time the current time of audio
+     * @param isPlaying the status of audio
      * @return the current information
      */
     public CurrentInformation createCurrentInformation(String audioName, String activity,
@@ -189,16 +187,16 @@ public class DaisyEbookReaderBaseMode {
     /**
      * Update current information.
      * 
-     * @param current the current
-     * @param audioName the audio name
-     * @param activity the activity
-     * @param section the section
-     * @param sentence the sentence
-     * @param time the time
-     * @param isPlaying the is playing
+     * @param current the current information
+     * @param audioName the name of audio
+     * @param activity the name of activity which call this function
+     * @param section the current section of book
+     * @param sentence the current sentence of book
+     * @param time the current time of audio
+     * @param isPlaying the status of audio
      * @return the current information updated
      */
-    public CurrentInformation getCurrentInformationUpdated(CurrentInformation current,
+    public CurrentInformation updateCurrentInformation(CurrentInformation current,
             String audioName, String activity, int section, int sentence, int time,
             boolean isPlaying) {
         CurrentInformation newCurrentInfomation = current;

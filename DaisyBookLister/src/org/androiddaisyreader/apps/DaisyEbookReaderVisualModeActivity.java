@@ -512,7 +512,7 @@ public class DaisyEbookReaderVisualModeActivity extends DaisyEbookReaderBaseActi
                     mPositionSection, mPlayer.getCurrentPosition(), mIsPlaying);
             mSql.addCurrentInformation(currentInformation);
         } else {
-            currentInformation = baseMode.getCurrentInformationUpdated(current, audioName,
+            currentInformation = baseMode.updateCurrentInformation(current, audioName,
                     activity, mPositionSection, mPositionSentence, mPlayer.getCurrentPosition(),
                     mIsPlaying);
             mSql.updateCurrentInformation(currentInformation);

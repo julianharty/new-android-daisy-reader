@@ -73,12 +73,7 @@ public class DaisyEbookReaderBaseModeTest extends AndroidTestCase {
         boolean isPlaying = true;
         CurrentInformation current = base.createCurrentInformation(audioName, activity, section,
                 time, isPlaying);
-        assertNotNull(current);
-        assertEquals("Audio name must be audioname", current.getAudioName(), audioName);
-        assertEquals("Current must be activity", current.getActivity(), activity);
-        assertEquals("Section must be 1", current.getSection(), section);
-        assertEquals("Time must be 1", current.getTime(), time);
-        assertEquals("IsPlaying must be true", current.getPlaying(), isPlaying);
+        assertCurrentInformationValues(current, audioName, activity, section, time, isPlaying);
     }
 
     public void testCreateCurrentInformationWithNullAudioName() {
@@ -90,17 +85,60 @@ public class DaisyEbookReaderBaseModeTest extends AndroidTestCase {
         boolean isPlaying = true;
         CurrentInformation current = base.createCurrentInformation(audioName, activity, section,
                 time, isPlaying);
-        assertNotNull(current);
-        assertEquals("Audio name must be audioname", current.getAudioName(), audioName);
-        assertEquals("Current must be activity", current.getActivity(), activity);
-        assertEquals("Section must be 1", current.getSection(), section);
-        assertEquals("Time must be 1", current.getTime(), time);
-        assertEquals("IsPlaying must be true", current.getPlaying(), isPlaying);
+        assertCurrentInformationValues(current, audioName, activity, section, time, isPlaying);
+    }
+
+    public void testCreateCurrentInformationWithNullActivity() {
+        DaisyEbookReaderBaseMode base = getBaseMode(PATH_EBOOK_202, getContext());
+        String audioName = "audioname";
+        String activity = null;
+        int section = 1;
+        int time = 1;
+        boolean isPlaying = true;
+        CurrentInformation current = base.createCurrentInformation(audioName, activity, section,
+                time, isPlaying);
+        assertCurrentInformationValues(current, audioName, activity, section, time, isPlaying);
+    }
+
+    public void testCreateCurrentInformationWithZeroSection() {
+        DaisyEbookReaderBaseMode base = getBaseMode(PATH_EBOOK_202, getContext());
+        String audioName = "audioname";
+        String activity = "activity";
+        int section = 0;
+        int time = 1;
+        boolean isPlaying = true;
+        CurrentInformation current = base.createCurrentInformation(audioName, activity, section,
+                time, isPlaying);
+        assertCurrentInformationValues(current, audioName, activity, section, time, isPlaying);
+    }
+
+    public void testCreateCurrentInformationWithZeroTime() {
+        DaisyEbookReaderBaseMode base = getBaseMode(PATH_EBOOK_202, getContext());
+        String audioName = "audioname";
+        String activity = "activity";
+        int section = 1;
+        int time = 0;
+        boolean isPlaying = true;
+        CurrentInformation current = base.createCurrentInformation(audioName, activity, section,
+                time, isPlaying);
+        assertCurrentInformationValues(current, audioName, activity, section, time, isPlaying);
     }
 
     private DaisyEbookReaderBaseMode getBaseMode(String path, Context context) {
         DaisyEbookReaderBaseMode base;
         base = new DaisyEbookReaderBaseMode(path, context);
         return base;
+    }
+
+    private void assertCurrentInformationValues(CurrentInformation current, String audioName,
+            String activity, int section, int time, boolean isPlaying) {
+        assertNotNull(current);
+        assertEquals(String.format("Audio name must be %s", audioName), current.getAudioName(),
+                audioName);
+        assertEquals(String.format("Current must be %s", activity), current.getActivity(), activity);
+        assertEquals(String.format("Section must be %s", section), current.getSection(), section);
+        assertEquals(String.format("Time must be %s", time), current.getTime(), time);
+        assertEquals(String.format("IsPlaying must be %s", isPlaying), current.getPlaying(),
+                isPlaying);
     }
 }

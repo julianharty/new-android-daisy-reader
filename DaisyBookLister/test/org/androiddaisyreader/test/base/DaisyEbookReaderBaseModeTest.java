@@ -1,7 +1,6 @@
 package org.androiddaisyreader.test.base;
 
 import java.util.Date;
-import java.util.Locale;
 
 import org.androiddaisyreader.apps.PrivateException;
 import org.androiddaisyreader.base.DaisyEbookReaderBaseMode;
@@ -21,29 +20,25 @@ public class DaisyEbookReaderBaseModeTest extends AndroidTestCase {
         super.setUp();
     }
 
-    public void testOpenBook202Successful() {
+    public void testOpenBook202Successful() throws PrivateException {
         DaisyBook mBook202;
-        try {
-            DaisyEbookReaderBaseMode base = getBaseMode(PATH_EBOOK_202, getContext());
-            mBook202 = base.openBook202();
-            // verify
-            assertNotNull(mBook202);
-            assertEquals("Title must be A mini DAISY book for testing", mBook202.getTitle(),
-                    "A mini DAISY book for testing");
-            assertEquals("Author must be Julian Harty", mBook202.getAuthor(), "Julian Harty");
-            assertEquals("Publisher must be Julian Harty", mBook202.getPublisher(), "Julian Harty");
-            Date date = mBook202.getDate();
-            String sDate = "";
-            if (date != null) {
-                sDate = String.format(("%tB %te, %tY %n"), date, date, date);
-            }
-            assertEquals("Date must be August 28, 2011", sDate.trim(), "August 28, 2011");
-        } catch (PrivateException e) {
-            fail("test case fail");
+        DaisyEbookReaderBaseMode base = getBaseMode(PATH_EBOOK_202, getContext());
+        mBook202 = base.openBook202();
+        // verify
+        assertNotNull(mBook202);
+        assertEquals("Title must be A mini DAISY book for testing", mBook202.getTitle(),
+                "A mini DAISY book for testing");
+        assertEquals("Author must be Julian Harty", mBook202.getAuthor(), "Julian Harty");
+        assertEquals("Publisher must be Julian Harty", mBook202.getPublisher(), "Julian Harty");
+        Date date = mBook202.getDate();
+        String sDate = "";
+        if (date != null) {
+            sDate = String.format(("%tB %te, %tY %n"), date, date, date);
         }
+        assertEquals("Date must be August 28, 2011", sDate.trim(), "August 28, 2011");
     }
 
-    public void testOpenBook202WithNullPath() {
+    public void testBook202ThrowsPrivateExceptionWhenNullPath() {
         try {
             DaisyEbookReaderBaseMode base = getBaseMode(null, getContext());
             base.openBook202();
@@ -53,7 +48,7 @@ public class DaisyEbookReaderBaseModeTest extends AndroidTestCase {
         }
     }
 
-    public void testOpenBook202WithWrongPath() {
+    public void testBook202ThrowsPrivateExceptionWhenWrongPath() {
         try {
             String wrongPath = "wrong_path";
             DaisyEbookReaderBaseMode base = getBaseMode(wrongPath, getContext());
@@ -64,7 +59,7 @@ public class DaisyEbookReaderBaseModeTest extends AndroidTestCase {
         }
     }
 
-    public void testCreateCurrentInformationSuccessful() {
+    public void testCurrentInformationIsCreatedSuccessfully() {
         DaisyEbookReaderBaseMode base = getBaseMode(PATH_EBOOK_202, getContext());
         String audioName = "audioname";
         String activity = "activity";
@@ -76,7 +71,7 @@ public class DaisyEbookReaderBaseModeTest extends AndroidTestCase {
         assertCurrentInformationValues(current, audioName, activity, section, time, isPlaying);
     }
 
-    public void testCreateCurrentInformationWithNullAudioName() {
+    public void testCurrentInformationIsCreatedWithNullAudioName() {
         DaisyEbookReaderBaseMode base = getBaseMode(PATH_EBOOK_202, getContext());
         String audioName = null;
         String activity = "activity";
@@ -88,7 +83,7 @@ public class DaisyEbookReaderBaseModeTest extends AndroidTestCase {
         assertCurrentInformationValues(current, audioName, activity, section, time, isPlaying);
     }
 
-    public void testCreateCurrentInformationWithNullActivity() {
+    public void testCurrentInformationIsCreatedWithNullActivity() {
         DaisyEbookReaderBaseMode base = getBaseMode(PATH_EBOOK_202, getContext());
         String audioName = "audioname";
         String activity = null;
@@ -100,7 +95,7 @@ public class DaisyEbookReaderBaseModeTest extends AndroidTestCase {
         assertCurrentInformationValues(current, audioName, activity, section, time, isPlaying);
     }
 
-    public void testCreateCurrentInformationWithZeroSection() {
+    public void testCurrentInformationIsCreatedWithZeroSection() {
         DaisyEbookReaderBaseMode base = getBaseMode(PATH_EBOOK_202, getContext());
         String audioName = "audioname";
         String activity = "activity";
@@ -112,7 +107,7 @@ public class DaisyEbookReaderBaseModeTest extends AndroidTestCase {
         assertCurrentInformationValues(current, audioName, activity, section, time, isPlaying);
     }
 
-    public void testCreateCurrentInformationWithZeroTime() {
+    public void testCurrentInformationIsCreatedWithZeroTime() {
         DaisyEbookReaderBaseMode base = getBaseMode(PATH_EBOOK_202, getContext());
         String audioName = "audioname";
         String activity = "activity";

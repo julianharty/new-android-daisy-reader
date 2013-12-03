@@ -53,10 +53,9 @@ public class DaisyEbookReaderBaseMode {
 
         try {
             InputStream contents;
-            BookContext bookContext;
             String path = getPathExactlyDaisy30(mPath);
             String opfName = getOpfFileName(mPath);
-            bookContext = getBookContext(path);
+            BookContext bookContext = getBookContext(path);
             contents = bookContext.getResource(opfName);
             DaisyBook book = OpfSpecification.readFromStream(contents, bookContext);
             return book;

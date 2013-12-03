@@ -4,6 +4,7 @@ import java.util.Date;
 
 import org.androiddaisyreader.apps.PrivateException;
 import org.androiddaisyreader.base.DaisyEbookReaderBaseMode;
+import org.androiddaisyreader.model.BookContext;
 import org.androiddaisyreader.model.CurrentInformation;
 import org.androiddaisyreader.model.DaisyBook;
 
@@ -38,25 +39,31 @@ public class DaisyEbookReaderBaseModeTest extends AndroidTestCase {
         assertEquals("Date must be August 28, 2011", sDate.trim(), "August 28, 2011");
     }
 
-    public void testBook202ThrowsPrivateExceptionWhenNullPath() {
+    public void testBook202ThrowsPrivateExceptionWhenPathIsNull() {
+        boolean thrown = false;
         try {
             DaisyEbookReaderBaseMode base = getBaseMode(null, getContext());
             base.openBook202();
             fail("Test case did not throw private exception");
         } catch (PrivateException e) {
-            assertEquals("Message must be null", e.getMessage(), null);
+            assertEquals("Book has to be null", e.getMessage(), null);
+            thrown = true;
         }
+        assertTrue(thrown);
     }
 
-    public void testBook202ThrowsPrivateExceptionWhenWrongPath() {
+    public void testBook202ThrowsPrivateExceptionWhenPathIsWrong() {
+        boolean thrown = false;
         try {
             String wrongPath = "wrong_path";
             DaisyEbookReaderBaseMode base = getBaseMode(wrongPath, getContext());
             base.openBook202();
             fail("Test case did not throw private exception");
         } catch (PrivateException e) {
-            assertEquals("Message must be null", e.getMessage(), null);
+            assertEquals("Book has to be null", e.getMessage(), null);
+            thrown = true;
         }
+        assertTrue(thrown);
     }
 
     public void testCurrentInformationIsCreatedSuccessfully() {
@@ -88,6 +95,7 @@ public class DaisyEbookReaderBaseModeTest extends AndroidTestCase {
         String audioName = "audioname";
         String activity = null;
         int section = 1;
+        // The unit of measure for the time is milliseconds
         int time = 1;
         boolean isPlaying = true;
         CurrentInformation current = base.createCurrentInformation(audioName, activity, section,
@@ -95,7 +103,7 @@ public class DaisyEbookReaderBaseModeTest extends AndroidTestCase {
         assertCurrentInformationValues(current, audioName, activity, section, time, isPlaying);
     }
 
-    public void testCurrentInformationIsCreatedWithZeroSection() {
+    public void testCurrentInformationIsCreatedWithFirstSection() {
         DaisyEbookReaderBaseMode base = getBaseMode(PATH_EBOOK_202, getContext());
         String audioName = "audioname";
         String activity = "activity";
@@ -107,7 +115,7 @@ public class DaisyEbookReaderBaseModeTest extends AndroidTestCase {
         assertCurrentInformationValues(current, audioName, activity, section, time, isPlaying);
     }
 
-    public void testCurrentInformationIsCreatedWithZeroTime() {
+    public void testCurrentInformationIsCreatedWithZeroMillisecond() {
         DaisyEbookReaderBaseMode base = getBaseMode(PATH_EBOOK_202, getContext());
         String audioName = "audioname";
         String activity = "activity";
@@ -136,4 +144,24 @@ public class DaisyEbookReaderBaseModeTest extends AndroidTestCase {
         assertEquals(String.format("IsPlaying must be %s", isPlaying), current.getPlaying(),
                 isPlaying);
     }
+
+    public void testBookContextIsGottenSuccessfully() throws PrivateException {
+        DaisyEbookReaderBaseMode base = getBaseMode(PATH_EBOOK_202, getContext());
+        BookContext bookContext = base.getBookContext(PATH_EBOOK_202);
+        assertNotNull("Book context is null", bookContext);
+    }
+
+    public void testBookContextThrowsPrivateExceptionWhenPathIsNull() {
+        boolean thrown = false;
+        try {
+            DaisyEbookReaderBaseMode base = getBaseMode(null, getContext());
+            base.getBookContext(null);
+            fail("Test case did not throw private exception");
+        } catch (PrivateException e) {
+            assertEquals("Book Context has to be null", e.getMessage(), null);
+            thrown = true;
+        }
+        assertTrue(thrown);
+    }
+
 }

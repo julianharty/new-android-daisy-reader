@@ -11,11 +11,9 @@ import org.androiddaisyreader.base.DaisyEbookReaderBaseActivity;
 import org.androiddaisyreader.base.DaisyEbookReaderBaseMode;
 import org.androiddaisyreader.controller.AudioPlayerController;
 import org.androiddaisyreader.model.Audio;
-import org.androiddaisyreader.model.BookContext;
 import org.androiddaisyreader.model.Bookmark;
 import org.androiddaisyreader.model.CurrentInformation;
 import org.androiddaisyreader.model.DaisyBook;
-import org.androiddaisyreader.model.DaisySection;
 import org.androiddaisyreader.model.Navigable;
 import org.androiddaisyreader.model.Navigator;
 import org.androiddaisyreader.model.Part;
@@ -89,10 +87,7 @@ public class DaisyEbookReaderVisualModeActivity extends DaisyEbookReaderBaseActi
     private List<Integer> mListValueScroll;
     private List<Integer> mListValueLine;
     private String mPath;
-    private SharedPreferences mPreferences;
-    private Window mWindow;
     private String mFullTextOfBook;
-    private String mAudioFileName;
     private int mTime;
     private int mTotalLineOnScreen;
     private int mNumberOfChar;
@@ -122,8 +117,6 @@ public class DaisyEbookReaderVisualModeActivity extends DaisyEbookReaderBaseActi
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_daisy_ebook_reader_visual_mode);
-        mPreferences = PreferenceManager
-                .getDefaultSharedPreferences(DaisyEbookReaderVisualModeActivity.this);
         mIntentController = new IntentController(this);
         mSql = new SQLiteCurrentInformationHelper(DaisyEbookReaderVisualModeActivity.this);
         mPath = getIntent().getStringExtra(Constants.DAISY_PATH);
@@ -265,6 +258,7 @@ public class DaisyEbookReaderVisualModeActivity extends DaisyEbookReaderBaseActi
     private void readBook() {
         String section;
         mCurrent = mSql.getCurrentInformation();
+        String audioFileName = "";
         try {
             if (mCurrent != null
                     && mCurrent.getActivity().equals(
@@ -277,13 +271,13 @@ public class DaisyEbookReaderVisualModeActivity extends DaisyEbookReaderBaseActi
                             getString(R.string.title_activity_daisy_ebook_reader_visual_mode))) {
                 section = String.valueOf(mCurrent.getSection());
                 mTime = mCurrent.getTime();
-                mAudioFileName = mCurrent.getAudioName();
+                audioFileName = mCurrent.getAudioName();
                 mPositionSentence = 0;
             } else {
                 section = getIntent().getStringExtra(Constants.POSITION_SECTION);
                 mTime = getIntent().getIntExtra(Constants.TIME, -1);
                 if (!isFormat202) {
-                    mAudioFileName = getIntent().getStringExtra(Constants.AUDIO_FILE_NAME);
+                    audioFileName = getIntent().getStringExtra(Constants.AUDIO_FILE_NAME);
                 }
             }
             if (section != null) {
@@ -296,7 +290,7 @@ public class DaisyEbookReaderVisualModeActivity extends DaisyEbookReaderBaseActi
                 if (!isFormat202) {
                     for (int i = 0; i < listAudio.size(); i++) {
                         Audio audio = listAudio.get(i);
-                        if (audio.getAudioFilename().equals(mAudioFileName)) {
+                        if (audio.getAudioFilename().equals(audioFileName)) {
                             countAudio = i;
                             mAudioPlayer.playFileSegment(audio);
                             break;
@@ -512,13 +506,10 @@ public class DaisyEbookReaderVisualModeActivity extends DaisyEbookReaderBaseActi
                     mPositionSection, mPlayer.getCurrentPosition(), mIsPlaying);
             mSql.addCurrentInformation(currentInformation);
         } else {
-            currentInformation = baseMode.updateCurrentInformation(current, audioName,
-                    activity, mPositionSection, mPositionSentence, mPlayer.getCurrentPosition(),
-                    mIsPlaying);
+            currentInformation = baseMode.updateCurrentInformation(current, audioName, activity,
+                    mPositionSection, mPositionSentence, mPlayer.getCurrentPosition(), mIsPlaying);
             mSql.updateCurrentInformation(currentInformation);
         }
-        // mCurrent = currentInformation;
-
     }
 
     /**
@@ -616,19 +607,22 @@ public class DaisyEbookReaderVisualModeActivity extends DaisyEbookReaderBaseActi
         ContentResolver cResolver = getContentResolver();
         int valueScreen = 0;
         try {
+            Window window = getWindow();
             SharedPreferences preferences = PreferenceManager
                     .getDefaultSharedPreferences(DaisyEbookReaderVisualModeActivity.this);
             valueScreen = preferences.getInt(Constants.BRIGHTNESS,
                     System.getInt(cResolver, System.SCREEN_BRIGHTNESS));
-            LayoutParams layoutpars = mWindow.getAttributes();
+            LayoutParams layoutpars = window.getAttributes();
             layoutpars.screenBrightness = valueScreen / (float) numberToConvert;
             // apply attribute changes to this window
-            mWindow.setAttributes(layoutpars);
+            window.setAttributes(layoutpars);
         } catch (Exception e) {
             PrivateException ex = new PrivateException(e, DaisyEbookReaderVisualModeActivity.this);
             ex.writeLogException();
         }
-        mFontSize = mPreferences.getInt(Constants.FONT_SIZE, Constants.FONTSIZE_DEFAULT);
+        SharedPreferences preferences = PreferenceManager
+                .getDefaultSharedPreferences(DaisyEbookReaderVisualModeActivity.this);
+        mFontSize = preferences.getInt(Constants.FONT_SIZE, Constants.FONTSIZE_DEFAULT);
         mContents.setTextSize(mFontSize);
     }
 
@@ -636,7 +630,9 @@ public class DaisyEbookReaderVisualModeActivity extends DaisyEbookReaderBaseActi
      * Apply night mode setting, if user turn on.
      */
     private void setNightMode() {
-        boolean nightMode = mPreferences.getBoolean(Constants.NIGHT_MODE, false);
+        SharedPreferences preferences = PreferenceManager
+                .getDefaultSharedPreferences(DaisyEbookReaderVisualModeActivity.this);
+        boolean nightMode = preferences.getBoolean(Constants.NIGHT_MODE, false);
         final int nightModeColor = 0xff408000;
         final int nightModeText = 0xffc0c0c0;
         if (nightMode) {
@@ -645,15 +641,15 @@ public class DaisyEbookReaderVisualModeActivity extends DaisyEbookReaderBaseActi
             mHighlightColor = nightModeColor;
         } else {
             // apply text color
-            int textColor = mPreferences.getInt(Constants.TEXT_COLOR, nightModeText);
+            int textColor = preferences.getInt(Constants.TEXT_COLOR, nightModeText);
             mContents.setTextColor(textColor);
 
             // apply background color
-            int backgroundColor = mPreferences.getInt(Constants.BACKGROUND_COLOR, Color.BLACK);
+            int backgroundColor = preferences.getInt(Constants.BACKGROUND_COLOR, Color.BLACK);
             mScrollView.setBackgroundColor(backgroundColor);
 
             // apply highlight color
-            mHighlightColor = mPreferences.getInt(Constants.HIGHLIGHT_COLOR, Color.YELLOW);
+            mHighlightColor = preferences.getInt(Constants.HIGHLIGHT_COLOR, Color.YELLOW);
         }
 
     }
@@ -794,32 +790,11 @@ public class DaisyEbookReaderVisualModeActivity extends DaisyEbookReaderBaseActi
          */
         private void getSnippetAndAudioForDaisy30(Section section) throws PrivateException {
             Part[] parts = null;
-            DaisySection currentSection = null;
-            boolean isCurrentPart = false;
             DaisyEbookReaderBaseMode baseMode = new DaisyEbookReaderBaseMode(mPath,
                     DaisyEbookReaderVisualModeActivity.this);
-            BookContext bookContext = null;
             try {
-                bookContext = baseMode.getBookContext(mPath);
-                currentSection = new DaisySection.Builder().setHref(section.getHref())
-                        .setContext(bookContext).build();
-                Part[] tempParts = currentSection.getParts(isFormat202);
-                List<Part> listPart = new ArrayList<Part>();
-                for (Part part : tempParts) {
-                    if (part.getId().equals(listId.get(mPositionSection - 1))) {
-                        isCurrentPart = true;
-                    }
-                    if (isCurrentPart) {
-                        if (listId.size() == mPositionSection) {
-                            listPart.add(part);
-                        } else if (!part.getId().equals(listId.get(mPositionSection))) {
-                            listPart.add(part);
-                        } else {
-                            break;
-                        }
-                    }
-                }
-                parts = listPart.toArray(new Part[0]);
+                parts = baseMode.getPartsFromSectionDaisy30(section, mPath, isFormat202, listId,
+                        mPositionSection);
                 getSnippetsOfCurrentSection(parts);
                 getAudioElementsOfCurrentSectionForDaisy30(parts);
             } catch (Exception e) {

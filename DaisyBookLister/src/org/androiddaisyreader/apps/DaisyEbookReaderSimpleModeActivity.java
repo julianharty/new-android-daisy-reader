@@ -11,10 +11,8 @@ import org.androiddaisyreader.base.DaisyEbookReaderBaseActivity;
 import org.androiddaisyreader.base.DaisyEbookReaderBaseMode;
 import org.androiddaisyreader.controller.AudioPlayerController;
 import org.androiddaisyreader.model.Audio;
-import org.androiddaisyreader.model.BookContext;
 import org.androiddaisyreader.model.CurrentInformation;
 import org.androiddaisyreader.model.DaisyBook;
-import org.androiddaisyreader.model.DaisySection;
 import org.androiddaisyreader.model.Navigable;
 import org.androiddaisyreader.model.Navigator;
 import org.androiddaisyreader.model.Part;
@@ -59,7 +57,6 @@ public class DaisyEbookReaderSimpleModeActivity extends DaisyEbookReaderBaseActi
     private List<Integer> mListTimeBegin;
     private IntentController mIntentController;
     private String mTime;
-    private String mAudioFileName;
     private int mPositionSentence = 0;
     private boolean mIsRunable = true;
     private Runnable mRunnalbe;
@@ -119,6 +116,7 @@ public class DaisyEbookReaderSimpleModeActivity extends DaisyEbookReaderBaseActi
     private void readBook() {
         String section;
         mCurrent = mSql.getCurrentInformation();
+        String audioFileName = "";
         try {
             if (mCurrent != null
                     && mCurrent.getActivity().equals(
@@ -131,7 +129,7 @@ public class DaisyEbookReaderSimpleModeActivity extends DaisyEbookReaderBaseActi
                             getString(R.string.title_activity_daisy_ebook_reader_simple_mode))) {
                 section = String.valueOf(mCurrent.getSection());
                 mTime = String.valueOf(mCurrent.getTime());
-                mAudioFileName = mCurrent.getAudioName();
+                audioFileName = mCurrent.getAudioName();
                 mPositionSentence = 0;
                 mCurrent.setActivity(getString(R.string.title_activity_daisy_ebook_reader_simple_mode));
                 mSql.updateCurrentInformation(mCurrent);
@@ -149,7 +147,7 @@ public class DaisyEbookReaderSimpleModeActivity extends DaisyEbookReaderBaseActi
                 if (!isFormat202) {
                     for (int i = 0; i < listAudio.size(); i++) {
                         Audio audio = listAudio.get(i);
-                        if (audio.getAudioFilename().equals(mAudioFileName)) {
+                        if (audio.getAudioFilename().equals(audioFileName)) {
                             countAudio = i;
                             mAudioPlayer.playFileSegment(audio);
                             break;
@@ -284,9 +282,8 @@ public class DaisyEbookReaderSimpleModeActivity extends DaisyEbookReaderBaseActi
                     mPositionSection, mPlayer.getCurrentPosition(), mIsPlaying);
             mSql.addCurrentInformation(currentInformation);
         } else {
-            currentInformation = baseMode.updateCurrentInformation(current, audioName,
-                    activity, mPositionSection, mPositionSentence, mPlayer.getCurrentPosition(),
-                    mIsPlaying);
+            currentInformation = baseMode.updateCurrentInformation(current, audioName, activity,
+                    mPositionSection, mPositionSentence, mPlayer.getCurrentPosition(), mIsPlaying);
             mSql.updateCurrentInformation(currentInformation);
         }
     }
@@ -461,32 +458,11 @@ public class DaisyEbookReaderSimpleModeActivity extends DaisyEbookReaderBaseActi
          */
         private void getSnippetAndAudioForDaisy30(Section section) throws PrivateException {
             Part[] parts = null;
-            DaisySection currentSection = null;
-            boolean isCurrentPart = false;
             DaisyEbookReaderBaseMode baseMode = new DaisyEbookReaderBaseMode(mPath,
                     DaisyEbookReaderSimpleModeActivity.this);
-            BookContext bookContext = null;
             try {
-                bookContext = baseMode.getBookContext(mPath);
-                currentSection = new DaisySection.Builder().setHref(section.getHref())
-                        .setContext(bookContext).build();
-                Part[] tempParts = currentSection.getParts(isFormat202);
-                List<Part> listPart = new ArrayList<Part>();
-                for (Part part : tempParts) {
-                    if (part.getId().equals(listId.get(mPositionSection - 1))) {
-                        isCurrentPart = true;
-                    }
-                    if (isCurrentPart) {
-                        if (listId.size() == mPositionSection) {
-                            listPart.add(part);
-                        } else if (!part.getId().equals(listId.get(mPositionSection))) {
-                            listPart.add(part);
-                        } else {
-                            break;
-                        }
-                    }
-                }
-                parts = listPart.toArray(new Part[0]);
+                parts = baseMode.getPartsFromSectionDaisy30(section, mPath, isFormat202, listId,
+                        mPositionSection);
                 getSnippetsOfCurrentSection(parts);
                 getAudioElementsOfCurrentSectionForDaisy30(parts);
             } catch (Exception e) {

@@ -2,6 +2,8 @@ package org.androiddaisyreader.base;
 
 import java.io.File;
 import java.io.InputStream;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
 import org.androiddaisyreader.apps.PrivateException;
@@ -135,6 +137,46 @@ public class DaisyEbookReaderBaseMode {
             parts = currentSection.getParts(isFormat202);
             return parts;
         } catch (PrivateException e) {
+            PrivateException ex = new PrivateException(e, mContext, path);
+            throw ex;
+        }
+    }
+
+    /**
+     * Gets the parts from section daisy30.
+     * 
+     * @param section the current section
+     * @param path the path of the book
+     * @param isFormat30 true if books' format is Daisy3.0
+     * @param listId the list id in file opf of daisy format 3.0
+     * @param positionSection the position section
+     * @return the parts from section daisy30
+     * @throws PrivateException the private exception
+     */
+    public Part[] getPartsFromSectionDaisy30(Section section, String path, boolean isFormat30,
+            List<String> listId, int positionSection) throws PrivateException {
+        Part[] parts = null;
+        boolean isCurrentPart = false;
+        try {
+            Part[] tempParts = getPartsFromSection(section, path, isFormat30);
+            List<Part> listPart = new ArrayList<Part>();
+            for (Part part : tempParts) {
+                if (part.getId().equals(listId.get(positionSection - 1))) {
+                    isCurrentPart = true;
+                }
+                if (isCurrentPart) {
+                    if (listId.size() == positionSection) {
+                        listPart.add(part);
+                    } else if (!part.getId().equals(listId.get(positionSection))) {
+                        listPart.add(part);
+                    } else {
+                        break;
+                    }
+                }
+            }
+            parts = listPart.toArray(new Part[0]);
+            return parts;
+        } catch (Exception e) {
             PrivateException ex = new PrivateException(e, mContext, path);
             throw ex;
         }

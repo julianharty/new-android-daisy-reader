@@ -31,24 +31,29 @@ public class PrivateException extends Exception {
     private Exception ex = new Exception();
     private Context mContext;
     private String path;
+    private String message;
 
-    public PrivateException(Exception ex, Context context) {
-        this.ex = ex;
-        this.mContext = context;
+    public PrivateException(String message) {
+        this.message = message;
     }
 
-    public PrivateException(Exception ex, Context context, String path) {
+    public PrivateException(Exception ex, Context context, String... path) {
         this.ex = ex;
         this.mContext = context;
-        if (path != null) {
-            if (path.contains(Constants.FILE_NCC_NAME_NOT_CAPS)) {
-                this.path = path.replace(Constants.FILE_NCC_NAME_NOT_CAPS, "");
-            } else if (path.contains(Constants.FILE_NCC_NAME_CAPS)) {
-                this.path = path.replace(Constants.FILE_NCC_NAME_CAPS, "");
+        if (path.length >= 1 && path[0] != null) {
+            String tmpPath = path[0];
+            if (tmpPath.contains(Constants.FILE_NCC_NAME_NOT_CAPS)) {
+                this.path = tmpPath.replace(Constants.FILE_NCC_NAME_NOT_CAPS, "");
+            } else if (tmpPath.contains(Constants.FILE_NCC_NAME_CAPS)) {
+                this.path = tmpPath.replace(Constants.FILE_NCC_NAME_CAPS, "");
             } else {
-                this.path = path;
+                this.path = tmpPath;
             }
         }
+    }
+
+    public String getMessage() {
+        return message;
     }
 
     /**

@@ -1,9 +1,11 @@
 package org.androiddaisyreader.test.base;
 
 import java.util.Date;
+import java.util.List;
 
 import org.androiddaisyreader.apps.PrivateException;
 import org.androiddaisyreader.base.DaisyEbookReaderBaseMode;
+import org.androiddaisyreader.model.Audio;
 import org.androiddaisyreader.model.BookContext;
 import org.androiddaisyreader.model.CurrentInformation;
 import org.androiddaisyreader.model.DaisyBook;
@@ -11,6 +13,7 @@ import org.androiddaisyreader.model.Navigable;
 import org.androiddaisyreader.model.Navigator;
 import org.androiddaisyreader.model.Part;
 import org.androiddaisyreader.model.Section;
+import org.androiddaisyreader.model.Snippet;
 
 import android.content.Context;
 import android.os.Environment;
@@ -43,7 +46,6 @@ public class DaisyEbookReaderBaseModeTest extends AndroidTestCase {
         assertEquals("Date must be August 28, 2011", sDate.trim(), "August 28, 2011");
     }
 
-    // test function openBook202
     public void testBook202ThrowsPrivateExceptionWhenPathIsNull() {
         boolean thrown = false;
         try {
@@ -71,7 +73,6 @@ public class DaisyEbookReaderBaseModeTest extends AndroidTestCase {
         assertTrue(thrown);
     }
 
-    // test function createCurrentInformation
     public void testCurrentInformationIsCreatedSuccessfully() {
         DaisyEbookReaderBaseMode base = getBaseMode(PATH_EBOOK_202, getContext());
         String audioName = "audioname";
@@ -151,10 +152,11 @@ public class DaisyEbookReaderBaseModeTest extends AndroidTestCase {
                 isPlaying);
     }
 
-    // test function getBookContext
     public void testBookContextIsGottenSuccessfully() throws PrivateException {
         DaisyEbookReaderBaseMode base = getBaseMode(PATH_EBOOK_202, getContext());
         BookContext bookContext = base.getBookContext(PATH_EBOOK_202);
+        assertEquals(Environment.getExternalStorageDirectory().getPath()
+                + "/daisybook/testbook/minidaisyaudiobook", bookContext.getBaseUri());
         assertNotNull("Book context is null", bookContext);
     }
 
@@ -171,7 +173,6 @@ public class DaisyEbookReaderBaseModeTest extends AndroidTestCase {
         assertTrue(thrown);
     }
 
-    // test function getPartsFromSection
     public void testPartsAreGottenSuccessfully() throws PrivateException {
         DaisyEbookReaderBaseMode base = getBaseMode(PATH_EBOOK_202, getContext());
         DaisyBook book = base.openBook202();
@@ -179,7 +180,26 @@ public class DaisyEbookReaderBaseModeTest extends AndroidTestCase {
         Navigable n = navigator.next();
         Part[] parts = null;
         parts = base.getPartsFromSection((Section) n, PATH_EBOOK_202, true);
+        List<Audio> audioElements = parts[0].getAudioElements();
         assertNotNull("Parts are null", parts);
+        assertEquals("Clip begin has to be 0", 0, audioElements.get(0).getClipBegin());
+        assertEquals("Clip end has to be 5100", 5100, audioElements.get(0).getClipEnd());
+        List<Snippet> snippetElements = parts[0].getSnippets();
+        assertEquals("Clip end has to be 5 Numbers", "5 Numbers", snippetElements.get(0).getText()
+                .toString());
+    }
+
+    public void testPartsThrowPrivateExceptionWhenSectionIsNull() {
+        boolean thrown = false;
+        try {
+            DaisyEbookReaderBaseMode base = getBaseMode(PATH_EBOOK_202, getContext());
+            base.getPartsFromSection(null, PATH_EBOOK_202, true);
+            fail("Test case did not throw private exception");
+        } catch (PrivateException e) {
+            assertEquals("Section has to null", e.getMessage(), "Section was null");
+            thrown = true;
+        }
+        assertTrue(thrown);
     }
 
 }

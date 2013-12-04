@@ -127,6 +127,9 @@ public class DaisyEbookReaderBaseMode {
      */
     public Part[] getPartsFromSection(Section section, String path, boolean isFormat202)
             throws PrivateException {
+        if (section == null) {
+            throw new PrivateException("Section was null");
+        }
         Part[] parts = null;
         DaisySection currentSection = null;
         BookContext bookContext = null;

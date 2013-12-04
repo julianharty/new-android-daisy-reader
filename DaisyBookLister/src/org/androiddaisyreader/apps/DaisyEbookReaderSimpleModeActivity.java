@@ -144,7 +144,7 @@ public class DaisyEbookReaderSimpleModeActivity extends DaisyEbookReaderBaseActi
                     mNavigationListener.onNext((Section) n);
                 }
                 // Bookmark for daisy 3.0
-                if (!isFormat202) {
+                if (!isFormat202 && listAudio != null) {
                     for (int i = 0; i < listAudio.size(); i++) {
                         Audio audio = listAudio.get(i);
                         if (audio.getAudioFilename().equals(audioFileName)) {
@@ -273,7 +273,7 @@ public class DaisyEbookReaderSimpleModeActivity extends DaisyEbookReaderBaseActi
                 DaisyEbookReaderSimpleModeActivity.this);
         CurrentInformation currentInformation;
         String audioName = "";
-        if (!isFormat202) {
+        if (!isFormat202 && listAudio != null) {
             audioName = listAudio.get(countAudio).getAudioFilename();
         }
         String activity = getString(R.string.title_activity_daisy_ebook_reader_simple_mode);

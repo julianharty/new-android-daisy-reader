@@ -175,11 +175,7 @@ public class DaisyEbookReaderBaseModeTest extends AndroidTestCase {
 
     public void testPartsAreGottenSuccessfully() throws PrivateException {
         DaisyEbookReaderBaseMode base = getBaseMode(PATH_EBOOK_202, getContext());
-        DaisyBook book = base.openBook202();
-        Navigator navigator = new Navigator(book);
-        Navigable n = navigator.next();
-        Part[] parts = null;
-        parts = base.getPartsFromSection((Section) n, PATH_EBOOK_202, true);
+        Part[] parts = base.getPartsFromSection(getSection(), PATH_EBOOK_202, true);
         List<Audio> audioElements = parts[0].getAudioElements();
         assertNotNull("Parts are null", parts);
         assertEquals("Clip begin has to be 0", 0, audioElements.get(0).getClipBegin());
@@ -196,10 +192,44 @@ public class DaisyEbookReaderBaseModeTest extends AndroidTestCase {
             base.getPartsFromSection(null, PATH_EBOOK_202, true);
             fail("Test case did not throw private exception");
         } catch (PrivateException e) {
-            assertEquals("Section has to null", e.getMessage(), "Section was null");
+            assertEquals("Section has to be null", e.getMessage(), "Section was null");
             thrown = true;
         }
         assertTrue(thrown);
+    }
+
+    public void testPartsThrowPrivateExceptionWhenPathIsNull() {
+        boolean thrown = false;
+        try {
+            DaisyEbookReaderBaseMode base = getBaseMode(PATH_EBOOK_202, getContext());
+            base.getPartsFromSection(getSection(), null, true);
+            fail("Test case did not throw private exception");
+        } catch (PrivateException e) {
+            assertEquals("The path has to be null", e.getMessage(), null);
+            thrown = true;
+        }
+        assertTrue(thrown);
+    }
+
+    public void testPartsThrowPrivateExceptionWhenPathIsWrong() {
+        boolean thrown = false;
+        try {
+            DaisyEbookReaderBaseMode base = getBaseMode(PATH_EBOOK_202, getContext());
+            base.getPartsFromSection(getSection(), "wrong_path", true);
+            fail("Test case did not throw private exception");
+        } catch (PrivateException e) {
+            assertEquals("The path has to be wrong", e.getMessage(), null);
+            thrown = true;
+        }
+        assertTrue(thrown);
+    }
+
+    private Section getSection() throws PrivateException {
+        DaisyEbookReaderBaseMode base = getBaseMode(PATH_EBOOK_202, getContext());
+        DaisyBook book = base.openBook202();
+        Navigator navigator = new Navigator(book);
+        Navigable n = navigator.next();
+        return (Section) n;
     }
 
 }

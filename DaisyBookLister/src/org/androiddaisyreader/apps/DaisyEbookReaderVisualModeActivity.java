@@ -829,31 +829,20 @@ public class DaisyEbookReaderVisualModeActivity extends DaisyEbookReaderBaseActi
          * @param parts
          */
         private void getSnippetsOfCurrentSection(Part[] parts) {
-            StringBuilder snippetText = new StringBuilder();
+            String content = "";
             List<Integer> listClipBegin = new ArrayList<Integer>();
             List<Integer> listClipEnd = new ArrayList<Integer>();
             String fileName = null;
             try {
                 for (Part part : parts) {
-                    int sizeOfPart = part.getSnippets().size();
-                    for (int i = 0; i < sizeOfPart; i++) {
-                        if (i > 0) {
-                            snippetText.append(getString(R.string.space));
-                        }
-                        String text = part.getSnippets().get(i).getText().toString();
-                        snippetText.append(text);
-                        mListStringText.add(text);
-                    }
-                    snippetText.append(getString(R.string.space));
+                    content += getSnipTextByPart(part);
                     List<Audio> audioElements = part.getAudioElements();
-                    if (audioElements.size() > 0) {
-                        mListTimeBegin.add(audioElements.get(0).getClipBegin());
-                        mListTimeEnd.add(audioElements.get(audioElements.size() - 1).getClipEnd());
-                    }
-
                     int audioElementsSize = audioElements.size();
+
                     if (audioElementsSize > 0) {
                         Audio audio = audioElements.get(0);
+                        mListTimeBegin.add(audio.getClipBegin());
+                        mListTimeEnd.add(audioElements.get(audioElementsSize - 1).getClipEnd());
                         if (fileName == null || !fileName.equals(audio.getAudioFilename())) {
                             mHashMapBegin.put(fileName, listClipBegin);
                             mHashMapEnd.put(fileName, listClipEnd);
@@ -867,13 +856,28 @@ public class DaisyEbookReaderVisualModeActivity extends DaisyEbookReaderBaseActi
                 }
                 mHashMapBegin.put(fileName, listClipBegin);
                 mHashMapEnd.put(fileName, listClipEnd);
-                mContents.setText(snippetText.toString(), TextView.BufferType.SPANNABLE);
+                mContents.setText(content, TextView.BufferType.SPANNABLE);
             } catch (Exception e) {
                 PrivateException ex = new PrivateException(e,
                         DaisyEbookReaderVisualModeActivity.this);
                 ex.writeLogException();
             }
 
+        }
+
+        private String getSnipTextByPart(Part part) {
+            StringBuilder snippetText = new StringBuilder();
+            int sizeOfPart = part.getSnippets().size();
+            for (int i = 0; i < sizeOfPart; i++) {
+                if (i > 0) {
+                    snippetText.append(getString(R.string.space));
+                }
+                String text = part.getSnippets().get(i).getText().toString();
+                snippetText.append(text);
+                mListStringText.add(text);
+            }
+            snippetText.append(getString(R.string.space));
+            return snippetText.toString();
         }
 
         /**
@@ -1351,33 +1355,12 @@ public class DaisyEbookReaderVisualModeActivity extends DaisyEbookReaderBaseActi
         }
         // this case for user press next sentence.
         else if (mPositionSentence < mListTimeBegin.size() - 1) {
-            boolean isBreak = false;
+            // boolean isBreak = false;
             int currentTimeBegin = mListTimeBegin.get(mPositionSentence + 1);
             int currentTimeEnd = mListTimeEnd.get(mPositionSentence + 1);
-            // Find and play the next audio (If daisy book has many audio
-            // files
+            // Find and play the next audio (If daisy book has many audio files
             // on 1 chapter).
-            for (Entry<String, List<Integer>> entry : mHashMapBegin.entrySet()) {
-                List<Integer> listValue = entry.getValue();
-                if (!isBreak) {
-                    for (int value : listValue) {
-                        if (value == currentTimeBegin) {
-                            if (!entry.getKey()
-                                    .equals(listAudio.get(countAudio).getAudioFilename())) {
-                                List<Integer> listValueEnd = mHashMapEnd.get(entry.getKey());
-                                if (listValueEnd.contains(currentTimeEnd)) {
-                                    isBreak = true;
-                                    countAudio = countAudio + 1;
-                                    mAudioPlayer.playFileSegment(listAudio.get(countAudio));
-                                }
-                            }
-                            if (isBreak) {
-                                break;
-                            }
-                        }
-                    }
-                }
-            }
+            playFileSegmentForDaisy30(currentTimeBegin, currentTimeEnd, 1);
             mPlayer.seekTo(mListTimeBegin.get(mPositionSentence + 1));
         }
         // this case for user press next sentence at the end of section.
@@ -1385,6 +1368,37 @@ public class DaisyEbookReaderVisualModeActivity extends DaisyEbookReaderBaseActi
             mStartOfSentence = 0;
             nextSection();
             mPositionSentence -= 1;
+        }
+    }
+
+    /**
+     * Play file segment for daisy30.
+     * 
+     * @param currentTimeBegin the current time begin
+     * @param currentTimeEnd the current time end
+     * @param number the 1 if next sentence and -1 if previous sentence
+     */
+    private void playFileSegmentForDaisy30(int currentTimeBegin, int currentTimeEnd, int number) {
+        boolean isBreak = false;
+        for (Entry<String, List<Integer>> entry : mHashMapBegin.entrySet()) {
+            List<Integer> listValue = entry.getValue();
+            if (!isBreak) {
+                for (int value : listValue) {
+                    if (value == currentTimeBegin) {
+                        if (!entry.getKey().equals(listAudio.get(countAudio).getAudioFilename())) {
+                            List<Integer> listValueEnd = mHashMapEnd.get(entry.getKey());
+                            if (listValueEnd.contains(currentTimeEnd)) {
+                                isBreak = true;
+                                countAudio = countAudio + number;
+                                mAudioPlayer.playFileSegment(listAudio.get(countAudio));
+                            }
+                        }
+                        if (isBreak) {
+                            break;
+                        }
+                    }
+                }
+            }
         }
     }
 
@@ -1528,32 +1542,12 @@ public class DaisyEbookReaderVisualModeActivity extends DaisyEbookReaderBaseActi
             mPlayer.seekTo(mListTimeBegin.get(mListTimeBegin.size() - 1));
             mPositionSentence = mListTimeBegin.size() - 1;
         } else if (mPositionSentence > 0) {
-            boolean isBreak = false;
+            // boolean isBreak = false;
             int currentTimeBegin = mListTimeBegin.get(mPositionSentence - 1);
             int currentTimeEnd = mListTimeEnd.get(mPositionSentence - 1);
             // Find and play the next audio (If daisy book has many audio files
             // on 1 chapter).
-            for (Entry<String, List<Integer>> entry : mHashMapBegin.entrySet()) {
-                List<Integer> listValue = entry.getValue();
-                if (!isBreak) {
-                    for (int value : listValue) {
-                        if (value == currentTimeBegin) {
-                            if (!entry.getKey()
-                                    .equals(listAudio.get(countAudio).getAudioFilename())) {
-                                List<Integer> listValueEnd = mHashMapEnd.get(entry.getKey());
-                                if (listValueEnd.contains(currentTimeEnd)) {
-                                    isBreak = true;
-                                    countAudio = countAudio - 1;
-                                    mAudioPlayer.playFileSegment(listAudio.get(countAudio));
-                                }
-                            }
-                            if (isBreak) {
-                                break;
-                            }
-                        }
-                    }
-                }
-            }
+            playFileSegmentForDaisy30(currentTimeBegin, currentTimeEnd, -1);
             int lengthOfCurrentSentence = mListStringText.get(mPositionSentence - 1).length();
             mStartOfSentence = mStartOfSentence - lengthOfCurrentSentence - lengthOfSpace;
             mPlayer.seekTo(mListTimeBegin.get(mPositionSentence - 1));

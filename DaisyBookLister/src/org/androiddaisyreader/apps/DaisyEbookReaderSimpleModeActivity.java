@@ -56,7 +56,7 @@ public class DaisyEbookReaderSimpleModeActivity extends DaisyEbookReaderBaseActi
     private List<Integer> mListTimeEnd;
     private List<Integer> mListTimeBegin;
     private IntentController mIntentController;
-    private String mTime;
+    private int mTime;
     private int mPositionSentence = 0;
     private boolean mIsRunable = true;
     private Runnable mRunnalbe;
@@ -114,7 +114,7 @@ public class DaisyEbookReaderSimpleModeActivity extends DaisyEbookReaderBaseActi
      * Start reading book.
      */
     private void readBook() {
-        String section;
+        String section = "";
         mCurrent = mSql.getCurrentInformation();
         String audioFileName = "";
         try {
@@ -128,14 +128,14 @@ public class DaisyEbookReaderSimpleModeActivity extends DaisyEbookReaderBaseActi
                     && !mCurrent.getActivity().equals(
                             getString(R.string.title_activity_daisy_ebook_reader_simple_mode))) {
                 section = String.valueOf(mCurrent.getSection());
-                mTime = String.valueOf(mCurrent.getTime());
+                mTime = mCurrent.getTime();
                 audioFileName = mCurrent.getAudioName();
                 mPositionSentence = 0;
                 mCurrent.setActivity(getString(R.string.title_activity_daisy_ebook_reader_simple_mode));
                 mSql.updateCurrentInformation(mCurrent);
             } else {
                 section = getIntent().getStringExtra(Constants.POSITION_SECTION);
-                mTime = getIntent().getStringExtra(Constants.TIME);
+                mTime = getIntent().getIntExtra(Constants.TIME, -1);
             }
             if (section != null) {
                 int countLoop = Integer.valueOf(section) - mPositionSection;
@@ -144,31 +144,7 @@ public class DaisyEbookReaderSimpleModeActivity extends DaisyEbookReaderBaseActi
                     mNavigationListener.onNext((Section) n);
                 }
                 // Bookmark for daisy 3.0
-                if (!isFormat202 && listAudio != null) {
-                    for (int i = 0; i < listAudio.size(); i++) {
-                        Audio audio = listAudio.get(i);
-                        if (audio.getAudioFilename().equals(audioFileName)) {
-                            countAudio = i;
-                            mAudioPlayer.playFileSegment(audio);
-                            break;
-                        }
-                    }
-                    // seek to time when user loading from book mark.
-                    if (mTime != null) {
-                        mPlayer.seekTo(Integer.valueOf(mTime));
-                        mTime = null;
-                    }
-
-                    // get status of audio
-                    if (mCurrent != null) {
-                        mSql.updateCurrentInformation(mCurrent);
-                        if (mCurrent.getPlaying()) {
-                            setMediaPlay();
-                        } else {
-                            setMediaPause();
-                        }
-                    }
-                }
+                playBookmarkOfDaisy30(audioFileName);
             } else {
                 // if user do not load from table of contents, play reading book
                 // at normal.
@@ -179,6 +155,39 @@ public class DaisyEbookReaderSimpleModeActivity extends DaisyEbookReaderBaseActi
                     mPath);
             if (!isFinishing()) {
                 ex.showDialogException(mIntentController);
+            }
+        }
+    }
+
+    /**
+     * Play bookmark of daisy30.
+     * 
+     * @param audioFileName the audio file name which is playing
+     */
+    private void playBookmarkOfDaisy30(String audioFileName) {
+        if (!isFormat202 && listAudio != null) {
+            for (int i = 0; i < listAudio.size(); i++) {
+                Audio audio = listAudio.get(i);
+                if (audio.getAudioFilename().equals(audioFileName)) {
+                    countAudio = i;
+                    mAudioPlayer.playFileSegment(audio);
+                    break;
+                }
+            }
+            // seek to time when user loading from book mark.
+            if (mTime != -1) {
+                mPlayer.seekTo(mTime);
+                mTime = -1;
+            }
+
+            // get status of audio
+            if (mCurrent != null) {
+                mSql.updateCurrentInformation(mCurrent);
+                if (mCurrent.getPlaying()) {
+                    setMediaPlay();
+                } else {
+                    setMediaPause();
+                }
             }
         }
     }
@@ -409,9 +418,9 @@ public class DaisyEbookReaderSimpleModeActivity extends DaisyEbookReaderBaseActi
                 }
                 // seek to time when user change from visual mode
                 if (mListTimeEnd.size() > 0) {
-                    if (isFormat202 && mTime != null) {
-                        mPlayer.seekTo(Integer.valueOf(mTime));
-                        mTime = null;
+                    if (isFormat202 && mTime != -1) {
+                        mPlayer.seekTo(mTime);
+                        mTime = -1;
                     }
                     if (mCurrent != null) {
                         mSql.updateCurrentInformation(mCurrent);

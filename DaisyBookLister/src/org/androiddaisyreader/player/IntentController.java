@@ -119,26 +119,6 @@ public class IntentController {
      * push to activity simple mode
      * 
      * @param path
-     * @param section
-     * @param currentTime
-     */
-    public void pushToDaisyEbookReaderSimpleModeIntent(String path, int section, int currentTime) {
-        Intent i = new Intent(mContext, DaisyEbookReaderSimpleModeActivity.class);
-        i.putExtra(Constants.DAISY_PATH, path);
-        i.putExtra(Constants.TIME, String.valueOf(currentTime));
-        i.putExtra(Constants.POSITION_SECTION, String.valueOf(section));
-        mContext.startActivity(i);
-    }
-
-    public void pushToDaisyEbookReaderSimpleModeIntent() {
-        Intent i = new Intent(mContext, DaisyEbookReaderSimpleModeActivity.class);
-        mContext.startActivity(i);
-    }
-
-    /**
-     * push to activity simple mode
-     * 
-     * @param path
      */
     public void pushToDaisyEbookReaderSimpleModeIntent(String path) {
         Intent i = new Intent(mContext, DaisyEbookReaderSimpleModeActivity.class);

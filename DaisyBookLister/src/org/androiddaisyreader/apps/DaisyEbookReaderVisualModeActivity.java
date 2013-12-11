@@ -256,7 +256,7 @@ public class DaisyEbookReaderVisualModeActivity extends DaisyEbookReaderBaseActi
      * Start reading book.
      */
     private void readBook() {
-        String section;
+        String section = "";
         mCurrent = mSql.getCurrentInformation();
         String audioFileName = "";
         try {
@@ -287,31 +287,7 @@ public class DaisyEbookReaderVisualModeActivity extends DaisyEbookReaderBaseActi
                     mNavigationListener.onNext((Section) n);
                 }
                 // Bookmark for daisy 3.0
-                if (!isFormat202 && listAudio != null) {
-                    for (int i = 0; i < listAudio.size(); i++) {
-                        Audio audio = listAudio.get(i);
-                        if (audio.getAudioFilename().equals(audioFileName)) {
-                            countAudio = i;
-                            mAudioPlayer.playFileSegment(audio);
-                            break;
-                        }
-                    }
-                    // seek to time when user loading from book mark.
-                    if (mTime != -1) {
-                        mPlayer.seekTo(mTime);
-                        mTime = -1;
-                    }
-
-                    // get status of audio
-                    if (mCurrent != null) {
-                        mSql.updateCurrentInformation(mCurrent);
-                        if (mCurrent.getPlaying()) {
-                            setMediaPlay();
-                        } else {
-                            setMediaPause();
-                        }
-                    }
-                }
+                playBookmarkOfDaisy30(audioFileName);
 
             } else {
                 togglePlay();
@@ -319,6 +295,39 @@ public class DaisyEbookReaderVisualModeActivity extends DaisyEbookReaderBaseActi
         } catch (Exception e) {
             PrivateException ex = new PrivateException(e, DaisyEbookReaderVisualModeActivity.this);
             ex.writeLogException();
+        }
+    }
+
+    /**
+     * Play bookmark of daisy30.
+     * 
+     * @param audioFileName the audio file name which is playing
+     */
+    private void playBookmarkOfDaisy30(String audioFileName) {
+        if (!isFormat202 && listAudio != null) {
+            for (int i = 0; i < listAudio.size(); i++) {
+                Audio audio = listAudio.get(i);
+                if (audio.getAudioFilename().equals(audioFileName)) {
+                    countAudio = i;
+                    mAudioPlayer.playFileSegment(audio);
+                    break;
+                }
+            }
+            // seek to time when user loading from book mark.
+            if (mTime != -1) {
+                mPlayer.seekTo(mTime);
+                mTime = -1;
+            }
+
+            // get status of audio
+            if (mCurrent != null) {
+                mSql.updateCurrentInformation(mCurrent);
+                if (mCurrent.getPlaying()) {
+                    setMediaPlay();
+                } else {
+                    setMediaPause();
+                }
+            }
         }
     }
 

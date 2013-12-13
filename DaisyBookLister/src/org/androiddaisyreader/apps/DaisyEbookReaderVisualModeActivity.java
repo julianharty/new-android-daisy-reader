@@ -487,7 +487,7 @@ public class DaisyEbookReaderVisualModeActivity extends DaisyEbookReaderBaseActi
 
     @Override
     public void onBackPressed() {
-        if (mBook != null) {
+        if (mBook != null && mPlayer != null) {
             mIsPlaying = mPlayer.isPlaying();
             if (mIsPlaying) {
                 setMediaPause();
@@ -687,10 +687,12 @@ public class DaisyEbookReaderVisualModeActivity extends DaisyEbookReaderBaseActi
         try {
             if (isFormat202) {
                 mBook = baseMode.openBook202();
-                if (!mBook.hasTotalTime()) {
-                    mIntentController.pushToDialog(getString(R.string.error_wrong_format_audio),
-                            getString(R.string.error_title), R.raw.error, false, false, null);
-                }
+                // if (!mBook.hasTotalTime()) {
+                // FileNotFoundException ex = new FileNotFoundException();
+                // throw new PrivateException(ex,
+                // DaisyEbookReaderVisualModeActivity.this);
+                //
+                // }
             } else {
                 mBook = baseMode.openBook30();
                 mPath = baseMode.getPathExactlyDaisy30(mPath);
@@ -710,6 +712,7 @@ public class DaisyEbookReaderVisualModeActivity extends DaisyEbookReaderBaseActi
             // get all navigator of book to push to table of contents.
             mNavigatorOfTableContents = new Navigator(mBook);
             mNavigator = mNavigatorOfTableContents;
+
         } catch (PrivateException e) {
             if (!isFinishing()) {
                 e.showDialogException(mIntentController);
@@ -1269,15 +1272,22 @@ public class DaisyEbookReaderVisualModeActivity extends DaisyEbookReaderBaseActi
                 mSql.updateCurrentInformation(mCurrent);
             }
             mIsRunable = true;
-            if (mPlayer.getCurrentPosition() != 0 && mListTimeEnd != null) {
-                // if you pause while audio playing. You need to know time
-                // pause
-                // to high light text more correctly.
-                mTimePause = mListTimeEnd.get(mPositionSentence) - mPlayer.getCurrentPosition()
-                        + TIME_FOR_PROCESS;
+            if (mListTimeEnd != null && mListTimeEnd.size() > 0) {
+                if (mPlayer.getCurrentPosition() != 0) {
+                    // if you pause while audio playing. You need to know time
+                    // pause
+                    // to high light text more correctly.
+                    mTimePause = mListTimeEnd.get(mPositionSentence) - mPlayer.getCurrentPosition()
+                            + TIME_FOR_PROCESS;
+                }
+                // create call backs when you touch button start.
+                mHandler.post(mRunnalbe);
+            } else {
+                String contents = mContents.getText().toString();
+                if (contents.length() > 0) {
+                    speakText(contents);
+                }
             }
-            // create call backs when you touch button start.
-            mHandler.post(mRunnalbe);
             mImgButton.setImageResource(R.raw.media_pause);
         }
     }

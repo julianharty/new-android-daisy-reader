@@ -1048,13 +1048,16 @@ public class DaisyEbookReaderSimpleModeActivity extends DaisyEbookReaderBaseActi
                 mSql.updateCurrentInformation(mCurrent);
             }
             mIsRunable = true;
-            if (mPlayer.getCurrentPosition() != 0 && mListTimeEnd != null) {
-                // if you pause while audio playing. You need to know time pause
-                // to
-                // high light text more correctly.
-                mTimePause = mListTimeEnd.get(mPositionSentence) - mPlayer.getCurrentPosition();
+            if (mListTimeEnd != null && mListTimeEnd.size() > 0) {
+                if (mPlayer.getCurrentPosition() != 0) {
+                    // if you pause while audio playing. You need to know time
+                    // pause
+                    // to high light text more correctly.
+                    mTimePause = mListTimeEnd.get(mPositionSentence) - mPlayer.getCurrentPosition();
+                }
+                // create call backs when you touch button start.
+                mHandler.post(mRunnalbe);
             }
-            mHandler.post(mRunnalbe);
         }
     }
 

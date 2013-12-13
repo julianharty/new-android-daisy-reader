@@ -66,10 +66,10 @@ public class PrivateException extends Exception {
         if (path != null) {
             isExists = new File(path).exists();
         }
-        if (ex instanceof IOException && isExists) {
-            intent.pushToDialog(
-                    String.format(mContext.getString(R.string.error_parse_file_ncc), path),
+        if (ex instanceof FileNotFoundException) {
+            intent.pushToDialog(mContext.getString(R.string.error_wrong_format_audio),
                     mContext.getString(R.string.error_title), R.raw.error, true, false, null);
+
         } else if (ex instanceof IllegalStateException || !isExists) {
             intent.pushToDialog(
                     String.format(mContext.getString(R.string.error_no_path_found), path),
@@ -83,6 +83,10 @@ public class PrivateException extends Exception {
         } else if (ex instanceof UnknownHostException) {
             intent.pushToDialog(mContext.getString(R.string.error_connect_internet),
                     mContext.getString(R.string.error_title), R.raw.error, false, false, null);
+        } else if (ex instanceof IOException && isExists) {
+            intent.pushToDialog(
+                    String.format(mContext.getString(R.string.error_parse_file_ncc), path),
+                    mContext.getString(R.string.error_title), R.raw.error, true, false, null);
         } else {
             intent.pushToDialog(
                     String.format(mContext.getString(R.string.error_parse_file_ncc), path),

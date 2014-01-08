@@ -1,6 +1,7 @@
 package org.androiddaisyreader.apps;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -34,6 +35,7 @@ import android.os.Handler;
 import android.os.SystemClock;
 import android.preference.PreferenceManager;
 import android.provider.Settings.System;
+import android.speech.tts.TextToSpeech;
 import android.text.Layout;
 import android.text.Spannable;
 import android.text.SpannableString;
@@ -579,7 +581,8 @@ public class DaisyEbookReaderVisualModeActivity extends DaisyEbookReaderBaseActi
     @Override
     protected void onResume() {
         super.onResume();
-        speakText(getString(R.string.title_activity_daisy_ebook_reader_visual_mode));
+        speakText(getString(R.string.title_activity_daisy_ebook_reader_visual_mode),
+                TextToSpeech.QUEUE_ADD);
         if (mBook != null) {
             getValueFromSetting();
             setNightMode();
@@ -687,12 +690,6 @@ public class DaisyEbookReaderVisualModeActivity extends DaisyEbookReaderBaseActi
         try {
             if (isFormat202) {
                 mBook = baseMode.openBook202();
-                // if (!mBook.hasTotalTime()) {
-                // FileNotFoundException ex = new FileNotFoundException();
-                // throw new PrivateException(ex,
-                // DaisyEbookReaderVisualModeActivity.this);
-                //
-                // }
             } else {
                 mBook = baseMode.openBook30();
                 mPath = baseMode.getPathExactlyDaisy30(mPath);
@@ -1043,23 +1040,7 @@ public class DaisyEbookReaderVisualModeActivity extends DaisyEbookReaderBaseActi
                 int currentPosition = mPlayer.getCurrentPosition();
                 if (mListTimeBegin.get(i) <= currentPosition + TIME_FOR_PROCESS
                         && currentPosition < mListTimeEnd.get(i)) {
-                    mStartOfSentence = mFullTextOfBook.indexOf(mListStringText.get(i),
-                            mStartOfSentence);
-                    Preconditions.checkArgument(mStartOfSentence > -1);
-                    mNumberOfChar = mStartOfSentence + mListStringText.get(i).length();
-                    // set color is transparent for all text before.
-                    if (i > 0) {
-                        mWordtoSpan.setSpan(new BackgroundColorSpan(Color.TRANSPARENT), 0,
-                                mStartOfSentence, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-                    }
-                    // set color is transparent for all text after.
-                    mWordtoSpan.setSpan(new BackgroundColorSpan(Color.TRANSPARENT), mNumberOfChar,
-                            mContents.getText().length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-                    mWordtoSpan.setSpan(new BackgroundColorSpan(mHighlightColor), mStartOfSentence,
-                            mNumberOfChar, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-
-                    mContents.setText(mWordtoSpan);
-                    mPositionSentence = i;
+                    highlight(i);
                     break;
                 }
                 // This case for daisy 3.0. Some audio files won't play until it
@@ -1070,6 +1051,37 @@ public class DaisyEbookReaderVisualModeActivity extends DaisyEbookReaderBaseActi
                 }
             }
 
+        } catch (Exception e) {
+            PrivateException ex = new PrivateException(e, DaisyEbookReaderVisualModeActivity.this);
+            ex.writeLogException();
+        }
+    }
+
+    private void highlight(final int line) {
+        try {
+            mWordtoSpan = (Spannable) mContents.getText();
+            mFullTextOfBook = mContents.getText().toString();
+            mStartOfSentence = mFullTextOfBook.indexOf(mListStringText.get(line), mStartOfSentence);
+            Preconditions.checkArgument(mStartOfSentence > -1);
+            mNumberOfChar = mStartOfSentence + mListStringText.get(line).length();
+            // set color is transparent for all text before.
+            runOnUiThread(new Runnable() {
+                public void run() {
+                    if (line > 0) {
+                        mWordtoSpan.setSpan(new BackgroundColorSpan(Color.TRANSPARENT), 0,
+                                mStartOfSentence, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+                    }
+                    // set color is transparent for all text after.
+                    mWordtoSpan.setSpan(new BackgroundColorSpan(Color.TRANSPARENT), mNumberOfChar,
+                            mContents.getText().length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+                    mWordtoSpan.setSpan(new BackgroundColorSpan(mHighlightColor), mStartOfSentence,
+                            mNumberOfChar, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+
+                    mContents.setText(mWordtoSpan);
+
+                }
+            });
+            mPositionSentence = line;
         } catch (Exception e) {
             PrivateException ex = new PrivateException(e, DaisyEbookReaderVisualModeActivity.this);
             ex.writeLogException();
@@ -1283,12 +1295,45 @@ public class DaisyEbookReaderVisualModeActivity extends DaisyEbookReaderBaseActi
                 // create call backs when you touch button start.
                 mHandler.post(mRunnalbe);
             } else {
-                String contents = mContents.getText().toString();
-                if (contents.length() > 0) {
-                    speakText(contents);
-                }
+                readAloud();
             }
             mImgButton.setImageResource(R.raw.media_pause);
+        }
+    }
+
+    private HashMap<String, String> params = new HashMap<String, String>();
+
+    /**
+     * This function will help application read text by using TTS when Daisybook has not audio files
+     */
+    @SuppressWarnings("deprecation")
+    private void readAloud() {
+        if (mListStringText != null) {
+            params.put(TextToSpeech.Engine.KEY_PARAM_UTTERANCE_ID,
+                    String.valueOf(mPositionSentence));
+            mTts.speak(mListStringText.get(mPositionSentence), TextToSpeech.QUEUE_ADD, params);
+            highlight(mPositionSentence);
+            mTts.setOnUtteranceCompletedListener(new TextToSpeech.OnUtteranceCompletedListener() {
+
+                @Override
+                public void onUtteranceCompleted(String uttId) {
+                    if (Integer.valueOf(uttId) < mListStringText.size() - 1) {
+                        mPositionSentence += 1;
+                        highlight(mPositionSentence);
+                        params.put(TextToSpeech.Engine.KEY_PARAM_UTTERANCE_ID,
+                                String.valueOf(mPositionSentence));
+                        mTts.speak(mListStringText.get(mPositionSentence), TextToSpeech.QUEUE_ADD,
+                                params);
+                    } else {
+                        runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                nextSection();
+                            }
+                        });
+                    }
+                }
+            });
         }
     }
 
@@ -1594,6 +1639,9 @@ public class DaisyEbookReaderVisualModeActivity extends DaisyEbookReaderBaseActi
      */
     private void nextSection() {
         mStartOfSentence = 0;
+        if (mTts.isSpeaking()) {
+            mTts.stop();
+        }
         boolean isPlaying = mPlayer.isPlaying();
         mController.next();
         if (!isPlaying && !mIsEndOf) {
@@ -1619,6 +1667,9 @@ public class DaisyEbookReaderVisualModeActivity extends DaisyEbookReaderBaseActi
     private void previousSection() {
         mCurrent = mSql.getCurrentInformation();
         mStartOfSentence = 0;
+        if (mTts.isSpeaking()) {
+            mTts.stop();
+        }
         mIsEndOf = false;
         if (mCurrent != null) {
             mCurrent.setAtTheEnd(false);

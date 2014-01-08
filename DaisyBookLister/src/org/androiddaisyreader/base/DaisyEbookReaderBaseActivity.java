@@ -134,10 +134,11 @@ public class DaisyEbookReaderBaseActivity extends SherlockActivity implements On
      */
     private void startTts() {
         if (mTts == null) {
-            mTts = new TextToSpeech(this, this);
+            mTts = new TextToSpeech(getApplicationContext(), this);
             Intent checkIntent = new Intent();
             checkIntent.setAction(TextToSpeech.Engine.ACTION_CHECK_TTS_DATA);
-            startActivityForResult(checkIntent, RESULT_OK);
+            // startActivityForResult(checkIntent, RESULT_OK);
+            startActivityForResult(checkIntent, Constants.MY_DATA_CHECK_CODE);
         }
     }
 
@@ -176,6 +177,16 @@ public class DaisyEbookReaderBaseActivity extends SherlockActivity implements On
             }
             if (checkTTSSupportLanguage() && !checkKeyguardMode()) {
                 mTts.speak(textToSpeech, TextToSpeech.QUEUE_FLUSH, null);
+            }
+        } else {
+            startTts();
+        }
+    }
+
+    public void speakText(String textToSpeech, int queue) {
+        if (mTts != null) {
+            if (checkTTSSupportLanguage() && !checkKeyguardMode()) {
+                mTts.speak(textToSpeech, queue, null);
             }
         } else {
             startTts();
